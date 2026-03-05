@@ -1,7 +1,7 @@
 package main
 
 type user struct {
-	Id       int    `json:"id"`
+	ID       int    `json:"id"`
 	Nom      string `json:"nom"`
 	Prenom   string `json:"prenom"`
 	Age      int    `json:"age"`
@@ -13,6 +13,7 @@ type user struct {
 
 type result struct {
 	Message  string `json:"message"`
+	Value    int    `json:"value"`
 	Role     string `json:"role"`
 	Token    string `json:"token"`
 	Tutoriel int    `json:"tutoriel"`

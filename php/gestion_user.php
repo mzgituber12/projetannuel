@@ -12,15 +12,21 @@ adminUser(localStorage.getItem('token'));
 <html>
 <head>
     <meta charset="UTF-8">
-    <title id="page_title">Gestion des utilisateurs</title>
+    <title>Gestion des utilisateurs</title>
 </head>
 <body>
 
 <?php include 'header/header.php'?>
-<div id ="admin">
 
 <h1>Gestion des utilisateurs</h1>
-<h2>Entrer un email pour avoir tout les informations !</h2>
+
+<?php
+if (isset($_SESSION['state']) && isset($_GET['message'])) {
+    echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
+    unset($_SESSION['state']);
+}?>
+
+<h4>Entrer un email pour avoir tout les informations !</h4>
 
 <form onsubmit="search_user(event)">
     <input id = "user_email" placeholder="..." type="text">

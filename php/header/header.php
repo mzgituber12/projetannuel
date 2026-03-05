@@ -17,7 +17,7 @@ async function headerUser(token) {
         } else if (data.role == "prestataire"){
             document.getElementById("header").innerHTML += " | <a href='suivi.php'>Suivi des prestations</a> | <a href='validations.php'>Validations</a>  | <a href='calendrier.php'>Calendrier</a> | <a href='interventions.php'>Interventions</a>  | <a href='factures.php'>Factures</a>  | <a href='rendez_vous.php'>Rendez Vous</a>  | <a href='messagerie.php'>Messagerie</a>";
         } else if (data.role == "admin"){
-            document.getElementById("header").innerHTML += " | <a href='gestion_user.php'>Gestion des Utilisateur</a> | <a href='gestion_event.php'>Gestion des Evenements</a>  | <a href='gestion_shop.php'>Gestion du Catalogue</a> | <a href='gestion_conseil.php'>Gestion des Conseils</a>  | <a href='gestion_notifs.php'>Gestion des Notifications</a>  | <a href='gestion_finance.php'>Gestion Financiere</a>";
+            document.getElementById("header").innerHTML += " | <a href='gestion_user.php'>Gestion des Utilisateur</a> | <a href='gestion_evenement.php'>Gestion des Evenements</a>  | <a href='gestion_catalogue.php'>Gestion du Catalogue</a> | <a href='gestion_conseils.php'>Gestion des Conseils</a>  | <a href='gestion_notifs.php'>Gestion des Notifications</a>  | <a href='gestion_finance.php'>Gestion Financiere</a>";
         }
     } else if (data.message == "Pas identifié"){
         document.getElementById("header").innerHTML = "<a href='index.php'>Accueil</a> | <a href='inscription.php'>Inscription</a> | <a href='connexion.php'>Connexion</a>";

@@ -31,12 +31,15 @@ func main() {
 	http.HandleFunc("/services", services(db))
 	http.HandleFunc("/services/{id}", services_patch(db))
 	http.HandleFunc("/articles", articles(db))
-
 	http.HandleFunc("/planning_evenements", planning_evenements(db))
 	http.HandleFunc("/planning_services", planning_services(db))
 
 	http.HandleFunc("/gestion_user_email/{email}", gestion_user_email(db))
 	http.HandleFunc("/gestion_user_id/{id}", gestion_user_id(db))
+	http.HandleFunc("/modifier_user/{id}", modifier_user(db))
+	http.HandleFunc("/gestion_evenement_nom/{nom}", gestion_evenement_nom(db))
+	//http.HandleFunc("/gestion_user_id/{id}", gestion_user_id(db))
+	//http.HandleFunc("/modifier_user/{id}", modifier_user(db))
 
 	fmt.Println("Ouverture du serveur sur le port 9000...")
 	listenError := http.ListenAndServe(":9000", nil)

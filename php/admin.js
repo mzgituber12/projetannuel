@@ -7,7 +7,6 @@ async function adminUser(token) {
     const data = await response.json();
     
         if (data.role != "admin"){
-            document.getElementById("page_title").innerHTML = "Accès refusé";
-            document.getElementById("admin").innerHTML = "<h2>Vous n'avez pas les droits pour accéder à cette page.</h2>";
+            window.location.href = "index.html";
         }
 }
