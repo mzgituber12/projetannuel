@@ -1,12 +1,16 @@
 async function adminUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
-    const response = await fetch(base + "/enligne", {
+    const response = await fetch(base + "/admin", {
         method: "GET",
         headers: {"Token": token},
     });
-    const data = await response.json();
     
-        if (data.role != "admin"){
-            window.location.href = "index.html";
-        }
+    if (!response.ok){
+        const text = await response.text()
+        alert(text);
+        window.location.href = "erreur.php?code=" + response.status
+        return false
+    }
+
+    return true
 }

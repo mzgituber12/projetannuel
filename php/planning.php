@@ -1,8 +1,25 @@
 <?php include 'api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Planning</title>
+</head>
+<body>
+
+<?php include 'header/header.php' ?>
+
+<h1> Planning </h1>
+
+<h2> Vos Evenements </h2>
+<div id = "event"></div>
+
+<h2> Vos Services </h2>
+<div id = "service"></div>
+
+<?php include 'footer/footer.php'; ?>
 
 <script>
 async function listplanning(token) {
@@ -14,8 +31,21 @@ async function listplanning(token) {
     });
 
     if (!response.ok) {
-        const html = await response.text();
-        document.getElementById("error").innerHTML = "<h1>Erreur " + response.status + "</h1>" + html;
+        const text = await response.text();
+        alert(text)
+        window.location.href = "erreur.php?code=" + response.status
+        return
+    }
+
+    const response2 = await fetch(base + "/planning_services", {
+        method: "GET",
+        headers: {"Token": token},
+    });
+
+    if (!response2.ok) {
+        const text = await response2.text();
+        alert(text)
+        window.location.href = "erreur.php?code=" + response2.status
         return
     }
 
@@ -32,17 +62,6 @@ async function listplanning(token) {
         tab_event.innerHTML = html;
     }
 
-    const response2 = await fetch(base + "/planning_services", {
-        method: "GET",
-        headers: {"Token": token},
-    });
-
-    if (!response2.ok) {
-        const html = await response2.text();
-        document.getElementById("error").innerHTML = "<h1>Erreur " + response2.status + "</h1>" + html;
-        return
-    }
-
     const data2 = await response2.json();
     const tab_service = document.getElementById("service")
     if (data2.message){
@@ -55,31 +74,17 @@ async function listplanning(token) {
         html += "</table>";
         tab_service.innerHTML = html;
     }
-
 }
-listplanning(localStorage.getItem('token'));
+
+async function init(){
+    const token = localStorage.getItem("token")
+    if (!await loginUser("online", token)) return
+    listplanning(token)
+}
+
+init()
+
 </script>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Planning</title>
-</head>
-<body>
-
-<?php include 'header/header.php' ?>
-
-<h1> Planning </h1>
-<h2> Vos Evenements </h2>
-
-<div id = "event"></div>
-
-<h2> Vos Services </h2>
-
-<div id = "service"></div>
-
-<div id = "error"></div>
 </body>
-<?php include 'footer/footer.php'; ?>
 </html>

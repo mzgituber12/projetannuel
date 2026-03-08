@@ -1,23 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.2
--- https://www.phpmyadmin.net/
-
--- Base de données : `ma_base`
-
--- Create database and select it (matches docker-compose MYSQL_DATABASE)
-CREATE DATABASE IF NOT EXISTS `projet` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `projet`;
--- Version du serveur : 5.7.24
--- Version de PHP : 8.3.1
-
--- phpMyAdmin SQL Dump
--- version 5.1.2
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : lun. 02 mars 2026 à 22:02
--- Version du serveur : 5.7.24
--- Version de PHP : 8.3.1
+-- Hôte : mariadb
+-- Généré le : jeu. 05 mars 2026 à 12:34
+-- Version du serveur : 11.8.6-MariaDB-ubu2404
+-- Version de PHP : 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,7 +35,7 @@ CREATE TABLE `abonnement` (
   `date_debut` date DEFAULT NULL,
   `date_fin` date DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -60,7 +48,7 @@ CREATE TABLE `achat` (
   `id_utilisateur` int(11) NOT NULL,
   `id_panier` int(11) DEFAULT NULL,
   `date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -71,9 +59,17 @@ CREATE TABLE `achat` (
 CREATE TABLE `article` (
   `id_article` int(11) NOT NULL,
   `titre` varchar(150) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `prix` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `article`
+--
+
+INSERT INTO `article` (`id_article`, `titre`, `description`, `prix`) VALUES
+(1, 'Chat', 'Des chats a vendre', 77.00),
+(2, 'La dignité de Laurent', 'C\'est cadeau même si c\'est pas grand chose', 0.01);
 
 -- --------------------------------------------------------
 
@@ -85,9 +81,9 @@ CREATE TABLE `conseil` (
   `id_conseil` int(11) NOT NULL,
   `id_utilisateur` int(11) DEFAULT NULL,
   `titre` varchar(150) DEFAULT NULL,
-  `contenu` text,
-  `date_publication` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `contenu` text DEFAULT NULL,
+  `date_publication` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `conseil`
@@ -107,7 +103,19 @@ CREATE TABLE `consultation_conseil` (
   `id_utilisateur` int(11) NOT NULL,
   `id_conseil` int(11) NOT NULL,
   `date_consultation` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `contact`
+--
+
+CREATE TABLE `contact` (
+  `id_contact` int(11) NOT NULL,
+  `id_utilisateur` int(11) NOT NULL,
+  `contenu` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -123,7 +131,7 @@ CREATE TABLE `contrat` (
   `date_fin` date DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
   `type_paiement` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `contrat`
@@ -146,7 +154,7 @@ CREATE TABLE `devis` (
   `id_service` int(11) DEFAULT NULL,
   `tarif_personalise` decimal(10,2) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -161,7 +169,7 @@ CREATE TABLE `disponibilite` (
   `heure_debut` time DEFAULT NULL,
   `heure_fin` time DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -174,9 +182,9 @@ CREATE TABLE `evaluation` (
   `id_utilisateur` int(11) DEFAULT NULL,
   `id_service` int(11) DEFAULT NULL,
   `note` int(11) DEFAULT NULL,
-  `commentaire` text,
+  `commentaire` text DEFAULT NULL,
   `date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -187,18 +195,18 @@ CREATE TABLE `evaluation` (
 CREATE TABLE `evenement` (
   `id_evenement` int(11) NOT NULL,
   `nom` varchar(150) DEFAULT NULL,
-  `date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `description` text,
+  `date` datetime DEFAULT current_timestamp(),
+  `description` text DEFAULT NULL,
   `tarif` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `evenement`
 --
 
 INSERT INTO `evenement` (`id_evenement`, `nom`, `date`, `description`, `tarif`) VALUES
-(1, 'Manger des Nems', '2026-02-27 23:42:51', 'Allez manger des nems avec Maitre Kung et son ami Fu', '10.00'),
-(2, 'Machine a laver', '2026-02-27 23:43:33', 'Allez courir sur une machine a laver géante : age conseillé : moins de 66 ans sinon crise cardiaque assurée', '15.00');
+(1, 'Manger', '2026-03-06 14:09:00', 'Allez manger des nems avec Maitre Kung et son ami Fu', 10.00),
+(2, 'Machine a laver', '2026-02-27 23:43:33', 'Allez courir sur une machine a laver géante : age conseillé : moins de 66 ans sinon crise cardiaque assurée', 15.00);
 
 -- --------------------------------------------------------
 
@@ -212,7 +220,7 @@ CREATE TABLE `facture_prestataire` (
   `mois` varchar(20) DEFAULT NULL,
   `montant_total` decimal(10,2) DEFAULT NULL,
   `date_generation` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -228,7 +236,7 @@ CREATE TABLE `intervention` (
   `date` datetime DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL,
   `montant` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -240,9 +248,9 @@ CREATE TABLE `message` (
   `id_message` int(11) NOT NULL,
   `id_expediteur` int(11) DEFAULT NULL,
   `id_destinataire` int(11) DEFAULT NULL,
-  `contenu` text,
+  `contenu` text DEFAULT NULL,
   `date_envoie` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -254,10 +262,10 @@ CREATE TABLE `notification` (
   `id_notification` int(11) NOT NULL,
   `id_expediteur` int(11) DEFAULT NULL,
   `id_destinataire` int(11) DEFAULT NULL,
-  `contenu` text,
+  `contenu` text DEFAULT NULL,
   `date_envoie` datetime DEFAULT NULL,
-  `lu` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `lu` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -272,7 +280,7 @@ CREATE TABLE `paiement` (
   `date` datetime DEFAULT NULL,
   `mode` varchar(50) DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -287,7 +295,7 @@ CREATE TABLE `paiement_abonnement` (
   `date` date DEFAULT NULL,
   `mode` varchar(50) DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -300,7 +308,7 @@ CREATE TABLE `panier` (
   `id_utilisateur` int(11) NOT NULL,
   `date_creation` datetime DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -316,7 +324,7 @@ CREATE TABLE `planning` (
   `id_service` int(11) DEFAULT NULL,
   `id_evenement` int(11) DEFAULT NULL,
   `id_rdv` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -332,8 +340,8 @@ CREATE TABLE `prestataire` (
   `documentCI` varchar(255) DEFAULT NULL,
   `documentHA` varchar(255) DEFAULT NULL,
   `documentD` varchar(255) DEFAULT NULL,
-  `valider` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `valider` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -342,9 +350,18 @@ CREATE TABLE `prestataire` (
 --
 
 CREATE TABLE `reference_evenement` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_utilisateur` int(11) NOT NULL,
   `id_evenement` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `reference_evenement`
+--
+
+INSERT INTO `reference_evenement` (`id_utilisateur`, `id_evenement`) VALUES
+(1, 1),
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -353,9 +370,17 @@ CREATE TABLE `reference_evenement` (
 --
 
 CREATE TABLE `reference_service` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_utilisateur` int(11) NOT NULL,
   `id_service` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `reference_service`
+--
+
+INSERT INTO `reference_service` (`id_utilisateur`, `id_service`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -369,7 +394,7 @@ CREATE TABLE `rendez_vous` (
   `id_prestataire` int(11) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -380,18 +405,18 @@ CREATE TABLE `rendez_vous` (
 CREATE TABLE `service` (
   `id_service` int(11) NOT NULL,
   `nom` varchar(150) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `tarif` decimal(10,2) DEFAULT NULL,
   `id_prestataire` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `service`
 --
 
 INSERT INTO `service` (`id_service`, `nom`, `description`, `tarif`, `id_prestataire`) VALUES
-(1, 'Lavage de pieds', 'Lavez vous les pieds avec la langue de Mohamed ali', '88.45', NULL),
-(2, 'Cirage de cheveux', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', '44.40', NULL);
+(1, 'Lavage de pieds', 'Lavez vous les pieds avec la langue de Mohamed ali', 88.45, NULL),
+(2, 'Cirage de cheveux', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, NULL);
 
 -- --------------------------------------------------------
 
@@ -402,7 +427,7 @@ INSERT INTO `service` (`id_service`, `nom`, `description`, `tarif`, `id_prestata
 CREATE TABLE `synthese_facture` (
   `id_facture` int(11) NOT NULL,
   `id_intervention` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -416,8 +441,8 @@ CREATE TABLE `token` (
   `valeur` varchar(255) DEFAULT NULL,
   `date_creation` datetime DEFAULT NULL,
   `date_expiration` datetime DEFAULT NULL,
-  `utiliser` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `utiliser` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -437,14 +462,15 @@ CREATE TABLE `utilisateur` (
   `langue` varchar(50) DEFAULT NULL,
   `taille_police` varchar(20) DEFAULT NULL,
   `tutoriel` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `age`, `email`, `password`, `token`, `role`, `langue`, `taille_police`, `tutoriel`) VALUES
-(1, NULL, NULL, NULL, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'yhby_OVF40JFKdo1isXnARNTBZt_wCZnlSL5y1luGig', 'adherant', NULL, NULL, NULL);
+(1, 'Laurent', 'Voillot', 18, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'bHjGLo0VIq-1UPS-TASxxqL_5sgoUxUVglMaC5wyiII', 'admin', 'fr', NULL, NULL),
+(2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', 'en', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -458,7 +484,7 @@ CREATE TABLE `virement` (
   `date` date DEFAULT NULL,
   `montant` decimal(10,2) DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Index pour les tables déchargées
@@ -498,6 +524,13 @@ ALTER TABLE `conseil`
 ALTER TABLE `consultation_conseil`
   ADD PRIMARY KEY (`id_utilisateur`,`id_conseil`),
   ADD KEY `id_conseil` (`id_conseil`);
+
+--
+-- Index pour la table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id_contact`),
+  ADD KEY `fk_user` (`id_utilisateur`);
 
 --
 -- Index pour la table `contrat`
@@ -693,6 +726,12 @@ ALTER TABLE `conseil`
   MODIFY `id_conseil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT pour la table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `contrat`
 --
 ALTER TABLE `contrat`
@@ -798,7 +837,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
@@ -835,6 +874,12 @@ ALTER TABLE `conseil`
 ALTER TABLE `consultation_conseil`
   ADD CONSTRAINT `consultation_conseil_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
   ADD CONSTRAINT `consultation_conseil_ibfk_2` FOREIGN KEY (`id_conseil`) REFERENCES `conseil` (`id_conseil`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `contact`
+--
+ALTER TABLE `contact`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `contrat`

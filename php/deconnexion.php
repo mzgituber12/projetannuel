@@ -1,8 +1,5 @@
 <?php session_start(); include 'api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
 
 <?php $_SESSION['state'] = True ?>
 
@@ -14,17 +11,22 @@ async function signoutUser(token) {
         headers: {"Token": token}
     });
 
-    if (!response.ok) {
-        const html = await response.text();
-        document.getElementById("error").innerHTML = "<h1>Erreur " + response.status + "</h1>" + html;
-        return
-    }
+    if (!response.ok){
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return;
+        }
 
     localStorage.removeItem('token');
     window.location.href = "index.php?message=Déconnexion réussie";
 }
 
-signoutUser(localStorage.getItem('token'))
-</script>
+async function init() {
+        const token = localStorage.getItem('token')
+        if (!await loginUser("online", token)) return
+        signoutUser(token)
+    }
 
-<div id = "error"></div>
+init()
+</script>

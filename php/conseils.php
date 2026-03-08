@@ -1,8 +1,20 @@
 <?php include 'api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Conseil</title>
+</head>
+<body>
+
+<?php include 'header/header.php' ?>
+
+<h1> Conseils </h1>
+<div id = "conseil"></div>
+
+<?php include 'footer/footer.php';?>
 
 <script>
 async function listconseils(token) {
@@ -12,11 +24,12 @@ async function listconseils(token) {
     });
 
     if (!response.ok) {
-        const html = await response.text();
-        document.getElementById("error").innerHTML = "<h1>Erreur " + response.status + "</h1>" + html;
-        return
-    }
-
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+        }
+    
     const data = await response.json();
     const tab_conseil = document.getElementById("conseil")
     if (data.message){
@@ -30,25 +43,14 @@ async function listconseils(token) {
         tab_conseil.innerHTML = html;
     }
 }
-listconseils(localStorage.getItem('token'));
+
+async function init() {
+        const token = localStorage.getItem('token')
+        if (!await loginUser("online", token)) return
+        listconseils(token);
+    }
+
+init()
 </script>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Conseil</title>
-</head>
-<body>
-
-<?php include 'header/header.php' ?>
-
-<h1> Conseils </h1>
-
-<div id = "conseil"></div>
-
-<div id = "error"></div>
-
 </body>
-<?php include 'footer/footer.php';?>
 </html>
