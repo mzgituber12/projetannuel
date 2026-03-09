@@ -34,16 +34,16 @@
 
 ## Verifier les erreurs http de :
 
-- inscription
-- gestion_contact
-- gestion_intervention
-- gestion_service
-- catalogue
-- api_config
-- modifier_service
-- modifier_intervention
-- header
-- footer
+* inscription
+* gestion_contact
+* gestion_intervention
+* gestion_service
+* catalogue
+* api_config
+* modifier_service
+* modifier_intervention
+* header
+* footer
 
 ### En cas de probleme d'updates JavaScript
 
