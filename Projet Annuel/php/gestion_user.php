@@ -25,6 +25,9 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 </form>
 <div id="resultat"></div>
 
+<h2> Utilisateurs </h2>
+<div id = "users"></div>
+
 <?php include 'footer/footer.php'?>
 
 <script>
@@ -61,18 +64,50 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         }
     }
 
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
+    async function listUser(token) {
+        const base = (window.API_BASE || 'http://localhost:9000');
+
+        const response = await fetch(base + "/users", {
+            method: "GET",
+            headers: {"Token": token}
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+        }
+        const user_list = await response.json();
+        const user = document.getElementById("users")
+
+        if (user_list.message){
+            user.innerHTML = user_list.message
+        } else {
+            let html = "<table border = 1><tr><th>Nom</th><th>Prénom</th><th>Email</th><th>Role</th><th></th></tr>";
+            user_list.utilisateur.forEach(usr => {
+                click = "<td><a href='modifier_user.php?id=" + usr.id + "'>Modifier</a></td>" 
+                html += "<tr><td>" + usr.nom + "</td><td>" + usr.prenom + "</td><td>" + usr.email + "</td><td>" + usr.role + "</td><td>" + click + "</td>" 
+            });
+            html += "</table>";
+            user.innerHTML = html;
+        }
+    }
+
     async function init() {
         const token = localStorage.getItem('token')
         if (!await loginUser("online", token)) return
         adminUser(token)
+        listUser(token);
     }
 
-window.addEventListener('pageshow', function(event) {
-if (event.persisted) {
-    window.location.reload();
-}
-});
-init()
+    init()
 </script>
 </body>
 </html>

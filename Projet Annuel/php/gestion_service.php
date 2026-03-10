@@ -34,7 +34,10 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 </form>
 
 <div id="resultat"></div>
-</div>
+
+<h2> Services </h2>
+<div id = "services"></div>
+
 <script>
     async function search_service(service) {
         service.preventDefault();
@@ -57,6 +60,50 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
             "<a href='modifier_service.php?id=" + data.id + "'>Modifier service</a>";
         }
     }
+
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
+    async function listService(token) {
+        const base = (window.API_BASE || 'http://localhost:9000');
+
+        const response = await fetch(base + "/services", {
+            method: "GET",
+            headers: {"Token": token}
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+        }
+        const service_list = await response.json();
+        const service = document.getElementById("services")
+
+        if (service_list.message){
+            service.innerHTML = service_list.message
+        } else {
+            let html = "<table border = 1><tr><th>Nom du service</th><th>Description</th><th>Tarif</th><th></th></tr>";
+            service_list.service.forEach(serv => {
+                click = "<td><a href='modifier_service.php?id=" + serv.id + "'>Modifier</a></td>" 
+                html += "<tr><td>" + serv.nom + "</td><td>" + serv.description + "</td><td>" + serv.tarif + "</td><td>" + click + "</td>" 
+            });
+            html += "</table>";
+            service.innerHTML = html;
+        }
+    }
+
+    async function init() {
+        const token = localStorage.getItem('token')
+        if (!await loginUser("online", token)) return
+        adminUser(token)
+        listService(token);
+    }
+    init()
 </script>
 <?php include 'footer/footer.php'?>
 </body>

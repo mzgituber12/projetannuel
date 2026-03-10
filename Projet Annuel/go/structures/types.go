@@ -68,12 +68,13 @@ type Contact struct {
 }
 
 type List struct {
-	Contrat   []Contrat   `json:"contrat"`
-	Conseil   []Conseil   `json:"conseil"`
-	Evenement []Evenement `json:"evenement"`
-	Service   []Service   `json:"service"`
-	Article   []Article   `json:"article"`
-	Contact   []Contact   `json:"contact"`
+	Contrat     []Contrat   `json:"contrat"`
+	Conseil     []Conseil   `json:"conseil"`
+	Evenement   []Evenement `json:"evenement"`
+	Service     []Service   `json:"service"`
+	Article     []Article   `json:"article"`
+	Contact     []Contact   `json:"contact"`
+	Utilisateur []User      `json:"utilisateur"`
 }
 
 type Etat struct {

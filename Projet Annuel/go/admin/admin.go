@@ -2,7 +2,10 @@ package admin
 
 import (
 	"database/sql"
+	"encoding/json"
 	"net/http"
+
+	"projet/structures"
 )
 
 func Estadmin(database *sql.DB) http.HandlerFunc {
@@ -36,5 +39,49 @@ func Estadmin(database *sql.DB) http.HandlerFunc {
 		}
 
 		response.Header().Set("Content-Type", "application/json")
+	}
+}
+
+func Users(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Token")
+		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		rows, err := database.Query("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur")
+
+		if err != nil {
+			http.Error(response, "Erreur lors de la selection des utilisateurs de la base de données", http.StatusInternalServerError)
+			return
+		} else {
+			var utilisateurs []structures.User
+
+			for rows.Next() {
+				var u structures.User
+
+				err := rows.Scan(&u.ID, &u.Nom, &u.Prenom, &u.Age, &u.Email, &u.Role, &u.Langue)
+				if err != nil {
+					http.Error(response, "Erreur lors de la selection des utilisateurs : "+err.Error(), http.StatusInternalServerError)
+					return
+				}
+
+				utilisateurs = append(utilisateurs, u)
+			}
+			if len(utilisateurs) == 0 {
+				json.NewEncoder(response).Encode(structures.Result{
+					Message: "Aucun utilisateur pour le moment",
+				})
+				return
+			}
+			response.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(response).Encode(structures.List{
+				Utilisateur: utilisateurs,
+			})
+		}
 	}
 }

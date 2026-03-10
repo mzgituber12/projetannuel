@@ -25,6 +25,8 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 </form>
 <div id="resultat"></div>
 
+<h2> Evenements </h2>
+<div id = "evenements"></div>
 <?php include 'footer/footer.php'?>
 
 <script>
@@ -59,18 +61,53 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         }
     }
 
-    async function init() {
-        const token = localStorage.getItem('token')
-        if (!await loginUser("online", token)) return
-        adminUser(token)
-    }
+    
 
 window.addEventListener('pageshow', function(event) {
 if (event.persisted) {
     window.location.reload();
 }
 });
+
+
+async function listEvenement(token) {
+    const base = (window.API_BASE || 'http://localhost:9000');
+
+    const response = await fetch(base + "/evenements", {
+        method: "GET",
+        headers: {"Token": token}
+    });
+
+    if (!response.ok) {
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+    }
+    const evenement_list = await response.json();
+    const evenement  = document.getElementById("evenements")
+
+    if (evenement_list.message){
+        evenement.innerHTML = evenement_list.message
+    } else {
+        let html = "<table border = 1><tr><th>Nom de l'événement</th><th>Description</th><th>Date de l'événement</th><th></th></tr>";
+        evenement_list.evenement.forEach(evenement => {
+            click = "<td><a href='modifier_evenement.php?id=" + evenement.id + "'>Modifier</a></td>" 
+            html += "<tr><td>" + evenement.nom + "</td><td>" + evenement.description + "</td><td>" + evenement.date + "</td><td>" + click + "</td>" 
+        });
+        html += "</table>";
+        evenement.innerHTML = html;
+    }
+}
+
+async function init() {
+        const token = localStorage.getItem('token')
+        if (!await loginUser("online", token)) return
+        adminUser(token)
+        listEvenement(token);
+    }
 init()
 </script>
+
 </body>
 </html>
