@@ -9,13 +9,11 @@ services:
       MYSQL_DATABASE: projet
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      MARIADB_INITDB_SKIP_TZINFO: 1
     ports:
       - "3306:3306"
     volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./db/data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
 
   php:
     build:
