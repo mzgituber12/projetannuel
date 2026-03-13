@@ -71,7 +71,7 @@ func Planning_services(database *sql.DB) http.HandlerFunc {
 
 		token := request.Header.Get("Token")
 
-		sel, err := database.Prepare("SELECT s.nom, s.description, s.tarif FROM service s JOIN reference_service r on s.id_service = r.id_service JOIN utilisateur u on r.id_utilisateur = u.id_utilisateur WHERE token = ?")
+		sel, err := database.Prepare("SELECT s.nom, s.description, s.tarif FROM service s JOIN intervention i on s.id_service = i.id_service JOIN utilisateur u on i.id_utilisateur = u.id_utilisateur WHERE token = ?")
 		if err != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête des services", http.StatusInternalServerError)
 			return

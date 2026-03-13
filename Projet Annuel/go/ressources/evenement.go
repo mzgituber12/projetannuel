@@ -46,12 +46,12 @@ func Evenements(database *sql.DB) http.HandlerFunc {
 				}
 				e.Date = t.Format("02/01/2006 || 15:04")
 
-				var rej string
+				var rej int
 
 				auth := request.Header.Get("Token")
 				userrequest, err := database.Prepare("SELECT re.id_evenement FROM reference_evenement re JOIN utilisateur u ON u.id_utilisateur = re.id_utilisateur WHERE u.token = ? AND re.id_evenement = ?")
 				if err != nil {
-					http.Error(response, "Erreur lors des jointures d'evenements", http.StatusInternalServerError)
+					http.Error(response, "Erreur lors de la jointure des evenements: "+err.Error(), http.StatusInternalServerError)
 					return
 				}
 				rowsuser := userrequest.QueryRow(auth, id)

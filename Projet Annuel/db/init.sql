@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : ven. 13 mars 2026 à 14:24
+-- Généré le : ven. 13 mars 2026 à 15:12
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -378,6 +378,18 @@ INSERT INTO `reference_evenement` (`id`, `id_utilisateur`, `id_evenement`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `reference_service`
+--
+
+CREATE TABLE `reference_service` (
+  `id` int(11) NOT NULL,
+  `id_utilisateur` int(11) NOT NULL,
+  `id_service` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `rendez_vous`
 --
 
@@ -480,7 +492,7 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `age`, `email`, `password`, `token`, `role`, `langue`, `taille_police`, `tutoriel`) VALUES
-(1, 'Laurent', 'Voillot', 18, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'pK7q0e15m3y5al3StnqSmqJF095vXLO1MxNLeZ7Coto', 'admin', 'fr', '1', 0),
+(1, 'Laurent', 'Voillot', 18, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'pK7q0e15m3y5al3StnqSmqJF095vXLO1MxNLeZ7Coto', 'adherant', 'fr', '1', 0),
 (2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', 'en', '1', 0),
 (3, 'bb', 'bb', 20, 'cc@cc', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', 'fr', '1', 0),
 (4, 'cc', 'ac', 44, 'cc@ccc', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', 'fr', '1', 0),
@@ -662,6 +674,14 @@ ALTER TABLE `reference_evenement`
   ADD KEY `fk_util` (`id_utilisateur`);
 
 --
+-- Index pour la table `reference_service`
+--
+ALTER TABLE `reference_service`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_utilisateur` (`id_utilisateur`,`id_service`),
+  ADD KEY `id_service` (`id_service`);
+
+--
 -- Index pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
@@ -837,6 +857,12 @@ ALTER TABLE `reference_evenement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
+-- AUTO_INCREMENT pour la table `reference_service`
+--
+ALTER TABLE `reference_service`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
@@ -1002,6 +1028,13 @@ ALTER TABLE `prestataire`
 ALTER TABLE `reference_evenement`
   ADD CONSTRAINT `fk_even` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id_evenement`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_util` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `reference_service`
+--
+ALTER TABLE `reference_service`
+  ADD CONSTRAINT `reference_service_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reference_service_ibfk_2` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `rendez_vous`

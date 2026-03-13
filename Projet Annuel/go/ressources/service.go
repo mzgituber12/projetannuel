@@ -36,17 +36,17 @@ func Services(database *sql.DB) http.HandlerFunc {
 					http.Error(response, "Erreur lors de la selection des services : "+err.Error(), http.StatusInternalServerError)
 					return
 				}
-				var rej string
-				var rej2 string
+				var rej int
+				var rej2 int
 				auth := request.Header.Get("Token")
 				userrequest, err := database.Prepare("SELECT rs.id_service FROM reference_service rs JOIN utilisateur u ON u.id_utilisateur = rs.id_utilisateur WHERE u.token = ? AND rs.id_service = ?")
 				if err != nil {
-					http.Error(response, "Erreur lors des jointures d'evenements", http.StatusInternalServerError)
+					http.Error(response, "Erreur lors des jointures des services: "+err.Error(), http.StatusInternalServerError)
 					return
 				}
 				otherrequest, err := database.Prepare("SELECT id_service FROM reference_service WHERE id_service = ?")
 				if err != nil {
-					http.Error(response, "Erreur lors des jointures d'evenements (2)", http.StatusInternalServerError)
+					http.Error(response, "Erreur lors de la préparation de la requête des services: "+err.Error(), http.StatusInternalServerError)
 					return
 				}
 				rowsuser := userrequest.QueryRow(auth, id)
