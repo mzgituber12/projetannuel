@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : jeu. 05 mars 2026 à 12:34
+-- Généré le : ven. 13 mars 2026 à 14:24
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -31,10 +31,13 @@ CREATE TABLE `abonnement` (
   `id_abonnement` int(11) NOT NULL,
   `id_prestataire` int(11) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
-  `prix` decimal(10,2) DEFAULT NULL,
-  `date_debut` date DEFAULT NULL,
-  `date_fin` date DEFAULT NULL,
-  `statut` varchar(50) DEFAULT NULL
+  `prix_mois` decimal(10,2) DEFAULT NULL,
+  `statut` varchar(50) DEFAULT NULL,
+  `prix_an` int(11) DEFAULT NULL,
+  `Locaux_prestation` tinyint(1) DEFAULT NULL,
+  `Trajet_offert` tinyint(1) DEFAULT NULL,
+  `offre_repas` tinyint(1) DEFAULT NULL,
+  `mis_en_avant` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
@@ -127,19 +130,21 @@ CREATE TABLE `contrat` (
   `id_contrat` int(11) NOT NULL,
   `id_devis` int(11) DEFAULT NULL,
   `id_utilisateur` int(11) DEFAULT NULL,
+  `id_prestataire` int(11) DEFAULT NULL,
   `date_debut` date DEFAULT NULL,
   `date_fin` date DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
-  `type_paiement` varchar(50) DEFAULT NULL
+  `type_paiement` varchar(50) DEFAULT NULL,
+  `type_contrat` enum('site','presta') NOT NULL DEFAULT 'presta'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `contrat`
 --
 
-INSERT INTO `contrat` (`id_contrat`, `id_devis`, `id_utilisateur`, `date_debut`, `date_fin`, `nom`, `type_paiement`) VALUES
-(1, NULL, 1, NULL, NULL, 'contrat 1', NULL),
-(2, NULL, 1, NULL, NULL, 'contrat2', NULL);
+INSERT INTO `contrat` (`id_contrat`, `id_devis`, `id_utilisateur`, `id_prestataire`, `date_debut`, `date_fin`, `nom`, `type_paiement`, `type_contrat`) VALUES
+(1, NULL, 1, NULL, NULL, NULL, 'contrat 1', NULL, 'presta'),
+(2, NULL, 1, NULL, NULL, NULL, 'contrat2', NULL, 'presta');
 
 -- --------------------------------------------------------
 
@@ -151,7 +156,7 @@ CREATE TABLE `devis` (
   `id_devis` int(11) NOT NULL,
   `id_utilisateur` int(11) DEFAULT NULL,
   `id_prestataire` int(11) DEFAULT NULL,
-  `id_service` int(11) DEFAULT NULL,
+  `id_intervention` int(11) NOT NULL,
   `tarif_personalise` decimal(10,2) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
@@ -168,8 +173,28 @@ CREATE TABLE `disponibilite` (
   `date` date DEFAULT NULL,
   `heure_debut` time DEFAULT NULL,
   `heure_fin` time DEFAULT NULL,
-  `statut` varchar(50) DEFAULT NULL
+  `statut` varchar(50) DEFAULT NULL,
+  `jour_semaine` enum('lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche') DEFAULT NULL,
+  `type_regle` enum('disponible','indisponible') NOT NULL DEFAULT 'disponible',
+  `recurrence` enum('unique','hebdomadaire') DEFAULT 'unique',
+  `date_fin_regle` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `document`
+--
+
+CREATE TABLE `document` (
+  `id_document` int(11) NOT NULL,
+  `id_prestataire` int(11) NOT NULL,
+  `type_document` enum('CI','habilitation','diplome','autre') DEFAULT 'autre',
+  `nom_fichier` varchar(255) NOT NULL,
+  `chemin_fichier` varchar(500) NOT NULL,
+  `date_upload` datetime DEFAULT current_timestamp(),
+  `valide` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -233,7 +258,7 @@ CREATE TABLE `intervention` (
   `id_service` int(11) DEFAULT NULL,
   `id_prestataire` int(11) DEFAULT NULL,
   `id_utilisateur` int(11) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `id_rdv` int(11) DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL,
   `montant` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
@@ -313,22 +338,6 @@ CREATE TABLE `panier` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `planning`
---
-
-CREATE TABLE `planning` (
-  `id_planning` int(11) NOT NULL,
-  `id_utilisateur` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `type` varchar(50) DEFAULT NULL,
-  `id_service` int(11) DEFAULT NULL,
-  `id_evenement` int(11) DEFAULT NULL,
-  `id_rdv` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `prestataire`
 --
 
@@ -337,11 +346,15 @@ CREATE TABLE `prestataire` (
   `id_utilisateur` int(11) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
   `telephone` varchar(20) DEFAULT NULL,
-  `documentCI` varchar(255) DEFAULT NULL,
-  `documentHA` varchar(255) DEFAULT NULL,
-  `documentD` varchar(255) DEFAULT NULL,
   `valider` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `prestataire`
+--
+
+INSERT INTO `prestataire` (`id_prestataire`, `id_utilisateur`, `type`, `telephone`, `valider`) VALUES
+(1, 4, 'coordonnier', '32', 1);
 
 -- --------------------------------------------------------
 
@@ -350,7 +363,7 @@ CREATE TABLE `prestataire` (
 --
 
 CREATE TABLE `reference_evenement` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `id_utilisateur` int(11) NOT NULL,
   `id_evenement` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
@@ -359,28 +372,8 @@ CREATE TABLE `reference_evenement` (
 -- Déchargement des données de la table `reference_evenement`
 --
 
-INSERT INTO `reference_evenement` (`id_utilisateur`, `id_evenement`) VALUES
-(1, 1),
-(1, 2);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `reference_service`
---
-
-CREATE TABLE `reference_service` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `id_utilisateur` int(11) NOT NULL,
-  `id_service` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
-
---
--- Déchargement des données de la table `reference_service`
---
-
-INSERT INTO `reference_service` (`id_utilisateur`, `id_service`) VALUES
-(1, 1);
+INSERT INTO `reference_evenement` (`id`, `id_utilisateur`, `id_evenement`) VALUES
+(21, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -392,8 +385,10 @@ CREATE TABLE `rendez_vous` (
   `id_rdv` int(11) NOT NULL,
   `id_utilisateur` int(11) DEFAULT NULL,
   `id_prestataire` int(11) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL
+  `date_debut` datetime DEFAULT NULL,
+  `date_fin` datetime NOT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `statut` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
@@ -415,8 +410,24 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`id_service`, `nom`, `description`, `tarif`, `id_prestataire`) VALUES
-(1, 'Lavage de pieds', 'Lavez vous les pieds avec la langue de Mohamed ali', 88.45, NULL),
+(1, 'Faire chier Laurent', 'Laurent ta mere a été concue pour manger du porc et suer du jus d orangeuh', 4.00, NULL),
 (2, 'Cirage de cheveux', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `souscris_abonnement`
+--
+
+CREATE TABLE `souscris_abonnement` (
+  `id_souscrit` int(11) NOT NULL,
+  `date_souscription` datetime DEFAULT current_timestamp(),
+  `date_expiration` datetime DEFAULT NULL,
+  `validite` tinyint(1) DEFAULT 1,
+  `type_paiement` enum('an','mois') NOT NULL DEFAULT 'mois',
+  `id_utilisateur` int(11) NOT NULL,
+  `id_abonnement` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -459,9 +470,9 @@ CREATE TABLE `utilisateur` (
   `password` varchar(1000) DEFAULT NULL,
   `token` varchar(1000) DEFAULT NULL,
   `role` enum('adherant','prestataire','admin') DEFAULT 'adherant',
-  `langue` varchar(50) DEFAULT NULL,
-  `taille_police` varchar(20) DEFAULT NULL,
-  `tutoriel` int(11) DEFAULT NULL
+  `langue` varchar(50) DEFAULT 'fr',
+  `taille_police` varchar(20) DEFAULT '1',
+  `tutoriel` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
@@ -469,8 +480,11 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `age`, `email`, `password`, `token`, `role`, `langue`, `taille_police`, `tutoriel`) VALUES
-(1, 'Laurent', 'Voillot', 18, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'bHjGLo0VIq-1UPS-TASxxqL_5sgoUxUVglMaC5wyiII', 'admin', 'fr', NULL, NULL),
-(2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', 'en', NULL, NULL);
+(1, 'Laurent', 'Voillot', 18, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'pK7q0e15m3y5al3StnqSmqJF095vXLO1MxNLeZ7Coto', 'admin', 'fr', '1', 0),
+(2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', 'en', '1', 0),
+(3, 'bb', 'bb', 20, 'cc@cc', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', 'fr', '1', 0),
+(4, 'cc', 'ac', 44, 'cc@ccc', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', 'fr', '1', 0),
+(5, 'admin', 'admin (le mdp est admin123)', 48, 'a@a', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', '7sKfSNkJ027gWxYhms5mBjMeX1Gxg0HDRzk4lcA1Aos', 'admin', 'fr', '1', 1);
 
 -- --------------------------------------------------------
 
@@ -538,7 +552,8 @@ ALTER TABLE `contact`
 ALTER TABLE `contrat`
   ADD PRIMARY KEY (`id_contrat`),
   ADD UNIQUE KEY `id_devis` (`id_devis`),
-  ADD KEY `id_utilisateur` (`id_utilisateur`);
+  ADD KEY `id_utilisateur` (`id_utilisateur`),
+  ADD KEY `id_prestataire` (`id_prestataire`);
 
 --
 -- Index pour la table `devis`
@@ -547,13 +562,20 @@ ALTER TABLE `devis`
   ADD PRIMARY KEY (`id_devis`),
   ADD KEY `id_utilisateur` (`id_utilisateur`),
   ADD KEY `id_prestataire` (`id_prestataire`),
-  ADD KEY `id_service` (`id_service`);
+  ADD KEY `id_intervention` (`id_intervention`);
 
 --
 -- Index pour la table `disponibilite`
 --
 ALTER TABLE `disponibilite`
   ADD PRIMARY KEY (`id_disponibilite`),
+  ADD KEY `id_prestataire` (`id_prestataire`);
+
+--
+-- Index pour la table `document`
+--
+ALTER TABLE `document`
+  ADD PRIMARY KEY (`id_document`),
   ADD KEY `id_prestataire` (`id_prestataire`);
 
 --
@@ -584,7 +606,8 @@ ALTER TABLE `intervention`
   ADD PRIMARY KEY (`id_intervention`),
   ADD KEY `id_service` (`id_service`),
   ADD KEY `id_prestataire` (`id_prestataire`),
-  ADD KEY `id_utilisateur` (`id_utilisateur`);
+  ADD KEY `id_utilisateur` (`id_utilisateur`),
+  ADD KEY `id_rdv` (`id_rdv`);
 
 --
 -- Index pour la table `message`
@@ -624,16 +647,6 @@ ALTER TABLE `panier`
   ADD KEY `id_utilisateur` (`id_utilisateur`);
 
 --
--- Index pour la table `planning`
---
-ALTER TABLE `planning`
-  ADD PRIMARY KEY (`id_planning`),
-  ADD KEY `id_utilisateur` (`id_utilisateur`),
-  ADD KEY `id_service` (`id_service`),
-  ADD KEY `id_evenement` (`id_evenement`),
-  ADD KEY `id_rdv` (`id_rdv`);
-
---
 -- Index pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
@@ -644,15 +657,9 @@ ALTER TABLE `prestataire`
 -- Index pour la table `reference_evenement`
 --
 ALTER TABLE `reference_evenement`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_even` (`id_evenement`),
   ADD KEY `fk_util` (`id_utilisateur`);
-
---
--- Index pour la table `reference_service`
---
-ALTER TABLE `reference_service`
-  ADD KEY `fk_serv` (`id_service`),
-  ADD KEY `fk_util2` (`id_utilisateur`);
 
 --
 -- Index pour la table `rendez_vous`
@@ -668,6 +675,14 @@ ALTER TABLE `rendez_vous`
 ALTER TABLE `service`
   ADD PRIMARY KEY (`id_service`),
   ADD KEY `id_prestataire` (`id_prestataire`);
+
+--
+-- Index pour la table `souscris_abonnement`
+--
+ALTER TABLE `souscris_abonnement`
+  ADD PRIMARY KEY (`id_souscrit`),
+  ADD KEY `id_utilisateur` (`id_utilisateur`),
+  ADD KEY `id_abonnement` (`id_abonnement`);
 
 --
 -- Index pour la table `synthese_facture`
@@ -729,7 +744,7 @@ ALTER TABLE `conseil`
 -- AUTO_INCREMENT pour la table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `contrat`
@@ -748,6 +763,12 @@ ALTER TABLE `devis`
 --
 ALTER TABLE `disponibilite`
   MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `document`
+--
+ALTER TABLE `document`
+  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `evaluation`
@@ -771,7 +792,7 @@ ALTER TABLE `facture_prestataire`
 -- AUTO_INCREMENT pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `message`
@@ -804,16 +825,16 @@ ALTER TABLE `panier`
   MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `planning`
---
-ALTER TABLE `planning`
-  MODIFY `id_planning` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
-  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `reference_evenement`
+--
+ALTER TABLE `reference_evenement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `rendez_vous`
@@ -828,6 +849,12 @@ ALTER TABLE `service`
   MODIFY `id_service` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT pour la table `souscris_abonnement`
+--
+ALTER TABLE `souscris_abonnement`
+  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `token`
 --
 ALTER TABLE `token`
@@ -837,7 +864,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
@@ -886,7 +913,8 @@ ALTER TABLE `contact`
 --
 ALTER TABLE `contrat`
   ADD CONSTRAINT `contrat_ibfk_1` FOREIGN KEY (`id_devis`) REFERENCES `devis` (`id_devis`) ON DELETE CASCADE,
-  ADD CONSTRAINT `contrat_ibfk_2` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
+  ADD CONSTRAINT `contrat_ibfk_2` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contrat_ibfk_3` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`);
 
 --
 -- Contraintes pour la table `devis`
@@ -894,13 +922,19 @@ ALTER TABLE `contrat`
 ALTER TABLE `devis`
   ADD CONSTRAINT `devis_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
   ADD CONSTRAINT `devis_ibfk_2` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE SET NULL,
-  ADD CONSTRAINT `devis_ibfk_3` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`) ON DELETE SET NULL;
+  ADD CONSTRAINT `devis_ibfk_3` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `disponibilite`
 --
 ALTER TABLE `disponibilite`
   ADD CONSTRAINT `disponibilite_ibfk_1` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `document`
+--
+ALTER TABLE `document`
+  ADD CONSTRAINT `document_ibfk_1` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `evaluation`
@@ -921,7 +955,8 @@ ALTER TABLE `facture_prestataire`
 ALTER TABLE `intervention`
   ADD CONSTRAINT `intervention_ibfk_1` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`) ON DELETE SET NULL,
   ADD CONSTRAINT `intervention_ibfk_2` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE SET NULL,
-  ADD CONSTRAINT `intervention_ibfk_3` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
+  ADD CONSTRAINT `intervention_ibfk_3` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
+  ADD CONSTRAINT `intervention_ibfk_4` FOREIGN KEY (`id_rdv`) REFERENCES `rendez_vous` (`id_rdv`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `message`
@@ -956,15 +991,6 @@ ALTER TABLE `panier`
   ADD CONSTRAINT `panier_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `planning`
---
-ALTER TABLE `planning`
-  ADD CONSTRAINT `planning_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
-  ADD CONSTRAINT `planning_ibfk_2` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`) ON DELETE SET NULL,
-  ADD CONSTRAINT `planning_ibfk_3` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id_evenement`) ON DELETE SET NULL,
-  ADD CONSTRAINT `planning_ibfk_4` FOREIGN KEY (`id_rdv`) REFERENCES `rendez_vous` (`id_rdv`) ON DELETE SET NULL;
-
---
 -- Contraintes pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
@@ -976,13 +1002,6 @@ ALTER TABLE `prestataire`
 ALTER TABLE `reference_evenement`
   ADD CONSTRAINT `fk_even` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id_evenement`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_util` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `reference_service`
---
-ALTER TABLE `reference_service`
-  ADD CONSTRAINT `fk_serv` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`),
-  ADD CONSTRAINT `fk_util2` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
 
 --
 -- Contraintes pour la table `rendez_vous`
@@ -998,11 +1017,18 @@ ALTER TABLE `service`
   ADD CONSTRAINT `service_ibfk_1` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE SET NULL;
 
 --
+-- Contraintes pour la table `souscris_abonnement`
+--
+ALTER TABLE `souscris_abonnement`
+  ADD CONSTRAINT `souscris_abonnement_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`),
+  ADD CONSTRAINT `souscris_abonnement_ibfk_2` FOREIGN KEY (`id_abonnement`) REFERENCES `abonnement` (`id_abonnement`);
+
+--
 -- Contraintes pour la table `synthese_facture`
 --
 ALTER TABLE `synthese_facture`
   ADD CONSTRAINT `synthese_facture_ibfk_1` FOREIGN KEY (`id_facture`) REFERENCES `facture_prestataire` (`id_facture`) ON DELETE CASCADE,
-  ADD CONSTRAINT `synthese_facture_ibfk_2` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`) ON DELETE CASCADE;
+  ADD CONSTRAINT `synthese_facture_ibfk_2` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`);
 
 --
 -- Contraintes pour la table `token`
