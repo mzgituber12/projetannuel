@@ -108,6 +108,23 @@
             background: #1d4ed8;
         }
 
+        .button-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.5rem 0.9rem;
+            border-radius: 4px;
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .button-link:hover {
+            background: #1d4ed8;
+        }
+
         .catalogue-card button.btn-quit {
             background: #dc2626;
         }
@@ -192,9 +209,11 @@ async function listCatalogue(token) {
         let html = '';
         evenement_list.evenement.forEach(e => {
             const actionLabel = e.rejoindre === "Rejoindre" ? "Rejoindre" : "Quitter";
-            const actionState = e.rejoindre === "Rejoindre" ? "join" : "leave";
-            const btnClass = e.rejoindre === "Quitter" ? "btn-quit" : "";
-            const action = `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'evenements', '${actionState}', ${e.id})">${actionLabel}</button>`;
+            const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}`;
+            const btnClass = e.rejoindre === "Quitter" ? "btn-leave" : "";
+            const action = e.rejoindre === "Rejoindre" ?
+                `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
+                `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'evenements', 'leave', ${e.id})">${actionLabel}</button>`;
 
             html += `
                 <div class="catalogue-card">

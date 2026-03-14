@@ -67,6 +67,13 @@ type Contact struct {
 	Email   string `json:"email"`
 }
 
+type Rdv struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Start string `json:"start"`
+	End   string `json:"end"`
+}
+
 type List struct {
 	Contrat     []Contrat   `json:"contrat"`
 	Conseil     []Conseil   `json:"conseil"`
@@ -77,13 +84,10 @@ type List struct {
 	Utilisateur []User      `json:"utilisateur"`
 }
 
-type Etat struct {
-	State string `json:"state"`
+type Payload struct {
+	ID int `json:"id_evenement"`
 }
 
-type Rdv struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Start string `json:"start"`
-	End   string `json:"end"`
+type Etat struct {
+	State string `json:"state"`
 }
