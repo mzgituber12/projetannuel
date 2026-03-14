@@ -80,3 +80,10 @@ type List struct {
 type Etat struct {
 	State string `json:"state"`
 }
+
+type Rdv struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Start string `json:"start"`
+	End   string `json:"end"`
+}

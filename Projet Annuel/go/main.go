@@ -36,6 +36,7 @@ func main() {
 	http.HandleFunc("/articles", ressources.Articles(db))
 	http.HandleFunc("/planning_evenements", ressources.Planning_evenements(db))
 	http.HandleFunc("/planning_services", ressources.Planning_services(db))
+	http.HandleFunc("/planning_rdv", ressources.Planning_rdv(db))
 
 	http.HandleFunc("/admin", admin.Estadmin(db))
 	http.HandleFunc("/users", admin.Users(db))

@@ -107,3 +107,40 @@ func Planning_services(database *sql.DB) http.HandlerFunc {
 		}
 	}
 }
+
+func Planning_rdv(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		sel, err := database.Prepare("SELECT id_rdv, date_debut, date_fin, type FROM rendez_vous")
+		if err != nil {
+			http.Error(response, "Erreur lors de la préparation de la requête des rendez-vous", http.StatusInternalServerError)
+			return
+		}
+
+		rows, err := sel.Query()
+		if err != nil {
+			http.Error(response, "Erreur lors de la lecture des rendez-vous", http.StatusInternalServerError)
+			return
+		}
+
+		var events []structures.Rdv
+		for rows.Next() {
+			var e structures.Rdv
+			if err := rows.Scan(&e.ID, &e.Start, &e.End, &e.Title); err != nil {
+				http.Error(response, "Erreur lors du scan des rendez-vous", http.StatusInternalServerError)
+				return
+			}
+			events = append(events, e)
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(events)
+	}
+}
