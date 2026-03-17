@@ -125,11 +125,11 @@
             background: #1d4ed8;
         }
 
-        .catalogue-card button.btn-quit {
+        .catalogue-card button.btn-leave {
             background: #dc2626;
         }
 
-        .catalogue-card button.btn-quit:hover {
+        .catalogue-card button.btn-leave:hover {
             background: #b91c1c;
         }
     </style>
@@ -240,11 +240,12 @@ async function listCatalogue(token) {
 
         let html = '';
         service_list.service.forEach(s => {
-            const actionLabel = s.rejoindre === "Rejoindre" ? "Rejoindre" : (s.rejoindre === "Quitter" ? "Quitter" : "Indisponible");
-            const actionState = s.rejoindre === "Rejoindre" ? "join" : "leave";
+            const actionLabel = s.rejoindre === "Rejoindre" ? "Réserver" : (s.rejoindre === "Quitter" ? "Annuler" : "Indisponible");
+            const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&tarif=${encodeURIComponent(s.tarif)}`;
             const btnClass = s.rejoindre === "Quitter" ? "btn-leave" : "";
-            const action = s.rejoindre === "Indisponible" ?
-                "<span style='opacity:.6;'>Indisponible</span>" :
+            const actionState = s.rejoindre === "Quitter" ? "leave" : "join";
+            const action = s.rejoindre === "Rejoindre" ?
+                `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
                 `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'services', '${actionState}', ${s.id})">${actionLabel}</button>`;
 
             html += `

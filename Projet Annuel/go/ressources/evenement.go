@@ -174,8 +174,11 @@ func Reservation_evenement(database *sql.DB) http.HandlerFunc {
 			response.WriteHeader(http.StatusOK)
 			return
 		}
+		type payload struct {
+			ID int `json:"id_evenement"`
+		}
 
-		var p structures.Payload
+		var p payload
 		if err := json.NewDecoder(request.Body).Decode(&p); err != nil {
 			http.Error(response, "Payload invalide", http.StatusBadRequest)
 			return
@@ -212,15 +215,14 @@ func Reservation_evenement(database *sql.DB) http.HandlerFunc {
 		}
 		end := start.Add(time.Hour)
 
-		selVerif, err := database.Prepare("SELECT COUNT(*) FROM rendez_vous WHERE date_debut < ? AND date_fin > ? ")
+		selVerif, err := database.Prepare("SELECT COUNT(*) FROM rendez_vous WHERE id_utilisateur = ? AND date_debut < ? AND date_fin > ?")
 		if err != nil {
 			http.Error(response, "Erreur lors de la vérification des rendez-vous", http.StatusInternalServerError)
 			return
 		}
-		defer selVerif.Close()
 
 		var count int
-		err = selVerif.QueryRow(end, start).Scan(&count)
+		err = selVerif.QueryRow(idUser, end, start).Scan(&count)
 		if err != nil {
 			http.Error(response, "Erreur lors de la vérification des disponibilités", http.StatusInternalServerError)
 			return

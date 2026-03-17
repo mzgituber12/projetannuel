@@ -84,10 +84,6 @@ type List struct {
 	Utilisateur []User      `json:"utilisateur"`
 }
 
-type Payload struct {
-	ID int `json:"id_evenement"`
-}
-
 type Etat struct {
 	State string `json:"state"`
 }
