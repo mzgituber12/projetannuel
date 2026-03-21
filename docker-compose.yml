@@ -1,0 +1,53 @@
+services:
+
+  mariadb:
+    image: mariadb:11
+    container_name: mon_mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: projet
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/data:/var/lib/mysql
+
+  php:
+    build:
+      context: ./php
+      dockerfile: dockerfile
+    container_name: mon_php
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - mariadb
+
+  go:
+    build: ./go
+    container_name: mon_go
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mariadb
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: mon_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_DATABASE: projet
+    ports:
+      - "8081:80"
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data:
