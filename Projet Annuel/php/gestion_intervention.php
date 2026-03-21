@@ -1,12 +1,6 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
 <script src="admin.js"></script>
-<script>
-adminUser(localStorage.getItem('token')); 
-</script>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +10,7 @@ adminUser(localStorage.getItem('token'));
 </head>
 <body>
 
-<?php include 'header/header.php'?>
+<?php include 'includes/header.php'?>
 
 <h1>Gestion des interventions</h1>
 
@@ -35,6 +29,8 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 
 <div id="resultat"></div>
 
+<?php include 'includes/footer.php'?>
+
 <script>
     async function search_intervention(event) {
         event.preventDefault();
@@ -44,6 +40,12 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         const response = await fetch(base + "/gestion_intervention/" + id, {
             method: "GET",
         });
+        if (!response.ok) {
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+        }
         const data = await response.json();
 
         if(data.id == 0 || !data.id) {
@@ -60,7 +62,26 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
             "<a href='modifier_intervention.php?id=" + data.id + "'>Modifier l'intervention</a>";
         }
     }
+
+    async function listIntervention(token) {
+        //Pas de code pour le moment
+    }
+
+    async function init() {
+        const token = localStorage.getItem('token')
+        if (!await loginUser("online", token)) return
+        if (!await adminUser(token)) return
+        listIntervention(token);
+    }
+
+window.addEventListener('pageshow', function(event) {
+if (event.persisted) {
+    window.location.reload();
+}
+});
+
+init()
 </script>
-<?php include 'footer/footer.php'?>
+
 </body>
 </html>

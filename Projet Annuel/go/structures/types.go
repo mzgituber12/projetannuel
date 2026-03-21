@@ -24,8 +24,10 @@ type Contrat struct {
 }
 
 type Conseil struct {
+	ID      int    `json:"id"`
 	Titre   string `json:"titre"`
 	Contenu string `json:"contenu"`
+	Image   string `json:"image"`
 	Date    string `json:"date"`
 }
 
@@ -35,6 +37,7 @@ type Evenement struct {
 	Date        string  `json:"date"`
 	Description string  `json:"description"`
 	Tarif       float64 `json:"tarif"`
+	Image       string  `json:"image"`
 	Rejoindre   string  `json:"rejoindre"`
 }
 
@@ -43,7 +46,24 @@ type Service struct {
 	Nom         string  `json:"nom"`
 	Description string  `json:"description"`
 	Tarif       float64 `json:"tarif"`
+	Image       string  `json:"image"`
+	IdCategorie int     `json:"id_categorie"`
+	Categorie   string  `json:"categorie"`
+	Prestataire string  `json:"prestataire"`
 	Rejoindre   string  `json:"rejoindre"`
+}
+
+type Categorie struct {
+	ID  int    `json:"id"`
+	Nom string `json:"nom"`
+}
+
+type Prestataire struct {
+	ID        int    `json:"id"`
+	Nom       string `json:"nom"`
+	Prenom    string `json:"prenom"`
+	Type      string `json:"type"`
+	Telephone string `json:"telephone"`
 }
 
 type Intervention struct {
@@ -57,7 +77,8 @@ type Intervention struct {
 }
 
 type Article struct {
-	Nom         string  `json:"nom"`
+	ID          int     `json:"id"`
+	Titre       string  `json:"titre"`
 	Description string  `json:"description"`
 	Prix        float64 `json:"prix"`
 }
@@ -75,13 +96,15 @@ type Rdv struct {
 }
 
 type List struct {
-	Contrat     []Contrat   `json:"contrat"`
-	Conseil     []Conseil   `json:"conseil"`
-	Evenement   []Evenement `json:"evenement"`
-	Service     []Service   `json:"service"`
-	Article     []Article   `json:"article"`
-	Contact     []Contact   `json:"contact"`
-	Utilisateur []User      `json:"utilisateur"`
+	Contrat     []Contrat     `json:"contrat"`
+	Conseil     []Conseil     `json:"conseil"`
+	Evenement   []Evenement   `json:"evenement"`
+	Service     []Service     `json:"service"`
+	Categorie   []Categorie   `json:"categorie"`
+	Prestataire []Prestataire `json:"prestataire"`
+	Article     []Article     `json:"article"`
+	Contact     []Contact     `json:"contact"`
+	Utilisateur []User        `json:"utilisateur"`
 }
 
 type Etat struct {

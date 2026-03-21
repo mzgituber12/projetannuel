@@ -19,6 +19,11 @@ func Gestion_user_email(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		if request.Method != http.MethodGet {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
 		email := request.PathValue("email")
 
 		selectstatement, selecterr := database.Prepare("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur WHERE email = ?")
@@ -52,6 +57,11 @@ func Gestion_user_id(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		if request.Method != http.MethodGet {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
 		id := request.PathValue("id")
 
 		selectstatement, selecterr := database.Prepare("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur WHERE id_utilisateur = ?")
@@ -82,6 +92,11 @@ func Modifier_user(database *sql.DB) http.HandlerFunc {
 		response.Header().Set("Access-Control-Allow-Methods", "PATCH, OPTIONS")
 		if request.Method == http.MethodOptions {
 			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		if request.Method != http.MethodPatch {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
 			return
 		}
 
@@ -139,5 +154,92 @@ func Modifier_user(database *sql.DB) http.HandlerFunc {
 			Message: "Utilisateur " + utilisateur.Email + " mis à jour avec succès",
 			Value:   1,
 		})
+	}
+}
+
+func Supprimer_user(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		response.Header().Set("Access-Control-Allow-Methods", "DELETE, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		if request.Method != http.MethodDelete {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
+		id, err := strconv.Atoi(request.PathValue("id"))
+		if err != nil {
+			http.Error(response, "ID invalide", http.StatusBadRequest)
+			return
+		}
+
+		updatestatement, updateerr := database.Prepare("DELETE FROM utilisateur WHERE id_utilisateur = ?")
+		if updateerr != nil {
+			http.Error(response, "Erreur lors de la préparation de la requête de suppression", http.StatusInternalServerError)
+			return
+		}
+		_, updateexecerr := updatestatement.Exec(id)
+		if updateexecerr != nil {
+			http.Error(response, "Erreur lors de la suppression de l'utilisateur", http.StatusInternalServerError)
+			return
+		}
+
+		response.WriteHeader(http.StatusNoContent)
+	}
+}
+
+func List_users(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Token")
+		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		if request.Method != http.MethodGet {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
+		rows, err := database.Query("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur")
+
+		if err != nil {
+			http.Error(response, "Erreur lors de la selection des utilisateurs de la base de données", http.StatusInternalServerError)
+			return
+		} else {
+			var utilisateurs []structures.User
+
+			for rows.Next() {
+				var u structures.User
+
+				err := rows.Scan(&u.ID, &u.Nom, &u.Prenom, &u.Age, &u.Email, &u.Role, &u.Langue)
+				if err != nil {
+					http.Error(response, "Erreur lors de la selection des utilisateurs : "+err.Error(), http.StatusInternalServerError)
+					return
+				}
+
+				utilisateurs = append(utilisateurs, u)
+			}
+			if len(utilisateurs) == 0 {
+				json.NewEncoder(response).Encode(structures.Result{
+					Message: "Aucun utilisateur pour le moment",
+				})
+				return
+			}
+
+			response.WriteHeader(http.StatusOK)
+			response.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(response).Encode(structures.List{
+				Utilisateur: utilisateurs,
+			})
+		}
 	}
 }

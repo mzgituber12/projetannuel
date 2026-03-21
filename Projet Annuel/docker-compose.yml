@@ -23,6 +23,8 @@ services:
     restart: always
     ports:
       - "80:80"
+    volumes:
+      - ./upload:/var/www/html/upload
     depends_on:
       - mariadb
 

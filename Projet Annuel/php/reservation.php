@@ -1,4 +1,4 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<?php include 'header/header.php' ?>
+<?php include 'includes/header.php' ?>
 
 <h1>Réservation</h1>
 
@@ -39,6 +39,40 @@ $prestataire = isset($_GET['prestataire']) ? htmlspecialchars($_GET['prestataire
 
         <button id="joinEvent">Rejoindre cet événement</button>
     </div>
+    <script>
+        async function joinEvent() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Vous devez être connecté pour réserver.');
+                return;
+            }
+
+            const base = (window.API_BASE || 'http://localhost:9000');
+            const response = await fetch(base + '/reservation_evenement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Token': token
+                },
+                body: JSON.stringify({
+                    id_evenement: <?= $id ?>
+                })
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                alert(text);
+                window.location.href = 'erreur.php?code=' + response.status;
+                return;
+            }
+
+            const data = await response.json();
+            await fetch('ajouter_session_state.php', { method: 'POST' });
+            window.location.href = 'catalogue.php?message=' + encodeURIComponent(data.message || 'Réservation confirmée');
+        }
+
+        document.getElementById('joinEvent').addEventListener('click', joinEvent);
+    </script>
 <?php elseif ($type === 'service' && $id > 0) : ?>
     <div>
         <h2>Service : <?= $nom ?></h2>
@@ -192,7 +226,6 @@ $prestataire = isset($_GET['prestataire']) ? htmlspecialchars($_GET['prestataire
                         const slot = slots.find(s => s.type === 'disponible');
                         const startTime = slot.start.split(' ')[1];
                         document.getElementById('hourSelect').value = startTime.split(':')[0];
-                        document.getElementById('minuteSelect').value = startTime.split(':')[1];
                     }
 
                     buildSelectionInfo();
@@ -447,5 +480,6 @@ $prestataire = isset($_GET['prestataire']) ? htmlspecialchars($_GET['prestataire
     <p>Informations manquantes ou invalides.</p>
 <?php endif; ?>
 
+<?php include 'includes/footer.php'; ?>
 </body>
-<?php include 'footer/footer.php'; ?>
+</html>

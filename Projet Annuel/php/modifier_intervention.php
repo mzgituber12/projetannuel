@@ -1,12 +1,23 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
 <script src="admin.js"></script>
-<script>
-adminUser(localStorage.getItem('token')); 
-</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id ="page_title"></title>
+</head>
+<body>
+
+<?php include 'includes/header.php'?>
+<h1 id="admin_title"></h1>
+<h2 id ="admin_err"></h2>
+
+<div id="resultat"></div>
+<?php include 'includes/footer.php'?>
+</body>
+</html>
 
 <script>
     async function updateIntervention(event) {
@@ -25,11 +36,13 @@ adminUser(localStorage.getItem('token'));
                 montant: parseFloat(document.getElementById('intervention_montant').value)
             })
         });
-        if (!response.ok){
+        if (!response.ok) {
             const text = await response.text();
-            document.getElementById("err").innerHTML = text;
-            return;
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
         }
+
         const data = await response.json();
         if (data.value == 1) {
             await fetch("ajouter_session_state.php", {method: "POST"});
@@ -44,6 +57,14 @@ adminUser(localStorage.getItem('token'));
         const response = await fetch(base + "/gestion_intervention/" + <?php echo json_encode($_GET["id"]); ?>, {
             method: "GET",
         });
+
+        if (!response.ok) {
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+        }
+
         const data = await response.json();
 
         document.getElementById("page_title").innerHTML = "Modifier l'intervention " + data.id;
@@ -72,23 +93,18 @@ adminUser(localStorage.getItem('token'));
             `;
             }
         }
-    search_intervention();
+    
+    async function init(){
+        const token = localStorage.getItem("token")
+        if (!await loginUser("online", token)) return
+        if (!await adminUser(token)) return
+        search_intervention();
+    }
+
+window.addEventListener('pageshow', function(event) {
+if (event.persisted) {
+    window.location.reload();
+}
+});
+init()
 </script>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title id ="page_title"></title>
-</head>
-<body>
-
-<?php include 'header/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id ="admin_err"></h2>
-
-<div id="resultat"></div>
-<div id="error"></div>
-<?php include 'footer/footer.php'?>
-</body>
-</html>

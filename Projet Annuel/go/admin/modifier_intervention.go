@@ -18,6 +18,11 @@ func Gestion_intervention_id(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		if request.Method != http.MethodGet {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
 		id := request.PathValue("id")
 
 		selectstatement, selecterr := database.Prepare("SELECT id_intervention, id_service, id_prestataire, id_utilisateur, date, statut, montant FROM intervention WHERE id_intervention = ?")
@@ -28,6 +33,7 @@ func Gestion_intervention_id(database *sql.DB) http.HandlerFunc {
 		var interv structures.Intervention
 		selectstatement.QueryRow(id).Scan(&interv.ID, &interv.IdService, &interv.IdPrestataire, &interv.IdUtilisateur, &interv.Date, &interv.Statut, &interv.Montant)
 
+		response.WriteHeader(http.StatusOK)
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Intervention{
 			ID:            interv.ID,
@@ -48,6 +54,11 @@ func Modifier_intervention(database *sql.DB) http.HandlerFunc {
 		response.Header().Set("Access-Control-Allow-Methods", "PATCH, OPTIONS")
 		if request.Method == http.MethodOptions {
 			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		if request.Method != http.MethodPatch {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
 			return
 		}
 
@@ -75,6 +86,7 @@ func Modifier_intervention(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		response.WriteHeader(http.StatusOK)
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Result{
 			Message: "Intervention " + strconv.Itoa(id) + " mise à jour avec succès",

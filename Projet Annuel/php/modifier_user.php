@@ -1,4 +1,4 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 <script src="admin.js"></script>
 
@@ -10,12 +10,12 @@
 </head>
 <body>
 
-<?php include 'header/header.php'?>
+<?php include 'includes/header.php'?>
 <h1 id="admin_title"></h1>
 <h2 id ="admin_err"></h2>
 
 <div id="resultat"></div>
-<?php include 'footer/footer.php'?>
+<?php include 'includes/footer.php'?>
 
 <script>
     async function updateUser(event) {
@@ -76,17 +76,17 @@
             <label>ID :</label>
             <input type="number" name="id" id="user_id" value="${data.id}" readonly> Pas modifiable <br><br>
             <label>Nom :</label>
-            <input type="text" name="nom" id="user_nom" value="${data.nom}"><br><br>
+            <input type="text" name="nom" id="user_nom" value="${data.nom}" required><br><br>
             <label>Prénom :</label>
-            <input type="text" name="prenom" id="user_prenom" value="${data.prenom}"><br><br>
+            <input type="text" name="prenom" id="user_prenom" value="${data.prenom}" required><br><br>
             <label>Âge :</label>
-            <input type="number" name="age" id="user_age" value="${data.age}"><br><br>
+            <input type="number" name="age" id="user_age" value="${data.age}" required><br><br>
             <label>Email :</label>
-            <input type="email" name="email" id="user_email" value="${data.email}"><br><br>
+            <input type="email" name="email" id="user_email" value="${data.email}" required><br><br>
             <label>Role :</label>
-            <input type="text" name="role" id="user_role" value="${data.role}"><br><br>
+            <input type="text" name="role" id="user_role" value="${data.role}" required><br><br>
             <label>Langue :</label>
-            <input type="text" name="langue" id="user_langue" value="${data.langue}"><br><br>
+            <input type="text" name="langue" id="user_langue" value="${data.langue}" required><br><br>
             <button type = "submit">Confirmer les modifications</button>
             </form>
             `;

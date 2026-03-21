@@ -14,3 +14,4 @@ async function adminUser(token) {
 
     return true
 }
+

@@ -1,4 +1,4 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 <script src="admin.js"></script>
 
@@ -10,12 +10,12 @@
 </head>
 <body>
 
-<?php include 'header/header.php'?>
+<?php include 'includes/header.php'?>
 <h1 id="admin_title"></h1>
 <h2 id ="admin_err"></h2>
 
 <div id="resultat"></div>
-<?php include 'footer/footer.php'?>
+<?php include 'includes/footer.php'?>
 
 <script>
     async function updateEvenement(event) {
@@ -73,13 +73,13 @@
             <label>ID :</label>
             <input type="number" name="id" id="event_id" value="${data.id}" readonly> Pas modifiable <br><br>
             <label>Nom :</label>
-            <input type="text" name="nom" id="event_nom" value="${data.nom}"><br><br>
+            <input type="text" name="nom" id="event_nom" value="${data.nom}" required><br><br>
             <label>Date :</label>
             <input type="datetime-local" step="60" name="date" id="event_date" value="${data.date}"><br><br>
             <label>Description :</label>
-            <input type="text" name="description" id="event_description" value="${data.description}"><br><br>
+            <textarea name="description" id="event_description" required>${data.description}</textarea><br><br>
             <label>Tarif :</label>
-            <input type="number" name="tarif" id="event_tarif" value="${data.tarif}"><br><br>
+            <input type="number" name="tarif" id="event_tarif" value="${data.tarif}" required><br><br>
             <button type = "submit">Confirmer les modifications</button>
             </form>
             `;

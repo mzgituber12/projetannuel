@@ -1,4 +1,4 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<?php include 'header/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <h1> Contactez Nous </h1>
 <h2 id="geturl"></h2>
@@ -20,7 +20,7 @@
     <button type="submit">Envoyer</button>
 </form>
 
-<?php include 'footer/footer.php';?>
+<?php include 'includes/footer.php';?>
 
 <script> async function submit_ask(event, token) {
     event.preventDefault();

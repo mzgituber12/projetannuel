@@ -1,0 +1,158 @@
+<?php session_start();
+include 'includes/api_config.php';
+include 'includes/header.php'?>
+
+<script src="online.js"></script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Profil</title>
+</head>
+<body>
+
+<h2>Votre profil </h2>
+
+<h2 id="status"></h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <div class="mb-3 position-relative">
+            <label for="Email" class="form-label">Email</label>
+            <div class="d-flex">
+                <input type="email" class="form-control me-2" id="email">
+                <button type="button" class="btn btn-danger" onclick="update_profil('email')">Modifier</button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="Mot de passe" class="form-label">Mot de passe</label>
+            <div class="d-flex">
+                <input type="password" class="form-control" id="password" >
+                <button type="button" class="btn btn-danger" onclick="update_profil('password')">Modifier</button>
+            </div>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="checkmdp">
+            <label class="form-check-label" for="checkmdp">Voir</label>
+        </div>
+        <script> 
+        const champs = document.getElementById("password")
+        const check = document.getElementById("checkmdp")
+        
+        check.addEventListener("change", function() {
+            if (this.checked)
+                champs.type = "text"
+            else champs.type = "password"
+        });
+        </script>
+
+        <div class="mb-3">
+            <label for="Prénom" class="form-label">Prénom</label>
+            <div class="d-flex">
+                <input type="text" class="form-control" id="prenom" >
+                <button type="button" class="btn btn-danger" onclick="update_profil('prenom')">Modifier</button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="Nom" class="form-label">Nom</label>
+            <div class="d-flex">
+                <input type="text" class="form-control" id="nom" >
+                <button type="button" class="btn btn-danger" onclick="update_profil('nom')">Modifier</button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="Age" class="form-label">Age</label>
+            <div class="d-flex">
+                <input type="number" class="form-control" id="age" >
+                <button type="button" class="btn btn-danger" onclick="update_profil('age')">Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<?php include 'includes/footer.php'?>
+
+<script>
+
+    let profil_state = 0
+
+    async function afficher_profil() {
+
+        const token = localStorage.getItem("token");
+        
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const response = await fetch(base + "/mon_profil", {
+        method: "GET",
+        headers: {"Token": token},
+        });
+
+        if (!response.ok){
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return;
+        }
+        
+        const data = await response.json();
+         document.getElementById("email").placeholder = data.email
+         document.getElementById("prenom").placeholder = data.prenom
+         document.getElementById("nom").placeholder = data.nom
+         document.getElementById("age").placeholder = data.age
+
+         if (profil_state == 1){
+            profil_state == 0
+            document.getElementById("status").innerHTML = "Profil modifié avec succes"
+         }
+}
+
+async function update_profil(update) {
+
+    if (!document.getElementById(update).checkValidity()) {
+        document.getElementById("status").innerHTML = "Veuillez entrer un email valide";
+        return;
+    }
+    const champ = update
+    const value_champ = document.getElementById(update).value;
+    const token = localStorage.getItem("token");
+
+    const base = (window.API_BASE || 'http://localhost:9000');
+    const response = await fetch(base + "/update_profil", {
+            method: "POST",
+            headers: {
+                "Token": token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({champ: champ, value: value_champ })
+        });
+    if (!response.ok){
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return;
+        }
+    const data = await response.json();
+    if (data.message != "Profil modifié avec succes"){
+        document.getElementById("status").innerHTML = data.message
+        return
+    }
+    profil_state = 1
+    afficher_profil()
+}
+
+async function init(){
+        const token = localStorage.getItem("token")
+        loginUser("online", token)
+        afficher_profil()
+    }
+
+init()
+
+</script>

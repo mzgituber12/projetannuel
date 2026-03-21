@@ -18,6 +18,11 @@ func Gestion_contact(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		if request.Method != http.MethodGet {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
 		rows, err := database.Query("SELECT u.email, c.contenu from contact c join utilisateur u on c.id_utilisateur = u.id_utilisateur order by c.id_contact DESC")
 		if err != nil {
 			http.Error(response, "Erreur lors de la récupération des contacts", http.StatusInternalServerError)

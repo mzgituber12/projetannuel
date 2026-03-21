@@ -12,6 +12,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "modernc.org/sqlite"
+	_ "time/tzdata"
 )
 
 func main() {
@@ -25,15 +26,31 @@ func main() {
 	http.HandleFunc("/deconnexion", authentification.Deconnexion(db))
 	http.HandleFunc("/enligne", authentification.Enligne(db))
 
+	http.HandleFunc("/mon_profil", mon_profil(db))
+	http.HandleFunc("/update_profil", update_profil(db))
+	http.HandleFunc("/abonnement", abonnement(db))
+
 	http.HandleFunc("/nous_contacter", nous_contacter(db))
 
 	http.HandleFunc("/contrats", ressources.Contrats(db))
 	http.HandleFunc("/conseils", ressources.Conseils(db))
+	http.HandleFunc("/conseils/{id}", ressources.Conseil_id(db))
 	http.HandleFunc("/evenements", ressources.Evenements(db))
 	http.HandleFunc("/evenements/{id}", ressources.Evenements_patch(db))
 	http.HandleFunc("/services", ressources.Services(db))
 	http.HandleFunc("/services/{id}", ressources.Services_patch(db))
+	http.HandleFunc("/categories", ressources.Categories(db))
+	http.HandleFunc("/prestataires", ressources.Prestataires(db))
 	http.HandleFunc("/articles", ressources.Articles(db))
+	http.HandleFunc("/articles/{id}", ressources.Article_id(db))
+	http.HandleFunc("/panier_article", ressources.Ajouter_panier_article(db))
+	http.HandleFunc("/panier_article/{id}", ressources.Etat_panier_article(db))
+	http.HandleFunc("/panier_article_toggle", ressources.Basculer_panier_article(db))
+	http.HandleFunc("/panier_articles", ressources.Panier_articles(db))
+	http.HandleFunc("/create-order", ressources.Create_order(db))
+	http.HandleFunc("/create-checkout-session", ressources.Create_checkout_session(db))
+	http.HandleFunc("/webhook", ressources.Webhook_paiement(db))
+	http.HandleFunc("/invoice/{id}", ressources.Invoice_achat(db))
 	http.HandleFunc("/planning_evenements", ressources.Planning_evenements(db))
 	http.HandleFunc("/planning_services", ressources.Planning_services(db))
 	http.HandleFunc("/planning_rdv", ressources.Planning_rdv(db))
@@ -42,19 +59,45 @@ func main() {
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
 
 	http.HandleFunc("/admin", admin.Estadmin(db))
-	http.HandleFunc("/users", admin.Users(db))
+	
+	http.HandleFunc("/list_users", admin.List_users(db))
 	http.HandleFunc("/gestion_user_email/{email}", admin.Gestion_user_email(db))
 	http.HandleFunc("/gestion_user_id/{id}", admin.Gestion_user_id(db))
 	http.HandleFunc("/modifier_user/{id}", admin.Modifier_user(db))
+	http.HandleFunc("/supprimer_user/{id}", admin.Supprimer_user(db))
+
+	http.HandleFunc("/list_evenements", admin.List_evenements(db))
+	http.HandleFunc("/creer_evenement", admin.Creer_evenement(db))
 	http.HandleFunc("/gestion_evenement_nom/{nom}", admin.Gestion_evenement_nom(db))
 	http.HandleFunc("/gestion_evenement_id/{id}", admin.Gestion_evenement_id(db))
 	http.HandleFunc("/modifier_evenement/{id}", admin.Modifier_evenement(db))
+	http.HandleFunc("/supprimer_evenement/{id}", admin.Supprimer_evenement(db))
+
+	http.HandleFunc("/list_services", admin.List_services(db))
+	http.HandleFunc("/creer_service", admin.Creer_service(db))
 	http.HandleFunc("/gestion_service/{nom}", admin.Gestion_service_nom(db))
 	http.HandleFunc("/gestion_service_id/{id}", admin.Gestion_service_id(db))
 	http.HandleFunc("/modifier_service/{id}", admin.Modifier_service(db))
+	http.HandleFunc("/supprimer_service/{id}", admin.Supprimer_service(db))
+
+	http.HandleFunc("/list_articles", admin.List_articles(db))
+	http.HandleFunc("/creer_article", admin.Creer_article(db))
+	http.HandleFunc("/gestion_article/{nom}", admin.Gestion_article_nom(db))
+	http.HandleFunc("/gestion_article_id/{id}", admin.Gestion_article_id(db))
+	http.HandleFunc("/modifier_article/{id}", admin.Modifier_article(db))
+	http.HandleFunc("/supprimer_article/{id}", admin.Supprimer_article(db))
+
 	http.HandleFunc("/gestion_intervention/{id}", admin.Gestion_intervention_id(db))
 	http.HandleFunc("/modifier_intervention/{id}", admin.Modifier_intervention(db))
+
 	http.HandleFunc("/gestion_contact", admin.Gestion_contact(db))
+
+	http.HandleFunc("/gestion_conseils", admin.Gestion_conseils(db))
+	http.HandleFunc("/gestion_conseil/{titre}", admin.Gestion_conseil_nom(db))
+	http.HandleFunc("/gestion_conseil_id/{id}", admin.Gestion_conseil_id(db))
+	http.HandleFunc("/creer_conseil", admin.Creer_conseil(db))
+	http.HandleFunc("/modifier_conseil/{id}", admin.Modifier_conseil(db))
+	http.HandleFunc("/supprimer_conseil/{id}", admin.Supprimer_conseil(db))
 
 	fmt.Println("Ouverture du serveur sur le port 9000...")
 	listenError := http.ListenAndServe(":9000", nil)

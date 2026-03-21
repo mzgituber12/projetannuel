@@ -23,21 +23,93 @@ func Services(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_service, nom, description, tarif FROM service")
+		searchText := strings.TrimSpace(request.URL.Query().Get("q"))
+		categoryFilter := strings.TrimSpace(request.URL.Query().Get("categorie"))
+		prestataireFilter := strings.TrimSpace(request.URL.Query().Get("prestataire"))
+		minTarif := strings.TrimSpace(request.URL.Query().Get("min_tarif"))
+		maxTarif := strings.TrimSpace(request.URL.Query().Get("max_tarif"))
+
+		query := "SELECT " +
+			"s.id_service, " +
+			"s.nom, " +
+			"s.description, " +
+			"s.tarif, " +
+			"s.id_categorie, " +
+			"c.nom AS categorie_nom, " +
+			"CONCAT(u.prenom, ' ', u.nom) AS prestataire_nom " +
+			"FROM service s " +
+			"LEFT JOIN categorie c ON c.id_categorie = s.id_categorie " +
+			"LEFT JOIN prestataire p ON p.id_prestataire = s.id_prestataire " +
+			"LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur " +
+			"WHERE 1 = 1"
+
+		args := make([]any, 0)
+
+		if searchText != "" {
+			query += " AND (s.nom LIKE ? OR s.description LIKE ? OR c.nom LIKE ?)"
+			like := "%" + searchText + "%"
+			args = append(args, like, like, like)
+		}
+
+		if categoryFilter != "" {
+			query += " AND (c.nom = ? OR s.id_categorie = ?)"
+			args = append(args, categoryFilter, categoryFilter)
+		}
+
+		if prestataireFilter != "" {
+			query += " AND CONCAT(u.prenom, ' ', u.nom) LIKE ?"
+			args = append(args, "%"+prestataireFilter+"%")
+		}
+
+		if minTarif != "" {
+			query += " AND s.tarif >= ?"
+			args = append(args, minTarif)
+		}
+
+		if maxTarif != "" {
+			query += " AND s.tarif <= ?"
+			args = append(args, maxTarif)
+		}
+
+		query += " ORDER BY s.nom"
+
+		rows, err := database.Query(query, args...)
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des services de la base de données", http.StatusInternalServerError)
 			return
 		} else {
+			defer rows.Close()
 			var services []structures.Service
 
 			for rows.Next() {
 				var s structures.Service
 				var id int
+				var idCategorie sql.NullInt64
+				var categorieNom sql.NullString
+				var prestataireNom sql.NullString
 
-				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif)
+				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &idCategorie, &categorieNom, &prestataireNom)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des services : "+err.Error(), http.StatusInternalServerError)
 					return
+				}
+
+				if idCategorie.Valid {
+					s.IdCategorie = int(idCategorie.Int64)
+				} else {
+					s.IdCategorie = 0
+				}
+
+				if categorieNom.Valid {
+					s.Categorie = categorieNom.String
+				} else {
+					s.Categorie = ""
+				}
+
+				if prestataireNom.Valid {
+					s.Prestataire = prestataireNom.String
+				} else {
+					s.Prestataire = ""
 				}
 				var rej int
 				auth := request.Header.Get("Token")
@@ -344,10 +416,7 @@ func Reservation_service(database *sql.DB) http.HandlerFunc {
 		end := start.Add(time.Hour)
 
 		var count int
-		err = database.QueryRow(
-			"SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?",
-			idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00"),
-		).Scan(&count)
+		err = database.QueryRow("SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?", idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00")).Scan(&count)
 		if err != nil {
 			http.Error(response, "Erreur lors de la vérification des disponibilités", http.StatusInternalServerError)
 			return

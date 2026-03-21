@@ -1,4 +1,4 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 <script src="admin.js"></script>
 
@@ -10,13 +10,13 @@
 </head>
 <body>
 
-<?php include 'header/header.php'?>
+<?php include 'includes/header.php'?>
 
 <h1>Gestion des contacts</h1>
 
 <div id="resultat"></div>
 
-<?php include 'footer/footer.php'?>
+<?php include 'includes/footer.php'?>
 
 <script>
     async function list_msgcontact() {

@@ -1,12 +1,21 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
 <script src="admin.js"></script>
-<script>
-adminUser(localStorage.getItem('token')); 
-</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id ="page_title"></title>
+</head>
+<body>
+
+<?php include 'includes/header.php'?>
+<h1 id="admin_title"></h1>
+<h2 id ="admin_err"></h2>
+
+<div id="resultat"></div>
+<?php include 'includes/footer.php'?>
 
 <script>
     async function updateService(event) {
@@ -24,7 +33,8 @@ adminUser(localStorage.getItem('token'));
         });
         if (!response.ok){
             const text = await response.text();
-            document.getElementById("err").innerHTML = text;
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
             return;
         }
         const data = await response.json();
@@ -41,45 +51,50 @@ adminUser(localStorage.getItem('token'));
         const response = await fetch(base + "/gestion_service_id/" + <?php echo json_encode($_GET["id"]); ?>, {
             method: "GET",
         });
+        if (!response.ok){
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return;
+        }
         const data = await response.json();
 
         document.getElementById("page_title").innerHTML = "Modifier le service " + data.nom;
         document.getElementById('admin_title').innerHTML = "Modification du service " + data.nom;
         if(data.id == 0 || !data.id) {
-            document.getElementById("resultat").innerHTML = "Aucun service trouvÃ©";
+            document.getElementById("resultat").innerHTML = "Aucun service trouvé";
         } else {
             document.getElementById("resultat").innerHTML = `
             <form onsubmit="updateService(event)">
             <label>ID :</label>
             <input type="number" name="id" id="service_id" value="${data.id}" readonly> Pas modifiable <br><br>
             <label>Nom :</label>
-            <input type="text" name="nom" id="service_nom" value="${data.nom}"><br><br>
+            <input type="text" name="nom" id="service_nom" value="${data.nom}" required><br><br>
             <label>Description :</label>
-            <textarea name="description" id="service_description">${data.description}</textarea><br><br>
+            <textarea name="description" id="service_description" required>${data.description}</textarea><br><br>
             <label>Tarif :</label>
-            <input type="number" name="tarif" id="service_tarif" value="${data.tarif}" step="0.01"><br><br>
+            <input type="number" name="tarif" id="service_tarif" value="${data.tarif}" step="0.01" required><br><br>
             <button type = "submit">Confirmer les modifications</button>
             </form>
             `;
             }
         }
-    search_service();
+
+    async function init(){
+        const token = localStorage.getItem("token")
+        if (!await loginUser("online", token)) return
+        if (!await adminUser(token)) return
+        search_service();
+    }
+
+window.addEventListener('pageshow', function(event) {
+if (event.persisted) {
+    window.location.reload();
+}
+});
+init()
+    
 </script>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title id ="page_title"></title>
-</head>
-<body>
-
-<?php include 'header/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id ="admin_err"></h2>
-
-<div id="resultat"></div>
-<div id="error"></div>
-<?php include 'footer/footer.php'?>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<?php session_start(); include 'api_config.php'; ?>
+<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<?php include 'header/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
@@ -33,7 +33,7 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-<?php include 'footer/footer.php';?>
+<?php include('includes/footer.php') ?>
 
 <script>
 async function signinUser(email, password) {
