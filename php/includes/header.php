@@ -24,9 +24,9 @@ async function headerUser(token) {
     const data = await response.json();
 
     if (data.message == "Identifié"){
-        document.getElementById("header").innerHTML = "<a href='index.php'>Accueil</a> | <a href='deconnexion.php'>Déconnexion</a>";
+        document.getElementById("header").innerHTML = "<a href='index.php'>Accueil</a> | <a href='deconnexion.php'>Déconnexion</a> | <a href='mon_profil.php'>Mon profil</a>";
         if (data.role == "adherant"){
-            document.getElementById("header").innerHTML += " | <a href='contrats.php'>Contrats</a> | <a href='conseils.php'>Conseils</a>  | <a href='catalogue.php'>Catalogue</a> | <a href='devis.php'>Devis</a>  | <a href='planning.php'>Planning</a>  | <a href='rendez_vous.php'>Rendez Vous</a>  | <a href='messagerie.php'>Messagerie</a>";
+            document.getElementById("header").innerHTML += " | <a href='abonnement.php'>S'abonner</a> | <a href='contrats.php'>Contrats</a> | <a href='conseils.php'>Conseils</a>  | <a href='catalogue.php'>Catalogue</a> | <a href='devis.php'>Devis</a>  | <a href='planning.php'>Planning</a>  | <a href='rendez_vous.php'>Rendez Vous</a>  | <a href='messagerie.php'>Messagerie</a>";
         } else if (data.role == "prestataire"){
             document.getElementById("header").innerHTML += " | <a href='suivi.php'>Suivi des prestations</a> | <a href='validations.php'>Validations</a>  | <a href='calendrier.php'>Calendrier</a> | <a href='interventions.php'>Interventions</a>  | <a href='factures.php'>Factures</a>  | <a href='rendez_vous.php'>Rendez Vous</a>  | <a href='messagerie.php'>Messagerie</a>";
         } else if (data.role == "admin"){

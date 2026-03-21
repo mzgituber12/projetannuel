@@ -19,11 +19,6 @@ func Planning_evenements(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		if request.Method != http.MethodGet {
-			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
-			return
-		}
-
 		token := request.Header.Get("Token")
 
 		sel, err := database.Prepare("SELECT e.nom, e.date, e.description, e.tarif FROM evenement e JOIN reference_evenement r on e.id_evenement = r.id_evenement JOIN utilisateur u on r.id_utilisateur = u.id_utilisateur WHERE token = ?")
@@ -55,8 +50,6 @@ func Planning_evenements(database *sql.DB) http.HandlerFunc {
 				})
 				return
 			}
-
-			response.WriteHeader(http.StatusOK)
 			response.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(response).Encode(structures.List{
 				Evenement: evenements,
@@ -78,7 +71,7 @@ func Planning_services(database *sql.DB) http.HandlerFunc {
 
 		token := request.Header.Get("Token")
 
-		sel, err := database.Prepare("SELECT s.nom, s.description, s.tarif FROM service s JOIN reference_service r on s.id_service = r.id_service JOIN utilisateur u on r.id_utilisateur = u.id_utilisateur WHERE token = ?")
+		sel, err := database.Prepare("SELECT s.nom, s.description, s.tarif FROM service s JOIN intervention i on s.id_service = i.id_service JOIN utilisateur u on i.id_utilisateur = u.id_utilisateur WHERE token = ?")
 		if err != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête des services", http.StatusInternalServerError)
 			return
@@ -107,12 +100,47 @@ func Planning_services(database *sql.DB) http.HandlerFunc {
 				})
 				return
 			}
-
-			response.WriteHeader(http.StatusOK)
 			response.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(response).Encode(structures.List{
 				Service: services,
 			})
 		}
+	}
+}
+
+func Planning_rdv(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		sel, err := database.Prepare("SELECT id_rdv, date_debut, date_fin, type FROM rendez_vous")
+		if err != nil {
+			http.Error(response, "Erreur lors de la préparation de la requête des rendez-vous", http.StatusInternalServerError)
+			return
+		}
+
+		rows, err := sel.Query()
+		if err != nil {
+			http.Error(response, "Erreur lors de la lecture des rendez-vous", http.StatusInternalServerError)
+			return
+		}
+
+		var events []structures.Rdv
+		for rows.Next() {
+			var e structures.Rdv
+			if err := rows.Scan(&e.ID, &e.Start, &e.End, &e.Title); err != nil {
+				http.Error(response, "Erreur lors du scan des rendez-vous", http.StatusInternalServerError)
+				return
+			}
+			events = append(events, e)
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(events)
 	}
 }

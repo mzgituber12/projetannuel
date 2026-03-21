@@ -5,7 +5,134 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Conseil</title>
+    <title>Catalogue</title>
+    <style>
+        .catalogue-big-group {
+            border: 1px solid rgba(0,0,0,.12);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background: #a19797;
+        }
+
+        .catalogue-big-group > h2 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .catalogue-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: flex-start;
+        }
+        .catalogue-title {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem auto;  
+            justify-content: center;
+            background: #6279fe;
+            max-width: 250px;
+            max-height: 100px;
+            min-width: 220px;
+            border-radius: 90%;
+        }
+
+        .catalogue-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+            width: 260px;
+            min-height: 260px;
+        }
+
+        .catalogue-card .card-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 130px;
+            background: linear-gradient(135deg, #eef2ff 0%, #d3e2ff 100%);
+            color: #4b5563;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .catalogue-card .card-body {
+            padding: 0.75rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .catalogue-card .card-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        .catalogue-card .card-desc {
+            margin: 0;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .catalogue-card .card-meta {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .catalogue-card .card-action {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .catalogue-card button {
+            padding: 0.5rem 0.9rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .catalogue-card button:hover {
+            background: #1d4ed8;
+        }
+
+        .button-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.5rem 0.9rem;
+            border-radius: 4px;
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .button-link:hover {
+            background: #1d4ed8;
+        }
+
+        .catalogue-card button.btn-leave {
+            background: #dc2626;
+        }
+
+        .catalogue-card button.btn-leave:hover {
+            background: #b91c1c;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,15 +145,19 @@
     unset($_SESSION['state']);
 }
 ?>
-
-<h2> Evenements </h2>
-<div id = "evenements"></div>
-
-<h2> Services </h2>
-<div id = "services"></div>
-
-<h2> Article </h2>
-<div id = "articles"></div>
+<h2 class="catalogue-title" >Evenements</h2>
+<div class="catalogue-big-group">
+    
+    <div id="evenements" class="catalogue-group"></div>
+</div>
+<h2 class="catalogue-title" >Services</h2>
+<div class="catalogue-big-group">
+    <div id="services" class="catalogue-group"></div>
+</div>
+<h2 class="catalogue-title" >Articles</h2>
+<div class="catalogue-big-group">
+    <div id="articles" class="catalogue-group"></div>
+</div>
 
 <?php include 'includes/footer.php'; ?>
 
@@ -75,17 +206,27 @@ async function listCatalogue(token) {
     if (evenement_list.message){
         evenement.innerHTML = evenement_list.message
     } else {
-        let html = "<table border = 1><tr><th>Nom de l'événement</th><th>Description</th><th>Date de l'événement</th><th></th></tr>";
-        evenement_list.evenement.forEach(evenement => {
-            if (evenement.rejoindre == "Rejoindre") {
-                click = "<a onclick=\"updateUserEvent('" + localStorage.getItem('token') + "', 'evenements', 'join', " + evenement.id + ")\">" + evenement.rejoindre + "</a>"
-            } else {
-                click = "<a onclick=\"updateUserEvent('" + localStorage.getItem('token') + "', 'evenements', 'leave'," + evenement.id + ")\">" + evenement.rejoindre + "</a>"
-            }
-            rej = '<button>' + click + '</button>'
-            html += "<tr><td>" + evenement.nom + "</td><td>" + evenement.description + "</td><td>" + evenement.date + "</td><td>" + rej + "</td></tr>"
+        let html = '';
+        evenement_list.evenement.forEach(e => {
+            const actionLabel = e.rejoindre === "Rejoindre" ? "Rejoindre" : "Quitter";
+            const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}`;
+            const btnClass = e.rejoindre === "Quitter" ? "btn-leave" : "";
+            const action = e.rejoindre === "Rejoindre" ?
+                `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
+                `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'evenements', 'leave', ${e.id})">${actionLabel}</button>`;
+
+            html += `
+                <div class="catalogue-card">
+                    <div class="card-img">Image</div>
+                    <div class="card-body">
+                        <div class="card-title">${e.nom}</div>
+                        <div class="card-desc">${e.description}</div>
+                        <div class="card-meta">${e.date}</div>
+                        <div class="card-action">${action}</div>
+                    </div>
+                </div>
+            `;
         });
-        html += "</table>";
         evenement.innerHTML = html;
     }
 
@@ -95,20 +236,30 @@ async function listCatalogue(token) {
     if (service_list.message){
         service.innerHTML = service_list.message
     } else {
-        let html = "<table border = 1><tr><th>Nom du service</th><th>Description</th><th>Tarif</th><th></th></tr>";
-        service_list.service.forEach(service => {
-            if (service.rejoindre == "Rejoindre") {
-                click = "<a onclick=\"updateUserEvent('" + localStorage.getItem('token') + "', 'services', 'join'," + service.id + ")\">" + service.rejoindre + "</a>"
-                rej = '<button>' + click + '</button>'
-            } else if (service.rejoindre == "Quitter") {
-                click = "<a onclick=\"updateUserEvent('" + localStorage.getItem('token') + "', 'services', 'leave'," + service.id + ")\">" + service.rejoindre + "</a>"
-                rej = '<button>' + click + '</button>'
-            } else {
-                rej = service.rejoindre
-            }
-            html += "<tr><td>" + service.nom + "</td><td>" + service.description + "</td><td>" + service.tarif + " €</td><td>" + rej + "</td></tr>"
+        
+
+        let html = '';
+        service_list.service.forEach(s => {
+            const actionLabel = s.rejoindre === "Rejoindre" ? "Réserver" : (s.rejoindre === "Quitter" ? "Annuler" : "Indisponible");
+            const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&tarif=${encodeURIComponent(s.tarif)}`;
+            const btnClass = s.rejoindre === "Quitter" ? "btn-leave" : "";
+            const actionState = s.rejoindre === "Quitter" ? "leave" : "join";
+            const action = s.rejoindre === "Rejoindre" ?
+                `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
+                `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'services', '${actionState}', ${s.id})">${actionLabel}</button>`;
+
+            html += `
+                <div class="catalogue-card">
+                    <div class="card-img">Image</div>
+                    <div class="card-body">
+                        <div class="card-title">${s.nom}</div>
+                        <div class="card-desc">${s.description}</div>
+                        <div class="card-meta">${s.tarif} €</div>
+                        <div class="card-action">${action}</div>
+                    </div>
+                </div>
+            `;
         });
-        html += "</table>";
         service.innerHTML = html;
     }
 
@@ -118,11 +269,20 @@ async function listCatalogue(token) {
     if (article_list.message){
         article.innerHTML = article_list.message
     } else {
-        let html = "<table border = 1><tr><th>Nom de l'article</th><th>Description</th><th>Prix</td></tr>";
-        article_list.article.forEach(article => {
-            html += "<tr><td>" + article.titre + "</td><td>" + article.description + "</td><td>" + article.prix + " €</td></tr>"
+        let html = '';
+
+        article_list.article.forEach(a => {
+            html += `
+                <div class="catalogue-card">
+                    <div class="card-img">Image</div>
+                    <div class="card-body">
+                        <div class="card-title">${a.titre}</div>
+                        <div class="card-desc">${a.description}</div>
+                        <div class="card-meta">${a.prix} €</div>
+                    </div>
+                </div>
+            `;
         });
-        html += "</table>";
         article.innerHTML = html;
     }
 }
@@ -158,3 +318,4 @@ async function init() {
 init()
 </script>
 </html>
+

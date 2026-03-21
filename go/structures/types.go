@@ -68,6 +68,13 @@ type Contact struct {
 	Email   string `json:"email"`
 }
 
+type Rdv struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Start string `json:"start"`
+	End   string `json:"end"`
+}
+
 type List struct {
 	Contrat     []Contrat   `json:"contrat"`
 	Conseil     []Conseil   `json:"conseil"`

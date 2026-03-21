@@ -4,9 +4,9 @@
 
 #### D'abord
 
-* docker-compose down (pas obligatoire mais a préférer en cas de bug)
+* CTRL C + Entrée 
 * docker-compose build 
-* docker-compose up -d 
+* docker-compose up -d
 
 #### Ensuite :
 
@@ -37,3 +37,7 @@
 #### Bug de javascript (le javascript ne s'actualise pas)
 
 * CTRL + F5
+
+## Erreurs à corriger
+
+Reservation.php -> impossible de réserver un evenement

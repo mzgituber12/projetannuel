@@ -27,6 +27,10 @@ func main() {
 	http.HandleFunc("/admin", admin.Estadmin(db))
 	http.HandleFunc("/nous_contacter", nous_contacter(db))
 
+	http.HandleFunc("/mon_profil", mon_profil(db))
+	http.HandleFunc("/update_profil", update_profil(db))
+	http.HandleFunc("/abonnement", abonnement(db))
+
 	http.HandleFunc("/contrats", ressources.Contrats(db))
 	http.HandleFunc("/conseils", ressources.Conseils(db))
 	http.HandleFunc("/evenements", ressources.Evenements(db))
@@ -37,6 +41,10 @@ func main() {
 
 	http.HandleFunc("/planning_evenements", ressources.Planning_evenements(db))
 	http.HandleFunc("/planning_services", ressources.Planning_services(db))
+	http.HandleFunc("/planning_rdv", ressources.Planning_rdv(db))
+	http.HandleFunc("/reservation_evenement", ressources.Reservation_evenement(db))
+	http.HandleFunc("/service_disponible", ressources.Service_disponible(db))
+	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
 
 	http.HandleFunc("/list_users", admin.List_users(db))
 	http.HandleFunc("/gestion_user_email/{email}", admin.Gestion_user_email(db))
