@@ -34,7 +34,7 @@ func Articles(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_article, titre, description, prix FROM article")
+		rows, err := database.Query("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article")
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des articles de la base de données", http.StatusInternalServerError)
 			return
@@ -44,7 +44,7 @@ func Articles(database *sql.DB) http.HandlerFunc {
 			for rows.Next() {
 				var a structures.Article
 
-				err := rows.Scan(&a.ID, &a.Titre, &a.Description, &a.Prix)
+				err := rows.Scan(&a.ID, &a.Titre, &a.Image, &a.Description, &a.Prix)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des articles : "+err.Error(), http.StatusInternalServerError)
 					return
@@ -77,14 +77,14 @@ func Article_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectStatement, selectErr := database.Prepare("SELECT id_article, titre, description, prix FROM article WHERE id_article = ? LIMIT 1")
+		selectStatement, selectErr := database.Prepare("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article WHERE id_article = ? LIMIT 1")
 		if selectErr != nil {
 			http.Error(response, "Erreur lors de la récupération de l'article", http.StatusInternalServerError)
 			return
 		}
 
 		var a structures.Article
-		err := selectStatement.QueryRow(id).Scan(&a.ID, &a.Titre, &a.Description, &a.Prix)
+		err := selectStatement.QueryRow(id).Scan(&a.ID, &a.Titre, &a.Image, &a.Description, &a.Prix)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				http.Error(response, "Article introuvable", http.StatusNotFound)

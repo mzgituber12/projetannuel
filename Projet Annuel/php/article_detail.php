@@ -130,6 +130,21 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
+function resolveImageUrl(image) {
+    const raw = String(image ?? "").trim();
+    if (!raw) return "";
+    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) {
+        return raw;
+    }
+    return `upload/${encodeURIComponent(raw)}`;
+}
+
+function renderProductImage(image, altText) {
+    const imageUrl = resolveImageUrl(image);
+    if (!imageUrl) return "Produit";
+    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+}
+
 function updateCartButton(isInCart) {
     const btn = document.getElementById('cartToggleButton');
     if (!btn) return;
@@ -232,8 +247,8 @@ async function loadArticle() {
     const article = await response.json();
 
     container.innerHTML = `
-        <div class="product-image">Produit</div>
-        <h2 class="product-title"><strong>${escapeHtml(article.nom)}</strong></h2>
+        <div class="product-image">${renderProductImage(article.image, `Image de ${article.titre || 'cet article'}`)}</div>
+        <h2 class="product-title"><strong>${escapeHtml(article.titre)}</strong></h2>
         <div class="product-price">${escapeHtml(article.prix)} €</div>
         <div class="product-content">${escapeHtml(article.description || '')}</div>
         <div class="actions">

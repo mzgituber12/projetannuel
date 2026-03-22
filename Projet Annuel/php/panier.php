@@ -174,6 +174,21 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
+function resolveImageUrl(image) {
+    const raw = String(image ?? "").trim();
+    if (!raw) return "";
+    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) {
+        return raw;
+    }
+    return `upload/${encodeURIComponent(raw)}`;
+}
+
+function renderCartImage(image, altText) {
+    const imageUrl = resolveImageUrl(image);
+    if (!imageUrl) return "Produit";
+    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+}
+
 async function toggleCart(articleId) {
     const token = localStorage.getItem('token') || '';
     const base = (window.API_BASE || 'http://localhost:9000');
@@ -259,9 +274,9 @@ async function loadPanier() {
 
         html += `
             <article class="cart-card">
-                <div class="cart-img">Produit</div>
+                <div class="cart-img">${renderCartImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
                 <div class="cart-body">
-                    <h3 class="cart-title">${escapeHtml(a.nom)}</h3>
+                    <h3 class="cart-title">${escapeHtml(a.titre)}</h3>
                     <p class="cart-desc">${escapeHtml(desc)}</p>
                     <span class="cart-price">${escapeHtml(a.prix)} €</span>
                     <div class="cart-actions">

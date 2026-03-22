@@ -7,6 +7,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des evenements</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 12px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+        a { color: #4CAF50; text-decoration: none; margin: 0 5px; }
+        a:hover { text-decoration: underline; }
+        .search-section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
+        .search-section input { padding: 8px; margin-right: 10px; width: 300px; }
+        .search-section button { padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .search-section button:hover { background-color: #45a049; }
+        .btn-create { background-color: #008CBA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 15px; }
+        .btn-create:hover { background-color: #007399; }
+        #resultat { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
 </head>
 <body>
 
@@ -18,20 +38,40 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
     echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
     unset($_SESSION['state']);
 }?>
-<h4>Entrer un nom d'evenements pour avoir toutes les informations !</h4>
-<form onsubmit="search_event(event)">
-    <input id = "event_name" placeholder="..." type="text">
-    <button type = "submit">Rechercher</button>
-</form>
-<div id="resultat"></div>
+<a href='creer_evenement.php' class='btn-create'>+ Créer un nouvel evenement</a>
 
-<h4><a href="creer_evenement.php">Creer un evenement</a></h4>
+<div class="search-section">
+    <h4>Entrer un nom d'evenement pour avoir toutes les informations !</h4>
+    <form onsubmit="search_event(event)">
+        <input id="event_name" placeholder="Nom de l'evenement..." type="text">
+        <button type="submit">Rechercher</button>
+    </form>
+</div>
+<div id="resultat"></div>
 
 <h2> Liste des evenements </h2>
 <div id = "evenements"></div>
 <?php include 'includes/footer.php'?>
 
 <script>
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+    }
+
+    function renderImageHtml(image, altText) {
+        const file = String(image ?? "").trim();
+        if (!file) return "<em>Pas d'image</em>";
+        const src = file.startsWith("http://") || file.startsWith("https://") || file.startsWith("/")
+            ? file
+            : `upload/${encodeURIComponent(file)}`;
+        return `<img src="${src}" alt="${escapeHtml(altText)}" style="max-width: 100px; max-height: 100px; border-radius: 5px;">`;
+    }
+
     async function supprimer_evenement(id, nom){
         const confirmation = confirm("Êtes-vous sûr de vouloir supprimer l'evenement " + nom + " ?");
         if (!confirmation){
@@ -71,16 +111,20 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         const data = await response.json();
 
         if(data.id == 0) {
-            document.getElementById("resultat").innerHTML = "Aucun evenement trouvé";
+            document.getElementById("resultat").innerHTML = "<div class='error'>Aucun evenement trouvé</div>";
         }else {
+            const imageHtml = renderImageHtml(data.image, "Image de l'evenement");
             document.getElementById("resultat").innerHTML = 
-            "<label>ID : " + data.id + "</label><br>" +
-            "<label>Nom : " + data.nom + "</label><br>" +
-            "<label>Date : " + data.date + "</label><br>" +
-            "<label>Description : " + data.description + "</label><br>" +
-            "<label>Tarif : " + data.tarif + "</label><br>" +
-            "<a href='modifier_evenement.php?id=" + data.id + "'>Modifier l'événement</a>" +
-            "<p><button onclick='supprimer_evenement(" + data.id + ", \"" + data.nom + "\")'>Supprimer l'evenement</button></p>";
+            "<div class='success'>" +
+            "<label><strong>ID :</strong> " + escapeHtml(data.id) + "</label><br>" +
+            "<label><strong>Nom :</strong> " + escapeHtml(data.nom) + "</label><br>" +
+            "<label><strong>Date :</strong> " + escapeHtml(data.date) + "</label><br>" +
+            "<label><strong>Description :</strong> " + escapeHtml(data.description) + "</label><br>" +
+            "<label><strong>Tarif :</strong> " + escapeHtml(data.tarif) + "</label><br>" +
+            "<label><strong>Image :</strong> " + imageHtml + "</label><br>" +
+            "<a href='modifier_evenement.php?id=" + data.id + "'>Modifier l'événement</a> | " +
+            "<a href='#' onclick='supprimer_evenement(" + data.id + ", \"" + data.nom + "\"); return false;'>Supprimer</a>" +
+            "</div>";
         }
     }
 
@@ -102,13 +146,15 @@ async function listEvenements(token) {
     const evenement  = document.getElementById("evenements")
 
     if (evenement_list.message){
-        evenement.innerHTML = evenement_list.message
+        evenement.innerHTML = "<p>" + evenement_list.message + "</p>"
     } else {
-        let html = "<table border = 1><tr><th>Nom de l'événement</th><th>Description</th><th>Date de l'événement</th><th></th><th></th></tr>";
+        let html = "<table><tr><th>Image</th><th>Nom de l'événement</th><th>Description</th><th>Date de l'événement</th><th>Actions</th></tr>";
         evenement_list.evenement.forEach(evenement => {
-            click = "<a href='modifier_evenement.php?id=" + evenement.id + "'>Modifier</a>" 
-            click2 = `<button onclick="supprimer_evenement(${evenement.id}, '${evenement.nom}')">Supprimer</button>`;
-            html += "<tr><td>" + evenement.nom + "</td><td>" + evenement.description + "</td><td>" + evenement.date + "</td><td>" + click + "</td><td>" + click2 + "</td>" 
+            const actions = "<a href='modifier_evenement.php?id=" + evenement.id + "'>Modifier</a> | " +
+                "<a href='#' onclick=\"supprimer_evenement(" + evenement.id + ", '" + evenement.nom.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a>";
+            const imageHtml = renderImageHtml(evenement.image, `Image de ${evenement.nom}`);
+            const desc = (evenement.description || '').length > 100 ? escapeHtml(evenement.description).slice(0, 100) + "..." : escapeHtml(evenement.description);
+            html += "<tr><td>" + imageHtml + "</td><td>" + escapeHtml(evenement.nom) + "</td><td>" + desc + "</td><td>" + escapeHtml(evenement.date) + "</td><td>" + actions + "</td></tr>";
         });
         html += "</table>";
         evenement.innerHTML = html;

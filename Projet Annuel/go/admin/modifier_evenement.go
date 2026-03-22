@@ -27,13 +27,13 @@ func Gestion_evenement_nom(database *sql.DB) http.HandlerFunc {
 
 		nom := request.PathValue("nom")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%d %H:%i') AS date_sans_secondes, description, tarif FROM evenement WHERE nom = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%d %H:%i') AS date_sans_secondes, description, tarif, COALESCE(image, '') AS image FROM evenement WHERE nom = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'événement", http.StatusInternalServerError)
 			return
 		}
 		var event structures.Evenement
-		selectstatement.QueryRow(nom).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif)
+		selectstatement.QueryRow(nom).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif, &event.Image)
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Evenement{
@@ -42,6 +42,7 @@ func Gestion_evenement_nom(database *sql.DB) http.HandlerFunc {
 			Date:        event.Date,
 			Description: event.Description,
 			Tarif:       event.Tarif,
+			Image:       event.Image,
 		})
 	}
 }
@@ -63,13 +64,13 @@ func Gestion_evenement_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%dT%H:%i') AS date_sans_secondes, description, tarif FROM evenement WHERE id_evenement = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%dT%H:%i') AS date_sans_secondes, description, tarif, COALESCE(image, '') AS image FROM evenement WHERE id_evenement = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'événement", http.StatusInternalServerError)
 			return
 		}
 		var event structures.Evenement
-		selectstatement.QueryRow(id).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif)
+		selectstatement.QueryRow(id).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif, &event.Image)
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Evenement{
@@ -78,6 +79,7 @@ func Gestion_evenement_id(database *sql.DB) http.HandlerFunc {
 			Date:        event.Date,
 			Description: event.Description,
 			Tarif:       event.Tarif,
+			Image:       event.Image,
 		})
 	}
 }
@@ -315,7 +317,7 @@ func List_evenements(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif FROM evenement order by date")
+		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif, COALESCE(image, '') AS image FROM evenement order by date")
 
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des evenements de la base de données", http.StatusInternalServerError)
@@ -328,7 +330,7 @@ func List_evenements(database *sql.DB) http.HandlerFunc {
 				var dateSQL string
 				var id int
 
-				err := rows.Scan(&id, &e.Nom, &dateSQL, &e.Description, &e.Tarif)
+				err := rows.Scan(&id, &e.Nom, &dateSQL, &e.Description, &e.Tarif, &e.Image)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des evenements : "+err.Error(), http.StatusInternalServerError)
 					return

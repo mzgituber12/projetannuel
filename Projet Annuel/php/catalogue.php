@@ -300,6 +300,21 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
+function resolveImageUrl(image) {
+    const raw = String(image ?? "").trim();
+    if (!raw) return "";
+    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) {
+        return raw;
+    }
+    return `upload/${encodeURIComponent(raw)}`;
+}
+
+function renderCardImage(image, altText) {
+    const imageUrl = resolveImageUrl(image);
+    if (!imageUrl) return "Image";
+    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+}
+
 function parsePrice(value) {
     if (value === "" || value == null || value == undefined) return null;
     const parsed = Number(value);
@@ -316,7 +331,7 @@ function renderEvenements(items) {
     let html = '';
     items.forEach(e => {
         const actionLabel = e.rejoindre == "Rejoindre" ? "Rejoindre" : "Quitter";
-        const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}`;
+        const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}&image=${encodeURIComponent(e.image || "")}`;
         const btnClass = e.rejoindre == "Quitter" ? "btn-leave" : "";
         const action = e.rejoindre == "Rejoindre" ?
             `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
@@ -324,7 +339,7 @@ function renderEvenements(items) {
 
         html += `
             <div class="catalogue-card">
-                <div class="card-img">Image</div>
+                <div class="card-img">${renderCardImage(e.image, `Image de ${e.nom || "cet evenement"}`)}</div>
                 <div class="card-body">
                     <div class="card-title">${escapeHtml(e.nom)}</div>
                     <div class="card-desc">${escapeHtml(e.description)}</div>
@@ -347,7 +362,7 @@ function renderServices(items) {
     let html = '';
     items.forEach(s => {
         const actionLabel = s.rejoindre == "Rejoindre" ? "Reserver" : (s.rejoindre == "Quitter" ? "Annuler" : "Indisponible");
-        const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&tarif=${encodeURIComponent(s.tarif)}`;
+        const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&description=${encodeURIComponent(s.description || "")}&tarif=${encodeURIComponent(s.tarif)}&image=${encodeURIComponent(s.image || "")}`;
         const btnClass = s.rejoindre == "Quitter" ? "btn-leave" : "";
         const actionState = s.rejoindre == "Quitter" ? "leave" : "join";
         const action = s.rejoindre == "Rejoindre" ?
@@ -359,7 +374,7 @@ function renderServices(items) {
 
         html += `
             <div class="catalogue-card">
-                <div class="card-img">Image</div>
+                <div class="card-img">${renderCardImage(s.image, `Image de ${s.nom || "ce service"}`)}</div>
                 <div class="card-body">
                     <div class="card-title">${escapeHtml(s.nom)}</div>
                     <div class="card-desc">${escapeHtml(s.description)}</div>
@@ -385,9 +400,9 @@ function renderArticles(items) {
     items.forEach(a => {
         html += `
             <div class="catalogue-card">
-                <div class="card-img">Image</div>
+                <div class="card-img">${renderCardImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
                 <div class="card-body">
-                    <div class="card-title">${escapeHtml(a.nom)}</div>
+                    <div class="card-title">${escapeHtml(a.titre)}</div>
                     <div class="card-desc">${escapeHtml(a.description)}</div>
                     <div class="card-meta">${escapeHtml(a.prix)} €</div>
                 </div>
@@ -463,7 +478,7 @@ function applyFilters() {
     const filteredArticles = articlesData.filter((a) => {
         if (searchType != "all" && searchType != "article") return false;
         if (!search) return true;
-        const text = `${a.nom} ${a.description}`.toLowerCase();
+        const text = `${a.titre} ${a.description}`.toLowerCase();
         return text.includes(search);
     });
 

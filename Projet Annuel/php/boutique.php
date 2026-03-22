@@ -118,6 +118,21 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
+function resolveImageUrl(image) {
+    const raw = String(image ?? "").trim();
+    if (!raw) return "";
+    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) {
+        return raw;
+    }
+    return `upload/${encodeURIComponent(raw)}`;
+}
+
+function renderShopImage(image, altText) {
+    const imageUrl = resolveImageUrl(image);
+    if (!imageUrl) return "Article";
+    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+}
+
 async function listArticles() {
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(base + '/articles', { method: 'GET' });
@@ -145,9 +160,9 @@ async function listArticles() {
 
         html += `
             <article class="shop-card">
-                <div class="shop-img">Article</div>
+                <div class="shop-img">${renderShopImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
                 <div class="shop-body">
-                    <h3 class="shop-title">${escapeHtml(a.nom)}</h3>
+                    <h3 class="shop-title">${escapeHtml(a.titre)}</h3>
                     <p class="shop-desc">${escapeHtml(desc)}</p>
                     <span class="shop-price">${escapeHtml(a.prix)} €</span>
                     <a class="shop-link" href="article_detail.php?id=${encodeURIComponent(a.id)}">Voir le produit</a>

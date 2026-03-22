@@ -21,7 +21,7 @@ func Evenements(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif FROM evenement order by date")
+		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif, COALESCE(image, '') AS image FROM evenement order by date")
 
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des evenements de la base de données", http.StatusInternalServerError)
@@ -34,7 +34,7 @@ func Evenements(database *sql.DB) http.HandlerFunc {
 				var dateSQL string
 				var id int
 
-				err := rows.Scan(&id, &e.Nom, &dateSQL, &e.Description, &e.Tarif)
+				err := rows.Scan(&id, &e.Nom, &dateSQL, &e.Description, &e.Tarif, &e.Image)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des evenements : "+err.Error(), http.StatusInternalServerError)
 					return

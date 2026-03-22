@@ -27,11 +27,23 @@ $date = isset($_GET['date']) ? htmlspecialchars($_GET['date']) : '';
 $tarif = isset($_GET['tarif']) ? htmlspecialchars($_GET['tarif']) : '';
 $description = isset($_GET['description']) ? htmlspecialchars($_GET['description']) : '';
 $prestataire = isset($_GET['prestataire']) ? htmlspecialchars($_GET['prestataire']) : '';
+$image = isset($_GET['image']) ? trim($_GET['image']) : '';
+$imageUrl = '';
+if ($image !== '') {
+    if (preg_match('/^https?:\/\//i', $image) || str_starts_with($image, '/')) {
+        $imageUrl = htmlspecialchars($image, ENT_QUOTES);
+    } else {
+        $imageUrl = 'upload/' . rawurlencode($image);
+    }
+}
 ?>
 
 <?php if ($type === 'evenement' && $id > 0) : ?>
     <div>
         <h2>Événement : <?= $nom ?></h2>
+        <?php if ($imageUrl !== '') : ?>
+        <p><img src="<?= $imageUrl ?>" alt="Image de l'evenement" style="max-width: 350px; max-height: 260px; border-radius: 8px;"></p>
+        <?php endif; ?>
         <p><strong>Date :</strong> <?= $date ?></p>
         <p><strong>Description :</strong></p>
         <p><?= $description ?></p>
@@ -76,6 +88,9 @@ $prestataire = isset($_GET['prestataire']) ? htmlspecialchars($_GET['prestataire
 <?php elseif ($type === 'service' && $id > 0) : ?>
     <div>
         <h2>Service : <?= $nom ?></h2>
+        <?php if ($imageUrl !== '') : ?>
+        <p><img src="<?= $imageUrl ?>" alt="Image du service" style="max-width: 350px; max-height: 260px; border-radius: 8px;"></p>
+        <?php endif; ?>
         <p><strong>Description :</strong></p>
         <p><?= $description ?></p>
         <p><strong>Tarif :</strong> <?= $tarif ?> €</p>

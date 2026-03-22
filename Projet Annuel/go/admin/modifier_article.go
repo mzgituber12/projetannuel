@@ -26,19 +26,20 @@ func Gestion_article_nom(database *sql.DB) http.HandlerFunc {
 
 		nom := request.PathValue("nom")
 
-		selectstatement, selecterr := database.Prepare("SELECT * FROM article WHERE titre = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article WHERE titre = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'article", http.StatusInternalServerError)
 			return
 		}
 		var event structures.Article
-		selectstatement.QueryRow(nom).Scan(&event.ID, &event.Titre, &event.Description, &event.Prix)
+		selectstatement.QueryRow(nom).Scan(&event.ID, &event.Titre, &event.Image, &event.Description, &event.Prix)
 
 		response.WriteHeader(http.StatusOK)
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Article{
 			ID:          event.ID,
 			Titre:       event.Titre,
+			Image:       event.Image,
 			Description: event.Description,
 			Prix:        event.Prix,
 		})
@@ -62,19 +63,20 @@ func Gestion_article_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT * FROM article WHERE id_article = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article WHERE id_article = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'article", http.StatusInternalServerError)
 			return
 		}
 		var article structures.Article
-		selectstatement.QueryRow(id).Scan(&article.ID, &article.Titre, &article.Description, &article.Prix)
+		selectstatement.QueryRow(id).Scan(&article.ID, &article.Titre, &article.Image, &article.Description, &article.Prix)
 
 		response.WriteHeader(http.StatusOK)
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Article{
 			ID:          article.ID,
 			Titre:       article.Titre,
+			Image:       article.Image,
 			Description: article.Description,
 			Prix:        article.Prix,
 		})
@@ -183,12 +185,12 @@ func Creer_article(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("INSERT INTO article (titre, description, prix) VALUES (?, ?, ?)")
+		updatestatement, updateerr := database.Prepare("INSERT INTO article (titre, image, description, prix) VALUES (?, ?, ?, ?)")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de creation", http.StatusInternalServerError)
 			return
 		}
-		_, updateexecerr := updatestatement.Exec(article.Titre, article.Description, article.Prix)
+		_, updateexecerr := updatestatement.Exec(article.Titre, article.Image, article.Description, article.Prix)
 		if updateexecerr != nil {
 			http.Error(response, "Erreur lors de la creation de l'article", http.StatusInternalServerError)
 			return
@@ -255,7 +257,7 @@ func List_articles(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_article, titre, description, prix FROM article")
+		rows, err := database.Query("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article")
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des articles de la base de données", http.StatusInternalServerError)
 			return
@@ -265,7 +267,7 @@ func List_articles(database *sql.DB) http.HandlerFunc {
 			for rows.Next() {
 				var a structures.Article
 
-				err := rows.Scan(&a.ID, &a.Titre, &a.Description, &a.Prix)
+				err := rows.Scan(&a.ID, &a.Titre, &a.Image, &a.Description, &a.Prix)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des articles : "+err.Error(), http.StatusInternalServerError)
 					return

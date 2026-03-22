@@ -79,6 +79,7 @@ type Intervention struct {
 type Article struct {
 	ID          int     `json:"id"`
 	Titre       string  `json:"titre"`
+	Image       string  `json:"image"`
 	Description string  `json:"description"`
 	Prix        float64 `json:"prix"`
 }

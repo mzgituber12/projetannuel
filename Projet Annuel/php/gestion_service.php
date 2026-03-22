@@ -7,6 +7,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des services</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 12px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+        a { color: #4CAF50; text-decoration: none; margin: 0 5px; }
+        a:hover { text-decoration: underline; }
+        .search-section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
+        .search-section input { padding: 8px; margin-right: 10px; width: 300px; }
+        .search-section button { padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .search-section button:hover { background-color: #45a049; }
+        .btn-create { background-color: #008CBA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 15px; }
+        .btn-create:hover { background-color: #007399; }
+        #resultat { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
 </head>
 <body>
 
@@ -18,20 +38,40 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
     echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
     unset($_SESSION['state']);
 }?>
-<h4>Entrer un nom de service pour avoir tout les informations !</h4>
-<form onsubmit="search_service(event); return false;">
-    <input id = "serv_name" placeholder="..." type="text">
-    <button type = "submit">Rechercher</button>
-</form>
-<div id="resultat"></div>
+<a href='creer_service.php' class='btn-create'>+ Créer un nouveau service</a>
 
-<h4><a href="creer_service.php">Creer un service</a></h4>
+<div class="search-section">
+    <h4>Entrer un nom de service pour avoir toutes les informations !</h4>
+    <form onsubmit="search_service(event); return false;">
+        <input id="serv_name" placeholder="Nom du service..." type="text">
+        <button type="submit">Rechercher</button>
+    </form>
+</div>
+<div id="resultat"></div>
 
 <h2> Liste des services </h2>
 <div id = "services"></div>
 <?php include 'includes/footer.php'?>
 
 <script>
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+    }
+
+    function renderImageHtml(image, altText) {
+        const file = String(image ?? "").trim();
+        if (!file) return "<em>Pas d'image</em>";
+        const src = file.startsWith("http://") || file.startsWith("https://") || file.startsWith("/")
+            ? file
+            : `upload/${encodeURIComponent(file)}`;
+        return `<img src="${src}" alt="${escapeHtml(altText)}" style="max-width: 100px; max-height: 100px; border-radius: 5px;">`;
+    }
+
     async function supprimer_service(id, nom){
         const confirmation = confirm("Êtes-vous sûr de vouloir supprimer le service " + nom + " ?");
         if (!confirmation){
@@ -69,15 +109,19 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         const data = await response.json();
 
         if(data.id == 0) {
-            document.getElementById("resultat").innerHTML = "Aucun service trouvé";
+            document.getElementById("resultat").innerHTML = "<div class='error'>Aucun service trouvé</div>";
         }else {
+            const imageHtml = renderImageHtml(data.image, "Image du service");
             document.getElementById("resultat").innerHTML = 
-            "<label>ID : " + data.id + "</label><br>" +
-            "<label>Nom : " + data.nom + "</label><br>" +
-            "<label>Description : " + data.description + "</label><br>" +
-            "<label>Tarif : " + data.tarif + "</label><br>" +
-            "<a href='modifier_service.php?id=" + data.id + "'>Modifier service</a>" +
-            "<p><button onclick='supprimer_service(" + data.id + ", \"" + data.nom + "\")'>Supprimer le service</button></p>";
+            "<div class='success'>" +
+            "<label><strong>ID :</strong> " + escapeHtml(data.id) + "</label><br>" +
+            "<label><strong>Nom :</strong> " + escapeHtml(data.nom) + "</label><br>" +
+            "<label><strong>Description :</strong> " + escapeHtml(data.description) + "</label><br>" +
+            "<label><strong>Tarif :</strong> " + escapeHtml(data.tarif) + "</label><br>" +
+            "<label><strong>Image :</strong> " + imageHtml + "</label><br>" +
+            "<a href='modifier_service.php?id=" + data.id + "'>Modifier service</a> | " +
+            "<a href='#' onclick='supprimer_service(" + data.id + ", \"" + data.nom + "\"); return false;'>Supprimer</a>" +
+            "</div>";
         }
     }
 
@@ -99,13 +143,15 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         const service = document.getElementById("services")
 
         if (service_list.message){
-            service.innerHTML = service_list.message
+            service.innerHTML = "<p>" + service_list.message + "</p>"
         } else {
-            let html = "<table border = 1><tr><th>Nom du service</th><th>Description</th><th>Tarif</th><th></th><th></th></tr>";
+            let html = "<table><tr><th>Image</th><th>Nom du service</th><th>Description</th><th>Tarif</th><th>Actions</th></tr>";
             service_list.service.forEach(serv => {
-                click = "<a href='modifier_service.php?id=" + serv.id + "'>Modifier</a>" 
-                click2 = `<button onclick="supprimer_service(${serv.id}, '${serv.nom}')">Supprimer</button>`;
-                html += "<tr><td>" + serv.nom + "</td><td>" + serv.description + "</td><td>" + serv.tarif + "</td><td>" + click + "</td><td>" + click2 + "</td></tr>" 
+                const actions = "<a href='modifier_service.php?id=" + serv.id + "'>Modifier</a> | " +
+                    "<a href='#' onclick=\"supprimer_service(" + serv.id + ", '" + serv.nom.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a>";
+                const imageHtml = renderImageHtml(serv.image, `Image de ${serv.nom}`);
+                const desc = (serv.description || '').length > 100 ? escapeHtml(serv.description).slice(0, 100) + "..." : escapeHtml(serv.description);
+                html += "<tr><td>" + imageHtml + "</td><td>" + escapeHtml(serv.nom) + "</td><td>" + desc + "</td><td>" + escapeHtml(serv.tarif) + "</td><td>" + actions + "</td></tr>";
             });
             html += "</table>";
             service.innerHTML = html;

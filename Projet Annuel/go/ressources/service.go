@@ -34,6 +34,7 @@ func Services(database *sql.DB) http.HandlerFunc {
 			"s.nom, " +
 			"s.description, " +
 			"s.tarif, " +
+			"COALESCE(s.image, '') AS image, " +
 			"s.id_categorie, " +
 			"c.nom AS categorie_nom, " +
 			"CONCAT(u.prenom, ' ', u.nom) AS prestataire_nom " +
@@ -88,7 +89,7 @@ func Services(database *sql.DB) http.HandlerFunc {
 				var categorieNom sql.NullString
 				var prestataireNom sql.NullString
 
-				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &idCategorie, &categorieNom, &prestataireNom)
+				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCategorie, &categorieNom, &prestataireNom)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des services : "+err.Error(), http.StatusInternalServerError)
 					return

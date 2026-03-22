@@ -15,21 +15,55 @@
 <h1>Creer un article</h1>
 <h2 id = "admin_err"></h2>
 
-<form onsubmit="createArticle()">
+<form onsubmit="createArticle(event)">
             <label>Titre</label>
             <input type="text" name="titre" id="article_titre" placeholder="Titre" required><br><br>
             <label>Description :</label>
             <input type="text" name="description" id="article_description" placeholder="Description" required><br><br>
             <label>Tarif :</label>
-            <input type="number" name="prix" id="article_prix" placeholder="Prix" required><br><br>
+            <input type="number" name="prix" id="article_prix" placeholder="Prix" step="0.01" required><br><br>
+            <label>Image (optionnel) :</label>
+            <input type="file" name="image" id="article_image" accept="image/*" onchange="previewImage()"><br>
+            <div id="imagePreview"></div><br>
             <button type = "submit">Creer l'article</button>
 </form>
 
 <?php include 'includes/footer.php'?>
 
 <script>
-    async function createArticle() {
+    function previewImage() {
+        const fileInput = document.getElementById('article_image');
+        const preview = document.getElementById('imagePreview');
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = '<img src="' + e.target.result + '" style="max-width: 300px; max-height: 300px; border-radius: 5px;">';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
+    async function createArticle(event) {
         event.preventDefault();
+
+        let imageValue = "";
+        const imageInput = document.getElementById('article_image');
+        if (imageInput.files && imageInput.files.length > 0) {
+            const uploadFormData = new FormData();
+            uploadFormData.append("file", imageInput.files[0]);
+            uploadFormData.append("uploadType", "article");
+
+            const uploadResponse = await fetch("upload_image.php", {
+                method: "POST",
+                body: uploadFormData
+            });
+            const uploadData = await uploadResponse.json();
+            if (!uploadResponse.ok || !uploadData.success) {
+                document.getElementById("admin_err").innerHTML = uploadData.message || "Erreur lors de l'upload de l'image.";
+                return;
+            }
+            imageValue = uploadData.fileName;
+        }
 
         const base = (window.API_BASE || 'http://localhost:9000');
         const response = await fetch(base + "/creer_article", {
@@ -37,8 +71,9 @@
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 titre: document.getElementById('article_titre').value,
+                image: imageValue,
                 description: document.getElementById('article_description').value,
-                prix: parseInt(document.getElementById('article_prix').value, 10),
+                prix: parseFloat(document.getElementById('article_prix').value),
             })
         });
 
