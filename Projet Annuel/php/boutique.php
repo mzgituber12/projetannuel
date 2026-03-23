@@ -118,22 +118,22 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
-function resolveImageUrl(image) {
-    const raw = String(image ?? "").trim();
-    if (!raw) return "";
-    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) {
-        return raw;
+function modifImageUrl(image) {
+    const contenue = String(image ?? "").trim();
+    if (!contenue) return "";
+    if (contenue.startsWith("http://") || contenue.startsWith("https://") || contenue.startsWith("/")) {
+        return contenue;
     }
-    return `upload/${encodeURIComponent(raw)}`;
+    return `upload/${encodeURIComponent(contenue)}`;
 }
 
-function renderShopImage(image, altText) {
-    const imageUrl = resolveImageUrl(image);
+function renduBoutiqueImage(image, altText) {
+    const imageUrl = modifImageUrl(image);
     if (!imageUrl) return "Article";
     return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
-async function listArticles() {
+async function listerArticles() {
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(base + '/articles', { method: 'GET' });
 
@@ -160,7 +160,7 @@ async function listArticles() {
 
         html += `
             <article class="shop-card">
-                <div class="shop-img">${renderShopImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
+                <div class="shop-img">${renduBoutiqueImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
                 <div class="shop-body">
                     <h3 class="shop-title">${escapeHtml(a.titre)}</h3>
                     <p class="shop-desc">${escapeHtml(desc)}</p>
@@ -177,7 +177,7 @@ async function listArticles() {
 async function init() {
     const token = localStorage.getItem('token');
     if (!await loginUser('online', token)) return;
-    listArticles();
+    listerArticles();
 }
 
 init();

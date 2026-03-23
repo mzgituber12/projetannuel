@@ -189,7 +189,7 @@ function renderCartImage(image, altText) {
     return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
-async function toggleCart(articleId) {
+async function basculerPanier(articleId) {
     const token = localStorage.getItem('token') || '';
     const base = (window.API_BASE || 'http://localhost:9000');
 
@@ -207,20 +207,20 @@ async function toggleCart(articleId) {
     try {
         data = JSON.parse(raw);
     } catch {
-        showMessage(raw || 'Erreur serveur.', true);
+        afficherMessagePanier(raw || 'Erreur serveur.', true);
         return;
     }
 
     if (!response.ok) {
-        showMessage(data.message || 'Erreur panier.', true);
+        afficherMessagePanier(data.message || 'Erreur panier.', true);
         return;
     }
 
-    showMessage(data.message || 'Panier mis à jour.', false);
+    afficherMessagePanier(data.message || 'Panier mis à jour.', false);
     loadPanier();
 }
 
-function showMessage(text, isError) {
+function afficherMessagePanier(text, isError) {
     const node = document.getElementById('cartMessage');
     if (!text) {
         node.innerHTML = '';
@@ -247,7 +247,7 @@ async function loadPanier() {
 
     if (!response.ok) {
         const text = await response.text();
-        showMessage(text || 'Erreur de lecture du panier.', true);
+        afficherMessagePanier(text || 'Erreur de lecture du panier.', true);
         list.innerHTML = '';
         totalNode.textContent = 'Total: 0 €';
         return;
@@ -256,13 +256,13 @@ async function loadPanier() {
     const data = await response.json();
 
     if (data.message) {
-        showMessage(data.message, false);
+        afficherMessagePanier(data.message, false);
         list.innerHTML = '';
         totalNode.textContent = 'Total: 0 €';
         return;
     }
 
-    showMessage('', false);
+    afficherMessagePanier('', false);
 
     let html = '';
     let total = 0;
@@ -281,7 +281,7 @@ async function loadPanier() {
                     <span class="cart-price">${escapeHtml(a.prix)} €</span>
                     <div class="cart-actions">
                         <a class="btn btn-detail" href="article_detail.php?id=${encodeURIComponent(a.id)}">Voir détail</a>
-                        <button class="btn btn-remove" onclick="toggleCart(${Number(a.id)})">Retirer du panier</button>
+                        <button class="btn btn-remove" onclick="basculerPanier(${Number(a.id)})">Retirer du panier</button>
                     </div>
                 </div>
             </article>

@@ -21,7 +21,7 @@ func Evenements(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif, COALESCE(image, '') AS image FROM evenement order by date")
+		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif, IFNULL(image, '') AS image FROM evenement order by date")
 
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des evenements de la base de données", http.StatusInternalServerError)

@@ -3,13 +3,21 @@ package ressources
 import (
 	"database/sql"
 	"encoding/json"
+	"io"
+	"math"
 	"net/http"
+	"os"
 	"strconv"
+	"strings"
 
 	"projet/structures"
+
+	"github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v83/checkout/session"
+	"github.com/stripe/stripe-go/v83/webhook"
 )
 
-func ensureReferenceArticleTable(database *sql.DB) error {
+func verifierTableReferenceArticle(database *sql.DB) error {
 	_, err := database.Exec(`
 		CREATE TABLE IF NOT EXISTS reference_article (
 			id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,7 +42,7 @@ func Articles(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article")
+		rows, err := database.Query("SELECT id_article, titre, IFNULL(image, '') AS image, description, prix FROM article")
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des articles de la base de données", http.StatusInternalServerError)
 			return
@@ -77,7 +85,7 @@ func Article_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectStatement, selectErr := database.Prepare("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article WHERE id_article = ? LIMIT 1")
+		selectStatement, selectErr := database.Prepare("SELECT id_article, titre, IFNULL(image, '') AS image, description, prix FROM article WHERE id_article = ? ")
 		if selectErr != nil {
 			http.Error(response, "Erreur lors de la récupération de l'article", http.StatusInternalServerError)
 			return
@@ -99,7 +107,7 @@ func Article_id(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Ajouter_panier_article(database *sql.DB) http.HandlerFunc {
+func AjouterArticlePanier(database *sql.DB) http.HandlerFunc {
 	type addArticlePayload struct {
 		IDArticle int `json:"id_article"`
 	}
@@ -140,7 +148,7 @@ func Ajouter_panier_article(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err = ensureReferenceArticleTable(database)
+		err = verifierTableReferenceArticle(database)
 		if err != nil {
 			http.Error(response, "Erreur initialisation panier", http.StatusInternalServerError)
 			return
@@ -192,7 +200,7 @@ func Ajouter_panier_article(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Etat_panier_article(database *sql.DB) http.HandlerFunc {
+func EtatArticlePanier(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
 		response.Header().Set("Access-Control-Allow-Headers", "Token")
@@ -214,7 +222,7 @@ func Etat_panier_article(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err := ensureReferenceArticleTable(database)
+		err := verifierTableReferenceArticle(database)
 		if err != nil {
 			http.Error(response, "Erreur initialisation panier", http.StatusInternalServerError)
 			return
@@ -251,7 +259,7 @@ func Etat_panier_article(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Basculer_panier_article(database *sql.DB) http.HandlerFunc {
+func BasculerArticlePanier(database *sql.DB) http.HandlerFunc {
 	type payload struct {
 		IDArticle int `json:"id_article"`
 	}
@@ -278,7 +286,7 @@ func Basculer_panier_article(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err = ensureReferenceArticleTable(database)
+		err = verifierTableReferenceArticle(database)
 		if err != nil {
 			http.Error(response, "Erreur initialisation panier", http.StatusInternalServerError)
 			return
@@ -357,7 +365,7 @@ func Basculer_panier_article(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Panier_articles(database *sql.DB) http.HandlerFunc {
+func ArticlesPanier(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
 		response.Header().Set("Access-Control-Allow-Headers", "Token")
@@ -373,7 +381,7 @@ func Panier_articles(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err := ensureReferenceArticleTable(database)
+		err := verifierTableReferenceArticle(database)
 		if err != nil {
 			http.Error(response, "Erreur initialisation panier", http.StatusInternalServerError)
 			return
@@ -421,7 +429,7 @@ func Panier_articles(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Create_order(database *sql.DB) http.HandlerFunc {
+func CreerCommande(database *sql.DB) http.HandlerFunc {
 	type createOrderPayload struct {
 		PaymentMethod string `json:"payment_method"`
 	}
@@ -456,7 +464,7 @@ func Create_order(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err = ensureReferenceArticleTable(database)
+		err = verifierTableReferenceArticle(database)
 		if err != nil {
 			http.Error(response, "Erreur initialisation panier", http.StatusInternalServerError)
 			return
@@ -494,7 +502,7 @@ func Create_order(database *sql.DB) http.HandlerFunc {
 		}
 
 		achatID := 0
-		err = database.QueryRow("SELECT id_achat FROM achat WHERE id_panier = ? LIMIT 1", panierID).Scan(&achatID)
+		err = database.QueryRow("SELECT id_achat FROM achat WHERE id_panier = ?", panierID).Scan(&achatID)
 		if err != nil {
 			if err != sql.ErrNoRows {
 				http.Error(response, "Erreur création commande", http.StatusInternalServerError)
@@ -564,12 +572,12 @@ func Create_order(database *sql.DB) http.HandlerFunc {
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]interface{}{
-			"value":          1,
+			"valeur":         1,
 			"message":        "Commande créée",
-			"order_id":       achatID,
-			"total":          total,
-			"payment_method": body.PaymentMethod,
-			"transfer": map[string]string{
+			"id_commande":    achatID,
+			"montant_total":  total,
+			"mode_paiement":  body.PaymentMethod,
+			"virement": map[string]string{
 				"iban":      "FR76 1234 5678 9012 3456 7890 123",
 				"reference": "CMD-" + strconv.Itoa(achatID),
 			},
@@ -577,7 +585,11 @@ func Create_order(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Create_checkout_session(database *sql.DB) http.HandlerFunc {
+func CreerSessionPaiement(database *sql.DB) http.HandlerFunc {
+	type createCheckoutPayload struct {
+		OrderID int `json:"order_id"`
+	}
+
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
 		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
@@ -593,62 +605,231 @@ func Create_checkout_session(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		var idUser int
+		err := database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&idUser)
+		if err != nil {
+			http.Error(response, "Utilisateur introuvable", http.StatusUnauthorized)
+			return
+		}
+
+		var body createCheckoutPayload
+		err = json.NewDecoder(request.Body).Decode(&body)
+		if err != nil || body.OrderID <= 0 {
+			http.Error(response, "Commande invalide", http.StatusBadRequest)
+			return
+		}
+
+		var total float64
+		var mode string
+		var status string
+		err = database.QueryRow(`
+			SELECT IFNULL(p.montant, 0), IFNULL(p.mode, ''), IFNULL(p.statut, '')
+			FROM achat a
+			LEFT JOIN paiement p ON p.id_achat = a.id_achat
+			WHERE a.id_achat = ? AND a.id_utilisateur = ?
+			ORDER BY p.id_paiement DESC
+			LIMIT 1
+		`, body.OrderID, idUser).Scan(&total, &mode, &status)
+		if err != nil {
+			http.Error(response, "Commande introuvable", http.StatusNotFound)
+			return
+		}
+
+		if mode != "stripe" {
+			http.Error(response, "Cette commande n'est pas en mode Stripe", http.StatusBadRequest)
+			return
+		}
+
+		if status == "paid" {
+			http.Error(response, "Commande déjà payée", http.StatusBadRequest)
+			return
+		}
+
+		if total <= 0 {
+			http.Error(response, "Montant invalide", http.StatusBadRequest)
+			return
+		}
+
+		stripeSecret := os.Getenv("STRIPE_SECRET_KEY")
+		if stripeSecret == "" {
+			http.Error(response, "Configuration Stripe manquante", http.StatusInternalServerError)
+			return
+		}
+		stripe.Key = stripeSecret
+
+		baseURL := strings.TrimRight(os.Getenv("APP_BASE_URL"), "/")
+		if baseURL == "" {
+			baseURL = "http://localhost"
+		}
+
+		orderIDString := strconv.Itoa(body.OrderID)
+		amountCents := int64(math.Round(total * 100))
+
+		sessionParams := &stripe.CheckoutSessionParams{
+			Mode:              stripe.String(string(stripe.CheckoutSessionModePayment)),
+			SuccessURL:        stripe.String(baseURL + "/success.php?order_id=" + orderIDString + "&session_id={CHECKOUT_SESSION_ID}"),
+			CancelURL:         stripe.String(baseURL + "/cancel.php?order_id=" + orderIDString),
+			ClientReferenceID: stripe.String(orderIDString),
+			Metadata: map[string]string{
+				"order_id": orderIDString,
+			},
+			LineItems: []*stripe.CheckoutSessionLineItemParams{
+				{
+					Quantity: stripe.Int64(1),
+					PriceData: &stripe.CheckoutSessionLineItemPriceDataParams{
+						Currency:   stripe.String("eur"),
+						UnitAmount: stripe.Int64(amountCents),
+						ProductData: &stripe.CheckoutSessionLineItemPriceDataProductDataParams{
+							Name: stripe.String("Commande #" + orderIDString),
+						},
+					},
+				},
+			},
+		}
+
+		checkoutSession, stripeErr := session.New(sessionParams)
+		if stripeErr != nil {
+			http.Error(response, "Erreur création session Stripe", http.StatusInternalServerError)
+			return
+		}
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]interface{}{
-			"message": "Session Stripe simulée créée",
-			"url":     "/success.php",
+			"message":    "Session Stripe créée",
+			"session_id": checkoutSession.ID,
+			"url":        checkoutSession.URL,
 		})
 	}
 }
 
-func Webhook_paiement(database *sql.DB) http.HandlerFunc {
-	type webhookPayload struct {
-		OrderID int    `json:"order_id"`
-		Status  string `json:"status"`
-	}
-
+func WebhookPaiement(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
-		response.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Stripe-Signature")
 		response.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 		if request.Method == http.MethodOptions {
 			response.WriteHeader(http.StatusOK)
 			return
 		}
 
-		var body webhookPayload
-		err := json.NewDecoder(request.Body).Decode(&body)
-		if err != nil || body.OrderID <= 0 {
-			http.Error(response, "Données webhook invalides", http.StatusBadRequest)
+		webhookSecret := os.Getenv("STRIPE_WEBHOOK_SECRET")
+		if webhookSecret == "" {
+			http.Error(response, "Configuration webhook Stripe manquante", http.StatusInternalServerError)
 			return
 		}
 
-		if body.Status == "" {
-			body.Status = "paid"
+		payload, err := io.ReadAll(request.Body)
+		if err != nil {
+			http.Error(response, "Impossible de lire le body webhook", http.StatusBadRequest)
+			return
 		}
 
-		_, err = database.Exec("UPDATE paiement SET statut = ? WHERE id_achat = ?", body.Status, body.OrderID)
+		signatureHeader := request.Header.Get("Stripe-Signature")
+		if signatureHeader == "" {
+			http.Error(response, "Signature webhook manquante", http.StatusBadRequest)
+			return
+		}
+
+		event, err := webhook.ConstructEvent(payload, signatureHeader, webhookSecret)
+		if err != nil {
+			http.Error(response, "Signature webhook invalide", http.StatusBadRequest)
+			return
+		}
+
+		orderID := 0
+		status := ""
+
+		switch event.Type {
+		case "checkout.session.completed":
+			var checkoutSession stripe.CheckoutSession
+			if jsonErr := json.Unmarshal(event.Data.Raw, &checkoutSession); jsonErr != nil {
+				http.Error(response, "Événement Stripe invalide", http.StatusBadRequest)
+				return
+			}
+
+			orderIDString := checkoutSession.ClientReferenceID
+			if orderIDString == "" {
+				orderIDString = checkoutSession.Metadata["order_id"]
+			}
+			if orderIDString == "" {
+				http.Error(response, "Commande introuvable dans l'événement", http.StatusBadRequest)
+				return
+			}
+
+			parsedOrderID, convErr := strconv.Atoi(orderIDString)
+			if convErr != nil || parsedOrderID <= 0 {
+				http.Error(response, "Commande Stripe invalide", http.StatusBadRequest)
+				return
+			}
+
+			orderID = parsedOrderID
+			status = "paid"
+
+		case "checkout.session.expired":
+			var checkoutSession stripe.CheckoutSession
+			if jsonErr := json.Unmarshal(event.Data.Raw, &checkoutSession); jsonErr != nil {
+				http.Error(response, "Événement Stripe invalide", http.StatusBadRequest)
+				return
+			}
+
+			orderIDString := checkoutSession.ClientReferenceID
+			if orderIDString == "" {
+				orderIDString = checkoutSession.Metadata["order_id"]
+			}
+			parsedOrderID, convErr := strconv.Atoi(orderIDString)
+			if convErr != nil || parsedOrderID <= 0 {
+				http.Error(response, "Commande Stripe invalide", http.StatusBadRequest)
+				return
+			}
+
+			orderID = parsedOrderID
+			status = "canceled"
+
+		case "payment_intent.payment_failed":
+			var paymentIntent stripe.PaymentIntent
+			if jsonErr := json.Unmarshal(event.Data.Raw, &paymentIntent); jsonErr != nil {
+				http.Error(response, "Événement Stripe invalide", http.StatusBadRequest)
+				return
+			}
+
+			orderIDString := paymentIntent.Metadata["order_id"]
+			parsedOrderID, convErr := strconv.Atoi(orderIDString)
+			if convErr != nil || parsedOrderID <= 0 {
+				http.Error(response, "Commande Stripe invalide", http.StatusBadRequest)
+				return
+			}
+
+			orderID = parsedOrderID
+			status = "failed"
+
+		default:
+			response.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(response).Encode(structures.Result{Message: "Événement ignoré", Value: 1})
+			return
+		}
+
+		_, err = database.Exec("UPDATE paiement SET statut = ?, mode = 'stripe', date = NOW() WHERE id_achat = ?", status, orderID)
 		if err != nil {
 			http.Error(response, "Erreur mise à jour paiement", http.StatusInternalServerError)
 			return
 		}
 
-		if body.Status == "paid" {
+		if status == "paid" {
 			_, _ = database.Exec(`
 				UPDATE panier p
 				JOIN achat a ON a.id_panier = p.id_panier
 				SET p.statut = 'paid'
 				WHERE a.id_achat = ?
-			`, body.OrderID)
+			`, orderID)
 		}
 
-		if body.Status == "canceled" {
+		if status == "canceled" || status == "failed" {
 			_, _ = database.Exec(`
 				UPDATE panier p
 				JOIN achat a ON a.id_panier = p.id_panier
 				SET p.statut = 'actif'
 				WHERE a.id_achat = ?
-			`, body.OrderID)
+			`, orderID)
 		}
 
 		response.Header().Set("Content-Type", "application/json")
@@ -656,7 +837,7 @@ func Webhook_paiement(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func Invoice_achat(database *sql.DB) http.HandlerFunc {
+func FactureAchat(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
 		response.Header().Set("Access-Control-Allow-Headers", "Token")
@@ -715,7 +896,7 @@ func Invoice_achat(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		items := make([]structures.Article, 0)
+		var items []structures.Article
 		for rows.Next() {
 			var a structures.Article
 			err = rows.Scan(&a.ID, &a.Titre, &a.Description, &a.Prix)

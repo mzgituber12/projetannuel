@@ -88,7 +88,7 @@
 
     <div class="checkout-actions">
         <button id="payTransfer" class="btn btn-transfer">Payer par virement</button>
-        <button id="payStripe" class="btn btn-stripe">Payer par carte (simule)</button>
+        <button id="payStripe" class="btn btn-stripe">Payer par carte</button>
         <a class="btn btn-back" href="panier.php">Retour panier</a>
     </div>
 
@@ -110,7 +110,7 @@ function esc(v) {
 const API = window.API_BASE || 'http://localhost:9000';
 let currentTotal = 0;
 
-function showMessage(text, isError) {
+function afficherMessage(text, isError) {
     const m = document.getElementById('message');
     if (!text) {
         m.innerHTML = '';
@@ -119,7 +119,7 @@ function showMessage(text, isError) {
     m.innerHTML = '<div class="message ' + (isError ? 'error' : '') + '">' + esc(text) + '</div>';
 }
 
-async function loadCart() {
+async function chargerPanier() {
     const token = localStorage.getItem('token') || '';
     const response = await fetch(API + '/panier_articles', {
         method: 'GET',
@@ -127,7 +127,7 @@ async function loadCart() {
     });
 
     if (!response.ok) {
-        showMessage(await response.text() || 'Impossible de charger le panier.', true);
+        afficherMessage(await response.text() || 'Impossible de charger le panier.', true);
         return false;
     }
 
@@ -147,7 +147,7 @@ async function loadCart() {
     let total = 0;
     data.article.forEach((a) => {
         total += Number(a.prix) || 0;
-        html += '<div class="checkout-row"><span>' + esc(a.nom) + '</span><strong>' + esc(a.prix) + ' EUR</strong></div>';
+        html += '<div class="checkout-row"><span>' + esc(a.titre) + '</span><strong>' + esc(a.prix) + ' EUR</strong></div>';
     });
 
     currentTotal = total;
@@ -156,7 +156,7 @@ async function loadCart() {
     return true;
 }
 
-async function createOrder(paymentMethod) {
+async function creerCommande(paymentMethod) {
     const token = localStorage.getItem('token') || '';
     const response = await fetch(API + '/create-order', {
         method: 'POST',
@@ -167,46 +167,57 @@ async function createOrder(paymentMethod) {
         body: JSON.stringify({ payment_method: paymentMethod })
     });
 
-    const raw = await response.text();
+    const contenue = await response.text();
     let data = null;
-    try { data = JSON.parse(raw); } catch { data = { message: raw }; }
+    try { data = JSON.parse(contenue); } catch { data = { message: contenue }; }
 
     if (!response.ok) {
-        showMessage(data.message || 'Erreur creation commande.', true);
+        afficherMessage(data.message || 'Erreur creation commande.', true);
         return;
     }
+
+    const idCommande = data.id_commande ?? data.order_id;
+    const montantTotal = data.montant_total ?? data.total ?? currentTotal;
+    const infosVirement = data.virement || data.transfer || {};
 
     if (paymentMethod === 'transfer') {
-        const ref = (data.transfer && data.transfer.reference) ? data.transfer.reference : ('CMD-' + data.order_id);
-        const iban = (data.transfer && data.transfer.iban) ? data.transfer.iban : 'IBAN indisponible';
-        showMessage('Commande creee.\nReference: ' + ref + '\nIBAN: ' + iban + '\nMontant: ' + Number(data.total || currentTotal).toFixed(2) + ' EUR', false);
-        window.location.href = 'invoice.php?id=' + encodeURIComponent(data.order_id);
+        const ref = infosVirement.reference ? infosVirement.reference : ('CMD-' + idCommande);
+        const iban = infosVirement.iban ? infosVirement.iban : 'IBAN indisponible';
+        afficherMessage('Commande creee.\nReference: ' + ref + '\nIBAN: ' + iban + '\nMontant: ' + Number(montantTotal).toFixed(2) + ' EUR', false);
+        window.location.href = 'invoice.php?id=' + encodeURIComponent(idCommande);
         return;
     }
 
-    window.location.href = 'success.php?order_id=' + encodeURIComponent(data.order_id);
+    data.id_commande = idCommande;
+    return data;
 }
 
-async function createCheckoutSession() {
+async function creerSessionPaiement(orderId) {
     const token = localStorage.getItem('token') || '';
     const response = await fetch(API + '/create-checkout-session', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Token': token
-        }
+        },
+        body: JSON.stringify({ order_id: orderId })
     });
 
-    const raw = await response.text();
+    const contenue = await response.text();
     let data = null;
-    try { data = JSON.parse(raw); } catch { data = { message: raw }; }
+    try { data = JSON.parse(contenue); } catch { data = { message: contenue }; }
 
     if (!response.ok) {
-        showMessage(data.message || 'Erreur session Stripe.', true);
+        afficherMessage(data.message || 'Erreur session Stripe.', true);
         return;
     }
 
-    await createOrder('stripe');
+    if (!data.url) {
+        afficherMessage('URL Stripe manquante.', true);
+        return;
+    }
+
+    window.location.href = data.url;
 }
 
 async function init() {
@@ -214,17 +225,23 @@ async function init() {
     if (!await loginUser('online', token)) {
         return;
     }
-
-    await loadCart();
+    
+    await chargerPanier();
 
     document.getElementById('payTransfer').addEventListener('click', async function () {
-        showMessage('', false);
-        await createOrder('transfer');
+        afficherMessage('', false);
+        await creerCommande('transfer');
     });
 
     document.getElementById('payStripe').addEventListener('click', async function () {
-        showMessage('', false);
-        await createCheckoutSession();
+        afficherMessage('', false);
+        const order = await creerCommande('stripe');
+        const idCommande = order ? (order.id_commande ?? order.order_id) : null;
+        if (!idCommande) {
+            return;
+        }
+
+        await creerSessionPaiement(idCommande);
     });
 }
 

@@ -67,18 +67,30 @@ async function init() {
 
     invoiceLink.href = 'invoice.php?id=' + encodeURIComponent(orderId);
 
-    const response = await fetch(API + '/webhook', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ order_id: orderId, status: 'paid' })
+    const response = await fetch(API + '/invoice/' + encodeURIComponent(orderId), {
+        method: 'GET',
+        headers: { 'Token': token || '' }
     });
 
     if (!response.ok) {
-        statusNode.textContent = 'Le paiement est recu mais la confirmation a echoue. Vous pouvez quand meme ouvrir la facture.';
+        statusNode.textContent = 'Paiement en attente de confirmation. Recharge la page dans quelques secondes.';
         return;
     }
 
-    statusNode.textContent = 'Paiement enregistre. Votre commande est finalisee.';
+    const data = await response.json();
+    const status = String(data.status || '').toLowerCase();
+
+    if (status === 'paid') {
+        statusNode.textContent = 'Paiement enregistre. Votre commande est finalisee.';
+        return;
+    }
+
+    if (status === 'pending' || status === 'pending_stripe') {
+        statusNode.textContent = 'Paiement en cours de confirmation par Stripe. Recharge la page dans quelques secondes.';
+        return;
+    }
+
+    statusNode.textContent = 'Statut actuel: ' + status + '. Vous pouvez ouvrir la facture.';
 }
 
 init();

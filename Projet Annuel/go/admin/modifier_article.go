@@ -26,7 +26,7 @@ func Gestion_article_nom(database *sql.DB) http.HandlerFunc {
 
 		nom := request.PathValue("nom")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article WHERE titre = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_article, titre, IFNULL(image, '') AS image, description, prix FROM article WHERE titre = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'article", http.StatusInternalServerError)
 			return
@@ -63,7 +63,7 @@ func Gestion_article_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article WHERE id_article = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_article, titre, IFNULL(image, '') AS image, description, prix FROM article WHERE id_article = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'article", http.StatusInternalServerError)
 			return
@@ -257,7 +257,7 @@ func List_articles(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_article, titre, COALESCE(image, '') AS image, description, prix FROM article")
+		rows, err := database.Query("SELECT id_article, titre, IFNULL(image, '') AS image, description, prix FROM article")
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des articles de la base de données", http.StatusInternalServerError)
 			return

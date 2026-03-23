@@ -46,25 +46,11 @@
 <?php include 'includes/footer.php'; ?>
 
 <script>
-const API = window.API_BASE || 'http://localhost:9000';
-
 async function init() {
     const token = localStorage.getItem('token');
     if (!await loginUser('online', token)) {
         return;
     }
-
-    const params = new URLSearchParams(window.location.search);
-    const orderId = Number(params.get('order_id') || 0);
-    if (!orderId) {
-        return;
-    }
-
-    await fetch(API + '/webhook', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ order_id: orderId, status: 'canceled' })
-    });
 }
 
 init();

@@ -34,7 +34,7 @@ func Services(database *sql.DB) http.HandlerFunc {
 			"s.nom, " +
 			"s.description, " +
 			"s.tarif, " +
-			"COALESCE(s.image, '') AS image, " +
+			"IFNULL(s.image, '') AS image, " +
 			"s.id_categorie, " +
 			"c.nom AS categorie_nom, " +
 			"CONCAT(u.prenom, ' ', u.nom) AS prestataire_nom " +

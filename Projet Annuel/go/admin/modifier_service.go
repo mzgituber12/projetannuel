@@ -25,7 +25,7 @@ func Gestion_service_nom(database *sql.DB) http.HandlerFunc {
 
 		nom := request.PathValue("nom")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_service, nom, description, tarif, COALESCE(image, '') AS image FROM service WHERE nom = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_service, nom, description, tarif, IFNULL(image, '') AS image FROM service WHERE nom = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations du service", http.StatusInternalServerError)
 			return
@@ -61,7 +61,7 @@ func Gestion_service_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_service, nom, description, tarif, COALESCE(image, '') AS image FROM service WHERE id_service = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_service, nom, description, tarif, IFNULL(image, '') AS image FROM service WHERE id_service = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations du service", http.StatusInternalServerError)
 			return
@@ -237,7 +237,7 @@ func List_services(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_service, nom, description, tarif, COALESCE(image, '') AS image FROM service")
+		rows, err := database.Query("SELECT id_service, nom, description, tarif, IFNULL(image, '') AS image FROM service")
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des services de la base de données", http.StatusInternalServerError)
 			return

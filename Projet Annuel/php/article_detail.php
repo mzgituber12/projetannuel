@@ -130,26 +130,26 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
-function resolveImageUrl(image) {
-    const raw = String(image ?? "").trim();
-    if (!raw) return "";
-    if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("/")) {
-        return raw;
+function modifImageUrl(image) {
+    const contenue = String(image ?? "").trim();
+    if (!contenue) return "";
+    if (contenue.startsWith("http://") || contenue.startsWith("https://") || contenue.startsWith("/")) {
+        return contenue;
     }
-    return `upload/${encodeURIComponent(raw)}`;
+    return `upload/${encodeURIComponent(contenue)}`;
 }
 
-function renderProductImage(image, altText) {
-    const imageUrl = resolveImageUrl(image);
+function renduBoutiqueImage(image, altText) {
+    const imageUrl = modifImageUrl(image);
     if (!imageUrl) return "Produit";
     return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
 }
 
-function updateCartButton(isInCart) {
+function mettreAJourBoutonPanier(estDansPanier) {
     const btn = document.getElementById('cartToggleButton');
     if (!btn) return;
 
-    if (isInCart) {
+    if (estDansPanier) {
         btn.textContent = 'Retirer du panier';
         btn.classList.remove('btn-cart');
         btn.classList.add('btn-back');
@@ -160,11 +160,11 @@ function updateCartButton(isInCart) {
     }
 }
 
-async function refreshCartState(articleId) {
+async function rafraichirEtatPanier(articleId) {
     const token = localStorage.getItem('token') || '';
     const base = (window.API_BASE || 'http://localhost:9000');
     if (!token) {
-        updateCartButton(false);
+        mettreAJourBoutonPanier(false);
         return;
     }
 
@@ -174,15 +174,15 @@ async function refreshCartState(articleId) {
     });
 
     if (!response.ok) {
-        updateCartButton(false);
+        mettreAJourBoutonPanier(false);
         return;
     }
 
     const data = await response.json();
-    updateCartButton(data.value === 1);
+    mettreAJourBoutonPanier(data.value === 1);
 }
 
-async function toggleCart(articleId) {
+async function basculerPanier(articleId) {
     const token = localStorage.getItem('token') || '';
     const base = (window.API_BASE || 'http://localhost:9000');
     const message = document.getElementById('cartMessage');
@@ -220,10 +220,10 @@ async function toggleCart(articleId) {
 
     message.className = 'message ok';
     message.textContent = data.message || 'Panier mis à jour.';
-    updateCartButton(data.value === 1);
+    mettreAJourBoutonPanier(data.value === 1);
 }
 
-async function loadArticle() {
+async function chargerArticle() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     const container = document.getElementById('productDetail');
@@ -233,39 +233,43 @@ async function loadArticle() {
         return;
     }
 
-    const base = (window.API_BASE || 'http://localhost:9000');
-    const response = await fetch(base + '/articles/' + encodeURIComponent(id), {
-        method: 'GET'
-    });
+    try {
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const response = await fetch(base + '/articles/' + encodeURIComponent(id), {
+            method: 'GET'
+        });
 
-    if (!response.ok) {
-        const text = await response.text();
-        container.innerHTML = '<div class="message err">' + escapeHtml(text || 'Article introuvable.') + '</div>';
-        return;
+        if (!response.ok) {
+            const text = await response.text();
+            container.innerHTML = '<div class="message err">' + escapeHtml(text || 'Article introuvable.') + '</div>';
+            return;
+        }
+
+        const article = await response.json();
+
+        container.innerHTML = `
+            <div class="product-image">${renduBoutiqueImage(article.image, `Image de ${article.titre || 'cet article'}`)}</div>
+            <h2 class="product-title"><strong>${escapeHtml(article.titre)}</strong></h2>
+            <div class="product-price">${escapeHtml(article.prix)} €</div>
+            <div class="product-content">${escapeHtml(article.description || '')}</div>
+            <div class="actions">
+                <button id="cartToggleButton" class="btn btn-cart" onclick="basculerPanier(${Number(article.id)})">Ajouter au panier</button>
+                <a class="btn btn-back" href="panier.php">Voir mon panier</a>
+                <a class="btn btn-back" href="boutique.php">Retour à la boutique</a>
+            </div>
+            <div id="cartMessage" class="message" style="display:block;"></div>
+        `;
+
+        rafraichirEtatPanier(article.id);
+    } catch (error) {
+        container.innerHTML = '<div class="message err">Erreur de chargement du produit.</div>';
     }
-
-    const article = await response.json();
-
-    container.innerHTML = `
-        <div class="product-image">${renderProductImage(article.image, `Image de ${article.titre || 'cet article'}`)}</div>
-        <h2 class="product-title"><strong>${escapeHtml(article.titre)}</strong></h2>
-        <div class="product-price">${escapeHtml(article.prix)} €</div>
-        <div class="product-content">${escapeHtml(article.description || '')}</div>
-        <div class="actions">
-            <button id="cartToggleButton" class="btn btn-cart" onclick="toggleCart(${Number(article.id)})">Ajouter au panier</button>
-            <a class="btn btn-back" href="panier.php">Voir mon panier</a>
-            <a class="btn btn-back" href="boutique.php">Retour à la boutique</a>
-        </div>
-        <div id="cartMessage" class="message" style="display:block;"></div>
-    `;
-
-    refreshCartState(article.id);
 }
 
 async function init() {
     const token = localStorage.getItem('token');
     if (!await loginUser('online', token)) return;
-    loadArticle();
+    chargerArticle();
 }
 
 init();

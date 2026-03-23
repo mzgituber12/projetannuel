@@ -24,7 +24,7 @@ func Prestataires(database *sql.DB) http.HandlerFunc {
 		}
 		defer rows.Close()
 
-		prestataires := make([]structures.Prestataire, 0)
+		var prestataires []structures.Prestataire
 		for rows.Next() {
 			var p structures.Prestataire
 			if err := rows.Scan(&p.ID, &p.Nom, &p.Prenom, &p.Type, &p.Telephone); err != nil {

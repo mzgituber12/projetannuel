@@ -10,9 +10,10 @@ import (
 	"projet/authentification"
 	"projet/ressources"
 
+	_ "time/tzdata"
+
 	_ "github.com/go-sql-driver/mysql"
 	_ "modernc.org/sqlite"
-	_ "time/tzdata"
 )
 
 func main() {
@@ -43,14 +44,14 @@ func main() {
 	http.HandleFunc("/prestataires", ressources.Prestataires(db))
 	http.HandleFunc("/articles", ressources.Articles(db))
 	http.HandleFunc("/articles/{id}", ressources.Article_id(db))
-	http.HandleFunc("/panier_article", ressources.Ajouter_panier_article(db))
-	http.HandleFunc("/panier_article/{id}", ressources.Etat_panier_article(db))
-	http.HandleFunc("/panier_article_toggle", ressources.Basculer_panier_article(db))
-	http.HandleFunc("/panier_articles", ressources.Panier_articles(db))
-	http.HandleFunc("/create-order", ressources.Create_order(db))
-	http.HandleFunc("/create-checkout-session", ressources.Create_checkout_session(db))
-	http.HandleFunc("/webhook", ressources.Webhook_paiement(db))
-	http.HandleFunc("/invoice/{id}", ressources.Invoice_achat(db))
+	http.HandleFunc("/panier_article", ressources.AjouterArticlePanier(db))
+	http.HandleFunc("/panier_article/{id}", ressources.EtatArticlePanier(db))
+	http.HandleFunc("/panier_article_toggle", ressources.BasculerArticlePanier(db))
+	http.HandleFunc("/panier_articles", ressources.ArticlesPanier(db))
+	http.HandleFunc("/create-order", ressources.CreerCommande(db))
+	http.HandleFunc("/create-checkout-session", ressources.CreerSessionPaiement(db))
+	http.HandleFunc("/webhook", ressources.WebhookPaiement(db))
+	http.HandleFunc("/invoice/{id}", ressources.FactureAchat(db))
 	http.HandleFunc("/planning_evenements", ressources.Planning_evenements(db))
 	http.HandleFunc("/planning_services", ressources.Planning_services(db))
 	http.HandleFunc("/planning_rdv", ressources.Planning_rdv(db))
@@ -59,7 +60,7 @@ func main() {
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
 
 	http.HandleFunc("/admin", admin.Estadmin(db))
-	
+
 	http.HandleFunc("/list_users", admin.List_users(db))
 	http.HandleFunc("/gestion_user_email/{email}", admin.Gestion_user_email(db))
 	http.HandleFunc("/gestion_user_id/{id}", admin.Gestion_user_id(db))

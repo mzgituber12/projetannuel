@@ -25,7 +25,7 @@ func Categories(database *sql.DB) http.HandlerFunc {
 		}
 		defer rows.Close()
 
-		categories := make([]structures.Categorie, 0)
+		var categories []structures.Categorie
 		for rows.Next() {
 			var c structures.Categorie
 			if err := rows.Scan(&c.ID, &c.Nom); err != nil {
