@@ -58,6 +58,12 @@ func main() {
 	http.HandleFunc("/reservation_evenement", ressources.Reservation_evenement(db))
 	http.HandleFunc("/service_disponible", ressources.Service_disponible(db))
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
+	http.HandleFunc("/notifications", ressources.NotificationsUtilisateur(db))
+	http.HandleFunc("/notifications/unread-count", ressources.CompteurNotifications(db))
+	http.HandleFunc("/notifications/read-all", ressources.MarquerToutesNotificationsLues(db))
+	http.HandleFunc("/notifications/{id}/read", ressources.MarquerNotificationLue(db))
+	http.HandleFunc("/notifications/{id}", ressources.SupprimerNotificationUtilisateur(db))
+	http.HandleFunc("/push/subscription", ressources.EnregistrerAbonnementPush(db))
 
 	http.HandleFunc("/admin", admin.Estadmin(db))
 
@@ -92,6 +98,12 @@ func main() {
 	http.HandleFunc("/modifier_intervention/{id}", admin.Modifier_intervention(db))
 
 	http.HandleFunc("/gestion_contact", admin.Gestion_contact(db))
+	http.HandleFunc("/gestion_notifications", admin.Gestion_notifications(db))
+	http.HandleFunc("/creer_notification", admin.Creer_notification(db))
+	http.HandleFunc("/modifier_notification/{id}", admin.Modifier_notification(db))
+	http.HandleFunc("/supprimer_notification/{id}", admin.Supprimer_notification(db))
+	http.HandleFunc("/modeles_notifications", admin.Gestion_modeles(db))
+	http.HandleFunc("/modifier_modele/{id}", admin.Modifier_modele(db))
 
 	http.HandleFunc("/gestion_conseils", admin.Gestion_conseils(db))
 	http.HandleFunc("/gestion_conseil/{titre}", admin.Gestion_conseil_nom(db))

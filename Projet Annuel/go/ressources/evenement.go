@@ -254,6 +254,11 @@ func Reservation_evenement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		titreNotif, contenuNotif := LireTemplate(database, "reservation_evenement", map[string]string{
+			"evenement": nom,
+		})
+		_ = creerNotification(database, idUser, titreNotif, contenuNotif)
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Result{Message: "Rendez-vous créé et événement rejoint"})
 	}

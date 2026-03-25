@@ -570,6 +570,16 @@ func CreerCommande(database *sql.DB) http.HandlerFunc {
 		}
 		_, _ = database.Exec("UPDATE panier SET statut = ? WHERE id_panier = ?", panierStatus, panierID)
 
+		modePaiementLabel := "virement"
+		if body.PaymentMethod == "stripe" {
+			modePaiementLabel = "stripe"
+		}
+		titreNotif, contenuNotif := LireTemplate(database, "commande_creee", map[string]string{
+			"id":   strconv.Itoa(achatID),
+			"mode": modePaiementLabel,
+		})
+		_ = creerNotification(database, idUser, titreNotif, contenuNotif)
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]interface{}{
 			"valeur":         1,
@@ -830,6 +840,15 @@ func WebhookPaiement(database *sql.DB) http.HandlerFunc {
 				SET p.statut = 'actif'
 				WHERE a.id_achat = ?
 			`, orderID)
+		}
+
+		var idUser int
+		if errUser := database.QueryRow("SELECT id_utilisateur FROM achat WHERE id_achat = ?", orderID).Scan(&idUser); errUser == nil {
+			titreNotif, contenuNotif := LireTemplate(database, "paiement_mise_a_jour", map[string]string{
+				"id":     strconv.Itoa(orderID),
+				"statut": status,
+			})
+			_ = creerNotification(database, idUser, titreNotif, contenuNotif)
 		}
 
 		response.Header().Set("Content-Type", "application/json")

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : sam. 21 mars 2026 à 20:56
+-- Généré le : mer. 25 mars 2026 à 09:13
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -63,7 +63,11 @@ INSERT INTO `achat` (`id_achat`, `id_utilisateur`, `id_panier`, `date`) VALUES
 (14, 1, 3, '2026-03-21 17:24:26'),
 (15, 1, 4, '2026-03-21 17:26:43'),
 (16, 1, 5, '2026-03-21 17:26:56'),
-(17, 1, 6, '2026-03-21 20:49:37');
+(17, 1, 6, '2026-03-21 20:49:37'),
+(18, 1, 7, '2026-03-22 15:26:26'),
+(19, 1, 8, '2026-03-22 15:26:49'),
+(20, 1, 9, '2026-03-23 12:56:06'),
+(21, 1, 10, '2026-03-23 22:04:23');
 
 -- --------------------------------------------------------
 
@@ -85,7 +89,8 @@ CREATE TABLE `article` (
 
 INSERT INTO `article` (`id_article`, `titre`, `image`, `description`, `prix`) VALUES
 (1, 'Chat', '', 'Des chats a vendre', 77.00),
-(2, 'La dignité de Laurent', '', 'C\'est cadeau même si c\'est pas grand chose', 0.01);
+(2, 'La dignité de Laurent', '', 'C\'est cadeau même si c\'est pas grand chose', 0.01),
+(3, 'ZZZ22', 'article_1774182109.png', 'zzzz', 23.00);
 
 -- --------------------------------------------------------
 
@@ -341,6 +346,7 @@ CREATE TABLE `notification` (
   `id_notification` int(11) NOT NULL,
   `id_expediteur` int(11) DEFAULT NULL,
   `id_destinataire` int(11) DEFAULT NULL,
+  `Titre` varchar(50) NOT NULL,
   `contenu` text DEFAULT NULL,
   `date_envoie` datetime DEFAULT NULL,
   `lu` tinyint(1) DEFAULT 0
@@ -371,7 +377,11 @@ INSERT INTO `paiement` (`id_paiement`, `id_achat`, `montant`, `date`, `mode`, `s
 (3, 14, 77.00, '2026-03-21 17:24:26', 'transfer', 'pending_transfer'),
 (4, 15, 0.01, '2026-03-21 17:26:43', 'transfer', 'pending_transfer'),
 (5, 16, 77.00, '2026-03-21 17:26:56', 'stripe', 'paid'),
-(6, 17, 0.01, '2026-03-21 20:49:37', 'stripe', 'paid');
+(6, 17, 0.01, '2026-03-21 20:49:37', 'stripe', 'paid'),
+(7, 18, 23.00, '2026-03-22 15:26:26', 'transfer', 'pending_transfer'),
+(8, 19, 23.00, '2026-03-22 15:26:49', 'stripe', 'pending'),
+(9, 20, 23.00, '2026-03-23 12:56:06', 'stripe', 'pending'),
+(10, 21, 77.00, '2026-03-23 22:04:23', 'stripe', 'pending');
 
 -- --------------------------------------------------------
 
@@ -411,7 +421,11 @@ INSERT INTO `panier` (`id_panier`, `id_utilisateur`, `date_creation`, `statut`) 
 (3, 1, '2026-03-21 17:24:18', 'pending_transfer'),
 (4, 1, '2026-03-21 17:26:36', 'pending_transfer'),
 (5, 1, '2026-03-21 17:26:51', 'paid'),
-(6, 1, '2026-03-21 20:49:30', 'paid');
+(6, 1, '2026-03-21 20:49:30', 'paid'),
+(7, 1, '2026-03-22 15:26:19', 'pending_transfer'),
+(8, 1, '2026-03-22 15:26:42', 'pending_stripe'),
+(9, 1, '2026-03-23 12:54:08', 'pending_stripe'),
+(10, 1, '2026-03-23 22:04:18', 'pending_stripe');
 
 -- --------------------------------------------------------
 
@@ -458,7 +472,11 @@ INSERT INTO `reference_article` (`id`, `id_utilisateur`, `id_panier`, `id_articl
 (5, 1, 3, 1),
 (6, 1, 4, 2),
 (7, 1, 5, 1),
-(8, 1, 6, 2);
+(8, 1, 6, 2),
+(9, 1, 7, 3),
+(10, 1, 8, 3),
+(11, 1, 9, 3),
+(12, 1, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -883,13 +901,13 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `achat`
 --
 ALTER TABLE `achat`
-  MODIFY `id_achat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_achat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `article`
 --
 ALTER TABLE `article`
-  MODIFY `id_article` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_article` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `categorie`
@@ -973,7 +991,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `paiement`
 --
 ALTER TABLE `paiement`
-  MODIFY `id_paiement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_paiement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `paiement_abonnement`
@@ -985,7 +1003,7 @@ ALTER TABLE `paiement_abonnement`
 -- AUTO_INCREMENT pour la table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `prestataire`
@@ -997,7 +1015,7 @@ ALTER TABLE `prestataire`
 -- AUTO_INCREMENT pour la table `reference_article`
 --
 ALTER TABLE `reference_article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `reference_evenement`
@@ -1224,6 +1242,49 @@ ALTER TABLE `token`
 --
 ALTER TABLE `virement`
   ADD CONSTRAINT `virement_ibfk_1` FOREIGN KEY (`id_facture`) REFERENCES `facture_prestataire` (`id_facture`) ON DELETE CASCADE;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `modele_notification`
+--
+
+CREATE TABLE IF NOT EXISTS `modele_notification` (
+  `id_modele` int(11) NOT NULL AUTO_INCREMENT,
+  `cle` varchar(100) NOT NULL,
+  `titre` varchar(50) NOT NULL,
+  `contenu` text NOT NULL,
+  PRIMARY KEY (`id_modele`),
+  UNIQUE KEY `cle` (`cle`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Données par défaut pour la table `modele_notification`
+--
+
+INSERT IGNORE INTO `modele_notification` (`cle`, `titre`, `contenu`) VALUES
+('reservation_service', 'Réservation confirmée', 'Votre réservation pour le service "{service}" est confirmée le {date}.'),
+('reservation_evenement', 'Réservation confirmée', 'Votre réservation pour l''événement "{evenement}" est confirmée.'),
+('commande_creee', 'Commande créée', 'Votre commande #{id} a été créée via {mode}.'),
+('paiement_mise_a_jour', 'Paiement mis à jour', 'Votre paiement pour la commande #{id} est maintenant : {statut}.'),
+('contact_recu', 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.');
+
+--
+-- Structure de la table `abonnement_push`
+--
+
+CREATE TABLE IF NOT EXISTS `abonnement_push` (
+  `id_subscription` int(11) NOT NULL AUTO_INCREMENT,
+  `id_utilisateur` int(11) NOT NULL,
+  `subscription_id` varchar(191) NOT NULL,
+  `actif` tinyint(1) NOT NULL DEFAULT 1,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_subscription`),
+  UNIQUE KEY `uniq_subscription_id` (`subscription_id`),
+  KEY `idx_push_user` (`id_utilisateur`),
+  CONSTRAINT `fk_push_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

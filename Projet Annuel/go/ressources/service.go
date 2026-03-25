@@ -461,6 +461,12 @@ func Reservation_service(database *sql.DB) http.HandlerFunc {
 			_, _ = insertDispo.Exec(idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00"))
 		}
 
+		titreNotif, contenuNotif := LireTemplate(database, "reservation_service", map[string]string{
+			"service": serviceName,
+			"date":    start.Format("02/01/2006 à 15:04"),
+		})
+		_ = creerNotification(database, idUser, titreNotif, contenuNotif)
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Result{Message: "Réservation confirmée"})
 	}

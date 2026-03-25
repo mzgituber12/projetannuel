@@ -89,6 +89,25 @@ type Contact struct {
 	Email   string `json:"email"`
 }
 
+type Notification struct {
+	ID             int    `json:"id"`
+	IDExpediteur   int    `json:"id_expediteur"`
+	IDDestinataire int    `json:"id_destinataire"`
+	Titre          string `json:"titre"`
+	Contenu        string `json:"contenu"`
+	DateEnvoie     string `json:"date_envoie"`
+	Lu             int    `json:"lu"`
+	Expediteur     string `json:"expediteur"`
+	Destinataire   string `json:"destinataire"`
+}
+
+type ModeleNotification struct {
+	ID      int    `json:"id"`
+	Cle     string `json:"cle"`
+	Titre   string `json:"titre"`
+	Contenu string `json:"contenu"`
+}
+
 type Rdv struct {
 	ID    int    `json:"id"`
 	Title string `json:"title"`
@@ -97,15 +116,17 @@ type Rdv struct {
 }
 
 type List struct {
-	Contrat     []Contrat     `json:"contrat"`
-	Conseil     []Conseil     `json:"conseil"`
-	Evenement   []Evenement   `json:"evenement"`
-	Service     []Service     `json:"service"`
-	Categorie   []Categorie   `json:"categorie"`
-	Prestataire []Prestataire `json:"prestataire"`
-	Article     []Article     `json:"article"`
-	Contact     []Contact     `json:"contact"`
-	Utilisateur []User        `json:"utilisateur"`
+	Contrat            []Contrat            `json:"contrat"`
+	Conseil            []Conseil            `json:"conseil"`
+	Evenement          []Evenement          `json:"evenement"`
+	Service            []Service            `json:"service"`
+	Categorie          []Categorie          `json:"categorie"`
+	Prestataire        []Prestataire        `json:"prestataire"`
+	Article            []Article            `json:"article"`
+	Contact            []Contact            `json:"contact"`
+	Notification       []Notification       `json:"notification"`
+	ModeleNotification []ModeleNotification `json:"modele_notification"`
+	Utilisateur        []User               `json:"utilisateur"`
 }
 
 type Etat struct {

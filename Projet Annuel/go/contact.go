@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"projet/ressources"
 	"projet/structures"
 )
 
@@ -46,8 +47,8 @@ func nous_contacter(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		envmsg, nil := database.Prepare("INSERT INTO contact (id_utilisateur, contenu) VALUES (?, ?)")
-		if nil != err {
+		envmsg, err := database.Prepare("INSERT INTO contact (id_utilisateur, contenu) VALUES (?, ?)")
+		if err != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête d'insertion du message", http.StatusInternalServerError)
 			return
 		}
@@ -55,6 +56,37 @@ func nous_contacter(database *sql.DB) http.HandlerFunc {
 		if err != nil {
 			http.Error(response, "Erreur lors de l'envoi du message", http.StatusInternalServerError)
 			return
+		}
+
+		var titreContact, contenuContact string
+		_ = database.QueryRow("SELECT titre, contenu FROM modele_notification WHERE cle = 'contact_recu'").Scan(&titreContact, &contenuContact)
+		if titreContact == "" {
+			titreContact = "Nouveau message de contact"
+			contenuContact = "Un utilisateur vous a envoyé un nouveau message de contact."
+		}
+		rows, err := database.Query("SELECT id_utilisateur FROM utilisateur WHERE role = 'admin'")
+		if err == nil {
+			defer rows.Close()
+
+			adminIDs := make([]int, 0)
+			for rows.Next() {
+				var adminID int
+				if scanErr := rows.Scan(&adminID); scanErr == nil {
+					adminIDs = append(adminIDs, adminID)
+				}
+			}
+
+			insertStmt, prepErr := database.Prepare("INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (?, ?, ?, ?, NOW(), 0)")
+			if prepErr == nil {
+				defer insertStmt.Close()
+				for _, adminID := range adminIDs {
+					_, _ = insertStmt.Exec(id, adminID, titreContact, contenuContact)
+				}
+			}
+
+			if len(adminIDs) > 0 {
+				_ = ressources.EnvoyerNotificationPushOneSignal(database, adminIDs, titreContact, contenuContact)
+			}
 		}
 
 		response.Header().Set("Content-Type", "application/json")
