@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `abonnement` (
   `id_abonnement` int(11) NOT NULL,
-  `id_prestataire` int(11) DEFAULT NULL,
+  `type_prestataire` tinyint(1) DEFAULT 0,
   `type` varchar(100) DEFAULT NULL,
   `prix_mois` decimal(10,2) DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL,

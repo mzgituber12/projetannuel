@@ -29,7 +29,12 @@ func main() {
 
 	http.HandleFunc("/mon_profil", mon_profil(db))
 	http.HandleFunc("/update_profil", update_profil(db))
-	http.HandleFunc("/abonnement", abonnement(db))
+	http.HandleFunc("/abonnement", ressources.ListAbonnements(db))
+
+	http.HandleFunc("/subscribe", ressources.SouscrireAbonnement(db))
+	http.HandleFunc("/mon-abonnement", ressources.MonAbonnement(db))
+	http.HandleFunc("/cancel-subscription", ressources.CancelAbonnement(db))
+	http.HandleFunc("/webhook-subscription", ressources.WebhookAbonnement(db))
 
 	http.HandleFunc("/nous_contacter", nous_contacter(db))
 

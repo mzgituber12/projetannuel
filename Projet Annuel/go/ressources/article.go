@@ -24,9 +24,7 @@ func verifierTableReferenceArticle(database *sql.DB) error {
 			id_utilisateur INT NOT NULL,
 			id_panier INT NOT NULL,
 			id_article INT NOT NULL,
-			UNIQUE KEY uniq_user_panier_article (id_utilisateur, id_panier, id_article),
-			KEY idx_article (id_article),
-			KEY idx_panier (id_panier)
+			UNIQUE KEY uniq_user_panier_article (id_utilisateur, id_panier, id_article)
 		)
 	`)
 	return err
@@ -582,11 +580,11 @@ func CreerCommande(database *sql.DB) http.HandlerFunc {
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]interface{}{
-			"valeur":         1,
-			"message":        "Commande créée",
-			"id_commande":    achatID,
-			"montant_total":  total,
-			"mode_paiement":  body.PaymentMethod,
+			"valeur":        1,
+			"message":       "Commande créée",
+			"id_commande":   achatID,
+			"montant_total": total,
+			"mode_paiement": body.PaymentMethod,
 			"virement": map[string]string{
 				"iban":      "FR76 1234 5678 9012 3456 7890 123",
 				"reference": "CMD-" + strconv.Itoa(achatID),
