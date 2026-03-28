@@ -121,6 +121,7 @@ if ($image !== '') {
 
     <script>
         const serviceId = <?= $id ?>;
+        const serviceName = <?= json_encode($nom, JSON_UNESCAPED_UNICODE) ?>;
         let availabilityByDate = {};
         let currentMonth = new Date();
         let selectedDateKey = '';
@@ -416,26 +417,19 @@ if ($image !== '') {
             }
 
             const base = (window.API_BASE || 'http://localhost:9000');
-            const response = await fetch(base + '/reservation_service', {
+            const resp = await fetch(base + '/creer_devis', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Token': token
-                },
-                body: JSON.stringify({
-                    id_service: serviceId,
-                    start: start
-                })
+                headers: { 'Content-Type': 'application/json', 'Token': token },
+                body: JSON.stringify({ id_service: serviceId, start: start })
             });
 
-            const text = await response.text();
-            if (!response.ok) {
-                alert(text);
+            if (!resp.ok) {
+                const text = await resp.text();
+                document.getElementById('calendarError').textContent = text || 'Erreur lors de la création du devis.';
                 return;
             }
 
-            alert(text);
-            window.location.href = 'catalogue.php';
+            window.location.href = 'devis.php?message=' + encodeURIComponent('Votre demande de devis a été envoyée avec succès.');
         }
 
         function initSelects() {

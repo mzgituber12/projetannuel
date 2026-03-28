@@ -37,6 +37,7 @@ func main() {
 	http.HandleFunc("/webhook-subscription", ressources.WebhookAbonnement(db))
 
 	http.HandleFunc("/nous_contacter", nous_contacter(db))
+	http.HandleFunc("/demande_presta", demande_presta(db))
 
 	http.HandleFunc("/contrats", ressources.Contrats(db))
 	http.HandleFunc("/conseils", ressources.Conseils(db))
@@ -63,6 +64,10 @@ func main() {
 	http.HandleFunc("/reservation_evenement", ressources.Reservation_evenement(db))
 	http.HandleFunc("/service_disponible", ressources.Service_disponible(db))
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
+	http.HandleFunc("/creer_devis", ressources.CreerDevis(db))
+	http.HandleFunc("/mes_devis", ressources.MesDevis(db))
+	http.HandleFunc("/devis/{id}", ressources.DevisDetail(db))
+	http.HandleFunc("/devis/{id}/statut", ressources.PatchDevis(db))
 	http.HandleFunc("/notifications", ressources.NotificationsUtilisateur(db))
 	http.HandleFunc("/notifications/unread-count", ressources.CompteurNotifications(db))
 	http.HandleFunc("/notifications/read-all", ressources.MarquerToutesNotificationsLues(db))
@@ -103,6 +108,8 @@ func main() {
 	http.HandleFunc("/modifier_intervention/{id}", admin.Modifier_intervention(db))
 
 	http.HandleFunc("/gestion_contact", admin.Gestion_contact(db))
+	http.HandleFunc("/add_abonnement", admin.Abonnement_admin_creation(db))
+	http.HandleFunc("/abonnement_all", liste_abonnement_all(db))
 	http.HandleFunc("/gestion_notifications", admin.Gestion_notifications(db))
 	http.HandleFunc("/creer_notification", admin.Creer_notification(db))
 	http.HandleFunc("/modifier_notification/{id}", admin.Modifier_notification(db))

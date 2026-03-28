@@ -128,6 +128,7 @@ type List struct {
 	ModeleNotification []ModeleNotification `json:"modele_notification"`
 	Utilisateur        []User               `json:"utilisateur"`
 	Abonnement         []Abonnement         `json:"abonnement"`
+	Devis              []Devis              `json:"devis"`
 }
 
 type Etat struct {
@@ -149,15 +150,15 @@ type Abonnement struct {
 }
 
 type Souscription struct {
-	ID                int    `json:"id"`
-	IDUtilisateur     int    `json:"id_utilisateur"`
-	IDAbonnement      int    `json:"id_abonnement"`
-	DateSouscription  string `json:"date_souscription"`
-	DateExpiration    string `json:"date_expiration"`
-	TypePaiement      string `json:"type_paiement"`
-	Validite          bool   `json:"validite"`
-	StripeCustomerID  string `json:"stripe_customer_id"`
-	StripeSubID       string `json:"stripe_subscription_id"`
+	ID               int    `json:"id"`
+	IDUtilisateur    int    `json:"id_utilisateur"`
+	IDAbonnement     int    `json:"id_abonnement"`
+	DateSouscription string `json:"date_souscription"`
+	DateExpiration   string `json:"date_expiration"`
+	TypePaiement     string `json:"type_paiement"`
+	Validite         bool   `json:"validite"`
+	StripeCustomerID string `json:"stripe_customer_id"`
+	StripeSubID      string `json:"stripe_subscription_id"`
 }
 
 type PaiementAbonnement struct {
@@ -167,4 +168,15 @@ type PaiementAbonnement struct {
 	Date         string  `json:"date"`
 	Mode         string  `json:"mode"`
 	Statut       string  `json:"statut"`
+}
+
+type Devis struct {
+	ID             int     `json:"id"`
+	NomService     string  `json:"nom_service"`
+	NomPrestataire string  `json:"nom_prestataire"`
+	Tarif          float64 `json:"tarif"`
+	Status         string  `json:"status"`
+	DateDebut      string  `json:"date_debut"`
+	DateFin        string  `json:"date_fin"`
+	CanModify      bool    `json:"can_modify"`
 }
