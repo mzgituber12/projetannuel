@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : mer. 25 mars 2026 à 09:13
+-- Généré le : sam. 28 mars 2026 à 11:36
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -39,6 +39,37 @@ CREATE TABLE `abonnement` (
   `offre_repas` tinyint(1) DEFAULT NULL,
   `mis_en_avant` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `abonnement`
+--
+
+INSERT INTO `abonnement` (`id_abonnement`, `type_prestataire`, `type`, `prix_mois`, `statut`, `prix_an`, `Locaux_prestation`, `Trajet_offert`, `offre_repas`, `mis_en_avant`) VALUES
+(1, 1, 'Basic', 4.00, 'actif', 40, 1, 1, 0, 0),
+(2, 1, 'Standard', 5.00, 'actif', 55, 1, 1, 1, 0),
+(3, 1, 'Premium', 6.00, 'actif', 72, 1, 1, 1, 1),
+(5, 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `abonnement_push`
+--
+
+CREATE TABLE `abonnement_push` (
+  `id_subscription` int(11) NOT NULL,
+  `id_utilisateur` int(11) NOT NULL,
+  `subscription_id` varchar(191) NOT NULL,
+  `actif` tinyint(1) NOT NULL DEFAULT 1,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `abonnement_push`
+--
+
+INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
+(68, 1, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-28 10:09:19');
 
 -- --------------------------------------------------------
 
@@ -167,7 +198,10 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id_contact`, `id_utilisateur`, `contenu`) VALUES
-(7, 1, 'lucas est un petit peu autiste');
+(7, 1, 'lucas est un petit peu autiste'),
+(8, 1, 'lucas est un petit peu autiste'),
+(9, 1, 'lucas est un petit peu autiste'),
+(10, 1, 'lucas est un petit peu autiste');
 
 -- --------------------------------------------------------
 
@@ -235,7 +269,10 @@ CREATE TABLE `disponibilite` (
 
 INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heure_debut`, `heure_fin`, `statut`, `jour_semaine`, `type_regle`, `recurrence`, `date_fin_regle`) VALUES
 (1, 1, '2026-03-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
-(2, 1, '2026-03-20', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL);
+(2, 1, '2026-03-20', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
+(3, 1, '2026-04-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
+(27, 1, '2026-04-15', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(28, 1, '2026-04-15', '11:00:00', '12:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL);
 
 -- --------------------------------------------------------
 
@@ -339,6 +376,30 @@ CREATE TABLE `message` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `modele_notification`
+--
+
+CREATE TABLE `modele_notification` (
+  `id_modele` int(11) NOT NULL,
+  `cle` varchar(100) NOT NULL,
+  `titre` varchar(50) NOT NULL,
+  `contenu` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `modele_notification`
+--
+
+INSERT INTO `modele_notification` (`id_modele`, `cle`, `titre`, `contenu`) VALUES
+(1, 'reservation_service', 'Réservation confirmée', 'Votre réservation pour le service \"{service}\" est confirmée le {date}.'),
+(2, 'reservation_evenement', 'Réservation confirmée', 'Votre réservation pour l\'événement \"{evenement}\" est confirmée.'),
+(3, 'commande_creee', 'Commande créée', 'Votre commande #{id} a été créée via {mode}.'),
+(4, 'paiement_mise_a_jour', 'Paiement mis à jour', 'Votre paiement pour la commande #{id} est maintenant : {statut}.'),
+(5, 'contact_recu', 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `notification`
 --
 
@@ -351,6 +412,22 @@ CREATE TABLE `notification` (
   `date_envoie` datetime DEFAULT NULL,
   `lu` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `notification`
+--
+
+INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire`, `Titre`, `contenu`, `date_envoie`, `lu`) VALUES
+(13, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:23:22', 1),
+(14, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:24:46', 1),
+(15, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-03-25 19:25:46', 1),
+(16, 5, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 11:00.', '2026-03-25 19:26:57', 1),
+(17, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:31:31', 1),
+(18, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:45:01', 1),
+(19, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:49:48', 1),
+(20, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-03-25 19:50:35', 0),
+(21, 1, 5, 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.', '2026-03-25 19:51:56', 1),
+(22, 1, 5, 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.', '2026-03-25 19:57:53', 1);
 
 -- --------------------------------------------------------
 
@@ -397,6 +474,16 @@ CREATE TABLE `paiement_abonnement` (
   `mode` varchar(50) DEFAULT NULL,
   `statut` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `paiement_abonnement`
+--
+
+INSERT INTO `paiement_abonnement` (`id_paiement_abonnement`, `id_abonnement`, `montant`, `date`, `mode`, `statut`) VALUES
+(9, 2, 5.00, '2026-03-28', 'stripe', 'pending'),
+(10, 3, 6.00, '2026-03-28', 'stripe', 'pending'),
+(11, 5, 300.00, '2026-03-28', 'stripe', 'pending'),
+(12, 5, 30.00, '2026-03-28', 'stripe', 'pending');
 
 -- --------------------------------------------------------
 
@@ -495,8 +582,9 @@ CREATE TABLE `reference_evenement` (
 --
 
 INSERT INTO `reference_evenement` (`id`, `id_utilisateur`, `id_evenement`) VALUES
-(29, 1, 1),
-(30, 1, 3);
+(45, 5, 2),
+(46, 5, 3),
+(49, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -509,6 +597,14 @@ CREATE TABLE `reference_service` (
   `id_utilisateur` int(11) NOT NULL,
   `id_service` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `reference_service`
+--
+
+INSERT INTO `reference_service` (`id`, `id_utilisateur`, `id_service`) VALUES
+(29, 1, 1),
+(30, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -532,8 +628,11 @@ CREATE TABLE `rendez_vous` (
 
 INSERT INTO `rendez_vous` (`id_rdv`, `id_utilisateur`, `id_prestataire`, `date_debut`, `date_fin`, `type`, `statut`) VALUES
 (1, 2, 1, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'rendez-vous pour des chaussures', 'attente'),
-(31, 1, NULL, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'Manger', 'confirmé'),
-(32, 1, NULL, '2026-03-29 07:00:00', '2026-03-29 08:00:00', 'eeee', 'confirmé');
+(41, 1, 1, '2026-04-15 10:00:00', '2026-04-15 11:00:00', 'Faire chier Laurent', 'confirmé'),
+(50, 5, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé'),
+(51, 5, 1, '2026-04-15 11:00:00', '2026-04-15 12:00:00', 'Faire chier Laurent', 'confirmé'),
+(52, 5, NULL, '2026-03-29 07:00:00', '2026-03-29 08:00:00', 'eeee', 'confirmé'),
+(55, 1, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé');
 
 -- --------------------------------------------------------
 
@@ -573,8 +672,20 @@ CREATE TABLE `souscris_abonnement` (
   `validite` tinyint(1) DEFAULT 1,
   `type_paiement` enum('an','mois') NOT NULL DEFAULT 'mois',
   `id_utilisateur` int(11) NOT NULL,
-  `id_abonnement` int(11) NOT NULL
+  `id_abonnement` int(11) NOT NULL,
+  `stripe_customer_id` varchar(255) DEFAULT NULL,
+  `stripe_subscription_id` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `souscris_abonnement`
+--
+
+INSERT INTO `souscris_abonnement` (`id_souscrit`, `date_souscription`, `date_expiration`, `validite`, `type_paiement`, `id_utilisateur`, `id_abonnement`, `stripe_customer_id`, `stripe_subscription_id`) VALUES
+(9, '2026-03-28 10:32:04', NULL, 0, 'mois', 1, 2, 'cus_UEMtadIAa7D0sa', NULL),
+(10, '2026-03-28 10:32:13', NULL, 0, 'mois', 1, 3, 'cus_UEMtadIAa7D0sa', NULL),
+(11, '2026-03-28 10:46:22', NULL, 0, 'an', 1, 5, 'cus_UEMtadIAa7D0sa', NULL),
+(12, '2026-03-28 11:28:31', NULL, 1, 'mois', 1, 5, 'cus_UEMtadIAa7D0sa', NULL);
 
 -- --------------------------------------------------------
 
@@ -630,11 +741,11 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `age`, `email`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`) VALUES
-(1, 'Laurent', 'Voillot', 18, 'aa@aa', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'pK7q0e15m3y5al3StnqSmqJF095vXLO1MxNLeZ7Coto', 'adherant', '', 'fr', '1', 0, 0, 0),
+(1, 'Laurent', 'Voillot', 19, 'test@example.com', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'GL3hCx7pRQdLNKUHklOumpZka1EzTC4TMVPdfZFJz_w', 'adherant', '', 'fr', '1', 0, 0, 0),
 (2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
 (3, 'bb', 'bb', 20, 'cc@cc', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
 (4, 'cc', 'ac', 44, 'cc@ccc', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(5, 'admin', 'admin (le mdp est admin123)', 48, 'a@a', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', '7sKfSNkJ027gWxYhms5mBjMeX1Gxg0HDRzk4lcA1Aos', 'admin', '', 'fr', '1', 1, 0, 0);
+(5, 'admin', 'admin (le mdp est admin123)', 48, 'a@a', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'TRdHaEgct5Eh70eCJGdIS_dakqyLoMFkDOLnTFzRhrs', 'admin', '', 'fr', '1', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -659,7 +770,15 @@ CREATE TABLE `virement` (
 --
 ALTER TABLE `abonnement`
   ADD PRIMARY KEY (`id_abonnement`),
-  ADD KEY `id_prestataire` (`id_prestataire`);
+  ADD KEY `id_prestataire` (`type_prestataire`);
+
+--
+-- Index pour la table `abonnement_push`
+--
+ALTER TABLE `abonnement_push`
+  ADD PRIMARY KEY (`id_subscription`),
+  ADD UNIQUE KEY `uniq_subscription_id` (`subscription_id`),
+  ADD KEY `idx_push_user` (`id_utilisateur`);
 
 --
 -- Index pour la table `achat`
@@ -773,6 +892,13 @@ ALTER TABLE `message`
   ADD PRIMARY KEY (`id_message`),
   ADD KEY `id_expediteur` (`id_expediteur`),
   ADD KEY `id_destinataire` (`id_destinataire`);
+
+--
+-- Index pour la table `modele_notification`
+--
+ALTER TABLE `modele_notification`
+  ADD PRIMARY KEY (`id_modele`),
+  ADD UNIQUE KEY `cle` (`cle`);
 
 --
 -- Index pour la table `notification`
@@ -895,7 +1021,13 @@ ALTER TABLE `virement`
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id_abonnement` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `abonnement_push`
+--
+ALTER TABLE `abonnement_push`
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -925,7 +1057,7 @@ ALTER TABLE `conseil`
 -- AUTO_INCREMENT pour la table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `contrat`
@@ -943,7 +1075,7 @@ ALTER TABLE `devis`
 -- AUTO_INCREMENT pour la table `disponibilite`
 --
 ALTER TABLE `disponibilite`
-  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT pour la table `document`
@@ -982,10 +1114,16 @@ ALTER TABLE `message`
   MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `modele_notification`
+--
+ALTER TABLE `modele_notification`
+  MODIFY `id_modele` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
@@ -997,7 +1135,7 @@ ALTER TABLE `paiement`
 -- AUTO_INCREMENT pour la table `paiement_abonnement`
 --
 ALTER TABLE `paiement_abonnement`
-  MODIFY `id_paiement_abonnement` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_paiement_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `panier`
@@ -1021,19 +1159,19 @@ ALTER TABLE `reference_article`
 -- AUTO_INCREMENT pour la table `reference_evenement`
 --
 ALTER TABLE `reference_evenement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT pour la table `reference_service`
 --
 ALTER TABLE `reference_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
-  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT pour la table `service`
@@ -1045,7 +1183,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT pour la table `souscris_abonnement`
 --
 ALTER TABLE `souscris_abonnement`
-  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `token`
@@ -1070,10 +1208,10 @@ ALTER TABLE `virement`
 --
 
 --
--- Contraintes pour la table `abonnement`
+-- Contraintes pour la table `abonnement_push`
 --
-ALTER TABLE `abonnement`
-  ADD CONSTRAINT `abonnement_ibfk_1` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE CASCADE;
+ALTER TABLE `abonnement_push`
+  ADD CONSTRAINT `fk_push_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `achat`
@@ -1242,49 +1380,6 @@ ALTER TABLE `token`
 --
 ALTER TABLE `virement`
   ADD CONSTRAINT `virement_ibfk_1` FOREIGN KEY (`id_facture`) REFERENCES `facture_prestataire` (`id_facture`) ON DELETE CASCADE;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `modele_notification`
---
-
-CREATE TABLE IF NOT EXISTS `modele_notification` (
-  `id_modele` int(11) NOT NULL AUTO_INCREMENT,
-  `cle` varchar(100) NOT NULL,
-  `titre` varchar(50) NOT NULL,
-  `contenu` text NOT NULL,
-  PRIMARY KEY (`id_modele`),
-  UNIQUE KEY `cle` (`cle`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Données par défaut pour la table `modele_notification`
---
-
-INSERT IGNORE INTO `modele_notification` (`cle`, `titre`, `contenu`) VALUES
-('reservation_service', 'Réservation confirmée', 'Votre réservation pour le service "{service}" est confirmée le {date}.'),
-('reservation_evenement', 'Réservation confirmée', 'Votre réservation pour l''événement "{evenement}" est confirmée.'),
-('commande_creee', 'Commande créée', 'Votre commande #{id} a été créée via {mode}.'),
-('paiement_mise_a_jour', 'Paiement mis à jour', 'Votre paiement pour la commande #{id} est maintenant : {statut}.'),
-('contact_recu', 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.');
-
---
--- Structure de la table `abonnement_push`
---
-
-CREATE TABLE IF NOT EXISTS `abonnement_push` (
-  `id_subscription` int(11) NOT NULL AUTO_INCREMENT,
-  `id_utilisateur` int(11) NOT NULL,
-  `subscription_id` varchar(191) NOT NULL,
-  `actif` tinyint(1) NOT NULL DEFAULT 1,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id_subscription`),
-  UNIQUE KEY `uniq_subscription_id` (`subscription_id`),
-  KEY `idx_push_user` (`id_utilisateur`),
-  CONSTRAINT `fk_push_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
