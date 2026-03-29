@@ -6,130 +6,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Détail produit</title>
-    <style>
-        .product-shell {
-            max-width: 900px;
-            width: min(900px, calc(100% - 2rem));
-            margin: 1.2rem auto;
-            padding: 1.2rem;
-            border: 1px solid rgba(0,0,0,.1);
-            border-radius: 12px;
-            background: #f8fbff;
-            box-sizing: border-box;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 360px;
-            border-radius: 10px;
-            border: 1px solid #dbe3ff;
-            background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6b7280;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .product-title {
-            margin: 1rem 0 0.5rem 0;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #111827;
-        }
-
-        .product-price {
-            color: #1d4ed8;
-            font-weight: 800;
-            font-size: 1.2rem;
-        }
-
-        .product-content {
-            margin-top: 1rem;
-            color: #1f2937;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-
-        .actions {
-            margin-top: 1.5rem;
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 0.65rem 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-cart {
-            background: #16a34a;
-            color: #fff;
-        }
-
-        .btn-cart:hover {
-            background: #15803d;
-        }
-
-        .btn-back {
-            background: #2563eb;
-            color: #fff;
-        }
-
-        .btn-back:hover {
-            background: #1d4ed8;
-        }
-
-        .message {
-            margin-top: 1rem;
-            padding: 0.65rem;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .message.ok {
-            color: #166534;
-            background: #dcfce7;
-            border: 1px solid #bbf7d0;
-        }
-
-        .message.err {
-            color: #b91c1c;
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
-<h1>Détail produit</h1>
-<div class="product-shell" id="productDetail">Chargement...</div>
+<h1 class="mt-5 mb-4">Détail produit</h1>
+<div class="container-lg" id="productDetail" style="min-height: auto;">Chargement...</div>
 
 <?php include 'includes/footer.php';?>
 
 <script>
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
-
 function modifImageUrl(image) {
     const contenue = String(image ?? "").trim();
     if (!contenue) return "";
@@ -142,7 +30,7 @@ function modifImageUrl(image) {
 function renduBoutiqueImage(image, altText) {
     const imageUrl = modifImageUrl(image);
     if (!imageUrl) return "Produit";
-    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
 }
 
 function mettreAJourBoutonPanier(estDansPanier) {
@@ -151,12 +39,12 @@ function mettreAJourBoutonPanier(estDansPanier) {
 
     if (estDansPanier) {
         btn.textContent = 'Retirer du panier';
-        btn.classList.remove('btn-cart');
-        btn.classList.add('btn-back');
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-outline-danger');
     } else {
         btn.textContent = 'Ajouter au panier';
-        btn.classList.remove('btn-back');
-        btn.classList.add('btn-cart');
+        btn.classList.remove('btn-outline-danger');
+        btn.classList.add('btn-success');
     }
 }
 
@@ -188,7 +76,8 @@ async function basculerPanier(articleId) {
     const message = document.getElementById('cartMessage');
 
     if (!token) {
-        message.className = 'message err';
+        message.className = 'alert alert-danger';
+        message.classList.remove('d-none');
         message.textContent = 'Veuillez vous connecter pour gérer le panier.';
         return;
     }
@@ -207,18 +96,21 @@ async function basculerPanier(articleId) {
     try {
         data = JSON.parse(raw);
     } catch {
-        message.className = 'message err';
+        message.className = 'alert alert-danger';
+        message.classList.remove('d-none');
         message.textContent = raw || 'Erreur serveur.';
         return;
     }
 
     if (!response.ok) {
-        message.className = 'message err';
+        message.className = 'alert alert-danger';
+        message.classList.remove('d-none');
         message.textContent = data.message || 'Erreur panier.';
         return;
     }
 
-    message.className = 'message ok';
+    message.className = 'alert alert-success';
+    message.classList.remove('d-none');
     message.textContent = data.message || 'Panier mis à jour.';
     mettreAJourBoutonPanier(data.value === 1);
 }
@@ -241,28 +133,34 @@ async function chargerArticle() {
 
         if (!response.ok) {
             const text = await response.text();
-            container.innerHTML = '<div class="message err">' + escapeHtml(text || 'Article introuvable.') + '</div>';
+            container.innerHTML = '<div class="message err">' + String(text || 'Article introuvable.') + '</div>';
             return;
         }
 
         const article = await response.json();
 
         container.innerHTML = `
-            <div class="product-image">${renduBoutiqueImage(article.image, `Image de ${article.titre || 'cet article'}`)}</div>
-            <h2 class="product-title"><strong>${escapeHtml(article.titre)}</strong></h2>
-            <div class="product-price">${escapeHtml(article.prix)} €</div>
-            <div class="product-content">${escapeHtml(article.description || '')}</div>
-            <div class="actions">
-                <button id="cartToggleButton" class="btn btn-cart" onclick="basculerPanier(${Number(article.id)})">Ajouter au panier</button>
-                <a class="btn btn-back" href="panier.php">Voir mon panier</a>
-                <a class="btn btn-back" href="boutique.php">Retour à la boutique</a>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="bg-light rounded p-4 mb-4 text-center" style="min-height:400px;display:flex;align-items:center;justify-content:center;">
+                        ${renduBoutiqueImage(article.image, `Image de ${article.titre || 'cet article'}`)}
+                    </div>
+                    <h2 class="h3 mb-2"><strong>${String(article.titre)}</strong></h2>
+                    <p class="text-primary fw-bold fs-5 mb-3">${String(article.prix)} €</p>
+                    <div class="text-secondary mb-4" style="white-space:pre-wrap;word-break:break-word;">${String(article.description || '')}</div>
+                    <div class="d-flex gap-2 flex-wrap mb-3">
+                        <button id="cartToggleButton" class="btn btn-success" onclick="basculerPanier(${Number(article.id)})">Ajouter au panier</button>
+                        <a class="btn btn-primary" href="panier.php">Voir mon panier</a>
+                        <a class="btn btn-outline-secondary" href="boutique.php">Retour à la boutique</a>
+                    </div>
+                    <div id="cartMessage" class="alert alert-info d-none"></div>
+                </div>
             </div>
-            <div id="cartMessage" class="message" style="display:block;"></div>
         `;
 
         rafraichirEtatPanier(article.id);
     } catch (error) {
-        container.innerHTML = '<div class="message err">Erreur de chargement du produit.</div>';
+        container.innerHTML = '<div class="alert alert-danger">Erreur de chargement du produit.</div>';
     }
 }
 
@@ -276,3 +174,4 @@ init();
 </script>
 </body>
 </html>
+

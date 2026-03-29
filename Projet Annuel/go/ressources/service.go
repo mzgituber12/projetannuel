@@ -3,6 +3,7 @@ package ressources
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -390,7 +391,7 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	var idPrestataire int
 	var serviceName string
 	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, new(float64)); err != nil {
-		return "", http.StatusNotFound, fmt.Errorf("service introuvable")
+		return "", http.StatusNotFound, errors.New("service introuvable")
 	}
 
 	startInput = strings.TrimSpace(startInput)
@@ -415,17 +416,17 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	}
 
 	if parseErr != nil {
-		return "", http.StatusBadRequest, fmt.Errorf("format de date/heure invalide")
+		return "", http.StatusBadRequest, errors.New("format de date/heure invalide")
 	}
 	end := start.Add(time.Hour)
 
 	var count int
 	err := database.QueryRow("SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?", idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00")).Scan(&count)
 	if err != nil {
-		return "", http.StatusInternalServerError, fmt.Errorf("erreur lors de la vérification des disponibilités")
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la vérification des disponibilités")
 	}
 	if count == 0 {
-		return "", http.StatusBadRequest, fmt.Errorf("créneau non disponible")
+		return "", http.StatusBadRequest, errors.New("créneau non disponible")
 	}
 
 	err = database.QueryRow(
@@ -433,10 +434,10 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 		idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"),
 	).Scan(&count)
 	if err != nil {
-		return "", http.StatusInternalServerError, fmt.Errorf("erreur lors de la vérification des rendez-vous existants")
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la vérification des rendez-vous existants")
 	}
 	if count > 0 {
-		return "", http.StatusBadRequest, fmt.Errorf("ce créneau est déjà réservé")
+		return "", http.StatusBadRequest, errors.New("ce créneau est déjà réservé")
 	}
 
 	insertRef, err := database.Prepare("INSERT INTO reference_service (id_utilisateur, id_service) VALUES (?, ?)")
@@ -446,11 +447,11 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 
 	insertRdv, err := database.Prepare("INSERT INTO rendez_vous (id_utilisateur, id_prestataire, date_debut, date_fin, type, statut) VALUES (?, ?, ?, ?, ?, 'confirmé')")
 	if err != nil {
-		return "", http.StatusInternalServerError, fmt.Errorf("erreur lors de la création du rendez-vous")
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la création du rendez-vous")
 	}
 	_, err = insertRdv.Exec(idUser, idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"), serviceName)
 	if err != nil {
-		return "", http.StatusInternalServerError, fmt.Errorf("erreur lors de l'insertion du rendez-vous")
+		return "", http.StatusInternalServerError, errors.New("erreur lors de l'insertion du rendez-vous")
 	}
 
 	insertDispo, err := database.Prepare("INSERT INTO disponibilite (id_prestataire, date, heure_debut, heure_fin, statut, type_regle, recurrence) VALUES (?, ?, ?, ?, 'indisponible', 'indisponible', 'unique')")
@@ -662,7 +663,7 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 		_ = creerNotification(database, idUser, titreNotif, contenuNotif)
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"message":  "Devis créé avec succès",
 			"id_devis": idDevis,
 		})

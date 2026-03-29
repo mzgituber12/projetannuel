@@ -6,118 +6,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Boutique</title>
-    <style>
-        .shop-shell {
-            max-width: 1100px;
-            margin: 1rem auto;
-            padding: 1rem;
-            border: 1px solid rgba(0,0,0,.1);
-            border-radius: 12px;
-            background: #f4f8ff;
-        }
-
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 1rem;
-        }
-
-        .shop-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,.06);
-        }
-
-        .shop-img {
-            height: 150px;
-            background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6b7280;
-            font-weight: 700;
-        }
-
-        .shop-body {
-            padding: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-
-        .shop-title {
-            margin: 0;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .shop-desc {
-            margin: 0;
-            color: #374151;
-            line-height: 1.35;
-            min-height: 56px;
-        }
-
-        .shop-price {
-            color: #1d4ed8;
-            font-weight: 700;
-        }
-
-        .shop-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            background: #2563eb;
-            color: #fff;
-            border-radius: 6px;
-            padding: 0.5rem 0.75rem;
-            font-weight: 600;
-        }
-
-        .shop-link:hover {
-            background: #1d4ed8;
-        }
-
-        @media (max-width: 1100px) {
-            .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        }
-
-        @media (max-width: 800px) {
-            .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        }
-
-        @media (max-width: 560px) {
-            .shop-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
 <h1>Boutique</h1>
-<div class="shop-shell">
-    <div id="articles" class="shop-grid"></div>
+<div class="container-lg">
+    <div id="articles" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
 </div>
 
 <?php include 'includes/footer.php';?>
 
 <script>
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
-
 function modifImageUrl(image) {
     const contenue = String(image ?? "").trim();
     if (!contenue) return "";
@@ -130,7 +32,7 @@ function modifImageUrl(image) {
 function renduBoutiqueImage(image, altText) {
     const imageUrl = modifImageUrl(image);
     if (!imageUrl) return "Article";
-    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
 async function listerArticles() {
@@ -148,7 +50,7 @@ async function listerArticles() {
     const container = document.getElementById('articles');
 
     if (data.message) {
-        container.innerHTML = '<p>' + escapeHtml(data.message) + '</p>';
+        container.innerHTML = '<p>' + String(data.message) + '</p>';
         return;
     }
 
@@ -159,15 +61,19 @@ async function listerArticles() {
             : (a.description || '');
 
         html += `
-            <article class="shop-card">
-                <div class="shop-img">${renduBoutiqueImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
-                <div class="shop-body">
-                    <h3 class="shop-title">${escapeHtml(a.titre)}</h3>
-                    <p class="shop-desc">${escapeHtml(desc)}</p>
-                    <span class="shop-price">${escapeHtml(a.prix)} €</span>
-                    <a class="shop-link" href="article_detail.php?id=${encodeURIComponent(a.id)}">Voir le produit</a>
-                </div>
-            </article>
+            <div class="col">
+                <article class="card h-100 border-0 shadow-sm">
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:150px;">
+                        ${renduBoutiqueImage(a.image, `Image de ${a.titre || "cet article"}`)}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">${String(a.titre)}</h5>
+                        <p class="card-text text-muted small flex-grow-1">${String(desc)}</p>
+                        <p class="card-text text-primary fw-bold mb-2">${String(a.prix)} €</p>
+                        <a class="btn btn-primary" href="article_detail.php?id=${encodeURIComponent(a.id)}">Voir le produit</a>
+                    </div>
+                </article>
+            </div>
         `;
     });
 
@@ -184,3 +90,4 @@ init();
 </script>
 </body>
 </html>
+

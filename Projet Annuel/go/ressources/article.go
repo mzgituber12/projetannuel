@@ -579,7 +579,7 @@ func CreerCommande(database *sql.DB) http.HandlerFunc {
 		_ = creerNotification(database, idUser, titreNotif, contenuNotif)
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"valeur":        1,
 			"message":       "Commande créée",
 			"id_commande":   achatID,
@@ -702,7 +702,7 @@ func CreerSessionPaiement(database *sql.DB) http.HandlerFunc {
 		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"message":    "Session Stripe créée",
 			"session_id": checkoutSession.ID,
 			"url":        checkoutSession.URL,
@@ -925,7 +925,7 @@ func FactureAchat(database *sql.DB) http.HandlerFunc {
 		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"order_id": orderID,
 			"date":     orderDate,
 			"mode":     mode,

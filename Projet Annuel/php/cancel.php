@@ -6,40 +6,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Paiement annule</title>
-    <style>
-        .box {
-            max-width: 760px;
-            margin: 2rem auto;
-            padding: 1.2rem;
-            border-radius: 12px;
-            border: 1px solid #fecaca;
-            background: #fef2f2;
-        }
-
-        .actions { margin-top: 1rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
-
-        .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-            text-decoration: none;
-            font-weight: 700;
-            color: #fff;
-            background: #2563eb;
-        }
-
-        .btn.secondary { background: #6b7280; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
-<div class="box">
-    <h1>Paiement annule</h1>
-    <p id="status">Votre paiement a ete annule. Aucun debit n'a ete effectue.</p>
-    <div class="actions">
-        <a class="btn" href="checkout.php">Revenir au checkout</a>
-        <a class="btn secondary" href="panier.php">Retour panier</a>
+<div class="container mt-5" style="max-width:600px;">
+    <div class="alert alert-danger" role="alert">
+        <h2 class="alert-heading">Paiement annulé</h2>
+        <p id="status">Votre paiement a été annulé. Aucun débit n'a été effectué.</p>
+        <hr>
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-primary" href="checkout.php">Revenir au checkout</a>
+            <a class="btn btn-outline-secondary" href="panier.php">Retour panier</a>
+        </div>
     </div>
 </div>
 

@@ -249,7 +249,7 @@ func SouscrireAbonnement(database *sql.DB) http.HandlerFunc {
 		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"message":       "Session Checkout créée",
 			"checkout_url":  checkoutSession.URL,
 			"checkout_id":   checkoutSession.ID,
@@ -319,7 +319,7 @@ func MonAbonnement(database *sql.DB) http.HandlerFunc {
 		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"souscription": souscription,
 			"abonnement":   abonnement,
 		})

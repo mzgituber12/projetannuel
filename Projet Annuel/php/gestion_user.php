@@ -7,59 +7,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des utilisateurs</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 12px; text-align: left; }
-        th { background-color: #4CAF50; color: white; }
-        tr:hover { background-color: #f5f5f5; }
-        a { color: #4CAF50; text-decoration: none; margin: 0 5px; }
-        a:hover { text-decoration: underline; }
-        .search-section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
-        .search-section input { padding: 8px; margin-right: 10px; width: 300px; }
-        .search-section button { padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .search-section button:hover { background-color: #45a049; }
-        #resultat { margin: 20px 0; padding: 15px; border-radius: 5px; }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
 
-<h1>Gestion des utilisateurs</h1>
-<?php
-if (isset($_SESSION['state']) && isset($_GET['message'])) {
-    echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
-    unset($_SESSION['state']);
-}?>
-<div class="search-section">
-    <h4>Entrer un email pour avoir toutes les informations !</h4>
-    <form onsubmit="search_user(event)">
-        <input id="user_email" placeholder="Email utilisateur..." type="text">
-        <button type="submit">Rechercher</button>
-    </form>
-</div>
-<div id="resultat"></div>
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Gestion des utilisateurs</h1>
+    <?php
+    if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+    }?>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Rechercher un utilisateur</h5>
+        </div>
+        <div class="card-body">
+            <form onsubmit="search_user(event)" class="row g-3">
+                <div class="col-md-8">
+                    <input id="user_email" placeholder="Email utilisateur..." type="text" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="resultat"></div>
 
-<h2> Liste des utilisateurs </h2>
-<div id = "users"></div>
+    <h2 class="mt-5 mb-3">Liste des utilisateurs</h2>
+    <div id="users"></div>
+</div>
 
 <?php include 'includes/footer.php'?>
 
-<script>
-    function escapeHtml(value) {
-        return String(value ?? "")
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#39;");
-    }
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+<script>
     async function supprimer_user(id, email){
         const confirmation = confirm("Êtes-vous sûr de vouloir supprimer l'utilisateur " + email + " ?");
         if (!confirmation){
@@ -117,13 +105,13 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         }else {
             document.getElementById("resultat").innerHTML = 
             "<div class='success'>" +
-            "<label><strong>ID :</strong> " + escapeHtml(data.id) + "</label><br>" +
-            "<label><strong>Nom :</strong> " + escapeHtml(data.nom) + "</label><br>" +
-            "<label><strong>Prénom :</strong> " + escapeHtml(data.prenom) + "</label><br>" +
-            "<label><strong>Âge :</strong> " + escapeHtml(data.age) + "</label><br>" +
-            "<label><strong>Email :</strong> " + escapeHtml(data.email) + "</label><br>" +
-            "<label><strong>Role :</strong> " + escapeHtml(data.role) + "</label><br>" +
-            "<label><strong>Langue :</strong> " + escapeHtml(data.langue) + "</label><br>" +
+            "<label><strong>ID :</strong> " + String(data.id) + "</label><br>" +
+            "<label><strong>Nom :</strong> " + String(data.nom) + "</label><br>" +
+            "<label><strong>Prénom :</strong> " + String(data.prenom) + "</label><br>" +
+            "<label><strong>Âge :</strong> " + String(data.age) + "</label><br>" +
+            "<label><strong>Email :</strong> " + String(data.email) + "</label><br>" +
+            "<label><strong>Role :</strong> " + String(data.role) + "</label><br>" +
+            "<label><strong>Langue :</strong> " + String(data.langue) + "</label><br>" +
             "<a href='modifier_user.php?id=" + data.id + "'>Modifier l'utilisateur</a> | " +
             "<a href='#' onclick='supprimer_user(" + data.id + ", \"" + data.email + "\"); return false;'>Supprimer</a> | " +
             "<a href='#' onclick='bannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Bannir</a>" +
@@ -156,7 +144,7 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
                 const actions = "<a href='modifier_user.php?id=" + usr.id + "'>Modifier</a> | " +
                     "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a> | " +
                     "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\">Bannir</a>";
-                html += "<tr><td>" + escapeHtml(usr.nom) + "</td><td>" + escapeHtml(usr.prenom) + "</td><td>" + escapeHtml(usr.email) + "</td><td>" + escapeHtml(usr.role) + "</td><td>" + actions + "</td></tr>";
+                html += "<tr><td>" + String(usr.nom) + "</td><td>" + String(usr.prenom) + "</td><td>" + String(usr.email) + "</td><td>" + String(usr.role) + "</td><td>" + actions + "</td></tr>";
             });
             html += "</table>";
             user.innerHTML = html;
@@ -180,3 +168,4 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 </script>
 </body>
 </html>
+

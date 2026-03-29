@@ -5,19 +5,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Reservation </title>
+    <title>Réservation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
-<h1>Réservation</h1>
+<div class="container mt-5 mb-5">
+    <h1 class="mb-4">Réservation</h1>
 
-<?php if (isset($_SESSION['state']) && isset($_GET['message'])) {
-    echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
-    unset($_SESSION['state']);
-}
-?>
+    <?php if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo '<div class="alert alert-success">' . htmlspecialchars($_GET['message']) . '</div>';
+        unset($_SESSION['state']);
+    }
+    ?>
 
 <?php
 $type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -39,17 +41,23 @@ if ($image !== '') {
 ?>
 
 <?php if ($type === 'evenement' && $id > 0) : ?>
-    <div>
-        <h2>Événement : <?= $nom ?></h2>
-        <?php if ($imageUrl !== '') : ?>
-        <p><img src="<?= $imageUrl ?>" alt="Image de l'evenement" style="max-width: 350px; max-height: 260px; border-radius: 8px;"></p>
-        <?php endif; ?>
-        <p><strong>Date :</strong> <?= $date ?></p>
-        <p><strong>Description :</strong></p>
-        <p><?= $description ?></p>
-        <p><strong>Tarif sur place :</strong> <?= $tarif ?> €</p>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="h4 card-title mb-3">Événement : <?= $nom ?></h2>
+                    <?php if ($imageUrl !== '') : ?>
+                        <img src="<?= $imageUrl ?>" alt="Image de l'événement" class="img-fluid rounded mb-3" style="max-width: 100%; max-height: 350px; object-fit: cover;">
+                    <?php endif; ?>
+                    <p class="card-text"><strong>Date :</strong> <?= $date ?></p>
+                    <p class="card-text"><strong>Description :</strong></p>
+                    <p class="card-text"><?= $description ?></p>
+                    <p class="card-text"><strong>Tarif sur place :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
 
-        <button id="joinEvent">Rejoindre cet événement</button>
+                    <button id="joinEvent" class="btn btn-primary btn-lg">Rejoindre cet événement</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         async function joinEvent() {
@@ -86,37 +94,47 @@ if ($image !== '') {
         document.getElementById('joinEvent').addEventListener('click', joinEvent);
     </script>
 <?php elseif ($type === 'service' && $id > 0) : ?>
-    <div>
-        <h2>Service : <?= $nom ?></h2>
-        <?php if ($imageUrl !== '') : ?>
-        <p><img src="<?= $imageUrl ?>" alt="Image du service" style="max-width: 350px; max-height: 260px; border-radius: 8px;"></p>
-        <?php endif; ?>
-        <p><strong>Description :</strong></p>
-        <p><?= $description ?></p>
-        <p><strong>Tarif :</strong> <?= $tarif ?> €</p>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="h4 card-title mb-3">Service : <?= $nom ?></h2>
+                    <?php if ($imageUrl !== '') : ?>
+                        <img src="<?= $imageUrl ?>" alt="Image du service" class="img-fluid rounded mb-3" style="max-width: 100%; max-height: 350px; object-fit: cover;">
+                    <?php endif; ?>
+                    <p class="card-text"><strong>Description :</strong></p>
+                    <p class="card-text"><?= $description ?></p>
+                    <p class="card-text"><strong>Tarif :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
 
-        <h3>Disponibilités</h3>
-        <div id="calendar" style="margin-bottom: 1rem;"></div>
-        <div id="calendarError" style="color:red; margin-bottom: 1rem;"></div>
+                    <h5 class="mt-4 mb-3">Disponibilités</h5>
+                    <div id="calendar" class="mb-3"></div>
+                    <div id="calendarError" class="alert alert-danger d-none" role="alert"></div>
 
-        <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-end;">
-            <div>
-                <label>Année<br><select id="yearSelect"></select></label>
-            </div>
-            <div>
-                <label>Mois<br><select id="monthSelect"></select></label>
-            </div>
-            <div>
-                <label>Jour<br><select id="daySelect"></select></label>
-            </div>
-            <div>
-                <label>Heure<br><select id="hourSelect"></select></label>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6 col-sm-3">
+                            <label for="yearSelect" class="form-label small fw-bold">Année</label>
+                            <select id="yearSelect" class="form-select form-select-sm"></select>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <label for="monthSelect" class="form-label small fw-bold">Mois</label>
+                            <select id="monthSelect" class="form-select form-select-sm"></select>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <label for="daySelect" class="form-label small fw-bold">Jour</label>
+                            <select id="daySelect" class="form-select form-select-sm"></select>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <label for="hourSelect" class="form-label small fw-bold">Heure</label>
+                            <select id="hourSelect" class="form-select form-select-sm"></select>
+                        </div>
+                    </div>
+
+                    <p id="selectionInfo" class="mt-3 text-muted small"></p>
+                    <div id="slotsList" class="mt-2 mb-3"></div>
+                    <button id="joinService" class="btn btn-primary btn-lg">Réserver</button>
+                </div>
             </div>
         </div>
-
-        <p id="selectionInfo" style="margin-top:1rem;"></p>
-        <div id="slotsList" style="margin-top:0.5rem;"></div>
-        <button id="joinService">Réserver</button>
     </div>
 
     <script>
@@ -486,8 +504,12 @@ if ($image !== '') {
         document.getElementById('joinService').addEventListener('click', joinService);
     </script>
 <?php else : ?>
-    <p>Informations manquantes ou invalides.</p>
+    <div class="alert alert-warning" role="alert">
+        <strong>Erreur :</strong> Informations manquantes ou invalides.
+    </div>
 <?php endif; ?>
+
+</div>
 
 <?php include 'includes/footer.php'; ?>
 </body>

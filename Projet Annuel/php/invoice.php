@@ -6,74 +6,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Facture</title>
-    <style>
-        .invoice-shell {
-            max-width: 900px;
-            margin: 1rem auto;
-            padding: 1.2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0,0,0,.1);
-            background: #ffffff;
-        }
-
-        .meta {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.5rem 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .line {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.55rem 0;
-            border-bottom: 1px dashed #d1d5db;
-            gap: 1rem;
-        }
-
-        .total {
-            margin-top: 1rem;
-            font-size: 1.15rem;
-            font-weight: 700;
-        }
-
-        .actions {
-            margin-top: 1rem;
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-            text-decoration: none;
-            font-weight: 700;
-            color: #fff;
-            background: #2563eb;
-        }
-
-        .btn.secondary { background: #6b7280; }
-
-        @media (max-width: 700px) {
-            .meta { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
-<h1>Facture</h1>
-<div class="invoice-shell">
-    <div id="invoiceContent">Chargement de la facture...</div>
-    <div class="actions">
-        <a class="btn" href="boutique.php">Retour boutique</a>
-        <a class="btn secondary" href="panier.php">Retour panier</a>
+<div class="container mt-5 mb-5" style="max-width: 900px;">
+    <h1 class="mb-4">Facture</h1>
+    <div class="card">
+        <div class="card-body">
+            <div id="invoiceContent">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <p class="mt-2">Chargement de la facture...</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-grid gap-2 d-sm-flex justify-content-sm-end">
+            <a class="btn btn-primary" href="boutique.php"><i class="bi bi-shop"></i> Retour boutique</a>
+            <a class="btn btn-secondary" href="panier.php"><i class="bi bi-cart"></i> Retour panier</a>
+        </div>
     </div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
 function esc(v) {

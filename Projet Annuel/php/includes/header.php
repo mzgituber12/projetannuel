@@ -20,6 +20,8 @@
             <li class="nav-item px-2">|</li>
             <div id="bouton_messagerie"></div>
             <li class="nav-item px-2">|</li>
+            <div id="bouton_boutique"></div>
+            <li class="nav-item px-2">|</li>
             <li class="nav-item">
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHeader" aria-controls="offcanvasHeader" aria-label="Ouvrir le menu">
                     <span class="navbar-toggler-icon"></span>
@@ -188,6 +190,7 @@ async function headerUser(token) {
     const boutonAbonnement = document.getElementById("bouton_des_abonnement");
     const boutonPlanning = document.getElementById("bouton_planning");
     const boutonMessagerie = document.getElementById("bouton_messagerie");
+    const boutonBoutique = document.getElementById("bouton_boutique");
     const monCompte = document.getElementById("mon_compte");
     const autreBouton = document.getElementById("autre_bouton");
     const deconnexionBouton = document.getElementById("deconnexion_connecter_bouton");
@@ -229,6 +232,7 @@ async function headerUser(token) {
         boutonAbonnement.innerHTML = "<li class='nav-item'><a class='nav-link active' href='abonnement.php'>S'abonner</a></li>";
         boutonPlanning.innerHTML = "<li class='nav-item'><a class='nav-link active' href='planning.php'>Planning</a></li>";
         boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='messagerie.php'><i class='bi bi-chat-dots'></i> Messagerie</a></li>";
+        boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";
         autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='contrats.php'>Contrats</a></li><li class='nav-item'><a class='nav-link active' href='conseils.php'>Conseils</a></li><li class='nav-item'><a class='nav-link active' href='catalogue.php'>Catalogue</a></li><li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='demande_presta.php'>Postuler</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
         return;
     }
@@ -237,13 +241,15 @@ async function headerUser(token) {
         boutonAbonnement.innerHTML = "<li class='nav-item'><a class='nav-link active' href='abonnement.php'>Nos abonnements</a></li>";
         boutonPlanning.innerHTML = "<li class='nav-item'><a class='nav-link active' href='planning.php'>Planning</a></li>";
         boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='messagerie.php'><i class='bi bi-chat-dots'></i> Messagerie</a></li>";
+        boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";
         autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='suivi.php'>Suivi des prestations</a></li><li class='nav-item'><a class='nav-link active' href='validations.php'>Validations</a></li><li class='nav-item'><a class='nav-link active' href='calendrier.php'>Calendrier</a></li><li class='nav-item'><a class='nav-link active' href='interventions.php'>Interventions</a></li><li class='nav-item'><a class='nav-link active' href='factures.php'>Factures</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
         return;
     }
 
     if (data.role == "admin") {
         boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='notifications.php'><i class='bi bi-bell'></i> Notifications</a></li>";
-        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='gestion_user.php'>Gestion des Utilisateur</a></li><li class='nav-item'><a class='nav-link active' href='gestion_evenement.php'>Gestion des Evenements</a></li><li class='nav-item'><a class='nav-link active' href='gestion_service.php'>Gestion des Services</a></li><li class='nav-item'><a class='nav-link active' href='gestion_intervention.php'>Gestion des Interventions</a></li><li class='nav-item'><a class='nav-link active' href='gestion_article.php'>Gestion des Articles</a></li><li class='nav-item'><a class='nav-link active' href='gestion_article.php'>Gestion du Catalogue</a></li><li class='nav-item'><a class='nav-link active' href='gestion_conseil.php'>Gestion des Conseils</a></li><li class='nav-item'><a class='nav-link active' href='gestion_notifs.php'>Gestion des Notifications</a></li><li class='nav-item'><a class='nav-link active' href='gestion_finance.php'>Gestion Financiere</a></li><li class='nav-item'><a class='nav-link active' href='gestion_contact.php'>Gestion des contacts</a></li><li class='nav-item'><a class='nav-link active' href='add_abonnement.php'>Creer des abonnements</a></li><li class='nav-item'><a class='nav-link active' href='abonnement_all.php'>Voir tous les abonnements</a></li><li class='nav-item'><a class='nav-link active' href='liste_abonnement_admin.php'>Liste abonnements admin</a></li>";
+        boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";
+        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='gestion_user.php'>Gestion des Utilisateur</a></li><li class='nav-item'><a class='nav-link active' href='gestion_evenement.php'>Gestion des Evenements</a></li><li class='nav-item'><a class='nav-link active' href='gestion_service.php'>Gestion des Services</a></li><li class='nav-item'><a class='nav-link active' href='gestion_intervention.php'>Gestion des Interventions</a></li><li class='nav-item'><a class='nav-link active' href='gestion_article.php'>Gestion des Articles</a></li><li class='nav-item'><a class='nav-link active' href='gestion_article.php'>Gestion du Catalogue</a></li><li class='nav-item'><a class='nav-link active' href='gestion_conseil.php'>Gestion des Conseils</a></li><li class='nav-item'><a class='nav-link active' href='gestion_notifs.php'>Gestion des Notifications</a></li><li class='nav-item'><a class='nav-link active' href='gestion_finance.php'>Gestion Financiere</a></li><li class='nav-item'><a class='nav-link active' href='gestion_contact.php'>Gestion des contacts</a></li><li class='nav-item'><a class='nav-link active' href='liste_abonnement_admin.php'>Liste des abonnements</a></li><li class='nav-item'><a class='nav-link active' href='add_abonnement.php'>Creer un abonnement</a></li>";
     }
 }
 headerUser(localStorage.getItem('token'));

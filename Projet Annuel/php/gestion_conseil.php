@@ -13,53 +13,47 @@ adminUser(localStorage.getItem('token'));
 <head>
     <meta charset="UTF-8">
     <title>Gestion des conseils</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 12px; text-align: left; }
-        th { background-color: #4CAF50; color: white; }
-        tr:hover { background-color: #f5f5f5; }
-        a { color: #4CAF50; text-decoration: none; margin: 0 5px; }
-        a:hover { text-decoration: underline; }
-        .search-section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
-        .search-section input { padding: 8px; margin-right: 10px; width: 300px; }
-        .search-section button { padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .search-section button:hover { background-color: #45a049; }
-        .btn-create { background-color: #008CBA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 15px; }
-        .btn-create:hover { background-color: #007399; }
-        #resultat { margin: 20px 0; padding: 15px; border-radius: 5px; }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
 
-<h1>Gestion des conseils</h1>
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Gestion des conseils</h1>
 
-<?php
-if (isset($_SESSION['state']) && isset($_GET['message'])) {
-    echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
-    unset($_SESSION['state']);
-}?>
+    <?php
+    if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+    }?>
 
-<a href='modifier_conseil.php?id=new' class='btn-create'>+ Créer un nouveau conseil</a>
+    <div class="mb-4">
+        <a href='modifier_conseil.php?id=new' class='btn btn-primary'><i class="bi bi-plus-circle"></i> Créer un nouveau conseil</a>
+    </div>
 
-<div class="search-section">
-    <h4>Entrer un titre de conseil pour avoir toutes les informations !</h4>
-    <form onsubmit="search_conseil(event); return false;">
-        <input id="conseil_titre" placeholder="Titre du conseil..." type="text">
-        <button type="submit">Rechercher</button>
-    </form>
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Rechercher un conseil</h5>
+        </div>
+        <div class="card-body">
+            <form onsubmit="search_conseil(event); return false;" class="row g-3">
+                <div class="col-md-8">
+                    <input id="conseil_titre" placeholder="Titre du conseil..." type="text" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="resultat"></div>
+
+    <h2 class="mt-5 mb-3">Liste des conseils</h2>
+    <div id="conseils"></div>
 </div>
-
-<div id="resultat"></div>
-
-<h2>Liste des conseils</h2>
-<div id="conseils"></div>
 
 <script>
     async function search_conseil(event) {
@@ -73,19 +67,20 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         const data = await response.json();
 
         if(data.id == 0 || !data.titre) {
-            document.getElementById("resultat").innerHTML = "<div class='error'>Aucun conseil trouvé</div>";
+            document.getElementById("resultat").innerHTML = "<div class='alert alert-warning'>Aucun conseil trouvé</div>";
         } else {
-            let imageHTML = data.image ? `<img src="../upload/${data.image}" style="max-width: 100px; max-height: 100px; border-radius: 5px;">` : '<em>Pas d\'image</em>';
+            let imageHTML = data.image ? `<img src="../upload/${data.image}" class='img-thumbnail' style="max-width: 100px; max-height: 100px;">` : '<em>Pas d\'image</em>';
             document.getElementById("resultat").innerHTML = 
-            "<div class='success'>" +
+            "<div class='alert alert-success'><div class='row'><div class='col-md-8'>" +
             "<label><strong>ID :</strong> " + data.id + "</label><br>" +
             "<label><strong>Titre :</strong> " + data.titre + "</label><br>" +
             "<label><strong>Contenu :</strong> " + data.contenu + "</label><br>" +
-            "<label><strong>Image :</strong> " + imageHTML + "</label><br>" +
             "<label><strong>Date :</strong> " + data.date + "</label><br>" +
-            "<a href='modifier_conseil.php?id=" + data.id + "'>Modifier conseil</a> | " +
-            "<a href='#' onclick='deleteConseils(" + data.id + "); return false;'>Supprimer</a>" +
-            "</div>";
+            "</div><div class='col-md-4'><label><strong>Image :</strong></label><br>" + imageHTML + 
+            "</div></div><div class='mt-3'>" +
+            "<a href='modifier_conseil.php?id=" + data.id + "' class='btn btn-sm btn-warning'>Modifier</a> " +
+            "<a href='#' onclick='deleteConseils(" + data.id + "); return false;' class='btn btn-sm btn-danger'>Supprimer</a>" +
+            "</div></div>";
         }
     }
 
@@ -115,16 +110,16 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
         const conseil = document.getElementById("conseils")
 
         if (conseil_list.message){
-            conseil.innerHTML = "<p>" + conseil_list.message + "</p>"
+            conseil.innerHTML = "<div class='alert alert-info'>" + conseil_list.message + "</div>"
         } else {
-            let html = "<table><tr><th>Image</th><th>Titre du conseil</th><th>Contenu</th><th>Date de publication</th><th>Actions</th></tr>";
+            let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th>Image</th><th>Titre du conseil</th><th>Contenu</th><th>Date</th><th>Actions</th></tr></thead><tbody>";
             conseil_list.conseil.forEach(cons => {
-                const actions = "<a href='modifier_conseil.php?id=" + cons.id + "'>Modifier</a> | " +
-                               "<a href='#' onclick='deleteConseils(" + cons.id + "); return false;'>Supprimer</a>";
-                const imageHTML = cons.image ? `<img src="../upload/${cons.image}" style="max-width: 80px; max-height: 80px; border-radius: 5px;">` : '<em>-</em>';
+                const actions = "<a href='modifier_conseil.php?id=" + cons.id + "' class='btn btn-sm btn-warning'>Modifier</a> " +
+                               "<a href='#' onclick='deleteConseils(" + cons.id + "); return false;' class='btn btn-sm btn-danger'>Supprimer</a>";
+                const imageHTML = cons.image ? `<img src="../upload/${cons.image}" class='img-thumbnail' style="max-width: 80px; max-height: 80px;">` : '<em>-</em>';
                 html += "<tr><td>" + imageHTML + "</td><td>" + cons.titre + "</td><td>" + cons.contenu.substring(0, 100) + "...</td><td>" + cons.date + "</td><td>" + actions + "</td></tr>";
             });
-            html += "</table>";
+            html += "</tbody></table></div>";
             conseil.innerHTML = html;
         }
     }

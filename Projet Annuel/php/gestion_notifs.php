@@ -1,4 +1,4 @@
-<?php session_start(); include 'includes/api_config.php'; ?>
+﻿<?php session_start(); include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 <script src="admin.js"></script>
 
@@ -7,94 +7,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des notifications</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; }
-        .form-shell { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 18px; }
-        .form-grid { display: grid; gap: 10px; }
-        input, textarea, select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #d1d5db; border-radius: 6px; }
-        button { border: none; border-radius: 6px; padding: 8px 12px; cursor: pointer; font-weight: 700; }
-        .btn-primary { background: #2563eb; color: #fff; }
-        .btn-danger { background: #dc2626; color: #fff; }
-        .btn-muted { background: #e5e7eb; color: #111827; }
-        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 10px; text-align: left; vertical-align: top; }
-        th { background-color: #1f2937; color: white; }
-        tr:hover { background-color: #f8fafc; }
-        .msg { margin: 10px 0; padding: 8px; border-radius: 6px; }
-        .ok { background: #dcfce7; color: #166534; }
-        .err { background: #fee2e2; color: #991b1b; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
-<h1>Gestion des notifications</h1>
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Gestion des notifications</h1>
 
-<div class="form-shell">
-    <h3>Créer une notification</h3>
-    <div class="form-grid">
-        <label>Mode d'envoi</label>
-        <select id="mode_envoi" onchange="changerModeEnvoi()">
-            <option value="user">Un utilisateur précis</option>
-            <option value="role">Par rôle</option>
-            <option value="all">Tous les utilisateurs</option>
-        </select>
-
-        <div id="bloc_user">
-            <label>ID destinataire</label>
-            <input id="id_destinataire" type="number" min="1" placeholder="Ex: 1">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Créer une notification</h5>
         </div>
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Mode d'envoi</label>
+                    <select id="mode_envoi" onchange="changerModeEnvoi()" class="form-select">
+                        <option value="user">Un utilisateur précis</option>
+                        <option value="role">Par rôle</option>
+                        <option value="all">Tous les utilisateurs</option>
+                    </select>
+                </div>
 
-        <div id="bloc_role" style="display:none;">
-            <label>Rôle cible</label>
-            <select id="role_cible">
-                <option value="adherant">Adhérant</option>
-                <option value="prestataire">Prestataire</option>
-                <option value="admin">Admin</option>
-            </select>
+                <div id="bloc_user" class="col-md-6">
+                    <label class="form-label">ID destinataire</label>
+                    <input id="id_destinataire" type="number" min="1" placeholder="Ex: 1" class="form-control">
+                </div>
+
+                <div id="bloc_role" style="display:none;" class="col-md-6">
+                    <label class="form-label">Rôle cible</label>
+                    <select id="role_cible" class="form-select">
+                        <option value="adherant">Adhérant</option>
+                        <option value="prestataire">Prestataire</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Titre</label>
+                    <input id="notif_titre" type="text" maxlength="50" placeholder="Titre de la notification" class="form-control">
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Contenu</label>
+                    <textarea id="notif_contenu" rows="4" maxlength="1000" placeholder="Message..." class="form-control"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" onclick="creerNotification()"><i class="bi bi-send"></i> Envoyer</button>
+                    <button type="button" class="btn btn-secondary" onclick="chargerNotifications()"><i class="bi bi-arrow-clockwise"></i> Actualiser</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <label>Titre</label>
-        <input id="notif_titre" type="text" maxlength="50" placeholder="Titre de la notification">
+    <div id="message"></div>
 
-        <label>Contenu</label>
-        <textarea id="notif_contenu" rows="4" maxlength="1000" placeholder="Message..."></textarea>
+    <div class="card mt-4 mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Modèles de notification automatique</h5>
+        </div>
+        <div class="card-body">
+            <p class="text-muted mb-3">Ces modèles sont utilisés pour les notifications envoyées automatiquement (réservation, commande, paiement...). Vous pouvez personnaliser leur titre et contenu. Les variables entre {accolades} sont remplacées dynamiquement.</p>
+            <div id="resultat_modeles"><em>Chargement des modèles...</em></div>
+        </div>
+    </div>
 
-        <div>
-            <button class="btn-primary" onclick="creerNotification()">Envoyer</button>
-            <button class="btn-muted" onclick="chargerNotifications()">Actualiser</button>
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">Toutes les notifications</h5>
+            <button type="button" class="btn btn-sm btn-light" onclick="chargerNotifications()"><i class="bi bi-arrow-clockwise"></i></button>
+        </div>
+        <div class="card-body">
+            <div id="resultat"></div>
         </div>
     </div>
 </div>
 
-<div id="message"></div>
-
-<hr style="margin:24px 0;">
-<h2>Modèles de notification automatique</h2>
-<p style="color:#6b7280;font-size:.95em;">Ces modèles sont utilisés pour les notifications envoyées automatiquement (réservation, commande, paiement…). Vous pouvez personnaliser leur titre et contenu. Les variables entre {accolades} sont remplacées dynamiquement.</p>
-<div id="resultat_modeles"><em>Chargement des modèles…</em></div>
-
-<hr style="margin:24px 0;">
-<h2>Toutes les notifications</h2>
-<div>
-    <button class="btn-muted" onclick="chargerNotifications()">Actualiser</button>
-</div>
-<div id="resultat"></div>
-
 <?php include 'includes/footer.php'; ?>
 
-<script>
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+<script>
 function changerModeEnvoi() {
     const mode = document.getElementById("mode_envoi").value;
     document.getElementById("bloc_user").style.display = mode == "user" ? "block" : "none";
@@ -103,7 +99,7 @@ function changerModeEnvoi() {
 
 function afficherMessage(texte, ok) {
     const zone = document.getElementById("message");
-    zone.className = "msg " + (ok ? "ok" : "err");
+    zone.className = ok ? "alert alert-success" : "alert alert-danger";
     zone.textContent = texte;
 }
 
@@ -125,26 +121,26 @@ async function chargerNotifications() {
     const zone = document.getElementById("resultat");
 
     if (!Array.isArray(data.notification) || data.notification.length == 0) {
-        zone.innerHTML = "<p>Aucune notification</p>";
+        zone.innerHTML = "<div class='alert alert-info'>Aucune notification</div>";
         return;
     }
 
-    let html = "<table><tr><th>ID</th><th>Titre</th><th>Contenu</th><th>Expéditeur</th><th>Destinataire</th><th>Date</th><th>Lu</th><th>Actions</th></tr>";
+    let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-dark'><tr><th>ID</th><th>Titre</th><th>Contenu</th><th>Expéditeur</th><th>Destinataire</th><th>Date</th><th>Lu</th><th>Actions</th></tr></thead><tbody>";
     data.notification.forEach(n => {
         html += "<tr>";
         html += "<td>" + Number(n.id) + "</td>";
-        html += "<td>" + escapeHtml(n.titre) + "</td>";
-        html += "<td>" + escapeHtml(n.contenu) + "</td>";
-        html += "<td>" + escapeHtml(n.expediteur || "Système") + "</td>";
-        html += "<td>" + escapeHtml(n.destinataire || "") + "</td>";
-        html += "<td>" + escapeHtml(n.date_envoie || "") + "</td>";
-        html += "<td>" + (Number(n.lu) == 1 ? "Oui" : "Non") + "</td>";
+        html += "<td>" + String(n.titre) + "</td>";
+        html += "<td>" + String(n.contenu) + "</td>";
+        html += "<td>" + String(n.expediteur || "Système") + "</td>";
+        html += "<td>" + String(n.destinataire || "") + "</td>";
+        html += "<td>" + String(n.date_envoie || "") + "</td>";
+        html += "<td>" + (Number(n.lu) == 1 ? "<span class='badge bg-success'>Oui</span>" : "<span class='badge bg-warning'>Non</span>") + "</td>";
         html += "<td>";
-        html += "<button class='btn-muted' onclick='modifierNotification(" + Number(n.id) + ", \"" + escapeHtml(n.titre).replaceAll('"', '&quot;') + "\", \"" + escapeHtml(n.contenu).replaceAll('"', '&quot;') + "\")'>Modifier</button> ";
-        html += "<button class='btn-danger' onclick='supprimerNotification(" + Number(n.id) + ")'>Supprimer</button>";
+        html += "<button class='btn btn-sm btn-warning' onclick='modifierNotification(" + Number(n.id) + ", \"" + String(n.titre).replaceAll('"', '&quot;') + "\", \"" + String(n.contenu).replaceAll('"', '&quot;') + "\")'>Modifier</button> ";
+        html += "<button class='btn btn-sm btn-danger' onclick='supprimerNotification(" + Number(n.id) + ")'>Supprimer</button>";
         html += "</td></tr>";
     });
-    html += "</table>";
+    html += "</tbody></table></div>";
     zone.innerHTML = html;
 }
 
@@ -265,17 +261,16 @@ async function chargerModeles() {
     const data = await response.json();
 
     if (!Array.isArray(data.modele_notification) || data.modele_notification.length === 0) {
-        zone.innerHTML = "<p>Aucun modèle trouvé (vérifiez votre base de données).</p>";
+        zone.innerHTML = "<p>Aucun module trouvez (verifiez votre base de données).</p>";
         return;
     }
-Toutes
     let html = "<table><tr><th>Clé</th><th>Titre actuel</th><th>Contenu actuel</th><th>Action</th></tr>";
     data.modele_notification.forEach(m => {
-        const hint = escapeHtml(VARIABLES_MODELES[m.cle] || "");
+        const hint = String(VARIABLES_MODELES[m.cle] || "");
         html += "<tr>";
-        html += "<td><strong>" + escapeHtml(m.cle) + "</strong><br><small style='color:#6b7280'>" + hint + "</small></td>";
-        html += "<td id='titre_modele_" + Number(m.id) + "'>" + escapeHtml(m.titre) + "</td>";
-        html += "<td id='contenu_modele_" + Number(m.id) + "' style='white-space:pre-wrap'>" + escapeHtml(m.contenu) + "</td>";
+        html += "<td><strong>" + String(m.cle) + "</strong><br><small style='color:#6b7280'>" + hint + "</small></td>";
+        html += "<td id='titre_modele_" + Number(m.id) + "'>" + String(m.titre) + "</td>";
+        html += "<td id='contenu_modele_" + Number(m.id) + "' style='white-space:pre-wrap'>" + String(m.contenu) + "</td>";
         html += "<td><button class='btn-primary' onclick='editerModele(" + Number(m.id) + ", " + JSON.stringify(m.cle) + ")'>Modifier</button></td>";
         html += "</tr>";
     });
@@ -295,12 +290,12 @@ function editerModele(id, cle) {
     editDiv.className = "form-shell";
     editDiv.style.marginTop = "10px";
     editDiv.innerHTML =
-        "<h4>Modifier le modèle « " + escapeHtml(cle) + " »</h4>" +
-        (hint ? "<p style='color:#6b7280;font-size:.9em;margin:0 0 8px'>" + escapeHtml(hint) + "</p>" : "") +
+        "<h4>Modifier le modèle « " + String(cle) + " »</h4>" +
+        (hint ? "<p style='color:#6b7280;font-size:.9em;margin:0 0 8px'>" + String(hint) + "</p>" : "") +
         "<label>Titre <small>(max 50 cars.)</small></label>" +
-        "<input id='edit_titre_" + id + "' type='text' maxlength='50' value='" + escapeHtml(titreEl.textContent) + "'>" +
+        "<input id='edit_titre_" + id + "' type='text' maxlength='50' value='" + String(titreEl.textContent) + "'>" +
         "<label style='margin-top:8px;display:block'>Contenu</label>" +
-        "<textarea id='edit_contenu_" + id + "' rows='4'>" + escapeHtml(contenuEl.textContent) + "</textarea>" +
+        "<textarea id='edit_contenu_" + id + "' rows='4'>" + String(contenuEl.textContent) + "</textarea>" +
         "<div style='margin-top:8px'>" +
         "<button class='btn-primary' onclick='sauvegarderModele(" + id + ")'>Enregistrer</button> " +
         "<button class='btn-muted' onclick='chargerModeles()'>Annuler</button>" +
@@ -359,3 +354,4 @@ init();
 </script>
 </body>
 </html>
+

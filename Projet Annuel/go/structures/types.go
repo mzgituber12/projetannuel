@@ -139,10 +139,16 @@ type Etat struct {
 type Abonnement struct {
 	ID               int     `json:"id"`
 	Type             string  `json:"type"`
+	Titre            string  `json:"titre"`
+	Categorie        string  `json:"categorie"`
 	PrixMois         float64 `json:"prix_mois"`
 	PrixAn           float64 `json:"prix_an"`
 	Statut           string  `json:"statut"`
 	TypePrestataire  int     `json:"type_prestataire"`
+	Contenue1        string  `json:"contenue1"`
+	Contenue2        string  `json:"contenue2"`
+	Contenue3        string  `json:"contenue3"`
+	Contenue4        string  `json:"contenue4"`
 	Description      string  `json:"description"`
 	LocauxPrestation bool    `json:"locaux_prestation"`
 	TrajetOffert     bool    `json:"trajet_offert"`

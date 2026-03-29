@@ -6,145 +6,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Mon panier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        .cart-shell {
-            max-width: 1100px;
-            margin: 1rem auto;
-            padding: 1rem;
-            border: 1px solid rgba(0,0,0,.1);
-            border-radius: 12px;
-            background: #f4f8ff;
-        }
-
-        .cart-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1rem;
-        }
-
-        .cart-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .cart-total {
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        .cart-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,.06);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-img {
-            height: 130px;
+        .cart-image-placeholder {
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%);
             color: #6b7280;
             font-weight: 700;
-        }
-
-        .cart-body {
-            padding: 0.85rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .cart-title {
-            margin: 0;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .cart-desc {
-            margin: 0;
-            color: #374151;
-            line-height: 1.35;
-        }
-
-        .cart-price {
-            color: #1d4ed8;
-            font-weight: 700;
-        }
-
-        .cart-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 6px;
-            padding: 0.5rem 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-detail {
-            background: #2563eb;
-            color: #fff;
-        }
-
-        .btn-detail:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-remove {
-            background: #dc2626;
-            color: #fff;
-        }
-
-        .btn-remove:hover {
-            background: #b91c1c;
-        }
-
-        .btn-checkout {
-            background: #059669;
-            color: #fff;
-        }
-
-        .btn-checkout:hover {
-            background: #047857;
-        }
-
-        .message {
-            margin: 1rem 0;
-            padding: 0.7rem;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .message.err {
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-        }
-
-        @media (max-width: 1000px) {
-            .cart-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        }
-
-        @media (max-width: 640px) {
-            .cart-grid { grid-template-columns: 1fr; }
+            overflow: hidden;
         }
     </style>
 </head>
@@ -152,28 +25,26 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1>Mon panier</h1>
-<div class="cart-shell">
-    <div class="cart-top">
-        <div id="cartTotal" class="cart-total">Total: 0 €</div>
-        <a class="btn btn-checkout" href="checkout.php">Passer au paiement</a>
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Mon panier</h1>
+
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h5 id="cartTotal" class="text-primary fs-5"><i class="bi bi-bag"></i> Total: 0 €</h5>
+        </div>
+        <div class="col-md-4 text-end">
+            <a class="btn btn-success" href="checkout.php"><i class="bi bi-credit-card"></i> Passer au paiement</a>
+        </div>
     </div>
+
     <div id="cartMessage"></div>
-    <div id="cartList" class="cart-grid"></div>
+    <div id="cartList" class="row g-3"></div>
 </div>
 
 <?php include 'includes/footer.php';?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
-
 function resolveImageUrl(image) {
     const raw = String(image ?? "").trim();
     if (!raw) return "";
@@ -186,7 +57,7 @@ function resolveImageUrl(image) {
 function renderCartImage(image, altText) {
     const imageUrl = resolveImageUrl(image);
     if (!imageUrl) return "Produit";
-    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
 async function basculerPanier(articleId) {
@@ -228,9 +99,9 @@ function afficherMessagePanier(text, isError) {
     }
 
     if (isError) {
-        node.innerHTML = '<div class="message err">' + escapeHtml(text) + '</div>';
+        node.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="bi bi-exclamation-triangle"></i> ' + String(text) + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     } else {
-        node.innerHTML = '<div class="message">' + escapeHtml(text) + '</div>';
+        node.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="bi bi-check-circle"></i> ' + String(text) + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     }
 }
 
@@ -249,7 +120,7 @@ async function loadPanier() {
         const text = await response.text();
         afficherMessagePanier(text || 'Erreur de lecture du panier.', true);
         list.innerHTML = '';
-        totalNode.textContent = 'Total: 0 €';
+        totalNode.innerHTML = '<i class="bi bi-bag"></i> Total: 0 €';
         return;
     }
 
@@ -258,7 +129,7 @@ async function loadPanier() {
     if (data.message) {
         afficherMessagePanier(data.message, false);
         list.innerHTML = '';
-        totalNode.textContent = 'Total: 0 €';
+        totalNode.innerHTML = '<i class="bi bi-bag"></i> Total: 0 €';
         return;
     }
 
@@ -273,23 +144,27 @@ async function loadPanier() {
             : (a.description || '');
 
         html += `
-            <article class="cart-card">
-                <div class="cart-img">${renderCartImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
-                <div class="cart-body">
-                    <h3 class="cart-title">${escapeHtml(a.titre)}</h3>
-                    <p class="cart-desc">${escapeHtml(desc)}</p>
-                    <span class="cart-price">${escapeHtml(a.prix)} €</span>
-                    <div class="cart-actions">
-                        <a class="btn btn-detail" href="article_detail.php?id=${encodeURIComponent(a.id)}">Voir détail</a>
-                        <button class="btn btn-remove" onclick="basculerPanier(${Number(a.id)})">Retirer du panier</button>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 shadow-sm">
+                    <div class="cart-image-placeholder">
+                        ${renderCartImage(a.image, `Image de ${a.titre || "cet article"}`)}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">${String(a.titre)}</h5>
+                        <p class="card-text text-muted small flex-grow-1">${String(desc)}</p>
+                        <p class="card-text text-primary fw-bold fs-5">${String(a.prix)} €</p>
+                        <div class="d-grid gap-2 d-sm-flex">
+                            <a class="btn btn-sm btn-info flex-grow-1" href="article_detail.php?id=${encodeURIComponent(a.id)}"><i class="bi bi-eye"></i> Détail</a>
+                            <button class="btn btn-sm btn-danger" onclick="basculerPanier(${Number(a.id)})"><i class="bi bi-trash"></i> Retirer</button>
+                        </div>
                     </div>
                 </div>
-            </article>
+            </div>
         `;
     });
 
     list.innerHTML = html;
-    totalNode.textContent = 'Total: ' + total.toFixed(2) + ' €';
+    totalNode.innerHTML = '<i class="bi bi-bag"></i> Total: ' + total.toFixed(2) + ' €';
 }
 
 async function init() {
@@ -302,3 +177,4 @@ init();
 </script>
 </body>
 </html>
+

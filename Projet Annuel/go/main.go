@@ -39,6 +39,10 @@ func main() {
 	http.HandleFunc("/nous_contacter", nous_contacter(db))
 	http.HandleFunc("/demande_presta", demande_presta(db))
 
+	http.HandleFunc("/load-messages", ressources.LoadMessages(db))
+	http.HandleFunc("/load-contacts", ressources.LoadContacts(db))
+	http.HandleFunc("/send-message", ressources.SendMessage(db))
+
 	http.HandleFunc("/contrats", ressources.Contrats(db))
 	http.HandleFunc("/conseils", ressources.Conseils(db))
 	http.HandleFunc("/conseils/{id}", ressources.Conseil_id(db))

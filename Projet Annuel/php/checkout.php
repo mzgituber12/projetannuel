@@ -6,93 +6,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Checkout</title>
-    <style>
-        .checkout-shell {
-            max-width: 900px;
-            margin: 1rem auto;
-            padding: 1.2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0,0,0,.1);
-            background: #f8fafc;
-        }
-
-        .checkout-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin: 0.4rem 0;
-            padding-bottom: 0.4rem;
-            border-bottom: 1px dashed #d1d5db;
-        }
-
-        .checkout-total {
-            margin-top: 1rem;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .checkout-actions {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 0.65rem 1rem;
-            cursor: pointer;
-            color: #fff;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-transfer { background: #0d9488; }
-        .btn-transfer:hover { background: #0f766e; }
-
-        .btn-stripe { background: #2563eb; }
-        .btn-stripe:hover { background: #1d4ed8; }
-
-        .btn-back { background: #6b7280; }
-        .btn-back:hover { background: #4b5563; }
-
-        .message {
-            margin-top: 1rem;
-            padding: 0.7rem;
-            border-radius: 8px;
-            background: #ecfeff;
-            border: 1px solid #99f6e4;
-            color: #134e4a;
-            white-space: pre-wrap;
-        }
-
-        .message.error {
-            background: #fee2e2;
-            border-color: #fecaca;
-            color: #991b1b;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
-<h1>Checkout</h1>
-<div class="checkout-shell">
-    <div id="items"></div>
-    <div id="total" class="checkout-total">Total: 0.00 EUR</div>
+<h1 class="mt-5 mb-4">Checkout</h1>
+<div class="container" style="max-width:600px;">
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="items"></div>
+            <div id="total" class="h5 mt-3 pt-3 border-top">Total: 0.00 EUR</div>
 
-    <div class="checkout-actions">
-        <button id="payTransfer" class="btn btn-transfer">Payer par virement</button>
-        <button id="payStripe" class="btn btn-stripe">Payer par carte</button>
-        <a class="btn btn-back" href="panier.php">Retour panier</a>
+            <div class="d-flex gap-2 flex-wrap mt-4">
+                <button id="payTransfer" class="btn btn-success">Payer par virement</button>
+                <button id="payStripe" class="btn btn-primary">Payer par carte</button>
+                <a class="btn btn-outline-secondary" href="panier.php">Retour panier</a>
+            </div>
+
+            <div id="message"></div>
+        </div>
     </div>
-
-    <div id="message"></div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
@@ -116,7 +50,8 @@ function afficherMessage(text, isError) {
         m.innerHTML = '';
         return;
     }
-    m.innerHTML = '<div class="message ' + (isError ? 'error' : '') + '">' + esc(text) + '</div>';
+    const alertClass = isError ? 'alert-danger' : 'alert-success';
+    m.innerHTML = '<div class="alert ' + alertClass + ' mt-3" style="white-space:pre-wrap;">' + esc(text) + '</div>';
 }
 
 async function chargerPanier() {
@@ -147,7 +82,7 @@ async function chargerPanier() {
     let total = 0;
     data.article.forEach((a) => {
         total += Number(a.prix) || 0;
-        html += '<div class="checkout-row"><span>' + esc(a.titre) + '</span><strong>' + esc(a.prix) + ' EUR</strong></div>';
+        html += '<div class="d-flex justify-content-between align-items-center py-2 border-bottom"><span>' + esc(a.titre) + '</span><strong>' + esc(a.prix) + ' EUR</strong></div>';
     });
 
     currentTotal = total;

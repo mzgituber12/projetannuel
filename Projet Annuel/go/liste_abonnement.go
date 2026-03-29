@@ -19,8 +19,9 @@ func liste_abonnement_all(database *sql.DB) http.HandlerFunc {
 		}
 
 		rows, err := database.Query(`
-			SELECT id_abonnement, type_prestataire, type, prix_mois, statut, prix_an,
-			       Locaux_prestation, Trajet_offert, offre_repas, mis_en_avant
+			SELECT id_abonnement, type, type, categorie, prix_mois, statut, prix_an,
+			       contenue1, contenue2, contenue3, contenue4,
+			       IFNULL(Locaux_prestation, 0), IFNULL(Trajet_offert, 0), IFNULL(offre_repas, 0), IFNULL(mis_en_avant, 0)
 			FROM abonnement
 			ORDER BY id_abonnement ASC
 		`)
@@ -33,7 +34,7 @@ func liste_abonnement_all(database *sql.DB) http.HandlerFunc {
 		abonnements := make([]structures.Abonnement, 0)
 		for rows.Next() {
 			var a structures.Abonnement
-			if scanErr := rows.Scan(&a.ID, &a.TypePrestataire, &a.Type, &a.PrixMois, &a.Statut, &a.PrixAn, &a.LocauxPrestation, &a.TrajetOffert, &a.OffreRepas, &a.MisEnAvant); scanErr != nil {
+			if scanErr := rows.Scan(&a.ID, &a.Type, &a.Titre, &a.Categorie, &a.PrixMois, &a.Statut, &a.PrixAn, &a.Contenue1, &a.Contenue2, &a.Contenue3, &a.Contenue4, &a.LocauxPrestation, &a.TrajetOffert, &a.OffreRepas, &a.MisEnAvant); scanErr != nil {
 				http.Error(response, scanErr.Error(), http.StatusInternalServerError)
 				return
 			}

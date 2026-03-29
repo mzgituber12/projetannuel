@@ -6,44 +6,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Paiement reussi</title>
-    <style>
-        .box {
-            max-width: 760px;
-            margin: 2rem auto;
-            padding: 1.2rem;
-            border-radius: 12px;
-            border: 1px solid #bbf7d0;
-            background: #f0fdf4;
-        }
-
-        .actions { margin-top: 1rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
-
-        .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-            text-decoration: none;
-            font-weight: 700;
-            color: #fff;
-            background: #16a34a;
-        }
-
-        .btn.secondary { background: #2563eb; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
-<div class="box">
-    <h1>Paiement confirme</h1>
-    <p id="status">Validation du paiement en cours...</p>
-    <div class="actions">
-        <a id="invoiceLink" class="btn secondary" href="boutique.php">Voir la facture</a>
-        <a class="btn" href="boutique.php">Retour boutique</a>
+<div class="container mt-5 mb-5" style="max-width: 760px;">
+    <div class="alert alert-success border-success-subtle" role="alert">
+        <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+            <h1 class="ms-3 mb-0">Paiement confirmé</h1>
+        </div>
+        <p id="status" class="text-muted mb-3">Validation du paiement en cours...</p>
+        <div class="d-flex gap-2 flex-wrap">
+            <a id="invoiceLink" class="btn btn-primary" href="boutique.php"><i class="bi bi-file-earmark-pdf"></i> Voir la facture</a>
+            <a class="btn btn-success" href="boutique.php"><i class="bi bi-shop"></i> Retour boutique</a>
+        </div>
     </div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
 const API = window.API_BASE || 'http://localhost:9000';
@@ -81,7 +66,7 @@ async function init() {
     const status = String(data.status || '').toLowerCase();
 
     if (status === 'paid') {
-        statusNode.textContent = 'Paiement enregistre. Votre commande est finalisee.';
+        statusNode.textContent = 'Paiement enregistré. Votre commande est finalisée.';
         return;
     }
 

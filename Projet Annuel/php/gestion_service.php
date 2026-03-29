@@ -7,69 +7,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des services</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 12px; text-align: left; }
-        th { background-color: #4CAF50; color: white; }
-        tr:hover { background-color: #f5f5f5; }
-        a { color: #4CAF50; text-decoration: none; margin: 0 5px; }
-        a:hover { text-decoration: underline; }
-        .search-section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
-        .search-section input { padding: 8px; margin-right: 10px; width: 300px; }
-        .search-section button { padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .search-section button:hover { background-color: #45a049; }
-        .btn-create { background-color: #008CBA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 15px; }
-        .btn-create:hover { background-color: #007399; }
-        #resultat { margin: 20px 0; padding: 15px; border-radius: 5px; }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
 
-<h1>Gestion des services</h1>
-<?php
-if (isset($_SESSION['state']) && isset($_GET['message'])) {
-    echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
-    unset($_SESSION['state']);
-}?>
-<a href='creer_service.php' class='btn-create'>+ Créer un nouveau service</a>
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Gestion des services</h1>
+    <?php
+    if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+    }?>
+    <div class="mb-4">
+        <a href='creer_service.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> Créer un nouveau service</a>
+    </div>
 
-<div class="search-section">
-    <h4>Entrer un nom de service pour avoir toutes les informations !</h4>
-    <form onsubmit="search_service(event); return false;">
-        <input id="serv_name" placeholder="Nom du service..." type="text">
-        <button type="submit">Rechercher</button>
-    </form>
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Rechercher un service</h5>
+        </div>
+        <div class="card-body">
+            <form onsubmit="search_service(event); return false;" class="row g-3">
+                <div class="col-md-8">
+                    <input id="serv_name" placeholder="Nom du service..." type="text" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="resultat"></div>
+
+    <h2 class="mt-5 mb-3">Liste des services</h2>
+    <div id="services"></div>
 </div>
-<div id="resultat"></div>
-
-<h2> Liste des services </h2>
-<div id = "services"></div>
 <?php include 'includes/footer.php'?>
 
-<script>
-    function escapeHtml(value) {
-        return String(value ?? "")
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#39;");
-    }
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+<script>
     function renderImageHtml(image, altText) {
         const file = String(image ?? "").trim();
         if (!file) return "<em>Pas d'image</em>";
         const src = file.startsWith("http://") || file.startsWith("https://") || file.startsWith("/")
             ? file
             : `upload/${encodeURIComponent(file)}`;
-        return `<img src="${src}" alt="${escapeHtml(altText)}" style="max-width: 100px; max-height: 100px; border-radius: 5px;">`;
+        return `<img src="${src}" alt="${String(altText)}" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">`;
     }
 
     async function supprimer_service(id, nom){
@@ -114,10 +101,10 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
             const imageHtml = renderImageHtml(data.image, "Image du service");
             document.getElementById("resultat").innerHTML = 
             "<div class='success'>" +
-            "<label><strong>ID :</strong> " + escapeHtml(data.id) + "</label><br>" +
-            "<label><strong>Nom :</strong> " + escapeHtml(data.nom) + "</label><br>" +
-            "<label><strong>Description :</strong> " + escapeHtml(data.description) + "</label><br>" +
-            "<label><strong>Tarif :</strong> " + escapeHtml(data.tarif) + "</label><br>" +
+            "<label><strong>ID :</strong> " + String(data.id) + "</label><br>" +
+            "<label><strong>Nom :</strong> " + String(data.nom) + "</label><br>" +
+            "<label><strong>Description :</strong> " + String(data.description) + "</label><br>" +
+            "<label><strong>Tarif :</strong> " + String(data.tarif) + "</label><br>" +
             "<label><strong>Image :</strong> " + imageHtml + "</label><br>" +
             "<a href='modifier_service.php?id=" + data.id + "'>Modifier service</a> | " +
             "<a href='#' onclick='supprimer_service(" + data.id + ", \"" + data.nom + "\"); return false;'>Supprimer</a>" +
@@ -150,8 +137,8 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
                 const actions = "<a href='modifier_service.php?id=" + serv.id + "'>Modifier</a> | " +
                     "<a href='#' onclick=\"supprimer_service(" + serv.id + ", '" + serv.nom.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a>";
                 const imageHtml = renderImageHtml(serv.image, `Image de ${serv.nom}`);
-                const desc = (serv.description || '').length > 100 ? escapeHtml(serv.description).slice(0, 100) + "..." : escapeHtml(serv.description);
-                html += "<tr><td>" + imageHtml + "</td><td>" + escapeHtml(serv.nom) + "</td><td>" + desc + "</td><td>" + escapeHtml(serv.tarif) + "</td><td>" + actions + "</td></tr>";
+                const desc = (serv.description || '').length > 100 ? String(serv.description).slice(0, 100) + "..." : String(serv.description);
+                html += "<tr><td>" + imageHtml + "</td><td>" + String(serv.nom) + "</td><td>" + desc + "</td><td>" + String(serv.tarif) + "</td><td>" + actions + "</td></tr>";
             });
             html += "</table>";
             service.innerHTML = html;
@@ -174,3 +161,4 @@ if (event.persisted) {
 </script>
 </body>
 </html>
+

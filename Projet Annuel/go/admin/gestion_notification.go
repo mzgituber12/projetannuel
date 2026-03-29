@@ -201,7 +201,7 @@ func Creer_notification(database *sql.DB) http.HandlerFunc {
 		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]interface{}{
+		json.NewEncoder(response).Encode(map[string]any{
 			"message": "Notification(s) envoyée(s)",
 			"value":   1,
 			"count":   count,

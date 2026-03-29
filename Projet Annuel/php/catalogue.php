@@ -6,215 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Catalogue</title>
-    <style>
-        .catalogue-big-group {
-            border: 1px solid rgba(0,0,0,.12);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            background: #a19797;
-        }
-
-        .catalogue-big-group > h2 {
-            margin-top: 0;
-            margin-bottom: 0.75rem;
-            font-size: 1.25rem;
-        }
-
-        .catalogue-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: flex-start;
-        }
-        .catalogue-title {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1rem auto;  
-            justify-content: center;
-            background: #6279fe;
-            max-width: 250px;
-            max-height: 100px;
-            min-width: 220px;
-            border-radius: 90%;
-        }
-
-        .catalogue-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,.06);
-            width: 260px;
-            min-height: 260px;
-        }
-
-        .catalogue-card .card-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 130px;
-            background: linear-gradient(135deg, #eef2ff 0%, #d3e2ff 100%);
-            color: #4b5563;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .catalogue-card .card-body {
-            padding: 0.75rem 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .catalogue-card .card-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            margin: 0;
-        }
-
-        .catalogue-card .card-desc {
-            margin: 0;
-            color: #444;
-            line-height: 1.4;
-        }
-
-        .catalogue-card .card-meta {
-            font-size: 0.85rem;
-            color: #6b7280;
-        }
-
-        .catalogue-card .card-action {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            padding-top: 0.5rem;
-        }
-
-        .catalogue-card button {
-            padding: 0.5rem 0.9rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background: #2563eb;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .catalogue-card button:hover {
-            background: #1d4ed8;
-        }
-
-        .button-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 0.5rem 0.9rem;
-            border-radius: 4px;
-            background: #2563eb;
-            color: #fff;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .button-link:hover {
-            background: #1d4ed8;
-        }
-
-        .catalogue-card button.btn-leave {
-            background: #dc2626;
-        }
-
-        .catalogue-card button.btn-leave:hover {
-            background: #b91c1c;
-        }
-
-        .catalogue-search-shell {
-            max-width: 1100px;
-            margin: 1rem auto 1.5rem auto;
-            background: linear-gradient(90deg, #dde9ff 0%, #f4f8ff 45%, #e9f0ff 100%);
-            border: 1px solid #c7d2fe;
-            border-radius: 14px;
-            padding: 1rem;
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.12);
-        }
-
-        .catalogue-search-shell h3 {
-            margin: 0 0 0.75rem 0;
-            font-size: 1rem;
-            color: #1e3a8a;
-            letter-spacing: 0.2px;
-        }
-
-        .catalogue-filters {
-            border: 1px solid rgba(0, 0, 0, .08);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 0.9rem;
-            display: flex;
-            align-items: flex-end;
-            gap: 0.75rem;
-            overflow-x: auto;
-        }
-
-        .catalogue-filter-grid {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 0.75rem;
-            align-items: end;
-            min-width: max-content;
-            flex: 1;
-        }
-
-        .catalogue-filter-field {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            min-width: 180px;
-        }
-
-        .catalogue-filter-field label {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .catalogue-filter-field input,
-        .catalogue-filter-field select {
-            padding: 0.55rem 0.65rem;
-            border-radius: 6px;
-            border: 1px solid #d1d5db;
-            font-size: 0.95rem;
-        }
-
-        .catalogue-filter-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 0;
-            min-width: max-content;
-        }
-
-        .catalogue-filter-actions button {
-            border: none;
-            border-radius: 6px;
-            background: #111827;
-            color: #fff;
-            padding: 0.55rem 0.85rem;
-            cursor: pointer;
-        }
-
-        .catalogue-filter-actions button:hover {
-            background: #1f2937;
-        }
-
-        .catalogue-empty {
-            color: #374151;
-            font-style: italic;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
@@ -227,60 +19,55 @@
     unset($_SESSION['state']);
 }
 ?>
-<div class="catalogue-search-shell">
-    <h3>Recherche rapide dans le catalogue</h3>
-    <div class="catalogue-filters">
-        <div class="catalogue-filter-grid">
-            <div class="catalogue-filter-field">
-                <label for="searchInput">Recherche</label>
-                <input id="searchInput" type="text" placeholder="Nom, description, type, telephone...">
-            </div>
-            <div class="catalogue-filter-field">
-                <label for="searchType">Type de recherche</label>
-                <select id="searchType">
-                    <option value="all">Tout</option>
-                    <option value="service">Service</option>
-                    <option value="evenement">Evenement</option>
-                    <option value="prestataire">Prestataire</option>
-                    <option value="article">Article</option>
-                </select>
-            </div>
-            <div class="catalogue-filter-field">
-                <label for="categoryFilter">Categorie (services)</label>
-                <select id="categoryFilter">
-                    <option value="">Toutes</option>
-                </select>
-            </div>
-            <div class="catalogue-filter-field">
-                <label for="minPriceFilter">Prix minimum</label>
-                <input id="minPriceFilter" type="number" min="0" step="0.01" placeholder="0">
-            </div>
-            <div class="catalogue-filter-field">
-                <label for="maxPriceFilter">Prix maximum</label>
-                <input id="maxPriceFilter" type="number" min="0" step="0.01" placeholder="500">
-            </div>
+<div class="card p-3 shadow-sm">
+    <h5 class="mb-3">Recherche rapide dans le catalogue</h5>
+    <div class="d-flex gap-2 flex-wrap align-items-end">
+        <div class="flex-grow-1" style="min-width: 200px;">
+            <label for="searchInput" class="form-label small">Recherche</label>
+            <input id="searchInput" type="text" class="form-control form-control-sm" placeholder="Nom, description, type...">
         </div>
-        <div class="catalogue-filter-actions">
-            <button id="resetFiltersButton" type="button">Reinitialiser les filtres</button>
+        <div style="min-width: 150px;">
+            <label for="searchType" class="form-label small">Type</label>
+            <select id="searchType" class="form-select form-select-sm">
+                <option value="all">Tout</option>
+                <option value="service">Service</option>
+                <option value="evenement">Evenement</option>
+                <option value="prestataire">Prestataire</option>
+                <option value="article">Article</option>
+            </select>
         </div>
+        <div style="min-width: 150px;">
+            <label for="categoryFilter" class="form-label small">Categorie</label>
+            <select id="categoryFilter" class="form-select form-select-sm">
+                <option value="">Toutes</option>
+            </select>
+        </div>
+        <div style="min-width: 130px;">
+            <label for="minPriceFilter" class="form-label small">Prix min</label>
+            <input id="minPriceFilter" type="number" class="form-control form-control-sm" min="0" step="0.01" placeholder="0">
+        </div>
+        <div style="min-width: 130px;">
+            <label for="maxPriceFilter" class="form-label small">Prix max</label>
+            <input id="maxPriceFilter" type="number" class="form-control form-control-sm" min="0" step="0.01" placeholder="500">
+        </div>
+        <button id="resetFiltersButton" class="btn btn-sm btn-dark">Réinitialiser</button>
     </div>
 </div>
-<h2 class="catalogue-title" >Evenements</h2>
-<div class="catalogue-big-group">
-    
-    <div id="evenements" class="catalogue-group"></div>
+<h2 class="h4 mt-5 mb-3">Événements</h2>
+<div class="card border-0 mb-4">
+    <div id="evenements" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
 </div>
-<h2 class="catalogue-title" >Services</h2>
-<div class="catalogue-big-group">
-    <div id="services" class="catalogue-group"></div>
+<h2 class="h4 mt-5 mb-3">Services</h2>
+<div class="card border-0 mb-4">
+    <div id="services" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
 </div>
-<h2 class="catalogue-title" >Articles</h2>
-<div class="catalogue-big-group">
-    <div id="articles" class="catalogue-group"></div>
+<h2 class="h4 mt-5 mb-3">Articles</h2>
+<div class="card border-0 mb-4">
+    <div id="articles" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
 </div>
-<h2 class="catalogue-title" >Prestataires</h2>
-<div class="catalogue-big-group">
-    <div id="prestataires" class="catalogue-group"></div>
+<h2 class="h4 mt-5 mb-3">Prestataires</h2>
+<div class="card border-0 mb-4">
+    <div id="prestataires" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
@@ -290,15 +77,6 @@ let evenementsData = [];
 let servicesData = [];
 let articlesData = [];
 let prestatairesData = [];
-
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
 
 function resolveImageUrl(image) {
     const raw = String(image ?? "").trim();
@@ -312,7 +90,7 @@ function resolveImageUrl(image) {
 function renderCardImage(image, altText) {
     const imageUrl = resolveImageUrl(image);
     if (!imageUrl) return "Image";
-    return `<img src="${imageUrl}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
 function parsePrice(value) {
@@ -324,7 +102,7 @@ function parsePrice(value) {
 function renderEvenements(items) {
     const evenement = document.getElementById("evenements");
     if (!items.length) {
-        evenement.innerHTML = '<p class="catalogue-empty">Aucun evenement ne correspond aux filtres.</p>';
+        evenement.innerHTML = '<p class="text-muted">Aucun événement ne correspond aux filtres.</p>';
         return;
     }
 
@@ -332,19 +110,23 @@ function renderEvenements(items) {
     items.forEach(e => {
         const actionLabel = e.rejoindre == "Rejoindre" ? "Rejoindre" : "Quitter";
         const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}&image=${encodeURIComponent(e.image || "")}`;
-        const btnClass = e.rejoindre == "Quitter" ? "btn-leave" : "";
+        const btnClass = e.rejoindre == "Quitter" ? "btn-outline-danger" : "btn-primary";
         const action = e.rejoindre == "Rejoindre" ?
-            `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
-            `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'evenements', 'leave', ${e.id})">${actionLabel}</button>`;
+            `<a class="btn btn-primary w-100" href="${joinLink}">${actionLabel}</a>` :
+            `<button class="btn ${btnClass} w-100" onclick="updateUserEvent('${localStorage.getItem('token')}', 'evenements', 'leave', ${e.id})">${actionLabel}</button>`;
 
         html += `
-            <div class="catalogue-card">
-                <div class="card-img">${renderCardImage(e.image, `Image de ${e.nom || "cet evenement"}`)}</div>
-                <div class="card-body">
-                    <div class="card-title">${escapeHtml(e.nom)}</div>
-                    <div class="card-desc">${escapeHtml(e.description)}</div>
-                    <div class="card-meta">${escapeHtml(e.date)}</div>
-                    <div class="card-action">${action}</div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+                        ${renderCardImage(e.image, `Image de ${e.nom || "cet evenement"}`)}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">${String(e.nom)}</h6>
+                        <p class="card-text text-muted small flex-grow-1">${String(e.description)}</p>
+                        <p class="card-text small text-secondary mb-2">${String(e.date)}</p>
+                        ${action}
+                    </div>
                 </div>
             </div>
         `;
@@ -355,33 +137,37 @@ function renderEvenements(items) {
 function renderServices(items) {
     const service = document.getElementById("services");
     if (!items.length) {
-        service.innerHTML = '<p class="catalogue-empty">Aucun service ne correspond aux filtres.</p>';
+        service.innerHTML = '<p class="text-muted">Aucun service ne correspond aux filtres.</p>';
         return;
     }
 
     let html = '';
     items.forEach(s => {
-        const actionLabel = s.rejoindre == "Rejoindre" ? "Reserver" : (s.rejoindre == "Quitter" ? "Annuler" : "Indisponible");
+        const actionLabel = s.rejoindre == "Rejoindre" ? "Réserver" : (s.rejoindre == "Quitter" ? "Annuler" : "Indisponible");
         const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&description=${encodeURIComponent(s.description || "")}&tarif=${encodeURIComponent(s.tarif)}&image=${encodeURIComponent(s.image || "")}`;
-        const btnClass = s.rejoindre == "Quitter" ? "btn-leave" : "";
+        const btnClass = s.rejoindre == "Quitter" ? "btn-outline-danger" : "btn-primary";
         const actionState = s.rejoindre == "Quitter" ? "leave" : "join";
         const action = s.rejoindre == "Rejoindre" ?
-            `<a class="button-link" href="${joinLink}">${actionLabel}</a>` :
-            `<button class="${btnClass}" onclick="updateUserEvent('${localStorage.getItem('token')}', 'services', '${actionState}', ${s.id})">${actionLabel}</button>`;
+            `<a class="btn btn-primary w-100" href="${joinLink}">${actionLabel}</a>` :
+            `<button class="btn ${btnClass} w-100" onclick="updateUserEvent('${localStorage.getItem('token')}', 'services', '${actionState}', ${s.id})">${actionLabel}</button>`;
 
-        const categorieText = s.categorie ? `Categorie : ${escapeHtml(s.categorie)}` : "Categorie : non renseignee";
-        const prestataireText = s.prestataire ? `Prestataire : ${escapeHtml(s.prestataire)}` : "Prestataire : non renseigne";
+        const categorieText = s.categorie ? `${String(s.categorie)}` : "Non renseignée";
+        const prestataireText = s.prestataire ? `${String(s.prestataire)}` : "Non renseigné";
 
         html += `
-            <div class="catalogue-card">
-                <div class="card-img">${renderCardImage(s.image, `Image de ${s.nom || "ce service"}`)}</div>
-                <div class="card-body">
-                    <div class="card-title">${escapeHtml(s.nom)}</div>
-                    <div class="card-desc">${escapeHtml(s.description)}</div>
-                    <div class="card-meta">${categorieText}</div>
-                    <div class="card-meta">${prestataireText}</div>
-                    <div class="card-meta">${escapeHtml(s.tarif)} €</div>
-                    <div class="card-action">${action}</div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+                        ${renderCardImage(s.image, `Image de ${s.nom || "ce service"}`)}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">${String(s.nom)}</h6>
+                        <p class="card-text text-muted small flex-grow-1">${String(s.description)}</p>
+                        <p class="card-text small text-secondary mb-1"><strong>Catégorie:</strong> ${categorieText}</p>
+                        <p class="card-text small text-secondary mb-1"><strong>Prestataire:</strong> ${prestataireText}</p>
+                        <p class="card-text small text-primary fw-bold mb-2">${String(s.tarif)} €</p>
+                        ${action}
+                    </div>
                 </div>
             </div>
         `;
@@ -392,19 +178,23 @@ function renderServices(items) {
 function renderArticles(items) {
     const article = document.getElementById("articles");
     if (!items.length) {
-        article.innerHTML = '<p class="catalogue-empty">Aucun article ne correspond aux filtres.</p>';
+        article.innerHTML = '<p class="text-muted">Aucun article ne correspond aux filtres.</p>';
         return;
     }
 
     let html = '';
     items.forEach(a => {
         html += `
-            <div class="catalogue-card">
-                <div class="card-img">${renderCardImage(a.image, `Image de ${a.titre || "cet article"}`)}</div>
-                <div class="card-body">
-                    <div class="card-title">${escapeHtml(a.titre)}</div>
-                    <div class="card-desc">${escapeHtml(a.description)}</div>
-                    <div class="card-meta">${escapeHtml(a.prix)} €</div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+                        ${renderCardImage(a.image, `Image de ${a.titre || "cet article"}`)}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">${String(a.titre)}</h6>
+                        <p class="card-text text-muted small flex-grow-1">${String(a.description)}</p>
+                        <p class="card-text small text-primary fw-bold">${String(a.prix)} €</p>
+                    </div>
                 </div>
             </div>
         `;
@@ -415,7 +205,7 @@ function renderArticles(items) {
 function renderPrestataires(items) {
     const prestataire = document.getElementById("prestataires");
     if (!items.length) {
-        prestataire.innerHTML = '<p class="catalogue-empty">Aucun prestataire ne correspond aux filtres.</p>';
+        prestataire.innerHTML = '<p class="text-muted">Aucun prestataire ne correspond aux filtres.</p>';
         return;
     }
 
@@ -423,12 +213,16 @@ function renderPrestataires(items) {
     items.forEach(p => {
         const fullName = `${p.prenom || ""} ${p.nom || ""}`.trim() || "Prestataire";
         html += `
-            <div class="catalogue-card">
-                <div class="card-img">Prestataire</div>
-                <div class="card-body">
-                    <div class="card-title">${escapeHtml(fullName)}</div>
-                    <div class="card-meta">Type : ${escapeHtml(p.type || "non renseigne")}</div>
-                    <div class="card-meta">Telephone : ${escapeHtml(p.telephone || "non renseigne")}</div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="bg-light d-flex align-items-center justify-content-center text-center p-3" style="height:140px;">
+                        <div class="text-muted small">Prestataire</div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">${String(fullName)}</h6>
+                        <p class="card-text small text-secondary mb-1"><strong>Type:</strong> ${String(p.type || "Non renseigné")}</p>
+                        <p class="card-text small text-secondary"><strong>Téléphone:</strong> ${String(p.telephone || "Non renseigné")}</p>
+                    </div>
                 </div>
             </div>
         `;
@@ -647,6 +441,7 @@ async function init() {
 init()
 </script>
 </html>
+
 
 
 
