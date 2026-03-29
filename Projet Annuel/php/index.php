@@ -6,21 +6,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Accueil</title>
+    <title data-i18n>Accueil</title>
 </head>
 <body>
 
 <?php
 include 'includes/header.php';
 
-echo "<div class='text-center mt-2 ms-4'><h1>Accueil</div></h1>";
+echo "<div class='text-center mt-2 ms-4'><h1 data-i18n>Accueil</h1></div>";
 if (isset($_SESSION['state']) && isset($_GET['message'])) { 
-    echo "<h3>" . htmlspecialchars($_GET['message']) . "</h3>";
+    echo "<h3 data-i18n>" . htmlspecialchars($_GET['message']) . "</h3>";
     unset($_SESSION['state']);
 }
 ?>
-<h2>Bienvenue sur notre site</h2>
-<div id="content"></div>
+<h2 data-i18n>Bienvenue sur notre site</h2>
+<div id="content" data-i18n></div>
 
 <div class="container mt-5 pb-5">
   <div class="row justify-content-center g-4">
@@ -28,14 +28,14 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
       <div class="card h-100 d-flex flex-column" style="width: 22rem;">
         <img src="https://yogalipette.com/wp-content/uploads/2020/05/yoga-plein-air.jpg" class="card-img-top" alt="Yoga en plein air">
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title">Ce matin yoga en plein air</h5>
-          <p class="card-text">
+          <h5 class="card-title" data-i18n>Ce matin yoga en plein air</h5>
+          <p class="card-text" data-i18n>
             Ce Mardi 12 février, un cours de Yoga sera donné par notre nouvelle professeur “Noa Dupont”. Vous voulez participer ou en savoir plus clic sur l’actualité 
           <ul class="list-unstyled mb-3">
-            <li>Date : 12 février 2025</li>
-            <li>Lieux : Parc des bois</li>
+            <li data-i18n>Date : 12 février 2025</li>
+            <li data-i18n>Lieux : Parc des bois</li>
           </ul>
-          <a href="#" class="btn btn-primary mt-auto w-100">En savoir plus</a>
+          <a href="#" class="btn btn-primary mt-auto w-100" data-i18n>En savoir plus</a>
         </div>
       </div>
     </div>
@@ -44,15 +44,15 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
       <div class="card h-100 d-flex flex-column" style="width: 22rem;">
         <img src="https://moncentreaquatique.com/images/1999238861.jpg" class="card-img-top" alt="Atelier mémoire">
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title">Natation Synchroniser pour bien se reveiller ! </h5>
-          <p class="card-text">
+          <h5 class="card-title" data-i18n>Natation Synchroniser pour bien se reveiller ! </h5>
+          <p class="card-text" data-i18n>
             Suivez un programme personaliser pour chacun avec , Jean Dupont notre coach en natation.
           </p>
           <ul class="list-unstyled mb-3">
-            <li>Date : 20 Mars 2025</li>
-            <li>Lieux : Pscine Municipale de Paris</li>
+            <li data-i18n>Date : 20 Mars 2025</li>
+            <li data-i18n>Lieux : Pscine Municipale de Paris</li>
           </ul>
-          <a href="#" class="btn btn-primary mt-auto w-100">En savoir plus</a>
+          <a href="#" class="btn btn-primary mt-auto w-100" data-i18n>En savoir plus</a>
         </div>
       </div>
     </div>
@@ -61,15 +61,15 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
       <div class="card h-100 d-flex flex-column" style="width: 22rem;">
         <img src="https://lemagdusenior.ouest-france.fr/images/dossiers/2024-01/mini/geriatre-103905-1200-600.jpg" class="card-img-top" alt="Nouveau médecin">
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title">Médecin gériatre validé par Silver Happy</h5>
-          <p class="card-text">
+          <h5 class="card-title" data-i18n>Médecin gériatre validé par Silver Happy</h5>
+          <p class="card-text" data-i18n>
             Des problèmes de dos, mal à l’épaule, des douleurs après une promenade, reserver votre rendez vous avec notre médecin agréé
           </p>
           <ul class="list-unstyled mb-3">
-            <li>Lieux : Centre Médical de Lyon</li>
-            <li>Spécialité : Gériatrie</li>
+            <li data-i18n>Lieux : Centre Médical de Lyon</li>
+            <li data-i18n>Spécialité : Gériatrie</li>
           </ul>
-          <a href="#" class="btn btn-primary mt-auto w-100">Prendre rendez-vous</a>
+          <a href="#" class="btn btn-primary mt-auto w-100" data-i18n>Prendre rendez-vous</a>
         </div>
       </div>
     </div>
@@ -95,13 +95,19 @@ async function onlineUser(token) {
         }
         
     const data = await response.json();
-    if (data.message == "Identifié"){
-        document.getElementById("content").innerHTML = "Vous êtes connecté";
-        if (data.tutoriel == "1"){
-        document.getElementById("content").innerHTML += "<br>C'est votre 1ere experience sur le site ? Voici le tutoriel pour vous aider";
-        }
-    } else if (data.message == "Pas identifié"){
-        document.getElementById("content").innerHTML = "Veuillez vous connecter pour poursuivre";
+    const langue = data.langue || "fr";
+
+    if (data.message == "Identifié") {
+      const msgConnecte = await traduireText("Vous êtes connecté", langue);
+      if (data.tutoriel == "1") {
+        const msgTutoriel = await traduireText("C'est votre 1ere experience sur le site ? Voici le tutoriel pour vous aider", langue);
+        document.getElementById("content").innerHTML = msgConnecte + "<br>" + msgTutoriel;
+      } else {
+        document.getElementById("content").innerHTML = msgConnecte;
+      }
+    } else if (data.message == "Pas identifié") {
+      const msgPasConnecte = await traduireText("Veuillez vous connecter pour poursuivre", langue);
+      document.getElementById("content").innerHTML = msgPasConnecte;
     }
 }
 

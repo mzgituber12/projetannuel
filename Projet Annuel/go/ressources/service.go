@@ -761,21 +761,8 @@ func DevisDetail(database *sql.DB) http.HandlerFunc {
 
 		var d structures.Devis
 		err = database.QueryRow(`
-			SELECT d.id_devis,
-			       IFNULL(s.nom, ''),
-			       IFNULL(CONCAT(u.prenom, ' ', u.nom), ''),
-			       IFNULL(d.tarif_personalise, 0),
-			       IFNULL(d.status, ''),
-			       IFNULL(rdv.date_debut, ''),
-			       IFNULL(rdv.date_fin, ''),
-			       IFNULL(d.id_prestataire, 0)
-			FROM devis d
-			JOIN intervention i ON i.id_intervention = d.id_intervention
-			LEFT JOIN service s ON s.id_service = i.id_service
-			LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire
-			LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur
-			LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv
-			WHERE d.id_devis = ?`, id).Scan(
+			SELECT d.id_devis, IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, ''), IFNULL(d.id_prestataire, 0) FROM devis d
+			JOIN intervention i ON i.id_intervention = d.id_intervention LEFT JOIN service s ON s.id_service = i.id_service LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE d.id_devis = ?`, id).Scan(
 			&d.ID, &d.NomService, &d.NomPrestataire, &d.Tarif, &d.Status, &d.DateDebut, &d.DateFin, new(int),
 		)
 		if err != nil {

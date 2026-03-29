@@ -28,14 +28,15 @@ func Enligne(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		catStmt, catError := database.Prepare("SELECT role, tutoriel FROM utilisateur WHERE token = ?")
+		catStmt, catError := database.Prepare("SELECT role, tutoriel, IFNULL(langue, 'fr') FROM utilisateur WHERE token = ?")
 		if catError != nil {
 			http.Error(response, "Impossible d'acceder a la base de donnée, veuillez reessayer plus tard", http.StatusInternalServerError)
 			return
 		}
 		var role string
 		var tutoriel int
-		err := catStmt.QueryRow(token).Scan(&role, &tutoriel)
+		var langue string
+		err := catStmt.QueryRow(token).Scan(&role, &tutoriel, &langue)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				response.Header().Set("Content-Type", "application/json")
@@ -52,6 +53,7 @@ func Enligne(database *sql.DB) http.HandlerFunc {
 		json.NewEncoder(response).Encode(structures.Result{
 			Role:     role,
 			Tutoriel: tutoriel,
+			Langue:   langue,
 			Message:  "Identifié",
 		})
 	}

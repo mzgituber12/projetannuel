@@ -7,6 +7,7 @@
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><i class="bi bi-house fs-2"></i></a>
+        <div id="langue_index_badge" class="me-2"></div>
         <div id="non_connecter"></div>
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             <div id="bouton_des_abonnement"></div>
@@ -42,6 +43,56 @@
 <div id="deconnexion_connecter"></div>
 
 <script>
+const _i18nCache = {};
+
+async function traduireText(text, lang) {
+    if (!text || lang === 'fr') return text;
+    const cleeCache = lang + '|' + text;
+    if (_i18nCache[cleeCache] !== undefined) return _i18nCache[cleeCache];
+    try {
+        const baseTraduction = (window.LIBRETRANSLATE_URL || 'http://localhost:5000').replace(/\/$/, '');
+        const resultat = await fetch(baseTraduction + '/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                q: text,
+                source: 'fr',
+                target: lang,
+                format: 'text'
+            })
+        });
+
+        if (!resultat.ok) {
+            return text;
+        }
+
+        const tradFinal = await resultat.json();
+        let traduction = text;
+        if (tradFinal && tradFinal.translatedText) {
+            traduction = tradFinal.translatedText;
+        } else {
+            traduction = text;
+        }
+        _i18nCache[cleeCache] = traduction;
+        return traduction;
+    } catch (_) {
+        return text;
+    }
+}
+
+async function TraductionI18n(lang) {
+    if (lang == 'fr') return;
+    const elements = document.querySelectorAll('[data-i18n]');
+    const tache = [];
+    elements.forEach(elem => {
+        tache.push((async () => {
+            elem.dataset.i18nSrc ??= elem.textContent.trim();
+            elem.textContent = await traduireText(elem.dataset.i18nSrc, lang);
+        })());
+    });
+    await Promise.all(tache);
+}
+
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 
 async function enregistrerPushSubscription(token, subscriptionId, actif) {
@@ -73,7 +124,7 @@ function initOneSignalPush(token) {
                 serviceWorkerParam: { scope: "/" }
             });
 
-            async function syncSubscriptionState() {
+            async function SyncronisationEvenementAbonnement() {
                 const pushSub = OneSignal.User && OneSignal.User.PushSubscription;
                 if (!pushSub) return;
 
@@ -95,7 +146,7 @@ function initOneSignalPush(token) {
                 await OneSignal.Notifications.requestPermission();
             }
 
-            await syncSubscriptionState();
+            await SyncronisationEvenementAbonnement();
         } catch (_) {}
     });
 }
@@ -103,6 +154,7 @@ function initOneSignalPush(token) {
 async function headerUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
     const nonConnecter = document.getElementById("non_connecter");
+    const langueBadge = document.getElementById("langue_index_badge");
     const boutonAbonnement = document.getElementById("bouton_des_abonnement");
     const boutonPlanning = document.getElementById("bouton_planning");
     const boutonMessagerie = document.getElementById("bouton_messagerie");
@@ -116,6 +168,7 @@ async function headerUser(token) {
     });
 
     if (!response.ok) {
+        if (langueBadge) langueBadge.innerHTML = "";
         nonConnecter.innerHTML = "<ul class='navbar-nav ms-auto d-flex flex-row gap-2 align-items-center'><li class='nav-item'><a class='nav-link active' href='inscription.php'>Inscription</a></li><li class='nav-item'><a class='nav-link active' href='connexion.php'>Connexion</a></li></ul>";
         return;
     }
@@ -123,10 +176,20 @@ async function headerUser(token) {
     const data = await response.json();
 
     if (data.message == "Pas identifié") {
+        if (langueBadge) langueBadge.innerHTML = "";
         nonConnecter.innerHTML = "<ul class='navbar-nav ms-auto d-flex flex-row gap-2 align-items-center'><li class='nav-item'><a class='nav-link active' href='inscription.php'>Inscription</a></li><li class='nav-item'><a class='nav-link active' href='connexion.php'>Connexion</a></li></ul>";
         return;
     }
 
+    if (langueBadge) {
+        if (data.langue) {
+            langueBadge.innerHTML = "<span class='badge text-bg-light border'>Langue : " + String(data.langue).toUpperCase() + "</span>";
+        } else {
+            langueBadge.innerHTML = "";
+        }
+    }
+
+    if (data.langue) TraductionI18n(data.langue);
     initOneSignalPush(token);
 
     monCompte.innerHTML = "<li class='nav-item'><a class='nav-link active' href='mon_profil.php'><i class='bi bi-person'></i> Mon profil</a></li>";

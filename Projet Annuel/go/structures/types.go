@@ -17,6 +17,7 @@ type Result struct {
 	Role     string `json:"role"`
 	Token    string `json:"token"`
 	Tutoriel int    `json:"tutoriel"`
+	Langue   string `json:"langue"`
 }
 
 type Contrat struct {
