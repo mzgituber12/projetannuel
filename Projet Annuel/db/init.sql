@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : dim. 29 mars 2026 à 14:11
+-- Généré le : dim. 29 mars 2026 à 21:43
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -29,6 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `abonnement` (
   `id_abonnement` int(11) NOT NULL,
+  `id_prestataire` int(11) DEFAULT NULL,
+  `categorie` enum('senior','prestataire') NOT NULL DEFAULT 'senior',
   `type_prestataire` tinyint(1) DEFAULT 0,
   `type` varchar(100) DEFAULT NULL,
   `prix_mois` decimal(10,2) DEFAULT NULL,
@@ -37,18 +39,22 @@ CREATE TABLE `abonnement` (
   `Locaux_prestation` tinyint(1) DEFAULT NULL,
   `Trajet_offert` tinyint(1) DEFAULT NULL,
   `offre_repas` tinyint(1) DEFAULT NULL,
-  `mis_en_avant` tinyint(1) DEFAULT NULL
+  `mis_en_avant` tinyint(1) DEFAULT NULL,
+  `contenue1` varchar(30) NOT NULL DEFAULT '',
+  `contenue2` varchar(30) NOT NULL DEFAULT '',
+  `contenue3` varchar(30) NOT NULL DEFAULT '',
+  `contenue4` varchar(30) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `abonnement`
 --
 
-INSERT INTO `abonnement` (`id_abonnement`, `type_prestataire`, `type`, `prix_mois`, `statut`, `prix_an`, `Locaux_prestation`, `Trajet_offert`, `offre_repas`, `mis_en_avant`) VALUES
-(1, 1, 'Basic', 4.00, 'actif', 40, 1, 1, 0, 0),
-(2, 1, 'Standard', 5.00, 'actif', 55, 1, 1, 1, 0),
-(3, 1, 'Premium', 6.00, 'actif', 72, 1, 1, 1, 1),
-(5, 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1);
+INSERT INTO `abonnement` (`id_abonnement`, `id_prestataire`, `categorie`, `type_prestataire`, `type`, `prix_mois`, `statut`, `prix_an`, `Locaux_prestation`, `Trajet_offert`, `offre_repas`, `mis_en_avant`, `contenue1`, `contenue2`, `contenue3`, `contenue4`) VALUES
+(1, NULL, 'senior', 1, 'Basic', 4.00, 'actif', 40, 1, 1, 0, 0, '', '', '', ''),
+(2, NULL, 'senior', 1, 'Standard', 5.00, 'actif', 55, 1, 1, 1, 0, '', '', '', ''),
+(3, NULL, 'senior', 1, 'Premium', 6.00, 'actif', 72, 1, 1, 1, 1, '', '', '', ''),
+(5, NULL, 'senior', 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -167,7 +173,7 @@ INSERT INTO `conseil` (`id_conseil`, `id_utilisateur`, `titre`, `image`, `conten
 (3, 1, 'la viande est benefique', 'conseil_1773920213220_AlexendreleGrand.png', 'eeeeeeeeeeeeee', '2026-03-19 11:36:53'),
 (4, 1, 'la viande est benefique2', 'conseil_1773920483573_Cloptre.png', 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', '2026-03-19 11:41:23'),
 (5, 1, 'la viande est benefique3', 'conseil_1773921332.png', 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', '2026-03-19 11:55:32'),
-(6, 1, 'la viande est benefique4', '', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', '2026-03-21 20:23:19');
+(6, 1, 'la viande est benefique 4', '', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', '2026-03-21 20:23:19');
 
 -- --------------------------------------------------------
 
@@ -361,6 +367,27 @@ CREATE TABLE `intervention` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `lien_contact`
+--
+
+CREATE TABLE `lien_contact` (
+  `id_lien` int(11) NOT NULL,
+  `id_user1` int(11) NOT NULL,
+  `id_user2` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `lien_contact`
+--
+
+INSERT INTO `lien_contact` (`id_lien`, `id_user1`, `id_user2`) VALUES
+(1, 5, 3),
+(3, 5, 4),
+(4, 5, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `message`
 --
 
@@ -371,6 +398,14 @@ CREATE TABLE `message` (
   `contenu` text DEFAULT NULL,
   `date_envoie` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `message`
+--
+
+INSERT INTO `message` (`id_message`, `id_expediteur`, `id_destinataire`, `contenu`, `date_envoie`) VALUES
+(1, 1, 5, 'salut', '2026-03-29 20:28:29'),
+(2, 1, 5, 'ca va', '2026-03-29 20:29:03');
 
 -- --------------------------------------------------------
 
@@ -417,22 +452,19 @@ CREATE TABLE `notification` (
 --
 
 INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire`, `Titre`, `contenu`, `date_envoie`, `lu`) VALUES
-(13, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:23:22', 1),
 (14, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:24:46', 1),
 (15, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-03-25 19:25:46', 1),
 (16, 5, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 11:00.', '2026-03-25 19:26:57', 1),
 (17, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:31:31', 1),
-(18, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:45:01', 1),
-(19, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:49:48', 1),
 (20, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-03-25 19:50:35', 1),
 (21, 1, 5, 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.', '2026-03-25 19:51:56', 1),
 (22, 1, 5, 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.', '2026-03-25 19:57:53', 1),
 (23, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 12:11:45', 1),
 (24, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 12:15:57', 1),
 (25, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 15:11:03', 1),
-(26, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:03:51', 0),
-(27, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:08:57', 0),
-(28, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:20:10', 0);
+(26, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:03:51', 1),
+(27, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:08:57', 1),
+(28, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:20:10', 1);
 
 -- --------------------------------------------------------
 
@@ -773,7 +805,8 @@ CREATE TABLE `virement` (
 --
 ALTER TABLE `abonnement`
   ADD PRIMARY KEY (`id_abonnement`),
-  ADD KEY `id_prestataire` (`type_prestataire`);
+  ADD KEY `id_prestataire` (`type_prestataire`),
+  ADD KEY `idx_id_prestataire` (`id_prestataire`);
 
 --
 -- Index pour la table `abonnement_push`
@@ -887,6 +920,14 @@ ALTER TABLE `intervention`
   ADD KEY `id_prestataire` (`id_prestataire`),
   ADD KEY `id_utilisateur` (`id_utilisateur`),
   ADD KEY `id_rdv` (`id_rdv`);
+
+--
+-- Index pour la table `lien_contact`
+--
+ALTER TABLE `lien_contact`
+  ADD PRIMARY KEY (`id_lien`),
+  ADD KEY `id_user1` (`id_user1`),
+  ADD KEY `id_user2` (`id_user2`);
 
 --
 -- Index pour la table `message`
@@ -1030,7 +1071,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -1111,10 +1152,16 @@ ALTER TABLE `intervention`
   MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT pour la table `lien_contact`
+--
+ALTER TABLE `lien_contact`
+  MODIFY `id_lien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `modele_notification`
