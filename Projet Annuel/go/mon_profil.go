@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"projet/structures"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "modernc.org/sqlite"
@@ -76,11 +77,36 @@ func update_profil(database *sql.DB) http.HandlerFunc {
 		}
 
 		if len(data.Value) < 3 && len(data.Value) > 0 && data.Champ != "age" {
+			if !(data.Champ == "langue" && len(data.Value) == 2) {
 			response.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(response).Encode(structures.Result{
 				Message: "Les champs sont trop cours, chaque champ nécéssite au moins 3 caractères",
 			})
 			return
+			}
+		}
+
+		if data.Champ == "langue" {
+			languesAutorisees := map[string]bool{
+				"fr": true,
+				"en": true,
+				"it": true,
+				"de": true,
+				"ru": true,
+				"uk": true,
+				"pt": true,
+				"pl": true,
+				"nl": true,
+			}
+
+			data.Value = strings.ToLower(strings.TrimSpace(data.Value))
+			if !languesAutorisees[data.Value] {
+				response.Header().Set("Content-Type", "application/json")
+				json.NewEncoder(response).Encode(structures.Result{
+					Message: "Langue invalide",
+				})
+				return
+			}
 		}
 
 		if data.Champ == "email" {
@@ -106,6 +132,8 @@ func update_profil(database *sql.DB) http.HandlerFunc {
 			_, err = database.Exec("UPDATE utilisateur SET prenom = ? WHERE token = ?", data.Value, token)
 		case "nom":
 			_, err = database.Exec("UPDATE utilisateur SET nom = ? WHERE token = ?", data.Value, token)
+		case "langue":
+			_, err = database.Exec("UPDATE utilisateur SET langue = ? WHERE token = ?", data.Value, token)
 		default:
 			http.Error(response, "Champ invalide", http.StatusBadRequest)
 			return

@@ -73,6 +73,24 @@ include 'includes/header.php'?>
                 <button type="button" class="btn btn-danger" onclick="update_profil('age')">Modifier</button>
             </div>
         </div>
+
+        <div class="mb-3">
+            <label for="langue" class="form-label">Langue</label>
+            <div class="d-flex">
+                <select class="form-select" id="langue">
+                    <option value="fr">Francais</option>
+                    <option value="en">English</option>
+                    <option value="it">Italiano</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Russkiy</option>
+                    <option value="uk">Ukrayinska</option>
+                    <option value="pt">Portugues</option>
+                    <option value="pl">Polski</option>
+                    <option value="nl">Nederlands</option>
+                </select>
+                <button type="button" class="btn btn-danger ms-2" onclick="update_profil('langue')">Modifier</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -106,9 +124,10 @@ include 'includes/header.php'?>
          document.getElementById("prenom").placeholder = data.prenom
          document.getElementById("nom").placeholder = data.nom
          document.getElementById("age").placeholder = data.age
+            document.getElementById("langue").value = data.langue || "fr"
 
          if (profil_state == 1){
-            profil_state == 0
+                profil_state = 0
             document.getElementById("status").innerHTML = "Profil modifié avec succes"
          }
 }

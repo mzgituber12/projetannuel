@@ -67,7 +67,7 @@ services:
     container_name: mon_libretranslate
     restart: always
     environment:
-      LT_LOAD_ONLY: en,fr
+      LT_LOAD_ONLY: en,fr,ru,es,de,it,pt,nl,pl,uk
     ports:
       - "5000:5000"
 

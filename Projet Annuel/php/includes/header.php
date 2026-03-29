@@ -7,6 +7,10 @@
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><i class="bi bi-house fs-2"></i></a>
+        <div id="controle_zoom" class="d-flex align-items-center gap-1 me-2">
+            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomOut()" aria-label="Reduire le zoom">-</button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomIn()" aria-label="Augmenter le zoom">+</button>
+        </div>
         <div id="langue_index_badge" class="me-2"></div>
         <div id="non_connecter"></div>
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
@@ -44,6 +48,32 @@
 
 <script>
 const _i18nCache = {};
+let zoomPage = Number(localStorage.getItem('zoom_page')) || 100;
+
+function appliquerZoomPage() {
+    for (const element of document.body.children) {
+        if (element.tagName === 'HEADER' || element.tagName === 'SCRIPT' || element.id === 'deconnexion_connecter') {
+            continue;
+        }
+        element.style.zoom = zoomPage + '%';
+    }
+}
+
+function changerZoom(delta) {
+    zoomPage = Math.max(50, Math.min(200, zoomPage + delta));
+    localStorage.setItem('zoom_page', String(zoomPage));
+    appliquerZoomPage();
+}
+
+function zoomIn() {
+    changerZoom(10);
+}
+
+function zoomOut() {
+    changerZoom(-10);
+}
+
+document.addEventListener('DOMContentLoaded', appliquerZoomPage);
 
 async function traduireText(text, lang) {
     if (!text || lang === 'fr') return text;
