@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : dim. 29 mars 2026 à 21:43
+-- Généré le : mar. 31 mars 2026 à 21:46
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -75,7 +75,8 @@ CREATE TABLE `abonnement_push` (
 --
 
 INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
-(68, 1, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-28 10:09:19');
+(68, 5, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-31 14:12:16'),
+(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-03-31 20:16:28');
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,8 @@ INSERT INTO `achat` (`id_achat`, `id_utilisateur`, `id_panier`, `date`) VALUES
 (18, 1, 7, '2026-03-22 15:26:26'),
 (19, 1, 8, '2026-03-22 15:26:49'),
 (20, 1, 9, '2026-03-23 12:56:06'),
-(21, 1, 10, '2026-03-23 22:04:23');
+(21, 1, 10, '2026-03-23 22:04:23'),
+(22, 1, 11, '2026-03-31 09:54:59');
 
 -- --------------------------------------------------------
 
@@ -250,6 +252,13 @@ CREATE TABLE `devis` (
   `status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
+--
+-- Déchargement des données de la table `devis`
+--
+
+INSERT INTO `devis` (`id_devis`, `id_utilisateur`, `id_prestataire`, `id_intervention`, `tarif_personalise`, `status`) VALUES
+(17, 5, 1, 18, 4.00, 'en_attente');
+
 -- --------------------------------------------------------
 
 --
@@ -277,7 +286,7 @@ INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heur
 (1, 1, '2026-03-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
 (2, 1, '2026-03-20', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
 (3, 1, '2026-04-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
-(28, 1, '2026-04-15', '11:00:00', '12:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL);
+(45, 1, '2026-04-15', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL);
 
 -- --------------------------------------------------------
 
@@ -332,7 +341,8 @@ CREATE TABLE `evenement` (
 INSERT INTO `evenement` (`id_evenement`, `nom`, `image`, `date`, `description`, `tarif`) VALUES
 (1, 'Manger', '', '2026-03-06 14:09:00', 'Allez manger des nems avec Maitre Kung et son ami Fu', 10.00),
 (2, 'Machine a laver 2', '', '2026-07-27 23:43:00', 'Allez courir sur une machine a laver géante : age conseillé : moins de 66 ans sinon crise cardiaque assurée', 15.00),
-(3, 'eeee', 'evenement_1774126024.png', '2026-03-29 07:00:00', 'zzzzz', 20.00);
+(3, 'eeee', 'evenement_1774126024.png', '2026-03-29 07:00:00', 'zzzzz', 20.00),
+(4, 'test', '', '2026-03-31 19:30:00', 'un evenement test', 0.00);
 
 -- --------------------------------------------------------
 
@@ -363,6 +373,13 @@ CREATE TABLE `intervention` (
   `statut` varchar(50) DEFAULT NULL,
   `montant` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `intervention`
+--
+
+INSERT INTO `intervention` (`id_intervention`, `id_service`, `id_prestataire`, `id_utilisateur`, `id_rdv`, `statut`, `montant`) VALUES
+(18, 1, 1, 5, 76, 'en_attente', 4.00);
 
 -- --------------------------------------------------------
 
@@ -405,7 +422,8 @@ CREATE TABLE `message` (
 
 INSERT INTO `message` (`id_message`, `id_expediteur`, `id_destinataire`, `contenu`, `date_envoie`) VALUES
 (1, 1, 5, 'salut', '2026-03-29 20:28:29'),
-(2, 1, 5, 'ca va', '2026-03-29 20:29:03');
+(2, 1, 5, 'ca va', '2026-03-29 20:29:03'),
+(3, 1, 5, 'test', '2026-03-31 09:34:03');
 
 -- --------------------------------------------------------
 
@@ -429,7 +447,8 @@ INSERT INTO `modele_notification` (`id_modele`, `cle`, `titre`, `contenu`) VALUE
 (2, 'reservation_evenement', 'Réservation confirmée', 'Votre réservation pour l\'événement \"{evenement}\" est confirmée.'),
 (3, 'commande_creee', 'Commande créée', 'Votre commande #{id} a été créée via {mode}.'),
 (4, 'paiement_mise_a_jour', 'Paiement mis à jour', 'Votre paiement pour la commande #{id} est maintenant : {statut}.'),
-(5, 'contact_recu', 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.');
+(5, 'contact_recu', 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.'),
+(6, 'abonnement_active', 'Abonnement activé', 'Votre abonnement {type} est maintenant actif. Profitez de tous les avantages inclus !');
 
 -- --------------------------------------------------------
 
@@ -456,7 +475,6 @@ INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire
 (15, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-03-25 19:25:46', 1),
 (16, 5, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 11:00.', '2026-03-25 19:26:57', 1),
 (17, 5, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-03-25 19:31:31', 1),
-(20, 5, 1, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-03-25 19:50:35', 1),
 (21, 1, 5, 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.', '2026-03-25 19:51:56', 1),
 (22, 1, 5, 'Nouveau message de contact', 'Un utilisateur vous a envoyé un nouveau message de contact.', '2026-03-25 19:57:53', 1),
 (23, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 12:11:45', 1),
@@ -464,7 +482,10 @@ INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire
 (25, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 15:11:03', 1),
 (26, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:03:51', 1),
 (27, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:08:57', 1),
-(28, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:20:10', 1);
+(28, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:20:10', 1),
+(29, 5, 1, 'Commande créée', 'Votre commande #22 a été créée via stripe.', '2026-03-31 09:54:59', 1),
+(30, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-31 20:47:50', 0),
+(31, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Manger\" est confirmée.', '2026-03-31 20:57:58', 0);
 
 -- --------------------------------------------------------
 
@@ -495,7 +516,8 @@ INSERT INTO `paiement` (`id_paiement`, `id_achat`, `montant`, `date`, `mode`, `s
 (7, 18, 23.00, '2026-03-22 15:26:26', 'transfer', 'pending_transfer'),
 (8, 19, 23.00, '2026-03-22 15:26:49', 'stripe', 'pending'),
 (9, 20, 23.00, '2026-03-23 12:56:06', 'stripe', 'pending'),
-(10, 21, 77.00, '2026-03-23 22:04:23', 'stripe', 'pending');
+(10, 21, 77.00, '2026-03-23 22:04:23', 'stripe', 'pending'),
+(11, 22, 23.00, '2026-03-31 09:54:59', 'stripe', 'pending');
 
 -- --------------------------------------------------------
 
@@ -519,8 +541,15 @@ CREATE TABLE `paiement_abonnement` (
 INSERT INTO `paiement_abonnement` (`id_paiement_abonnement`, `id_abonnement`, `montant`, `date`, `mode`, `statut`) VALUES
 (9, 2, 5.00, '2026-03-28', 'stripe', 'pending'),
 (10, 3, 6.00, '2026-03-28', 'stripe', 'pending'),
-(11, 5, 300.00, '2026-03-28', 'stripe', 'pending'),
-(12, 5, 30.00, '2026-03-28', 'stripe', 'pending');
+(11, 5, 300.00, '2026-03-28', 'stripe', 'canceled'),
+(12, 5, 30.00, '2026-03-28', 'stripe', 'canceled'),
+(13, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(14, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(15, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(16, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(17, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(18, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(19, 5, 30.00, '2026-03-31', 'stripe', 'pending');
 
 -- --------------------------------------------------------
 
@@ -549,7 +578,8 @@ INSERT INTO `panier` (`id_panier`, `id_utilisateur`, `date_creation`, `statut`) 
 (7, 1, '2026-03-22 15:26:19', 'pending_transfer'),
 (8, 1, '2026-03-22 15:26:42', 'pending_stripe'),
 (9, 1, '2026-03-23 12:54:08', 'pending_stripe'),
-(10, 1, '2026-03-23 22:04:18', 'pending_stripe');
+(10, 1, '2026-03-23 22:04:18', 'pending_stripe'),
+(11, 1, '2026-03-31 09:54:39', 'pending_stripe');
 
 -- --------------------------------------------------------
 
@@ -600,7 +630,8 @@ INSERT INTO `reference_article` (`id`, `id_utilisateur`, `id_panier`, `id_articl
 (9, 1, 7, 3),
 (10, 1, 8, 3),
 (11, 1, 9, 3),
-(12, 1, 10, 1);
+(12, 1, 10, 1),
+(13, 1, 11, 3);
 
 -- --------------------------------------------------------
 
@@ -619,9 +650,11 @@ CREATE TABLE `reference_evenement` (
 --
 
 INSERT INTO `reference_evenement` (`id`, `id_utilisateur`, `id_evenement`) VALUES
-(45, 5, 2),
 (46, 5, 3),
-(49, 1, 2);
+(49, 1, 2),
+(50, 5, 2),
+(51, 5, 4),
+(52, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -640,7 +673,7 @@ CREATE TABLE `reference_service` (
 --
 
 INSERT INTO `reference_service` (`id`, `id_utilisateur`, `id_service`) VALUES
-(30, 5, 1);
+(47, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -664,10 +697,12 @@ CREATE TABLE `rendez_vous` (
 
 INSERT INTO `rendez_vous` (`id_rdv`, `id_utilisateur`, `id_prestataire`, `date_debut`, `date_fin`, `type`, `statut`) VALUES
 (1, 2, 1, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'rendez-vous pour des chaussures', 'attente'),
-(50, 5, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé'),
-(51, 5, 1, '2026-04-15 11:00:00', '2026-04-15 12:00:00', 'Faire chier Laurent', 'confirmé'),
 (52, 5, NULL, '2026-03-29 07:00:00', '2026-03-29 08:00:00', 'eeee', 'confirmé'),
-(55, 1, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé');
+(55, 1, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé'),
+(62, 5, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé'),
+(63, 5, NULL, '2026-03-31 19:30:00', '2026-03-31 20:30:00', 'test', 'confirmé'),
+(76, 5, 1, '2026-04-15 10:00:00', '2026-04-15 11:00:00', 'Faire chier Laurent', 'en_attente'),
+(77, 5, NULL, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'Manger', 'confirmé');
 
 -- --------------------------------------------------------
 
@@ -720,7 +755,14 @@ INSERT INTO `souscris_abonnement` (`id_souscrit`, `date_souscription`, `date_exp
 (9, '2026-03-28 10:32:04', NULL, 0, 'mois', 1, 2, 'cus_UEMtadIAa7D0sa', NULL),
 (10, '2026-03-28 10:32:13', NULL, 0, 'mois', 1, 3, 'cus_UEMtadIAa7D0sa', NULL),
 (11, '2026-03-28 10:46:22', NULL, 0, 'an', 1, 5, 'cus_UEMtadIAa7D0sa', NULL),
-(12, '2026-03-28 11:28:31', NULL, 1, 'mois', 1, 5, 'cus_UEMtadIAa7D0sa', NULL);
+(12, '2026-03-28 11:28:31', NULL, 1, 'mois', 1, 5, 'cus_UEMtadIAa7D0sa', NULL),
+(13, '2026-03-31 20:58:36', '2026-03-31 21:16:00', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(14, '2026-03-31 21:16:09', '2026-03-31 21:26:11', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(15, '2026-03-31 21:26:16', '2026-03-31 21:27:01', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(16, '2026-03-31 21:27:06', '2026-03-31 21:30:50', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(17, '2026-03-31 21:30:59', '2026-03-31 21:31:52', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(18, '2026-03-31 21:31:58', '2026-03-31 21:32:33', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(19, '2026-03-31 21:32:43', NULL, 1, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL);
 
 -- --------------------------------------------------------
 
@@ -776,11 +818,11 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `age`, `email`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`) VALUES
-(1, 'Laurent', 'Voillot', 19, 'test@example.com', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', 'GL3hCx7pRQdLNKUHklOumpZka1EzTC4TMVPdfZFJz_w', 'adherant', '', 'en', '1', 0, 0, 0),
+(1, 'Laurent', 'Voillot', 19, 'test@example.com', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
 (2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
 (3, 'bb', 'bb', 20, 'cc@cc', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
 (4, 'cc', 'ac', 44, 'cc@ccc', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(5, 'admin', 'admin (le mdp est admin123)', 48, 'a@a', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'TRdHaEgct5Eh70eCJGdIS_dakqyLoMFkDOLnTFzRhrs', 'admin', '', 'fr', '1', 1, 0, 0);
+(5, 'admin', 'admin (le mdp est admin123)', 0, 'aa@aa.com', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'VH0fUH6u_ze7_-iXYASI66FM2Q15P9nSutL0-Zcx6Ms', 'adherant', '', 'fr', '1', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1071,13 +1113,13 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=457;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
 --
 ALTER TABLE `achat`
-  MODIFY `id_achat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_achat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT pour la table `article`
@@ -1113,13 +1155,13 @@ ALTER TABLE `contrat`
 -- AUTO_INCREMENT pour la table `devis`
 --
 ALTER TABLE `devis`
-  MODIFY `id_devis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_devis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `disponibilite`
 --
 ALTER TABLE `disponibilite`
-  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT pour la table `document`
@@ -1137,7 +1179,7 @@ ALTER TABLE `evaluation`
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `id_evenement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_evenement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `facture_prestataire`
@@ -1149,7 +1191,7 @@ ALTER TABLE `facture_prestataire`
 -- AUTO_INCREMENT pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `lien_contact`
@@ -1161,37 +1203,37 @@ ALTER TABLE `lien_contact`
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `modele_notification`
 --
 ALTER TABLE `modele_notification`
-  MODIFY `id_modele` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_modele` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
 --
 ALTER TABLE `paiement`
-  MODIFY `id_paiement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_paiement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `paiement_abonnement`
 --
 ALTER TABLE `paiement_abonnement`
-  MODIFY `id_paiement_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_paiement_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `prestataire`
@@ -1203,25 +1245,25 @@ ALTER TABLE `prestataire`
 -- AUTO_INCREMENT pour la table `reference_article`
 --
 ALTER TABLE `reference_article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `reference_evenement`
 --
 ALTER TABLE `reference_evenement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT pour la table `reference_service`
 --
 ALTER TABLE `reference_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
-  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT pour la table `service`
@@ -1233,7 +1275,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT pour la table `souscris_abonnement`
 --
 ALTER TABLE `souscris_abonnement`
-  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `token`
