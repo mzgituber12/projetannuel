@@ -150,6 +150,40 @@ session_start();
             `;
         });
 
+        function initActivationPush() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('checkout') !== 'success') return;
+
+            let pushed = false;
+            let shouldRetryOnSubscribed = false;
+            const sendActivationPush = async () => {
+                if (pushed) return;
+                pushed = true;
+                const token = localStorage.getItem('token');
+                if (!token) return;
+                try {
+                    const res = await fetch(base + '/abonnement/notif-push-bienvenue', {
+                        method: 'POST',
+                        headers: { 'Token': token }
+                    });
+                    const data = await res.json().catch(() => ({}));
+                    shouldRetryOnSubscribed = Number(data.value || 0) !== 1;
+                } catch (_) {
+                    shouldRetryOnSubscribed = true;
+                }
+            };
+
+            sendActivationPush();
+
+            window.addEventListener('onesignal:subscribed', function() {
+                if (!shouldRetryOnSubscribed) return;
+                pushed = false;
+                sendActivationPush();
+            }, { once: true });
+        }
+
+        initActivationPush();
+
         function cancelSubscription() {
             fetch(base + '/cancel-subscription', {
                 method: 'POST',

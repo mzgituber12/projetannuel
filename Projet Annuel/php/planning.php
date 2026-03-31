@@ -32,8 +32,10 @@ async function init() {
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
         firstDay: 1,
+        weekends: true,
+        hiddenDays: [],
         slotMinTime: "06:00:00",
-        slotMaxTime: "22:00:00",
+        slotMaxTime: "24:00:00",
         slotDuration: "00:30:00",
         allDaySlot: false,
         locale: "fr",

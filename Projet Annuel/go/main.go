@@ -35,6 +35,7 @@ func main() {
 	http.HandleFunc("/mon-abonnement", ressources.MonAbonnement(db))
 	http.HandleFunc("/cancel-subscription", ressources.CancelAbonnement(db))
 	http.HandleFunc("/webhook-subscription", ressources.WebhookAbonnement(db))
+	http.HandleFunc("/abonnement/notif-push-bienvenue", ressources.NotifPushBienvenueAbonnement(db))
 
 	http.HandleFunc("/nous_contacter", nous_contacter(db))
 	http.HandleFunc("/demande_presta", demande_presta(db))

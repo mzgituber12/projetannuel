@@ -7,6 +7,34 @@
     <meta charset="UTF-8">
     <title>Catalogue</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .catalogue-carousel .carousel-item {
+            padding: 1rem 3rem;
+        }
+
+        .catalogue-carousel .carousel-control-prev,
+        .catalogue-carousel .carousel-control-next {
+            width: 3rem;
+        }
+
+        .catalogue-carousel .carousel-control-prev-icon,
+        .catalogue-carousel .carousel-control-next-icon {
+            background-color: rgba(33, 37, 41, 0.8);
+            border-radius: 50%;
+            background-size: 60% 60%;
+        }
+
+        @media (max-width: 767.98px) {
+            .catalogue-carousel .carousel-item {
+                padding: 0.75rem 2.25rem;
+            }
+
+            .catalogue-carousel .carousel-control-prev,
+            .catalogue-carousel .carousel-control-next {
+                width: 2.25rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -55,28 +83,83 @@
 </div>
 <h2 class="h4 mt-5 mb-3">Événements</h2>
 <div class="card border-0 mb-4">
-    <div id="evenements" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
+    <div id="evenements" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
 <h2 class="h4 mt-5 mb-3">Services</h2>
 <div class="card border-0 mb-4">
-    <div id="services" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
+    <div id="services" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
 <h2 class="h4 mt-5 mb-3">Articles</h2>
 <div class="card border-0 mb-4">
-    <div id="articles" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
+    <div id="articles" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
 <h2 class="h4 mt-5 mb-3">Prestataires</h2>
 <div class="card border-0 mb-4">
-    <div id="prestataires" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3"></div>
+    <div id="prestataires" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
 let evenementsData = [];
 let servicesData = [];
 let articlesData = [];
 let prestatairesData = [];
+
+function cardsPerSlide() {
+    if (window.innerWidth < 768) return 1;
+    if (window.innerWidth < 992) return 2;
+    return 3;
+}
+
+function chunkArray(items, size) {
+    const chunks = [];
+    for (let i = 0; i < items.length; i += size) {
+        chunks.push(items.slice(i, i + size));
+    }
+    return chunks;
+}
+
+function renderBootstrapCarousel(containerId, cardsHtml, emptyMessage) {
+    const root = document.getElementById(containerId);
+    if (!root) return;
+
+    if (!cardsHtml.length) {
+        root.innerHTML = `<div class="p-3"><p class="text-muted mb-0">${emptyMessage}</p></div>`;
+        return;
+    }
+
+    const groups = chunkArray(cardsHtml, cardsPerSlide());
+    const inner = groups.map((group, index) => `
+        <div class="carousel-item ${index === 0 ? "active" : ""}">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                ${group.join("")}
+            </div>
+        </div>
+    `).join("");
+
+    const controls = groups.length > 1 ? `
+        <button class="carousel-control-prev" type="button" data-bs-target="#${containerId}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#${containerId}" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
+    ` : "";
+
+    root.innerHTML = `
+        <div class="carousel-inner">${inner}</div>
+        ${controls}
+    `;
+
+    if (window.bootstrap && window.bootstrap.Carousel) {
+        window.bootstrap.Carousel.getOrCreateInstance(root, { interval: false, ride: false, touch: true });
+    }
+}
 
 function resolveImageUrl(image) {
     const raw = String(image ?? "").trim();
@@ -100,13 +183,7 @@ function parsePrice(value) {
 }
 
 function renderEvenements(items) {
-    const evenement = document.getElementById("evenements");
-    if (!items.length) {
-        evenement.innerHTML = '<p class="text-muted">Aucun événement ne correspond aux filtres.</p>';
-        return;
-    }
-
-    let html = '';
+    let cards = [];
     items.forEach(e => {
         const actionLabel = e.rejoindre == "Rejoindre" ? "Rejoindre" : "Quitter";
         const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}&image=${encodeURIComponent(e.image || "")}`;
@@ -115,7 +192,7 @@ function renderEvenements(items) {
             `<a class="btn btn-primary w-100" href="${joinLink}">${actionLabel}</a>` :
             `<button class="btn ${btnClass} w-100" onclick="updateUserEvent('${localStorage.getItem('token')}', 'evenements', 'leave', ${e.id})">${actionLabel}</button>`;
 
-        html += `
+        cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
@@ -129,19 +206,13 @@ function renderEvenements(items) {
                     </div>
                 </div>
             </div>
-        `;
+        `);
     });
-    evenement.innerHTML = html;
+    renderBootstrapCarousel("evenements", cards, "Aucun événement ne correspond aux filtres.");
 }
 
 function renderServices(items) {
-    const service = document.getElementById("services");
-    if (!items.length) {
-        service.innerHTML = '<p class="text-muted">Aucun service ne correspond aux filtres.</p>';
-        return;
-    }
-
-    let html = '';
+    let cards = [];
     items.forEach(s => {
         const actionLabel = s.rejoindre == "Rejoindre" ? "Réserver" : (s.rejoindre == "Quitter" ? "Annuler" : "Indisponible");
         const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&description=${encodeURIComponent(s.description || "")}&tarif=${encodeURIComponent(s.tarif)}&image=${encodeURIComponent(s.image || "")}`;
@@ -154,7 +225,7 @@ function renderServices(items) {
         const categorieText = s.categorie ? `${String(s.categorie)}` : "Non renseignée";
         const prestataireText = s.prestataire ? `${String(s.prestataire)}` : "Non renseigné";
 
-        html += `
+        cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
@@ -170,21 +241,15 @@ function renderServices(items) {
                     </div>
                 </div>
             </div>
-        `;
+        `);
     });
-    service.innerHTML = html;
+    renderBootstrapCarousel("services", cards, "Aucun service ne correspond aux filtres.");
 }
 
 function renderArticles(items) {
-    const article = document.getElementById("articles");
-    if (!items.length) {
-        article.innerHTML = '<p class="text-muted">Aucun article ne correspond aux filtres.</p>';
-        return;
-    }
-
-    let html = '';
+    let cards = [];
     items.forEach(a => {
-        html += `
+        cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
@@ -197,22 +262,16 @@ function renderArticles(items) {
                     </div>
                 </div>
             </div>
-        `;
+        `);
     });
-    article.innerHTML = html;
+    renderBootstrapCarousel("articles", cards, "Aucun article ne correspond aux filtres.");
 }
 
 function renderPrestataires(items) {
-    const prestataire = document.getElementById("prestataires");
-    if (!items.length) {
-        prestataire.innerHTML = '<p class="text-muted">Aucun prestataire ne correspond aux filtres.</p>';
-        return;
-    }
-
-    let html = '';
+    let cards = [];
     items.forEach(p => {
         const fullName = `${p.prenom || ""} ${p.nom || ""}`.trim() || "Prestataire";
-        html += `
+        cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="bg-light d-flex align-items-center justify-content-center text-center p-3" style="height:140px;">
@@ -225,9 +284,9 @@ function renderPrestataires(items) {
                     </div>
                 </div>
             </div>
-        `;
+        `);
     });
-    prestataire.innerHTML = html;
+    renderBootstrapCarousel("prestataires", cards, "Aucun prestataire ne correspond aux filtres.");
 }
 
 function applyFilters() {
@@ -434,6 +493,11 @@ async function updateUserEvent(token, type, state, id) {
 async function init() {
     const token = localStorage.getItem('token')
     if (!await loginUser("online", token)) return
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => applyFilters(), 150);
+    });
     setupFilters();
     listCatalogue(token);
     }

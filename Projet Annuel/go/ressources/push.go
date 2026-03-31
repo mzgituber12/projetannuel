@@ -102,6 +102,7 @@ func EnvoyerNotificationPushOneSignal(database *sql.DB, userIDs []int, titre str
 
 	appID := strings.TrimSpace(os.Getenv("ONESIGNAL_APP_ID"))
 	restAPIKey := strings.TrimSpace(os.Getenv("ONESIGNAL_REST_API_KEY"))
+
 	if appID == "" || restAPIKey == "" {
 		return nil
 	}

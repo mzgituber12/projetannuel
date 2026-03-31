@@ -188,14 +188,14 @@ func Services_patch(database *sql.DB) http.HandlerFunc {
 		selectstatement.QueryRow(request.Header.Get("Token")).Scan(&id_user)
 		var etat structures.Etat
 		json.NewDecoder(request.Body).Decode(&etat)
-		verifstatement, veriferr := database.Prepare("SELECT id_utilisateur FROM reference_service WHERE id_service = ?")
+		verifstatement, veriferr := database.Prepare("SELECT id_utilisateur FROM reference_service WHERE id_service = ? AND id_utilisateur = ?")
 		if veriferr != nil {
 			http.Error(response, "Erreur lors de la vérification de l'état du service pour l'utilisateur", http.StatusInternalServerError)
 			return
 		}
 
 		var id_user_verif int
-		err = verifstatement.QueryRow(id).Scan(&id_user_verif)
+		err = verifstatement.QueryRow(id, id_user).Scan(&id_user_verif)
 		var state string
 
 		if err != nil {
@@ -210,7 +210,17 @@ func Services_patch(database *sql.DB) http.HandlerFunc {
 					http.Error(response, "Erreur lors de l'insertion de la référence du service pour l'utilisateur", http.StatusInternalServerError)
 					return
 				}
+
+				titreNotif, contenuNotif := LireTemplate(database, "reservation_service", map[string]string{
+					"service": serviceName,
+					"date":    "créneau à confirmer",
+				})
+				_ = creerNotification(database, id_user, titreNotif, contenuNotif)
 				state = "rejoint"
+			}
+			if err != sql.ErrNoRows {
+				http.Error(response, "Erreur lors de la vérification de l'état du service pour l'utilisateur", http.StatusInternalServerError)
+				return
 			}
 		} else if etat.State == "leave" {
 

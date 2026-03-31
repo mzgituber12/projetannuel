@@ -131,21 +131,26 @@ async function enregistrerPushSubscription(token, subscriptionId, actif) {
     if (!token || !subscriptionId) return;
     const base = (window.API_BASE || 'http://localhost:9000');
     try {
-        await fetch(base + "/push/subscription", {
+        const response = await fetch(base + "/push/subscription", {
             method: "POST",
             headers: {"Content-Type": "application/json", "Token": token},
             body: JSON.stringify({ subscription_id: subscriptionId, actif: !!actif })
         });
-    } catch (_) {}
+    } catch (err) {
+        console.error("[OneSignal] Error registering subscription:", err);
+    }
 }
 
 function initOneSignalPush(token) {
     const appId = (window.ONESIGNAL_APP_ID || "").trim();
-    if (!appId || !token) return;
+    if (!appId || !token) {
+        return;
+    }
 
     window.OneSignalDeferred.push(async function(OneSignal) {
         try {
-            if (!OneSignal.Notifications.isPushSupported()) {
+            const isPushSupported = OneSignal.Notifications.isPushSupported();
+            if (!isPushSupported) {
                 return;
             }
 
@@ -153,17 +158,25 @@ function initOneSignalPush(token) {
                 appId: appId,
                 allowLocalhostAsSecureOrigin: true,
                 serviceWorkerPath: "OneSignalSDKWorker.js",
-                serviceWorkerParam: { scope: "/" }
+                serviceWorkerUpdaterPath: "OneSignalSDKUpdaterWorker.js",
+                serviceWorkerParam: { scope: "./" }
             });
 
-            async function SyncronisationEvenementAbonnement() {
+            window._onesignalReady = true;
+            window.dispatchEvent(new CustomEvent('onesignal:ready'));
+
+            async function syncroniserAbonnementPush() {
                 const pushSub = OneSignal.User && OneSignal.User.PushSubscription;
-                if (!pushSub) return;
+                if (!pushSub || !pushSub.id) {
+                    return;
+                }
 
                 const subscriptionId = pushSub.id;
                 const actif = !!pushSub.optedIn;
                 if (subscriptionId) {
                     await enregistrerPushSubscription(token, subscriptionId, actif);
+                    
+                    window.dispatchEvent(new CustomEvent('onesignal:subscribed'));
                 }
             }
 
@@ -174,12 +187,15 @@ function initOneSignalPush(token) {
                 }
             });
 
-            if (!OneSignal.Notifications.permission) {
+            const currentPermission = OneSignal.Notifications.permission;
+            if (currentPermission !== "granted") {
                 await OneSignal.Notifications.requestPermission();
             }
 
-            await SyncronisationEvenementAbonnement();
-        } catch (_) {}
+            await syncroniserAbonnementPush();
+        } catch (error) {
+            console.error("[OneSignal] Init error:", error);
+        }
     });
 }
 

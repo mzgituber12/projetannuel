@@ -511,6 +511,70 @@ func WebhookAbonnement(database *sql.DB) http.HandlerFunc {
 	}
 }
 
+func NotifPushBienvenueAbonnement(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		response.Header().Set("Content-Type", "application/json")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		token := request.Header.Get("Token")
+		if token == "" {
+			response.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Token manquant"})
+			return
+		}
+
+		var idUser int
+		if err := database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&idUser); err != nil {
+			response.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Utilisateur introuvable"})
+			return
+		}
+
+		var subType string
+		err := database.QueryRow(`
+			SELECT a.type
+			FROM souscris_abonnement sa
+			JOIN abonnement a ON a.id_abonnement = sa.id_abonnement
+			WHERE sa.id_utilisateur = ? AND sa.validite = 1
+			  AND sa.date_souscription > NOW() - INTERVAL 24 HOUR
+			ORDER BY sa.id_souscrit DESC LIMIT 1
+		`, idUser).Scan(&subType)
+		if err != nil {
+			json.NewEncoder(response).Encode(map[string]any{"message": "Aucun abonnement récent", "value": 0})
+			return
+		}
+
+		var activePushCount int
+		if err = database.QueryRow(`
+			SELECT COUNT(*)
+			FROM abonnement_push
+			WHERE id_utilisateur = ? AND actif = 1
+		`, idUser).Scan(&activePushCount); err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(map[string]any{"message": "Erreur lecture abonnement push", "value": 0})
+			return
+		}
+
+		if activePushCount == 0 {
+			json.NewEncoder(response).Encode(map[string]any{"message": "Aucune subscription push active", "value": 0})
+			return
+		}
+
+		titre, contenu := LireTemplate(database, "abonnement_active", map[string]string{
+			"type": subType,
+		})
+		_ = EnvoyerNotificationPushOneSignal(database, []int{idUser}, titre, contenu)
+
+		json.NewEncoder(response).Encode(map[string]any{"message": "Push envoyé", "value": 1})
+	}
+}
+
 func CancelAbonnement(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")

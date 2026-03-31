@@ -21,21 +21,34 @@ func recupererExpediteurSysteme(database *sql.DB) (int, error) {
 
 func creerNotification(database *sql.DB, idDestinataire int, titre string, contenu string) error {
 	idExpediteur, err := recupererExpediteurSysteme(database)
-	if err != nil {
-		return err
+
+	var execErr error
+	if err == nil {
+		_, execErr = database.Exec(
+			"INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (?, ?, ?, ?, NOW(), 0)",
+			idExpediteur,
+			idDestinataire,
+			titre,
+			contenu,
+		)
+	} else {
+		_, execErr = database.Exec(
+			"INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (NULL, ?, ?, ?, NOW(), 0)",
+			idDestinataire,
+			titre,
+			contenu,
+		)
 	}
 
-	_, err = database.Exec(
-		"INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (?, ?, ?, ?, NOW(), 0)",
-		idExpediteur,
-		idDestinataire,
-		titre,
-		contenu,
-	)
-	if err == nil {
-		_ = EnvoyerNotificationPushOneSignal(database, []int{idDestinataire}, titre, contenu)
+	if execErr != nil {
+		return execErr
 	}
-	return err
+
+	if pushErr := EnvoyerNotificationPushOneSignal(database, []int{idDestinataire}, titre, contenu); pushErr != nil {
+		return pushErr
+	}
+
+	return nil
 }
 
 func LireTemplate(db *sql.DB, cle string, vars map[string]string) (string, string) {
