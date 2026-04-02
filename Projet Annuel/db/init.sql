@@ -464,7 +464,7 @@ CREATE TABLE `notification` (
   `contenu` text DEFAULT NULL,
   `date_envoie` datetime DEFAULT NULL,
   `lu` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `notification`

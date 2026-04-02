@@ -335,7 +335,7 @@ func List_evenements(database *sql.DB) http.HandlerFunc {
 					http.Error(response, "Erreur lors de la selection des evenements : "+err.Error(), http.StatusInternalServerError)
 					return
 				}
-				t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+				t, err := parseDateTimeFlexible(dateSQL)
 				if err != nil {
 					http.Error(response, "Erreur lors du parsing de la date : "+err.Error(), http.StatusInternalServerError)
 					return

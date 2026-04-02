@@ -39,9 +39,9 @@ func Evenements(database *sql.DB) http.HandlerFunc {
 					http.Error(response, "Erreur lors de la selection des evenements : "+err.Error(), http.StatusInternalServerError)
 					return
 				}
-				t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
-				if err != nil {
-					http.Error(response, "Erreur lors du parsing de la date : "+err.Error(), http.StatusInternalServerError)
+				t, parseErr := parseDateTimeFlexible(dateSQL)
+				if parseErr != nil {
+					http.Error(response, "Erreur lors du parsing de la date : "+parseErr.Error(), http.StatusInternalServerError)
 					return
 				}
 				e.Date = t.Format("02/01/2006 || 15:04")
@@ -208,7 +208,7 @@ func Reservation_evenement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		start, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+		start, err := parseDateTimeFlexible(dateSQL)
 		if err != nil {
 			http.Error(response, "Erreur lors du parsing de la date de l'événement", http.StatusInternalServerError)
 			return

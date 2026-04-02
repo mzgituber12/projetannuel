@@ -6,10 +6,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
+
+type oneSignalCreateResponse struct {
+	ID         string `json:"id"`
+	Recipients int    `json:"recipients"`
+	Errors     any    `json:"errors"`
+}
 
 func verifierTableAbonnementPush(database *sql.DB) error {
 	_, err := database.Exec(`
@@ -104,6 +112,7 @@ func EnvoyerNotificationPushOneSignal(database *sql.DB, userIDs []int, titre str
 	restAPIKey := strings.TrimSpace(os.Getenv("ONESIGNAL_REST_API_KEY"))
 
 	if appID == "" || restAPIKey == "" {
+		log.Printf("[onesignal] push ignore: configuration manquante for users=%v", userIDs)
 		return nil
 	}
 
@@ -142,6 +151,7 @@ func EnvoyerNotificationPushOneSignal(database *sql.DB, userIDs []int, titre str
 	}
 
 	if len(subscriptionIDs) == 0 {
+		log.Printf("[onesignal] push ignore: aucune subscription active for users=%v", userIDs)
 		return nil
 	}
 
@@ -169,16 +179,41 @@ func EnvoyerNotificationPushOneSignal(database *sql.DB, userIDs []int, titre str
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Basic "+restAPIKey)
 
-	resp, err := http.DefaultClient.Do(req)
+	log.Printf("[onesignal] envoi push users=%v subscriptions=%d titre=%q", userIDs, len(subscriptionIDs), titre)
+
+	client := &http.Client{Timeout: 15 * time.Second}
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 
+	responseBody, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		return readErr
+	}
+
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		responseBody, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("onesignal status %d: %s", resp.StatusCode, string(responseBody))
 	}
+
+	var oneSignalResp oneSignalCreateResponse
+	if len(responseBody) > 0 {
+		if err = json.Unmarshal(responseBody, &oneSignalResp); err != nil {
+			return fmt.Errorf("onesignal response invalide: %w", err)
+		}
+	}
+
+	if oneSignalResp.Errors != nil {
+		return fmt.Errorf("onesignal errors: %v", oneSignalResp.Errors)
+	}
+
+	if oneSignalResp.Recipients == 0 {
+		log.Printf("[onesignal] push accepte mais sans destinataire users=%v response=%s", userIDs, string(responseBody))
+		return fmt.Errorf("onesignal push sans destinataire")
+	}
+
+	log.Printf("[onesignal] push envoye id=%s recipients=%d users=%v", oneSignalResp.ID, oneSignalResp.Recipients, userIDs)
 
 	return nil
 }

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"projet/structures"
 	"strconv"
@@ -60,7 +59,7 @@ func Gestion_conseils(database *sql.DB) http.HandlerFunc {
 					return
 				}
 
-				t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+				t, err := parseDateTimeFlexible(dateSQL)
 				if err != nil {
 					http.Error(response, "Erreur lors du traitement de la date", http.StatusInternalServerError)
 					return
@@ -119,7 +118,7 @@ func Gestion_conseil_nom(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+		t, err := parseDateTimeFlexible(dateSQL)
 		if err != nil {
 			http.Error(response, "Erreur lors du traitement de la date", http.StatusInternalServerError)
 			return
@@ -169,7 +168,7 @@ func Gestion_conseil_id(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+		t, err := parseDateTimeFlexible(dateSQL)
 		if err != nil {
 			http.Error(response, "Erreur lors du traitement de la date", http.StatusInternalServerError)
 			return

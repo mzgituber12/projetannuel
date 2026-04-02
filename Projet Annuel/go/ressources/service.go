@@ -244,8 +244,17 @@ func Services_patch(database *sql.DB) http.HandlerFunc {
 				http.Error(response, "Erreur récupération rendez-vous", http.StatusInternalServerError)
 				return
 			}
-			startTime, _ := time.Parse("2006-01-02 15:04:05", startStr)
-			endTime, _ := time.Parse("2006-01-02 15:04:05", endStr)
+			startTime, err := parseDateTimeFlexible(startStr)
+			if err != nil {
+				http.Error(response, "Erreur parsing date_debut du rendez-vous", http.StatusInternalServerError)
+				return
+			}
+
+			endTime, err := parseDateTimeFlexible(endStr)
+			if err != nil {
+				http.Error(response, "Erreur parsing date_fin du rendez-vous", http.StatusInternalServerError)
+				return
+			}
 
 			date := startTime.Format("2006-01-02")
 			heureDebut := startTime.Format("15:04:05")
@@ -372,6 +381,17 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 				return
 			}
 
+			normalizedDate := dateStr
+			parsedDate, err := parseDateTimeFlexible(dateStr)
+			if err == nil {
+				normalizedDate = parsedDate.Format("2006-01-02")
+			} else {
+				parsedDateOnly, dateOnlyErr := time.Parse("2006-01-02", dateStr)
+				if dateOnlyErr == nil {
+					normalizedDate = parsedDateOnly.Format("2006-01-02")
+				}
+			}
+
 			startTime, err := time.Parse("15:04:05", startStr)
 			if err != nil {
 				startTime, err = time.Parse("15:04", startStr)
@@ -387,8 +407,8 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 				}
 			}
 
-			start := fmt.Sprintf("%s %s", dateStr, startTime.Format("15:04"))
-			end := fmt.Sprintf("%s %s", dateStr, endTime.Format("15:04"))
+			start := fmt.Sprintf("%s %s", normalizedDate, startTime.Format("15:04"))
+			end := fmt.Sprintf("%s %s", normalizedDate, endTime.Format("15:04"))
 			slots = append(slots, slot{Start: start, End: end, Type: typeRegle})
 		}
 

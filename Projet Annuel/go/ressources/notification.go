@@ -3,6 +3,7 @@ package ressources
 import (
 	"database/sql"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -41,12 +42,18 @@ func creerNotification(database *sql.DB, idDestinataire int, titre string, conte
 	}
 
 	if execErr != nil {
+		log.Printf("[notification] insert failed destinataire=%d titre=%q err=%v", idDestinataire, titre, execErr)
 		return execErr
 	}
 
+	log.Printf("[notification] notification enregistree destinataire=%d titre=%q", idDestinataire, titre)
+
 	if pushErr := EnvoyerNotificationPushOneSignal(database, []int{idDestinataire}, titre, contenu); pushErr != nil {
+		log.Printf("[notification] push failed destinataire=%d titre=%q err=%v", idDestinataire, titre, pushErr)
 		return pushErr
 	}
+
+	log.Printf("[notification] push success destinataire=%d titre=%q", idDestinataire, titre)
 
 	return nil
 }

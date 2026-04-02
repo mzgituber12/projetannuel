@@ -17,9 +17,13 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(mariadb:3306)/projet")
+	db, err := sql.Open("mysql", "root:root@tcp(mariadb:3306)/projet?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local")
 	if err != nil {
 		log.Fatal("Erreur d'ouverture de la base de données :", err)
+	}
+
+	if _, err := db.Exec("SET NAMES utf8mb4"); err != nil {
+		log.Fatal("Erreur configuration charset utf8mb4 :", err)
 	}
 
 	http.HandleFunc("/inscription", authentification.Inscription(db))

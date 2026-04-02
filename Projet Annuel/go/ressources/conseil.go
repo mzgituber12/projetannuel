@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"projet/structures"
 )
@@ -36,7 +35,7 @@ func Conseils(database *sql.DB) http.HandlerFunc {
 					return
 				}
 
-				t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+				t, err := parseDateTimeFlexible(dateSQL)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection de la date de création des conseils", http.StatusInternalServerError)
 					return
@@ -88,7 +87,7 @@ func Conseil_id(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		t, err := time.Parse("2006-01-02 15:04:05", dateSQL)
+		t, err := parseDateTimeFlexible(dateSQL)
 		if err != nil {
 			http.Error(response, "Erreur lors du traitement de la date", http.StatusInternalServerError)
 			return
