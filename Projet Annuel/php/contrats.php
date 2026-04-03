@@ -5,18 +5,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Contrats</title>
+    <title data-i18n>Contrats</title>
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
 <div class="container mt-4">
-    <h1>Mes contrats</h1>
-    <p class="text-muted">Retrouvez ici vos contrats lies aux abonnements et prestations.</p>
+    <h1 data-i18n>Mes contrats</h1>
+    <p class="text-muted" data-i18n>Retrouvez ici vos contrats lies aux abonnements et prestations.</p>
 
     <div id="contrat">
-        <p>Chargement en cours...</p>
+        <p data-i18n>Chargement en cours...</p>
     </div>
 </div>
 
@@ -54,14 +54,14 @@ async function listcontrats(token) {
 
         const paiementLabel = (mode) => {
             const normalized = String(mode || '').toLowerCase();
-            if (normalized === 'an') return "Annuel";
-            if (normalized === 'mois') return "Mensuel";
+            if (normalized === 'an') return "<span data-i18n>Annuel</span>";
+            if (normalized === 'mois') return "<span data-i18n>Mensuel</span>";
             return mode || '—';
         };
 
         let html = "<div class='table-responsive'><table class='table table-hover table-bordered align-middle'>";
         html += "<thead class='table-light'><tr>";
-        html += "<th>#</th><th>Nom du contrat</th><th>Type</th><th>Paiement</th><th>Date debut</th><th>Date fin</th>";
+        html += "<th data-i18n>#</th><th data-i18n>Nom du contrat</th><th data-i18n>Type</th><th data-i18n>Paiement</th><th data-i18n>Date debut</th><th data-i18n>Date fin</th>";
         html += "</tr></thead><tbody>";
 
         data.contrat.forEach(c => {

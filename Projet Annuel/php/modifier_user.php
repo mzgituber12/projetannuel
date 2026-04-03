@@ -73,21 +73,21 @@
         } else {
             document.getElementById("resultat").innerHTML = `
             <form onsubmit="updateUser(event)">
-            <label>ID :</label>
-            <input type="number" name="id" id="user_id" value="${data.id}" readonly> Pas modifiable <br><br>
-            <label>Nom :</label>
+            <label data-i18n>ID :</label>
+            <input type="number" name="id" id="user_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
+            <label data-i18n>Nom :</label>
             <input type="text" name="nom" id="user_nom" value="${data.nom}" required><br><br>
-            <label>Prénom :</label>
+            <label data-i18n>Prénom :</label>
             <input type="text" name="prenom" id="user_prenom" value="${data.prenom}" required><br><br>
-            <label>Âge :</label>
+            <label data-i18n>Âge :</label>
             <input type="number" name="age" id="user_age" value="${data.age}" required><br><br>
-            <label>Email :</label>
+            <label data-i18n>Email :</label>
             <input type="email" name="email" id="user_email" value="${data.email}" required><br><br>
-            <label>Role :</label>
+            <label data-i18n>Role :</label>
             <input type="text" name="role" id="user_role" value="${data.role}" required><br><br>
-            <label>Langue :</label>
+            <label data-i18n>Langue :</label>
             <input type="text" name="langue" id="user_langue" value="${data.langue}" required><br><br>
-            <button type = "submit">Confirmer les modifications</button>
+            <button type = "submit" data-i18n>Confirmer les modifications</button>
             </form>
             `;
             }

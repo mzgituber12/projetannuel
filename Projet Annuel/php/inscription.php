@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
+    <title data-i18n>Inscription</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -13,33 +13,33 @@
 <?php include 'includes/header.php';?>
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
 <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
-<h2 class="text-center mb-4">Inscription</h2>
+<h2 class="text-center mb-4" data-i18n>Inscription</h2>
 <h2 id="incorrect"></h2>
 
 <form onsubmit="signupUser(document.getElementById('prenom').value, document.getElementById('nom').value, parseInt(document.getElementById('age').value, 10), document.getElementById('email').value, document.getElementById('password').value)">
     <div class="mb-3">  
-        <label for="email" class="form-label">Prénom</label>
+        <label for="email" class="form-label" data-i18n>Prénom</label>
         <input type="text" class="form-control" id="prenom" placeholder="Prenom" required>
     </div>
     <div class="mb-3">  
-        <label for="email" class="form-label">Nom</label>
+        <label for="email" class="form-label" data-i18n>Nom</label>
         <input type="text" class="form-control" id="nom" placeholder="Nom" required>
     </div>
     <div class="mb-3">  
-        <label for="email" class="form-label">Age</label>
+        <label for="email" class="form-label" data-i18n>Age</label>
         <input type="number" min="18" class="form-control" id="age" placeholder="Age" required>
     </div>
     <div class="mb-3">  
-        <label for="email" class="form-label">Adresse Email</label>
+        <label for="email" class="form-label" data-i18n>Adresse Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email" required>
     </div>
     <div class="mb-3">
-        <label for="password" class="for-label">Mot de passe</label>
+        <label for="password" class="for-label" data-i18n>Mot de passe</label>
         <input type="password" class="form-control bg-white" id="password" placeholder="Password" required>
     </div>
-    <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+    <button type="submit" class="btn btn-primary w-100" data-i18n>S'inscrire</button>
 </form>
-<p class="mt-3 text-center">Vous avez déjà un compte ? <a href="connexion.php">Connectez-vous</a></p>
+<p class="mt-3 text-center"><span data-i18n>Vous avez déjà un compte ?</span> <a href="connexion.php" data-i18n>Connectez-vous</a></p>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>

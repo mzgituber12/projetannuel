@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Mon panier</title>
+    <title data-i18n>Mon panier</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
@@ -26,14 +26,14 @@
 <?php include 'includes/header.php' ?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Mon panier</h1>
+    <h1 class="mb-4" data-i18n>Mon panier</h1>
 
     <div class="row mb-4 align-items-center">
         <div class="col-md-8">
-            <h5 id="cartTotal" class="text-primary fs-5"><i class="bi bi-bag"></i> Total: 0 €</h5>
+            <h5 id="cartTotal" class="text-primary fs-5"><i class="bi bi-bag"></i> <span data-i18n>Total</span>: 0 €</h5>
         </div>
         <div class="col-md-4 text-end">
-            <a class="btn btn-success" href="checkout.php"><i class="bi bi-credit-card"></i> Passer au paiement</a>
+            <a class="btn btn-success" href="checkout.php"><i class="bi bi-credit-card"></i> <span data-i18n>Passer au paiement</span></a>
         </div>
     </div>
 
@@ -120,7 +120,7 @@ async function loadPanier() {
         const text = await response.text();
         afficherMessagePanier(text || 'Erreur de lecture du panier.', true);
         list.innerHTML = '';
-        totalNode.innerHTML = '<i class="bi bi-bag"></i> Total: 0 €';
+        totalNode.innerHTML = '<i class="bi bi-bag"></i> <span data-i18n>Total</span>: 0 €';
         return;
     }
 
@@ -129,7 +129,7 @@ async function loadPanier() {
     if (data.message) {
         afficherMessagePanier(data.message, false);
         list.innerHTML = '';
-        totalNode.innerHTML = '<i class="bi bi-bag"></i> Total: 0 €';
+        totalNode.innerHTML = '<i class="bi bi-bag"></i> <span data-i18n>Total</span>: 0 €';
         return;
     }
 
@@ -154,8 +154,8 @@ async function loadPanier() {
                         <p class="card-text text-muted small flex-grow-1">${String(desc)}</p>
                         <p class="card-text text-primary fw-bold fs-5">${String(a.prix)} €</p>
                         <div class="d-grid gap-2 d-sm-flex">
-                            <a class="btn btn-sm btn-info flex-grow-1" href="article_detail.php?id=${encodeURIComponent(a.id)}"><i class="bi bi-eye"></i> Détail</a>
-                            <button class="btn btn-sm btn-danger" onclick="basculerPanier(${Number(a.id)})"><i class="bi bi-trash"></i> Retirer</button>
+                            <a class="btn btn-sm btn-info flex-grow-1" href="article_detail.php?id=${encodeURIComponent(a.id)}"><i class="bi bi-eye"></i> <span data-i18n>Détail</span></a>
+                            <button class="btn btn-sm btn-danger" onclick="basculerPanier(${Number(a.id)})"><i class="bi bi-trash"></i> <span data-i18n>Retirer</span></button>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ async function loadPanier() {
     });
 
     list.innerHTML = html;
-    totalNode.innerHTML = '<i class="bi bi-bag"></i> Total: ' + total.toFixed(2) + ' €';
+    totalNode.innerHTML = '<i class="bi bi-bag"></i> <span data-i18n>Total</span>: ' + total.toFixed(2) + ' €';
 }
 
 async function init() {

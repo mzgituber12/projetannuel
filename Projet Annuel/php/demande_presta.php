@@ -9,7 +9,7 @@ include 'includes/header.php'; ?>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Demande Prestataire</title>
+    <title data-i18n>Demande Prestataire</title>
 </head>
 <body>
 
@@ -19,69 +19,69 @@ include 'includes/header.php'; ?>
             <div class="col-md-10">
 
                 <div class="mb-3">
-                    <label for="post" class="form-label">Choisir votre domaine :</label>
+                    <label for="post" class="form-label" data-i18n>Choisir votre domaine :</label>
                     <select class="form-select" name="post" id="post" onchange="champ_domaine()">
-                        <option value="">Selectionner</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Soin et bien-etre">Soin et bien-etre</option>
-                        <option value="Tourisme / Hebergement">Tourisme / Hebergement</option>
-                        <option value="Service a domicile">Service a domicile</option>
-                        <option value="Loisirs & Sortie">Loisirs & Sortie</option>
-                        <option value="Shoping">Shoping</option>
+                        <option value="" data-i18n>Selectionner</option>
+                        <option value="Transport" data-i18n>Transport</option>
+                        <option value="Soin et bien-etre" data-i18n>Soin et bien-etre</option>
+                        <option value="Tourisme / Hebergement" data-i18n>Tourisme / Hebergement</option>
+                        <option value="Service a domicile" data-i18n>Service a domicile</option>
+                        <option value="Loisirs &amp; Sortie" data-i18n>Loisirs &amp; Sortie</option>
+                        <option value="Shoping" data-i18n>Shoping</option>
                     </select>
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label" data-i18n>Email</label>
                     <div class="d-flex">
                         <input type="email" class="form-control me-2" id="email">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="prenom" class="form-label">Prenom</label>
+                    <label for="prenom" class="form-label" data-i18n>Prenom</label>
                     <div class="d-flex">
                         <input type="text" class="form-control me-2" id="prenom">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="nom" class="form-label">Nom</label>
+                    <label for="nom" class="form-label" data-i18n>Nom</label>
                     <div class="d-flex">
                         <input type="text" class="form-control me-2" id="nom">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="age" class="form-label">Age</label>
+                    <label for="age" class="form-label" data-i18n>Age</label>
                     <div class="d-flex">
                         <input type="number" class="form-control me-2" id="age">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Telephone</label>
+                    <label class="form-label" data-i18n>Telephone</label>
                     <div class="d-flex">
                         <input type="text" class="form-control me-2" id="telephone">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Piece d'identite (recto)</label>
+                    <label class="form-label" data-i18n>Piece d'identite (recto)</label>
                     <div class="d-flex">
                         <input class="form-control" type="file">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Piece d'identite (verso)</label>
+                    <label class="form-label" data-i18n>Piece d'identite (verso)</label>
                     <div class="d-flex">
                         <input class="form-control" type="file">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Diplome</label>
+                    <label class="form-label" data-i18n>Diplome</label>
                     <div class="d-flex">
                         <input class="form-control" type="file">
                     </div>
@@ -89,7 +89,7 @@ include 'includes/header.php'; ?>
 
                 <div id="domain_champ"></div>
 
-                <button type="button" class="btn btn-danger" onclick="alert('Formulaire ajoute. Envoi backend a brancher.')">Postuler</button>
+                <button type="button" class="btn btn-danger" onclick="alert('Formulaire ajoute. Envoi backend a brancher.')" data-i18n>Postuler</button>
 
             </div>
         </div>

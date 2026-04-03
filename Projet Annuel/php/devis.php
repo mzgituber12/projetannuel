@@ -5,21 +5,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Mes devis</title>
+    <title data-i18n>Mes devis</title>
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
 <div class="container mt-4">
-    <h1>Mes devis</h1>
+    <h1 data-i18n>Mes devis</h1>
 
     <?php if (isset($_GET['message'])) : ?>
         <div class="alert alert-success"><?= htmlspecialchars($_GET['message']) ?></div>
     <?php endif; ?>
 
     <div id="devisContainer">
-        <p>Chargement en cours…</p>
+        <p data-i18n>Chargement en cours…</p>
     </div>
 </div>
 
@@ -68,12 +68,12 @@ async function chargerDevis() {
         <table class="table table-hover table-bordered">
             <thead class="table-light">
                 <tr>
-                    <th>#</th>
-                    <th>Service</th>
-                    <th>Prestataire</th>
-                    <th>Tarif estimé</th>
-                    <th>Statut</th>
-                    <th>Détail</th>
+                    <th data-i18n>#</th>
+                    <th data-i18n>Service</th>
+                    <th data-i18n>Prestataire</th>
+                    <th data-i18n>Tarif estimé</th>
+                    <th data-i18n>Statut</th>
+                    <th data-i18n>Détail</th>
                 </tr>
             </thead>
             <tbody>`;
@@ -87,7 +87,7 @@ async function chargerDevis() {
                 <td>${d.nom_prestataire || '—'}</td>
                 <td>${tarif}</td>
                 <td>${statutBadge(d.status)}</td>
-                <td><a href="devis_detail.php?id=${d.id}" class="btn btn-sm btn-outline-primary">Voir</a></td>
+                <td><a href="devis_detail.php?id=${d.id}" class="btn btn-sm btn-outline-primary" data-i18n>Voir</a></td>
             </tr>`;
     });
 

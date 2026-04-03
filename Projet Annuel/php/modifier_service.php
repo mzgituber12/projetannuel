@@ -66,15 +66,15 @@
         } else {
             document.getElementById("resultat").innerHTML = `
             <form onsubmit="updateService(event)">
-            <label>ID :</label>
-            <input type="number" name="id" id="service_id" value="${data.id}" readonly> Pas modifiable <br><br>
-            <label>Nom :</label>
+            <label data-i18n>ID :</label>
+            <input type="number" name="id" id="service_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
+            <label data-i18n>Nom :</label>
             <input type="text" name="nom" id="service_nom" value="${data.nom}" required><br><br>
-            <label>Description :</label>
+            <label data-i18n>Description :</label>
             <textarea name="description" id="service_description" required>${data.description}</textarea><br><br>
-            <label>Tarif :</label>
+            <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="service_tarif" value="${data.tarif}" step="0.01" required><br><br>
-            <button type = "submit">Confirmer les modifications</button>
+            <button type = "submit" data-i18n>Confirmer les modifications</button>
             </form>
             `;
             }

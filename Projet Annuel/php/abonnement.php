@@ -9,26 +9,26 @@ include 'includes/header.php'?>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Nos Abonnements</title>
+    <title data-i18n>Nos Abonnements</title>
 </head>
 <body>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Nos Plans d'Abonnement</h1>
+    <h1 class="text-center mb-4" data-i18n>Nos Plans d'Abonnement</h1>
 
     <div id="error-msg" class="alert alert-danger d-none"></div>
     <div id="success-msg" class="alert alert-success d-none"></div>
     <div id="already-subscribed" class="alert alert-info d-none text-center">
-        Vous avez deja un abonnement actif. <a href="mon_abonnement.php" class="alert-link">Voir mon abonnement</a>
+        <span data-i18n>Vous avez deja un abonnement actif.</span> <a href="mon_abonnement.php" class="alert-link" data-i18n>Voir mon abonnement</a>
     </div>
 
     <div class="d-flex justify-content-center gap-2 mb-4">
-        <button class="btn btn-primary" id="btn-mois" onclick="setPeriod('mois', this)">Paiement Mensuel</button>
-        <button class="btn btn-outline-primary" id="btn-an" onclick="setPeriod('an', this)">Paiement Annuel</button>
+        <button class="btn btn-primary" id="btn-mois" onclick="setPeriod('mois', this)" data-i18n>Paiement Mensuel</button>
+        <button class="btn btn-outline-primary" id="btn-an" onclick="setPeriod('an', this)" data-i18n>Paiement Annuel</button>
     </div>
 
     <div id="loading" class="text-center d-none">
-        <p>Chargement des abonnements...</p>
+        <p data-i18n>Chargement des abonnements...</p>
     </div>
 
     <div class="d-flex justify-content-center gap-4 flex-wrap" id="abonnements-container">
@@ -90,7 +90,7 @@ include 'includes/header.php'?>
         container.innerHTML = '';
 
         if (!abonnements || abonnements.length == 0) {
-            container.innerHTML = '<p class="text-center">Aucun abonnement disponible</p>';
+            container.innerHTML = '<p class="text-center" data-i18n>Aucun abonnement disponible</p>';
             return;
         }
 
@@ -103,10 +103,10 @@ include 'includes/header.php'?>
             card.innerHTML = `
                 <div class="card-body">
                     <h5 class="card-title text-center">${abo.type}</h5>
-                    <p class="card-text text-secondary">A partir de</p>
+                    <p class="card-text text-secondary" data-i18n>A partir de</p>
                     <p class="card-text text-primary">${prix}</p>
                     <div class="text-center mb-3">
-                        <button class="btn btn-danger shadow rounded" ${dejaabonnee ? 'disabled' : ''} onclick="subscribePlan(${abo.id})">
+                        <button class="btn btn-danger shadow rounded" ${dejaabonnee ? 'disabled' : ''} onclick="subscribePlan(${abo.id})" data-i18n>
                             Choisir
                         </button>
                     </div>

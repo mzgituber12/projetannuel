@@ -41,8 +41,8 @@
 
     const footer = document.getElementById("footer");
   
-    footer.innerHTML += "<a href='politique_confidentialite.php' class='me-3 text-white text-decoration-none'>Politique et confidentialité</a>";
-    footer.innerHTML += "<a href='qui_sommes_nous.php' class='me-3 text-white text-decoration-none'>Nous découvrir</a>";
+    footer.innerHTML += "<a href='politique_confidentialite.php' class='me-3 text-white text-decoration-none' data-i18n>Politique et confidentialité</a>";
+    footer.innerHTML += "<a href='qui_sommes_nous.php' class='me-3 text-white text-decoration-none' data-i18n>Nous découvrir</a>";
 
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(base + "/enligne", {
@@ -57,7 +57,7 @@
     const data = await response.json();
 
     if (data.message == "Identifié"){
-        footer.innerHTML += "<a href='contactez_nous.php' class='me-3 text-white text-decoration-none'>Contactez-nous</a>";
+        footer.innerHTML += "<a href='contactez_nous.php' class='me-3 text-white text-decoration-none' data-i18n>Contactez-nous</a>";
     }
   }
 footerUser(localStorage.getItem('token'));

@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des evenements</title>
+    <title data-i18n>Gestion des evenements</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -15,19 +15,19 @@
 <?php include 'includes/header.php'?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des evenements</h1>
+    <h1 class="mb-4" data-i18n>Gestion des evenements</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
     }?>
     <div class="mb-4">
-        <a href='creer_evenement.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> Créer un nouvel evenement</a>
+        <a href='creer_evenement.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouvel evenement</span></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Rechercher un evenement</h5>
+            <h5 class="card-title mb-0" data-i18n>Rechercher un evenement</h5>
         </div>
         <div class="card-body">
             <form onsubmit="search_event(event)" class="row g-3">
@@ -35,14 +35,14 @@
                     <input id="event_name" placeholder="Nom de l'evenement..." type="text" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                    <button type="submit" class="btn btn-success w-100" data-i18n>Rechercher</button>
                 </div>
             </form>
         </div>
     </div>
     <div id="resultat"></div>
 
-    <h2 class="mt-5 mb-3">Liste des evenements</h2>
+    <h2 class="mt-5 mb-3" data-i18n>Liste des evenements</h2>
     <div id="evenements"></div>
 </div>
 <?php include 'includes/footer.php'?>
@@ -109,8 +109,8 @@
             "<label><strong>Description :</strong> " + String(data.description) + "</label><br>" +
             "<label><strong>Tarif :</strong> " + String(data.tarif) + "</label><br>" +
             "<label><strong>Image :</strong> " + imageHtml + "</label><br>" +
-            "<a href='modifier_evenement.php?id=" + data.id + "'>Modifier l'événement</a> | " +
-            "<a href='#' onclick='supprimer_evenement(" + data.id + ", \"" + data.nom + "\"); return false;'>Supprimer</a>" +
+            "<a href='modifier_evenement.php?id=" + data.id + "' data-i18n>Modifier l'événement</a> | " +
+            "<a href='#' onclick='supprimer_evenement(" + data.id + ", \"" + data.nom + "\"); return false;' data-i18n>Supprimer</a>" +
             "</div>";
         }
     }
@@ -135,10 +135,10 @@ async function listEvenements(token) {
     if (evenement_list.message){
         evenement.innerHTML = "<p>" + evenement_list.message + "</p>"
     } else {
-        let html = "<table><tr><th>Image</th><th>Nom de l'événement</th><th>Description</th><th>Date de l'événement</th><th>Actions</th></tr>";
+        let html = "<table><tr><th data-i18n>Image</th><th data-i18n>Nom de l'événement</th><th data-i18n>Description</th><th data-i18n>Date de l'événement</th><th data-i18n>Actions</th></tr>";
         evenement_list.evenement.forEach(evenement => {
-            const actions = "<a href='modifier_evenement.php?id=" + evenement.id + "'>Modifier</a> | " +
-                "<a href='#' onclick=\"supprimer_evenement(" + evenement.id + ", '" + evenement.nom.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a>";
+            const actions = "<a href='modifier_evenement.php?id=" + evenement.id + "' data-i18n>Modifier</a> | " +
+                "<a href='#' onclick=\"supprimer_evenement(" + evenement.id + ", '" + evenement.nom.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Supprimer</a>";
             const imageHtml = renderImageHtml(evenement.image, `Image de ${evenement.nom}`);
             const desc = (evenement.description || '').length > 100 ? String(evenement.description).slice(0, 100) + "..." : String(evenement.description);
             html += "<tr><td>" + imageHtml + "</td><td>" + String(evenement.nom) + "</td><td>" + desc + "</td><td>" + String(evenement.date) + "</td><td>" + actions + "</td></tr>";

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Facture</title>
+    <title data-i18n>Facture</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -13,21 +13,21 @@
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5 mb-5" style="max-width: 900px;">
-    <h1 class="mb-4">Facture</h1>
+    <h1 class="mb-4" data-i18n>Facture</h1>
     <div class="card">
         <div class="card-body">
             <div id="invoiceContent">
                 <div class="text-center">
                     <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Chargement...</span>
+                        <span class="visually-hidden" data-i18n>Chargement...</span>
                     </div>
-                    <p class="mt-2">Chargement de la facture...</p>
+                    <p class="mt-2" data-i18n>Chargement de la facture...</p>
                 </div>
             </div>
         </div>
         <div class="card-footer d-grid gap-2 d-sm-flex justify-content-sm-end">
-            <a class="btn btn-primary" href="boutique.php"><i class="bi bi-shop"></i> Retour boutique</a>
-            <a class="btn btn-secondary" href="panier.php"><i class="bi bi-cart"></i> Retour panier</a>
+            <a class="btn btn-primary" href="boutique.php"><i class="bi bi-shop"></i> <span data-i18n>Retour boutique</span></a>
+            <a class="btn btn-secondary" href="panier.php"><i class="bi bi-cart"></i> <span data-i18n>Retour panier</span></a>
         </div>
     </div>
 </div>
@@ -76,21 +76,21 @@ async function init() {
 
     let html = '';
     html += '<div class="meta">';
-    html += '<div><strong>Commande:</strong> #' + esc(data.order_id) + '</div>';
-    html += '<div><strong>Date:</strong> ' + esc(data.date) + '</div>';
-    html += '<div><strong>Mode de paiement:</strong> ' + esc(data.mode || '-') + '</div>';
-    html += '<div><strong>Statut:</strong> ' + esc(data.status || '-') + '</div>';
+    html += '<div><strong data-i18n>Commande:</strong> #' + esc(data.order_id) + '</div>';
+    html += '<div><strong data-i18n>Date:</strong> ' + esc(data.date) + '</div>';
+    html += '<div><strong data-i18n>Mode de paiement:</strong> ' + esc(data.mode || '-') + '</div>';
+    html += '<div><strong data-i18n>Statut:</strong> ' + esc(data.status || '-') + '</div>';
     html += '</div>';
 
     if (items.length === 0) {
-        html += '<p>Aucun article associe.</p>';
+        html += '<p data-i18n>Aucun article associe.</p>';
     } else {
         items.forEach((item) => {
             html += '<div class="line"><span>' + esc(item.nom) + '</span><strong>' + esc(item.prix) + ' EUR</strong></div>';
         });
     }
 
-    html += '<div class="total">Total: ' + Number(data.total || 0).toFixed(2) + ' EUR</div>';
+    html += '<div class="total"><span data-i18n>Total</span>: ' + Number(data.total || 0).toFixed(2) + ' EUR</div>';
     content.innerHTML = html;
 }
 

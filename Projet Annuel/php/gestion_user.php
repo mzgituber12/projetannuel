@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des utilisateurs</title>
+    <title data-i18n>Gestion des utilisateurs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -15,7 +15,7 @@
 <?php include 'includes/header.php'?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des utilisateurs</h1>
+    <h1 class="mb-4" data-i18n>Gestion des utilisateurs</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
@@ -24,7 +24,7 @@
     
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Rechercher un utilisateur</h5>
+            <h5 class="card-title mb-0" data-i18n>Rechercher un utilisateur</h5>
         </div>
         <div class="card-body">
             <form onsubmit="search_user(event)" class="row g-3">
@@ -32,14 +32,14 @@
                     <input id="user_email" placeholder="Email utilisateur..." type="text" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                    <button type="submit" class="btn btn-success w-100" data-i18n>Rechercher</button>
                 </div>
             </form>
         </div>
     </div>
     <div id="resultat"></div>
 
-    <h2 class="mt-5 mb-3">Liste des utilisateurs</h2>
+    <h2 class="mt-5 mb-3" data-i18n>Liste des utilisateurs</h2>
     <div id="users"></div>
 </div>
 
@@ -141,9 +141,9 @@
         } else {
             let html = "<table><tr><th>Nom</th><th>Prénom</th><th>Email</th><th>Role</th><th>Actions</th></tr>";
             user_list.utilisateur.forEach(usr => {
-                const actions = "<a href='modifier_user.php?id=" + usr.id + "'>Modifier</a> | " +
-                    "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a> | " +
-                    "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\">Bannir</a>";
+                const actions = "<a href='modifier_user.php?id=" + usr.id + "' data-i18n>Modifier</a> | " +
+                    "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Supprimer</a> | " +
+                    "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Bannir</a>";
                 html += "<tr><td>" + String(usr.nom) + "</td><td>" + String(usr.prenom) + "</td><td>" + String(usr.email) + "</td><td>" + String(usr.role) + "</td><td>" + actions + "</td></tr>";
             });
             html += "</table>";

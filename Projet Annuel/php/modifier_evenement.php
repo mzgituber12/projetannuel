@@ -70,17 +70,17 @@
         } else {
             document.getElementById("resultat").innerHTML = `
             <form onsubmit="updateEvenement(event)">
-            <label>ID :</label>
-            <input type="number" name="id" id="event_id" value="${data.id}" readonly> Pas modifiable <br><br>
-            <label>Nom :</label>
+            <label data-i18n>ID :</label>
+            <input type="number" name="id" id="event_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
+            <label data-i18n>Nom :</label>
             <input type="text" name="nom" id="event_nom" value="${data.nom}" required><br><br>
-            <label>Date :</label>
+            <label data-i18n>Date :</label>
             <input type="datetime-local" step="60" name="date" id="event_date" value="${data.date}"><br><br>
-            <label>Description :</label>
+            <label data-i18n>Description :</label>
             <textarea name="description" id="event_description" required>${data.description}</textarea><br><br>
-            <label>Tarif :</label>
+            <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="event_tarif" value="${data.tarif}" required><br><br>
-            <button type = "submit">Confirmer les modifications</button>
+            <button type = "submit" data-i18n>Confirmer les modifications</button>
             </form>
             `;
             }

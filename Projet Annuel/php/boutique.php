@@ -5,14 +5,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Boutique</title>
+    <title data-i18n>Boutique</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
-<h1>Boutique</h1>
+<h1 data-i18n>Boutique</h1>
 <div class="container-lg">
     <div id="articles" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
 </div>
@@ -70,7 +70,7 @@ async function listerArticles() {
                         <h5 class="card-title">${String(a.titre)}</h5>
                         <p class="card-text text-muted small flex-grow-1">${String(desc)}</p>
                         <p class="card-text text-primary fw-bold mb-2">${String(a.prix)} €</p>
-                        <a class="btn btn-primary" href="article_detail.php?id=${encodeURIComponent(a.id)}">Voir le produit</a>
+                        <a class="btn btn-primary" href="article_detail.php?id=${encodeURIComponent(a.id)}" data-i18n>Voir le produit</a>
                     </div>
                 </article>
             </div>

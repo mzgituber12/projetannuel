@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des interventions</title>
+    <title data-i18n>Gestion des interventions</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -15,7 +15,7 @@
 <?php include 'includes/header.php'?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des interventions</h1>
+    <h1 class="mb-4" data-i18n>Gestion des interventions</h1>
 
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
@@ -25,7 +25,7 @@
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Rechercher une intervention</h5>
+            <h5 class="card-title mb-0" data-i18n>Rechercher une intervention</h5>
         </div>
         <div class="card-body">
             <form onsubmit="search_intervention(event); return false;" class="row g-3">
@@ -33,7 +33,7 @@
                     <input id="intervention_id" placeholder="ID d'intervention..." type="text" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                    <button type="submit" class="btn btn-success w-100" data-i18n>Rechercher</button>
                 </div>
             </form>
         </div>

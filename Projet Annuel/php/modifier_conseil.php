@@ -138,14 +138,14 @@ adminUser(localStorage.getItem('token'));
                     #imagePreview { margin-top: 10px; }
                 </style>
                 <form onsubmit="updateConseils(event); return false;">
-                    <label>Titre :</label>
+                    <label data-i18n>Titre :</label>
                     <input type="text" name="titre" id="conseil_titre" required><br><br>
-                    <label>Contenu :</label>
+                    <label data-i18n>Contenu :</label>
                     <textarea name="contenu" id="conseil_contenu" required></textarea><br><br>
-                    <label>Image :</label>
+                    <label data-i18n>Image :</label>
                     <input type="file" name="image" id="conseil_image" accept="image/*" onchange="previewImage()"><br>
                     <div id="imagePreview"></div><br>
-                    <button type="submit">Créer le conseil</button>
+                    <button type="submit" data-i18n>Créer le conseil</button>
                 </form>
             `;
             return;
@@ -192,17 +192,17 @@ adminUser(localStorage.getItem('token'));
                 </style>
                 <form onsubmit="updateConseils(event); return false;">
                 <label>ID :</label>
-                <input type="number" name="id" id="conseil_id" value="${data.id}" readonly> (Non modifiable) <br><br>
-                <label>Titre :</label>
+                <input type="number" name="id" id="conseil_id" value="${data.id}" readonly> <span data-i18n>(Non modifiable)</span> <br><br>
+                <label data-i18n>Titre :</label>
                 <input type="text" name="titre" id="conseil_titre" value="${data.titre}" required><br><br>
-                <label>Contenu :</label>
+                <label data-i18n>Contenu :</label>
                 <textarea name="contenu" id="conseil_contenu" required>${data.contenu}</textarea><br><br>
-                <label>Date de publication :</label>
+                <label data-i18n>Date de publication :</label>
                 <input type="text" value="${data.date}" readonly><br><br>
-                <label>Image :</label>
+                <label data-i18n>Image :</label>
                 <input type="file" name="image" id="conseil_image" accept="image/*" onchange="previewImage()"><br>
                 ${imagePreviewHTML}
-                <button type="submit">Confirmer les modifications</button>
+                <button type="submit" data-i18n>Confirmer les modifications</button>
                 </form>
             `;
         }

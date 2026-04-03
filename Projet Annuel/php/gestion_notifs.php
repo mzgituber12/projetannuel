@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des notifications</title>
+    <title data-i18n>Gestion des notifications</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -14,50 +14,50 @@
 <?php include 'includes/header.php'; ?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des notifications</h1>
+    <h1 class="mb-4" data-i18n>Gestion des notifications</h1>
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Créer une notification</h5>
+            <h5 class="card-title mb-0" data-i18n>Créer une notification</h5>
         </div>
         <div class="card-body">
             <form class="row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">Mode d'envoi</label>
+                    <label class="form-label" data-i18n>Mode d'envoi</label>
                     <select id="mode_envoi" onchange="changerModeEnvoi()" class="form-select">
-                        <option value="user">Un utilisateur précis</option>
-                        <option value="role">Par rôle</option>
-                        <option value="all">Tous les utilisateurs</option>
+                        <option value="user" data-i18n>Un utilisateur précis</option>
+                        <option value="role" data-i18n>Par rôle</option>
+                        <option value="all" data-i18n>Tous les utilisateurs</option>
                     </select>
                 </div>
 
                 <div id="bloc_user" class="col-md-6">
-                    <label class="form-label">ID destinataire</label>
+                    <label class="form-label" data-i18n>ID destinataire</label>
                     <input id="id_destinataire" type="number" min="1" placeholder="Ex: 1" class="form-control">
                 </div>
 
                 <div id="bloc_role" style="display:none;" class="col-md-6">
-                    <label class="form-label">Rôle cible</label>
+                    <label class="form-label" data-i18n>Rôle cible</label>
                     <select id="role_cible" class="form-select">
-                        <option value="adherant">Adhérant</option>
-                        <option value="prestataire">Prestataire</option>
-                        <option value="admin">Admin</option>
+                        <option value="adherant" data-i18n>Adhérant</option>
+                        <option value="prestataire" data-i18n>Prestataire</option>
+                        <option value="admin" data-i18n>Admin</option>
                     </select>
                 </div>
 
                 <div class="col-12">
-                    <label class="form-label">Titre</label>
+                    <label class="form-label" data-i18n>Titre</label>
                     <input id="notif_titre" type="text" maxlength="50" placeholder="Titre de la notification" class="form-control">
                 </div>
 
                 <div class="col-12">
-                    <label class="form-label">Contenu</label>
+                    <label class="form-label" data-i18n>Contenu</label>
                     <textarea id="notif_contenu" rows="4" maxlength="1000" placeholder="Message..." class="form-control"></textarea>
                 </div>
 
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary" onclick="creerNotification()"><i class="bi bi-send"></i> Envoyer</button>
-                    <button type="button" class="btn btn-secondary" onclick="chargerNotifications()"><i class="bi bi-arrow-clockwise"></i> Actualiser</button>
+                    <button type="button" class="btn btn-primary" onclick="creerNotification()"><i class="bi bi-send"></i> <span data-i18n>Envoyer</span></button>
+                    <button type="button" class="btn btn-secondary" onclick="chargerNotifications()"><i class="bi bi-arrow-clockwise"></i> <span data-i18n>Actualiser</span></button>
                 </div>
             </form>
         </div>
@@ -67,17 +67,17 @@
 
     <div class="card mt-4 mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Modèles de notification automatique</h5>
+            <h5 class="card-title mb-0" data-i18n>Modèles de notification automatique</h5>
         </div>
         <div class="card-body">
-            <p class="text-muted mb-3">Ces modèles sont utilisés pour les notifications envoyées automatiquement (réservation, commande, paiement...). Vous pouvez personnaliser leur titre et contenu. Les variables entre {accolades} sont remplacées dynamiquement.</p>
-            <div id="resultat_modeles"><em>Chargement des modèles...</em></div>
+            <p class="text-muted mb-3" data-i18n>Ces modèles sont utilisés pour les notifications envoyées automatiquement (réservation, commande, paiement...). Vous pouvez personnaliser leur titre et contenu. Les variables entre {accolades} sont remplacées dynamiquement.</p>
+            <div id="resultat_modeles"><em data-i18n>Chargement des modèles...</em></div>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">Toutes les notifications</h5>
+            <h5 class="card-title mb-0" data-i18n>Toutes les notifications</h5>
             <button type="button" class="btn btn-sm btn-light" onclick="chargerNotifications()"><i class="bi bi-arrow-clockwise"></i></button>
         </div>
         <div class="card-body">

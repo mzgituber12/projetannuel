@@ -6,26 +6,26 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Creer un article</title>
+    <title data-i18n>Creer un article</title>
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
 
-<h1>Creer un article</h1>
+<h1 data-i18n>Creer un article</h1>
 <h2 id = "admin_err"></h2>
 
 <form onsubmit="createArticle(event)">
-            <label>Titre</label>
+            <label data-i18n>Titre</label>
             <input type="text" name="titre" id="article_titre" placeholder="Titre" required><br><br>
-            <label>Description :</label>
+            <label data-i18n>Description :</label>
             <input type="text" name="description" id="article_description" placeholder="Description" required><br><br>
-            <label>Tarif :</label>
+            <label data-i18n>Tarif :</label>
             <input type="number" name="prix" id="article_prix" placeholder="Prix" step="0.01" required><br><br>
-            <label>Image (optionnel) :</label>
+            <label data-i18n>Image (optionnel) :</label>
             <input type="file" name="image" id="article_image" accept="image/*" onchange="previewImage()"><br>
             <div id="imagePreview"></div><br>
-            <button type = "submit">Creer l'article</button>
+            <button type = "submit" data-i18n>Creer l'article</button>
 </form>
 
 <?php include 'includes/footer.php'?>

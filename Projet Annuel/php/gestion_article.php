@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des articles</title>
+    <title data-i18n>Gestion des articles</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -15,7 +15,7 @@
 <?php include 'includes/header.php'?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des articles</h1>
+    <h1 class="mb-4" data-i18n>Gestion des articles</h1>
 
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
@@ -24,12 +24,12 @@
     }?>
 
     <div class="mb-4">
-        <a href='creer_article.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> Créer un nouvel article</a>
+        <a href='creer_article.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouvel article</span></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Rechercher un article</h5>
+            <h5 class="card-title mb-0" data-i18n>Rechercher un article</h5>
         </div>
         <div class="card-body">
             <form onsubmit="search_articles(event); return false;" class="row g-3">
@@ -37,7 +37,7 @@
                     <input id="article_nom" placeholder="Titre de l'article..." type="text" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                    <button type="submit" class="btn btn-success w-100" data-i18n>Rechercher</button>
                 </div>
             </form>
         </div>
@@ -45,7 +45,7 @@
 
     <div id="resultat"></div>
     
-    <h2 class="mt-5 mb-3">Liste des Articles</h2>
+    <h2 class="mt-5 mb-3" data-i18n>Liste des Articles</h2>
     <div id="articles"></div> 
 </div>
 
@@ -114,8 +114,8 @@
             "<label><strong>Image :</strong></label><br>" + imageHtml + 
             "</div></div>" +
             "<div class='mt-3'>" +
-            "<a href='modifier_article.php?id=" + data.id + "' class='btn btn-sm btn-warning'>Modifier</a> " +
-            "<a href='#' onclick='supprimer_article(" + data.id + ", \"" + String(data.titre) + "\"); return false;' class='btn btn-sm btn-danger'>Supprimer</a>" +
+            "<a href='modifier_article.php?id=" + data.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a> " +
+            "<a href='#' onclick='supprimer_article(" + data.id + ", \"" + String(data.titre) + "\"); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a>" +
             "</div></div>";
         }
     }
@@ -140,10 +140,10 @@
     if (article_list.message){
         article.innerHTML = "<div class='alert alert-info'>" + article_list.message + "</div>"
     } else {
-        let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th>Image</th><th>Titre de l'article</th><th>Description</th><th>Prix</th><th>Actions</th></tr></thead><tbody>";
+        let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th data-i18n>Image</th><th data-i18n>Titre de l'article</th><th data-i18n>Description</th><th data-i18n>Prix</th><th data-i18n>Actions</th></tr></thead><tbody>";
         article_list.article.forEach(article => {
-            const actions = "<a href='modifier_article.php?id=" + article.id + "' class='btn btn-sm btn-warning'>Modifier</a> " +
-                "<a href='#' onclick=\"supprimer_article(" + article.id + ", '" + article.titre.replaceAll("'", "\\'") + "'); return false;\" class='btn btn-sm btn-danger'>Supprimer</a>";
+            const actions = "<a href='modifier_article.php?id=" + article.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a> " +
+                "<a href='#' onclick=\"supprimer_article(" + article.id + ", '" + article.titre.replaceAll("'", "\\'") + "'); return false;\" class='btn btn-sm btn-danger' data-i18n>Supprimer</a>";
             const imageHtml = renderImageHtml(article.image, `Image de ${article.titre}`);
             const desc = (article.description || '').length > 100 ? String(article.description).slice(0, 100) + "..." : String(article.description);
             html += "<tr><td>" + imageHtml + "</td><td>" + String(article.titre) + "</td><td>" + desc + "</td><td>" + String(article.prix) + "€</td><td>" + actions + "</td></tr>";

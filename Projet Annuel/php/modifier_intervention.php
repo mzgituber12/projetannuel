@@ -74,21 +74,21 @@
         } else {
             document.getElementById("resultat").innerHTML = `
             <form onsubmit="updateIntervention(event)">
-            <label>ID :</label>
-            <input type="number" name="id" id="intervention_id" value="${data.id}" readonly> Pas modifiable <br><br>
-            <label>ID Service :</label>
+            <label data-i18n>ID :</label>
+            <input type="number" name="id" id="intervention_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
+            <label data-i18n>ID Service :</label>
             <input type="number" name="id_service" id="intervention_service" value="${data.id_service}"><br><br>
-            <label>ID Prestataire :</label>
+            <label data-i18n>ID Prestataire :</label>
             <input type="number" name="id_prestataire" id="intervention_prestataire" value="${data.id_prestataire}"><br><br>
-            <label>ID Utilisateur :</label>
+            <label data-i18n>ID Utilisateur :</label>
             <input type="number" name="id_utilisateur" id="intervention_utilisateur" value="${data.id_utilisateur}"><br><br>
-            <label>Date :</label>
+            <label data-i18n>Date :</label>
             <input type="datetime-local" name="date" id="intervention_date" value="${data.date.replace(' ', 'T')}"><br><br>
-            <label>Statut :</label>
+            <label data-i18n>Statut :</label>
             <input type="text" name="statut" id="intervention_statut" value="${data.statut}"><br><br>
-            <label>Montant :</label>
+            <label data-i18n>Montant :</label>
             <input type="number" name="montant" id="intervention_montant" value="${data.montant}" step="0.01"><br><br>
-            <button type = "submit">Confirmer les modifications</button>
+            <button type = "submit" data-i18n>Confirmer les modifications</button>
             </form>
             `;
             }

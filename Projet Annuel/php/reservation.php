@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Réservation</title>
+    <title data-i18n>Réservation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
@@ -13,7 +13,7 @@
 <?php include 'includes/header.php' ?>
 
 <div class="container mt-5 mb-5">
-    <h1 class="mb-4">Réservation</h1>
+    <h1 class="mb-4" data-i18n>Réservation</h1>
 
     <?php if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo '<div class="alert alert-success">' . htmlspecialchars($_GET['message']) . '</div>';
@@ -45,16 +45,16 @@ if ($image !== '') {
         <div class="col-lg-8 mx-auto">
             <div class="card shadow">
                 <div class="card-body">
-                    <h2 class="h4 card-title mb-3">Événement : <?= $nom ?></h2>
+                    <h2 class="h4 card-title mb-3"><span data-i18n>Événement :</span> <?= $nom ?></h2>
                     <?php if ($imageUrl !== '') : ?>
                         <img src="<?= $imageUrl ?>" alt="Image de l'événement" class="img-fluid rounded mb-3" style="max-width: 100%; max-height: 350px; object-fit: cover;">
                     <?php endif; ?>
-                    <p class="card-text"><strong>Date :</strong> <?= $date ?></p>
-                    <p class="card-text"><strong>Description :</strong></p>
+                    <p class="card-text"><strong data-i18n>Date :</strong> <?= $date ?></p>
+                    <p class="card-text"><strong data-i18n>Description :</strong></p>
                     <p class="card-text"><?= $description ?></p>
-                    <p class="card-text"><strong>Tarif sur place :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
+                    <p class="card-text"><strong data-i18n>Tarif sur place :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
 
-                    <button id="joinEvent" class="btn btn-primary btn-lg">Rejoindre cet événement</button>
+                    <button id="joinEvent" class="btn btn-primary btn-lg" data-i18n>Rejoindre cet événement</button>
                 </div>
             </div>
         </div>
@@ -98,33 +98,33 @@ if ($image !== '') {
         <div class="col-lg-8 mx-auto">
             <div class="card shadow">
                 <div class="card-body">
-                    <h2 class="h4 card-title mb-3">Service : <?= $nom ?></h2>
+                    <h2 class="h4 card-title mb-3"><span data-i18n>Service :</span> <?= $nom ?></h2>
                     <?php if ($imageUrl !== '') : ?>
                         <img src="<?= $imageUrl ?>" alt="Image du service" class="img-fluid rounded mb-3" style="max-width: 100%; max-height: 350px; object-fit: cover;">
                     <?php endif; ?>
-                    <p class="card-text"><strong>Description :</strong></p>
+                    <p class="card-text"><strong data-i18n>Description :</strong></p>
                     <p class="card-text"><?= $description ?></p>
-                    <p class="card-text"><strong>Tarif :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
+                    <p class="card-text"><strong data-i18n>Tarif :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
 
-                    <h5 class="mt-4 mb-3">Disponibilités</h5>
+                    <h5 class="mt-4 mb-3" data-i18n>Disponibilités</h5>
                     <div id="calendar" class="mb-3"></div>
                     <div id="calendarError" class="alert alert-danger d-none" role="alert"></div>
 
                     <div class="row g-2 mb-3">
                         <div class="col-6 col-sm-3">
-                            <label for="yearSelect" class="form-label small fw-bold">Année</label>
+                            <label for="yearSelect" class="form-label small fw-bold" data-i18n>Année</label>
                             <select id="yearSelect" class="form-select form-select-sm"></select>
                         </div>
                         <div class="col-6 col-sm-3">
-                            <label for="monthSelect" class="form-label small fw-bold">Mois</label>
+                            <label for="monthSelect" class="form-label small fw-bold" data-i18n>Mois</label>
                             <select id="monthSelect" class="form-select form-select-sm"></select>
                         </div>
                         <div class="col-6 col-sm-3">
-                            <label for="daySelect" class="form-label small fw-bold">Jour</label>
+                            <label for="daySelect" class="form-label small fw-bold" data-i18n>Jour</label>
                             <select id="daySelect" class="form-select form-select-sm"></select>
                         </div>
                         <div class="col-6 col-sm-3">
-                            <label for="hourSelect" class="form-label small fw-bold">Heure</label>
+                            <label for="hourSelect" class="form-label small fw-bold" data-i18n>Heure</label>
                             <select id="hourSelect" class="form-select form-select-sm"></select>
                         </div>
                     </div>
@@ -132,8 +132,8 @@ if ($image !== '') {
                     <p id="selectionInfo" class="mt-3 text-muted small"></p>
                     <div id="slotsList" class="mt-2 mb-3"></div>
                     <div class="d-flex gap-2 flex-wrap">
-                        <button id="joinService" class="btn btn-primary btn-lg">Réserver</button>
-                        <a class="btn btn-outline-primary btn-lg" href="demande_devis_service.php?id=<?= $id ?>&nom=<?= urlencode($nom) ?>&description=<?= urlencode($description) ?>&tarif=<?= urlencode($tarif) ?>&image=<?= urlencode($image) ?>">Demander un devis</a>
+                        <button id="joinService" class="btn btn-primary btn-lg" data-i18n>Réserver</button>
+                        <a class="btn btn-outline-primary btn-lg" href="demande_devis_service.php?id=<?= $id ?>&nom=<?= urlencode($nom) ?>&description=<?= urlencode($description) ?>&tarif=<?= urlencode($tarif) ?>&image=<?= urlencode($image) ?>" data-i18n>Demander un devis</a>
                     </div>
                 </div>
             </div>
@@ -514,7 +514,7 @@ if ($image !== '') {
     </script>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">
-        <strong>Erreur :</strong> Informations manquantes ou invalides.
+        <strong data-i18n>Erreur :</strong> <span data-i18n>Informations manquantes ou invalides.</span>
     </div>
 <?php endif; ?>
 

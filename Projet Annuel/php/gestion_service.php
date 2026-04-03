@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des services</title>
+    <title data-i18n>Gestion des services</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -15,19 +15,19 @@
 <?php include 'includes/header.php'?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des services</h1>
+    <h1 class="mb-4" data-i18n>Gestion des services</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
     }?>
     <div class="mb-4">
-        <a href='creer_service.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> Créer un nouveau service</a>
+        <a href='creer_service.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouveau service</span></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Rechercher un service</h5>
+            <h5 class="card-title mb-0" data-i18n>Rechercher un service</h5>
         </div>
         <div class="card-body">
             <form onsubmit="search_service(event); return false;" class="row g-3">
@@ -35,14 +35,14 @@
                     <input id="serv_name" placeholder="Nom du service..." type="text" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                    <button type="submit" class="btn btn-success w-100" data-i18n>Rechercher</button>
                 </div>
             </form>
         </div>
     </div>
     <div id="resultat"></div>
 
-    <h2 class="mt-5 mb-3">Liste des services</h2>
+    <h2 class="mt-5 mb-3" data-i18n>Liste des services</h2>
     <div id="services"></div>
 </div>
 <?php include 'includes/footer.php'?>
@@ -132,10 +132,10 @@
         if (service_list.message){
             service.innerHTML = "<p>" + service_list.message + "</p>"
         } else {
-            let html = "<table><tr><th>Image</th><th>Nom du service</th><th>Description</th><th>Tarif</th><th>Actions</th></tr>";
+            let html = "<table><tr><th data-i18n>Image</th><th data-i18n>Nom du service</th><th data-i18n>Description</th><th data-i18n>Tarif</th><th data-i18n>Actions</th></tr>";
             service_list.service.forEach(serv => {
-                const actions = "<a href='modifier_service.php?id=" + serv.id + "'>Modifier</a> | " +
-                    "<a href='#' onclick=\"supprimer_service(" + serv.id + ", '" + serv.nom.replaceAll("'", "\\'") + "'); return false;\">Supprimer</a>";
+                const actions = "<a href='modifier_service.php?id=" + serv.id + "' data-i18n>Modifier</a> | " +
+                    "<a href='#' onclick=\"supprimer_service(" + serv.id + ", '" + serv.nom.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Supprimer</a>";
                 const imageHtml = renderImageHtml(serv.image, `Image de ${serv.nom}`);
                 const desc = (serv.description || '').length > 100 ? String(serv.description).slice(0, 100) + "..." : String(serv.description);
                 html += "<tr><td>" + imageHtml + "</td><td>" + String(serv.nom) + "</td><td>" + desc + "</td><td>" + String(serv.tarif) + "</td><td>" + actions + "</td></tr>";

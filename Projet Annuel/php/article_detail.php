@@ -5,14 +5,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Détail produit</title>
+    <title data-i18n>Détail produit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
-<h1 class="mt-5 mb-4">Détail produit</h1>
+<h1 class="mt-5 mb-4" data-i18n>Détail produit</h1>
 <div class="container-lg" id="productDetail" style="min-height: auto;">Chargement...</div>
 
 <?php include 'includes/footer.php';?>
@@ -149,9 +149,9 @@ async function chargerArticle() {
                     <p class="text-primary fw-bold fs-5 mb-3">${String(article.prix)} €</p>
                     <div class="text-secondary mb-4" style="white-space:pre-wrap;word-break:break-word;">${String(article.description || '')}</div>
                     <div class="d-flex gap-2 flex-wrap mb-3">
-                        <button id="cartToggleButton" class="btn btn-success" onclick="basculerPanier(${Number(article.id)})">Ajouter au panier</button>
-                        <a class="btn btn-primary" href="panier.php">Voir mon panier</a>
-                        <a class="btn btn-outline-secondary" href="boutique.php">Retour à la boutique</a>
+                        <button id="cartToggleButton" class="btn btn-success" onclick="basculerPanier(${Number(article.id)})" data-i18n>Ajouter au panier</button>
+                        <a class="btn btn-primary" href="panier.php" data-i18n>Voir mon panier</a>
+                        <a class="btn btn-outline-secondary" href="boutique.php" data-i18n>Retour à la boutique</a>
                     </div>
                     <div id="cartMessage" class="alert alert-info d-none"></div>
                 </div>

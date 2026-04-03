@@ -12,7 +12,7 @@ adminUser(localStorage.getItem('token'));
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des conseils</title>
+    <title data-i18n>Gestion des conseils</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -21,7 +21,7 @@ adminUser(localStorage.getItem('token'));
 <?php include 'includes/header.php'?>
 
 <div class="container-fluid mt-4">
-    <h1 class="mb-4">Gestion des conseils</h1>
+    <h1 class="mb-4" data-i18n>Gestion des conseils</h1>
 
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
@@ -30,12 +30,12 @@ adminUser(localStorage.getItem('token'));
     }?>
 
     <div class="mb-4">
-        <a href='modifier_conseil.php?id=new' class='btn btn-primary'><i class="bi bi-plus-circle"></i> Créer un nouveau conseil</a>
+        <a href='modifier_conseil.php?id=new' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouveau conseil</span></a>
     </div>
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">Rechercher un conseil</h5>
+            <h5 class="card-title mb-0" data-i18n>Rechercher un conseil</h5>
         </div>
         <div class="card-body">
             <form onsubmit="search_conseil(event); return false;" class="row g-3">
@@ -43,7 +43,7 @@ adminUser(localStorage.getItem('token'));
                     <input id="conseil_titre" placeholder="Titre du conseil..." type="text" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-success w-100">Rechercher</button>
+                    <button type="submit" class="btn btn-success w-100" data-i18n>Rechercher</button>
                 </div>
             </form>
         </div>
@@ -51,7 +51,7 @@ adminUser(localStorage.getItem('token'));
 
     <div id="resultat"></div>
 
-    <h2 class="mt-5 mb-3">Liste des conseils</h2>
+    <h2 class="mt-5 mb-3" data-i18n>Liste des conseils</h2>
     <div id="conseils"></div>
 </div>
 
@@ -112,10 +112,10 @@ adminUser(localStorage.getItem('token'));
         if (conseil_list.message){
             conseil.innerHTML = "<div class='alert alert-info'>" + conseil_list.message + "</div>"
         } else {
-            let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th>Image</th><th>Titre du conseil</th><th>Contenu</th><th>Date</th><th>Actions</th></tr></thead><tbody>";
+            let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th data-i18n>Image</th><th data-i18n>Titre du conseil</th><th data-i18n>Contenu</th><th data-i18n>Date</th><th data-i18n>Actions</th></tr></thead><tbody>";
             conseil_list.conseil.forEach(cons => {
-                const actions = "<a href='modifier_conseil.php?id=" + cons.id + "' class='btn btn-sm btn-warning'>Modifier</a> " +
-                               "<a href='#' onclick='deleteConseils(" + cons.id + "); return false;' class='btn btn-sm btn-danger'>Supprimer</a>";
+                const actions = "<a href='modifier_conseil.php?id=" + cons.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a> " +
+                               "<a href='#' onclick='deleteConseils(" + cons.id + "); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a>";
                 const imageHTML = cons.image ? `<img src="../upload/${cons.image}" class='img-thumbnail' style="max-width: 80px; max-height: 80px;">` : '<em>-</em>';
                 html += "<tr><td>" + imageHTML + "</td><td>" + cons.titre + "</td><td>" + cons.contenu.substring(0, 100) + "...</td><td>" + cons.date + "</td><td>" + actions + "</td></tr>";
             });

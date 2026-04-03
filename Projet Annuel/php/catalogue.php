@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Catalogue</title>
+    <title data-i18n>Catalogue</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
         .catalogue-carousel .carousel-item {
@@ -40,7 +40,7 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1> Catalogue </h1>
+<h1 data-i18n> Catalogue </h1>
 
 <?php if (isset($_SESSION['state']) && isset($_GET['message'])) { 
     echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
@@ -48,52 +48,52 @@
 }
 ?>
 <div class="card p-3 shadow-sm">
-    <h5 class="mb-3">Recherche rapide dans le catalogue</h5>
+    <h5 class="mb-3" data-i18n>Recherche rapide dans le catalogue</h5>
     <div class="d-flex gap-2 flex-wrap align-items-end">
         <div class="flex-grow-1" style="min-width: 200px;">
-            <label for="searchInput" class="form-label small">Recherche</label>
+            <label for="searchInput" class="form-label small" data-i18n>Recherche</label>
             <input id="searchInput" type="text" class="form-control form-control-sm" placeholder="Nom, description, type...">
         </div>
         <div style="min-width: 150px;">
-            <label for="searchType" class="form-label small">Type</label>
+            <label for="searchType" class="form-label small" data-i18n>Type</label>
             <select id="searchType" class="form-select form-select-sm">
-                <option value="all">Tout</option>
-                <option value="service">Service</option>
-                <option value="evenement">Evenement</option>
-                <option value="prestataire">Prestataire</option>
-                <option value="article">Article</option>
+                <option value="all" data-i18n>Tout</option>
+                <option value="service" data-i18n>Service</option>
+                <option value="evenement" data-i18n>Evenement</option>
+                <option value="prestataire" data-i18n>Prestataire</option>
+                <option value="article" data-i18n>Article</option>
             </select>
         </div>
         <div style="min-width: 150px;">
-            <label for="categoryFilter" class="form-label small">Categorie</label>
+            <label for="categoryFilter" class="form-label small" data-i18n>Categorie</label>
             <select id="categoryFilter" class="form-select form-select-sm">
-                <option value="">Toutes</option>
+                <option value="" data-i18n>Toutes</option>
             </select>
         </div>
         <div style="min-width: 130px;">
-            <label for="minPriceFilter" class="form-label small">Prix min</label>
+            <label for="minPriceFilter" class="form-label small" data-i18n>Prix min</label>
             <input id="minPriceFilter" type="number" class="form-control form-control-sm" min="0" step="0.01" placeholder="0">
         </div>
         <div style="min-width: 130px;">
-            <label for="maxPriceFilter" class="form-label small">Prix max</label>
+            <label for="maxPriceFilter" class="form-label small" data-i18n>Prix max</label>
             <input id="maxPriceFilter" type="number" class="form-control form-control-sm" min="0" step="0.01" placeholder="500">
         </div>
-        <button id="resetFiltersButton" class="btn btn-sm btn-dark">Réinitialiser</button>
+        <button id="resetFiltersButton" class="btn btn-sm btn-dark" data-i18n>Réinitialiser</button>
     </div>
 </div>
-<h2 class="h4 mt-5 mb-3">Événements</h2>
+<h2 class="h4 mt-5 mb-3" data-i18n>Événements</h2>
 <div class="card border-0 mb-4">
     <div id="evenements" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
-<h2 class="h4 mt-5 mb-3">Services</h2>
+<h2 class="h4 mt-5 mb-3" data-i18n>Services</h2>
 <div class="card border-0 mb-4">
     <div id="services" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
-<h2 class="h4 mt-5 mb-3">Articles</h2>
+<h2 class="h4 mt-5 mb-3" data-i18n>Articles</h2>
 <div class="card border-0 mb-4">
     <div id="articles" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
-<h2 class="h4 mt-5 mb-3">Prestataires</h2>
+<h2 class="h4 mt-5 mb-3" data-i18n>Prestataires</h2>
 <div class="card border-0 mb-4">
     <div id="prestataires" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
@@ -143,11 +143,11 @@ function renderBootstrapCarousel(containerId, cardsHtml, emptyMessage) {
     const controls = groups.length > 1 ? `
         <button class="carousel-control-prev" type="button" data-bs-target="#${containerId}" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Précédent</span>
+            <span class="visually-hidden" data-i18n>Précédent</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#${containerId}" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Suivant</span>
+            <span class="visually-hidden" data-i18n>Suivant</span>
         </button>
     ` : "";
 

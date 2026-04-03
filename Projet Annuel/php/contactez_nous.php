@@ -5,19 +5,19 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Contact</title>
+    <title data-i18n>Contact</title>
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 
-<h1> Contactez Nous </h1>
+<h1 data-i18n> Contactez Nous </h1>
 <h2 id="geturl"></h2>
-<p>Formuler votre demande juste en dessous, nous vous répondrons par mail le plus vite possible !</p>
+<p data-i18n>Formuler votre demande juste en dessous, nous vous répondrons par mail le plus vite possible !</p>
 
 <form onsubmit="submit_ask(event, localStorage.getItem('token'))">
     <input class="form-control" name="text" id="demand" placeholder="..." type="text" required>
-    <button type="submit">Envoyer</button>
+    <button type="submit" data-i18n>Envoyer</button>
 </form>
 
 <?php include 'includes/footer.php';?>

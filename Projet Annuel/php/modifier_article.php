@@ -71,15 +71,15 @@
         } else {
             document.getElementById("resultat").innerHTML = `
             <form onsubmit="updateArticle()">
-            <label>ID :</label>
-            <input type="number" name="id" id="article_id" value="${data.id}" readonly> Pas modifiable <br><br>
-            <label>Titre :</label>
+            <label data-i18n>ID :</label>
+            <input type="number" name="id" id="article_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
+            <label data-i18n>Titre :</label>
             <input type="text" name="titre" id="article_titre" value="${data.titre}" required><br><br>
-            <label>Description :</label>
+            <label data-i18n>Description :</label>
             <textarea name="description" id="article_description" required>${data.description}</textarea><br><br>
-            <label>Tarif :</label>
+            <label data-i18n>Tarif :</label>
             <input type="number" name="prix" id="article_prix" value="${data.prix}" step="0.01" required><br><br>
-            <button type = "submit">Confirmer les modifications</button>
+            <button type = "submit" data-i18n>Confirmer les modifications</button>
             </form>
             `;
             }

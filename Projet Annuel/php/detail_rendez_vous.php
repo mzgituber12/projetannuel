@@ -5,17 +5,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Detail rendez-vous</title>
+    <title data-i18n>Detail rendez-vous</title>
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-4 mb-5">
-    <a href="rendez_vous.php" class="btn btn-outline-secondary btn-sm mb-3">Retour a mes rendez-vous</a>
-    <h1>Detail du rendez-vous</h1>
+    <a href="rendez_vous.php" class="btn btn-outline-secondary btn-sm mb-3" data-i18n>Retour a mes rendez-vous</a>
+    <h1 data-i18n>Detail du rendez-vous</h1>
     <div id="detailContainer">
-        <p>Chargement en cours...</p>
+        <p data-i18n>Chargement en cours...</p>
     </div>
 </div>
 
@@ -112,23 +112,23 @@ async function chargerDetailRendezVous() {
             '<div class="col-lg-6">' +
                 '<div class="card h-100 shadow-sm">' +
                     '<div class="card-body">' +
-                        '<h4 class="card-title mb-3">Service inscrit</h4>' +
+                        '<h4 class="card-title mb-3" data-i18n>Service inscrit</h4>' +
                         imageHtml +
-                        '<p class="mb-2"><strong>Nom :</strong> ' + esc(d.nom_service || '—') + '</p>' +
-                        '<p class="mb-2"><strong>Description :</strong> ' + esc(serviceDescription) + '</p>' +
-                        '<p class="mb-0"><strong>Tarif :</strong> ' + esc(serviceTarif) + '</p>' +
+                        '<p class="mb-2"><strong data-i18n>Nom :</strong> ' + esc(d.nom_service || '—') + '</p>' +
+                        '<p class="mb-2"><strong data-i18n>Description :</strong> ' + esc(serviceDescription) + '</p>' +
+                        '<p class="mb-0"><strong data-i18n>Tarif :</strong> ' + esc(serviceTarif) + '</p>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
             '<div class="col-lg-6">' +
                 '<div class="card h-100 shadow-sm">' +
                     '<div class="card-body">' +
-                        '<h4 class="card-title mb-3">Rendez-vous et intervention</h4>' +
-                        '<p class="mb-2"><strong>Prestataire :</strong> ' + esc(d.nom_prestataire || '—') + '</p>' +
-                        '<p class="mb-2"><strong>Debut :</strong> ' + esc(formatDate(d.date_debut)) + '</p>' +
-                        '<p class="mb-2"><strong>Fin :</strong> ' + esc(formatDate(d.date_fin)) + '</p>' +
-                        '<p class="mb-2"><strong>Statut intervention :</strong> ' + badgeStatut(d.status) + '</p>' +
-                        '<p class="mb-0"><strong>Montant intervention :</strong> ' + esc((Number(d.tarif || 0) > 0) ? Number(d.tarif).toFixed(2) + ' EUR' : 'Non renseigne') + '</p>' +
+                        '<h4 class="card-title mb-3" data-i18n>Rendez-vous et intervention</h4>' +
+                        '<p class="mb-2"><strong data-i18n>Prestataire :</strong> ' + esc(d.nom_prestataire || '—') + '</p>' +
+                        '<p class="mb-2"><strong data-i18n>Debut :</strong> ' + esc(formatDate(d.date_debut)) + '</p>' +
+                        '<p class="mb-2"><strong data-i18n>Fin :</strong> ' + esc(formatDate(d.date_fin)) + '</p>' +
+                        '<p class="mb-2"><strong data-i18n>Statut intervention :</strong> ' + badgeStatut(d.status) + '</p>' +
+                        '<p class="mb-0"><strong data-i18n>Montant intervention :</strong> ' + esc((Number(d.tarif || 0) > 0) ? Number(d.tarif).toFixed(2) + ' EUR' : 'Non renseigne') + '</p>' +
                     '</div>' +
                 '</div>' +
             '</div>' +

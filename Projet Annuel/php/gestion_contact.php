@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des contacts</title>
+    <title data-i18n>Gestion des contacts</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
@@ -14,11 +14,11 @@
 <?php include 'includes/header.php'?>
 
 <div class="container mt-5">
-    <h1 class="mb-4">Gestion des contacts</h1>
+    <h1 class="mb-4" data-i18n>Gestion des contacts</h1>
 
     <div class="card bg-light mb-4">
         <div class="card-body">
-            <h5 class="card-title">Liste complète des messages de contact</h5>
+            <h5 class="card-title" data-i18n>Liste complète des messages de contact</h5>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
         if (data.message == "Personne n'a contacté les administrateurs pour le moment") {
             liste.innerHTML = '<div class="alert alert-info">' + String(data.message) + '</div>'
         } else {
-            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-success"><tr><th>Email de l\'utilisateur</th><th>Contenu du message</th></tr></thead><tbody>';
+            let html = '<div class="table-responsive"><table class="table table-hover"><thead class="table-success"><tr><th data-i18n>Email de l\'utilisateur</th><th data-i18n>Contenu du message</th></tr></thead><tbody>';
             data.contact.forEach(contacts => {
                 html += "<tr><td>" + String(contacts.email) + "</td><td>" + String(contacts.contenu) + "</td></tr>"
             });

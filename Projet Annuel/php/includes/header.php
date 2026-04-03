@@ -239,6 +239,14 @@ async function headerUser(token) {
     }
 
     if (data.langue) TraductionI18n(data.langue);
+    window._lang = data.langue;
+    if (data.langue && data.langue !== 'fr') {
+        let _rt;
+        new MutationObserver(() => {
+            clearTimeout(_rt);
+            _rt = setTimeout(() => TraductionI18n(data.langue), 150);
+        }).observe(document.body, { childList: true, subtree: true });
+    }
     initOneSignalPush(token);
 
     monCompte.innerHTML = "<li class='nav-item'><a class='nav-link active' href='mon_profil.php'><i class='bi bi-person'></i> Mon profil</a></li>";

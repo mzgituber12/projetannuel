@@ -6,26 +6,26 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Creer un service</title>
+    <title data-i18n>Creer un service</title>
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
 
-<h1>Creer un service</h1>
+<h1 data-i18n>Creer un service</h1>
 <h2 id="admin_err"></h2>
 
 <form onsubmit="createService(event)">
-            <label>Nom :</label>
+            <label data-i18n>Nom :</label>
             <input type="text" name="nom" id="service_nom" placeholder="Nom" required><br><br>
-            <label>Description :</label>
+            <label data-i18n>Description :</label>
             <textarea name="description" id="service_description" placeholder="Description" required></textarea><br><br>
-            <label>Tarif :</label>
+            <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="service_tarif" placeholder="Tarif" step="0.01" required><br><br>
-            <label>Image (optionnel) :</label>
+            <label data-i18n>Image (optionnel) :</label>
             <input type="file" name="image" id="service_image" accept="image/*" onchange="previewImage()"><br>
             <div id="imagePreview"></div><br>
-            <button type="submit">Creer le service</button>
+            <button type="submit" data-i18n>Creer le service</button>
 </form>
 
 <?php include 'includes/footer.php'?>

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Planning</title>
+    <title data-i18n>Planning</title>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 </head>
@@ -13,7 +13,7 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1> Planning </h1>
+<h1 data-i18n> Planning </h1>
 
 <div id="calendar"></div>
 

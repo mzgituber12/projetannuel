@@ -9,19 +9,19 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Abonnement</title>
+    <title data-i18n>Mon Abonnement</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
     <div class="container mt-5 mb-5" style="max-width: 800px;">
-        <h1 class="mb-4">Mon Abonnement</h1>
+        <h1 class="mb-4" data-i18n>Mon Abonnement</h1>
 
         <div id="content">
             <div class="text-center">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Chargement...</span>
                 </div>
-                <p class="mt-2">Chargement...</p>
+                <p class="mt-2" data-i18n>Chargement...</p>
             </div>
         </div>
     </div>
@@ -64,9 +64,9 @@ session_start();
             if (data.no_subscription) {
                 content.innerHTML = `
                     <div class="alert alert-info" role="alert">
-                        <h4 class="alert-heading">Vous n'avez pas encore d'abonnement actif</h4>
-                        <p>Découvrez nos plans d'abonnement et profitez de nos services premium.</p>
-                        <a href="abonnement.php" class="btn btn-primary mt-3">Voir les plans</a>
+                        <h4 class="alert-heading" data-i18n>Vous n'avez pas encore d'abonnement actif</h4>
+                        <p data-i18n>Découvrez nos plans d'abonnement et profitez de nos services premium.</p>
+                        <a href="abonnement.php" class="btn btn-primary mt-3" data-i18n>Voir les plans</a>
                     </div>
                 `;
                 return;
@@ -97,41 +97,41 @@ session_start();
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <h2 class="card-title">${abo.type}</h2>
-                            <span class="badge ${badgeClass}">${statusText}</span>
+                            <h2 class="card-title" data-i18n>${abo.type}</h2>
+                            <span class="badge ${badgeClass}" data-i18n>${statusText}</span>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <p class="text-muted mb-1">Plan:</p>
-                                <p class="fs-6">${typePaiement}</p>
+                                <p class="text-muted mb-1" data-i18n>Plan:</p>
+                                <p class="fs-6" data-i18n>${typePaiement}</p>
                             </div>
                             <div class="col-md-6">
-                                <p class="text-muted mb-1">Prix:</p>
-                                <p class="fs-6"><strong>${sub.type_paiement === 'mois' ? prixMois + '€/mois' : prixAn + '€/an'}</strong></p>
+                                <p class="text-muted mb-1" data-i18n>Prix:</p>
+                                <p class="fs-6" data-i18n><strong>${sub.type_paiement === 'mois' ? prixMois + '€/mois' : prixAn + '€/an'}</strong></p>
                             </div>
                         </div>
 
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <p class="text-muted mb-1">Date de souscription:</p>
-                                <p class="fs-6">${dateStart}</p>
+                                <p class="text-muted mb-1" data-i18n>Date de souscription:</p>
+                                <p class="fs-6" data-i18n>${dateStart}</p>
                             </div>
                             <div class="col-md-6">
-                                <p class="text-muted mb-1">Expiration:</p>
-                                <p class="fs-6">${dateExpiration}</p>
+                                <p class="text-muted mb-1" data-i18n>Expiration:</p>
+                                <p class="fs-6" data-i18n>${dateExpiration}</p>
                             </div>
                         </div>
 
                         ${(sub.validite || sub.stripe_subscription_id) ? `
                             <div class="d-grid gap-2">
-                                <button class="btn btn-danger" onclick="if(confirm('Êtes-vous sûr de vouloir annuler votre abonnement ?')) cancelSubscription()">
+                                <button class="btn btn-danger" onclick="if(confirm('Êtes-vous sûr de vouloir annuler votre abonnement ?')) cancelSubscription()" data-i18n>
                                     Annuler l'abonnement
                                 </button>
                             </div>
                         ` : `
                             <div class="text-center">
-                                <a href="abonnement.php" class="btn btn-primary btn-lg">
+                                <a href="abonnement.php" class="btn btn-primary btn-lg" data-i18n>
                                     Souscrire à un plan
                                 </a>
                             </div>
@@ -144,8 +144,8 @@ session_start();
             console.error('Erreur:', error);
             document.getElementById('content').innerHTML = `
                 <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Erreur</h4>
-                    <p>${error.message || 'Une erreur est survenue lors du chargement de votre abonnement.'}</p>
+                    <h4 class="alert-heading" data-i18n>Erreur</h4>
+                    <p data-i18n>${error.message || 'Une erreur est survenue lors du chargement de votre abonnement.'}</p>
                 </div>
             `;
         });

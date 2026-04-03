@@ -5,18 +5,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Mes rendez-vous services</title>
+    <title data-i18n>Mes rendez-vous services</title>
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-4">
-    <h1>Mes rendez-vous (services)</h1>
-    <p class="text-muted">Retrouvez ici tous vos rendez-vous lies a vos inscriptions de service.</p>
+    <h1 data-i18n>Mes rendez-vous (services)</h1>
+    <p class="text-muted" data-i18n>Retrouvez ici tous vos rendez-vous lies a vos inscriptions de service.</p>
 
     <div id="rdvContainer">
-        <p>Chargement en cours...</p>
+        <p data-i18n>Chargement en cours...</p>
     </div>
 </div>
 
@@ -84,12 +84,12 @@ async function chargerRendezVous() {
     html += '<table class="table table-hover table-bordered align-middle">';
     html += '<thead class="table-light">';
     html += '<tr>';
-    html += '<th>Service</th>';
-    html += '<th>Prestataire</th>';
-    html += '<th>Debut</th>';
-    html += '<th>Fin</th>';
-    html += '<th>Intervention</th>';
-    html += '<th>Action</th>';
+    html += '<th data-i18n>Service</th>';
+    html += '<th data-i18n>Prestataire</th>';
+    html += '<th data-i18n>Debut</th>';
+    html += '<th data-i18n>Fin</th>';
+    html += '<th data-i18n>Intervention</th>';
+    html += '<th data-i18n>Action</th>';
     html += '</tr>';
     html += '</thead><tbody>';
 
@@ -100,7 +100,7 @@ async function chargerRendezVous() {
         html += '<td>' + esc(formatDate(rdv.date_debut)) + '</td>';
         html += '<td>' + esc(formatDate(rdv.date_fin)) + '</td>';
         html += '<td>' + badgeStatut(rdv.status) + '</td>';
-        html += '<td><a class="btn btn-sm btn-outline-primary" href="detail_rendez_vous.php?id=' + Number(rdv.id || 0) + '">Voir le detail</a></td>';
+        html += '<td><a class="btn btn-sm btn-outline-primary" href="detail_rendez_vous.php?id=' + Number(rdv.id || 0) + '" data-i18n>Voir le detail</a></td>';
         html += '</tr>';
     });
 

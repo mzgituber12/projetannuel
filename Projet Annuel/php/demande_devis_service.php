@@ -14,7 +14,7 @@ $imageUrl = $image !== '' ? htmlspecialchars($image) : '';
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Demande de devis service</title>
+    <title data-i18n>Demande de devis service</title>
 </head>
 <body>
 
@@ -31,19 +31,19 @@ $imageUrl = $image !== '' ? htmlspecialchars($image) : '';
                             <img src="<?= $imageUrl ?>" alt="Image du service" class="img-fluid rounded mb-3" style="max-width: 100%; max-height: 350px; object-fit: cover;">
                         <?php endif; ?>
 
-                        <p class="card-text"><strong>Description :</strong></p>
+                        <p class="card-text"><strong data-i18n>Description :</strong></p>
                         <p class="card-text"><?= $description ?></p>
-                        <p class="card-text mb-4"><strong>Tarif indicatif :</strong> <span class="text-primary fw-bold"><?= $tarif ?> EUR</span></p>
+                        <p class="card-text mb-4"><strong data-i18n>Tarif indicatif :</strong> <span class="text-primary fw-bold"><?= $tarif ?> EUR</span></p>
 
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-info" role="alert" data-i18n>
                             Cette demande est une estimation de prix uniquement. Aucun rendez-vous ne sera reserve automatiquement.
                         </div>
 
                         <div id="quoteMessage" class="alert d-none" role="alert"></div>
 
                         <div class="d-flex gap-2 flex-wrap mt-3">
-                            <button id="askQuoteService" class="btn btn-primary btn-lg">Envoyer la demande de devis</button>
-                            <a class="btn btn-outline-secondary btn-lg" href="reservation.php?type=service&id=<?= $id ?>&nom=<?= urlencode($nom) ?>&description=<?= urlencode($description) ?>&tarif=<?= urlencode($tarif) ?>&image=<?= urlencode($image) ?>">Aller a la reservation</a>
+                            <button id="askQuoteService" class="btn btn-primary btn-lg" data-i18n>Envoyer la demande de devis</button>
+                            <a class="btn btn-outline-secondary btn-lg" href="reservation.php?type=service&id=<?= $id ?>&nom=<?= urlencode($nom) ?>&description=<?= urlencode($description) ?>&tarif=<?= urlencode($tarif) ?>&image=<?= urlencode($image) ?>" data-i18n>Aller a la reservation</a>
                         </div>
                     </div>
                 </div>

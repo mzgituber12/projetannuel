@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title data-i18n>Connexion</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -14,21 +14,21 @@
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
-        <h2 class="text-center mb-4">Connexion</h2>
+        <h2 class="text-center mb-4" data-i18n>Connexion</h2>
         <h3 class='text-center text-danger mb-3' id = "incorrect"></h3>
             <form onsubmit="signinUser(document.getElementById('email').value, document.getElementById('password').value)">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Adresse Email</label>
+                    <label for="email" class="form-label" data-i18n>Adresse Email</label>
                     <input type="email" class="form-control" id="email" placeholder="Email" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Mot de passe</label>
+                <label for="password" class="form-label" data-i18n>Mot de passe</label>
                 <input type="password" class="form-control bg-white" id="password" placeholder="Mot de passe" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+            <button type="submit" class="btn btn-primary w-100" data-i18n>Se connecter</button>
         </form>
         <p class="mt-3 text-center">
-          Pas encore de compte ? <a href="inscription.php">Inscrivez-vous</a>
+          <span data-i18n>Pas encore de compte ?</span> <a href="inscription.php" data-i18n>Inscrivez-vous</a>
         </p>
     </div>
 </div>

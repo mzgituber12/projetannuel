@@ -5,23 +5,23 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Messagerie</title>
+    <title data-i18n>Messagerie</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 
-<h1>Messagerie</h1>
+<h1 data-i18n>Messagerie</h1>
 <h2 id="geturl"></h2>
 
-<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" data-i18n>
   Mes Contact
 </a>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Mes contacts</h5>
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel" data-i18n>Mes contacts</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
@@ -35,7 +35,7 @@
 
 <div class="mt-2">
   <input id="msgInput" type="text" class="form-control" placeholder="Tapez votre message..." />
-  <button class="btn btn-primary mt-1" onclick="sendMessage()">Envoyer</button>
+  <button class="btn btn-primary mt-1" onclick="sendMessage()" data-i18n>Envoyer</button>
 </div>
 
 <?php include 'includes/footer.php'; ?>
@@ -103,7 +103,7 @@
     data.forEach(message => {
       valeur += `<p><strong>${message.auteur}:</strong> ${message.contenu} <small class="text-muted">${message.date_envoie}</small></p>`;
     });
-    document.getElementById("affichemessage").innerHTML = valeur || "<p>Aucun message</p>";
+    document.getElementById("affichemessage").innerHTML = valeur || "<p data-i18n>Aucun message</p>";
   }
 
   async function chargementContact() {
@@ -124,7 +124,7 @@
     data.forEach(contact => {
       valeur += `<button class="btn btn-primary w-100 mb-1" type="button" data-id="${contact.id}" data-name="${contact.prenom} ${contact.nom}" onclick="selectContact(this.dataset.id, this.dataset.name)">${contact.prenom} ${contact.nom}</button>`;
     });
-    document.getElementById("liste_contact").innerHTML = valeur || "<p>Aucun contact</p>";
+    document.getElementById("liste_contact").innerHTML = valeur || "<p data-i18n>Aucun contact</p>";
   }
 
   function selectContact(id, name) {

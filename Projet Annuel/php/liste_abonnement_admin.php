@@ -10,14 +10,14 @@ include 'includes/header.php'; ?>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Liste Abonnements Admin</title>
+    <title data-i18n>Liste Abonnements Admin</title>
 </head>
 <body>
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">Liste abonnements admin</h1>
-        <a href="add_abonnement.php" class="btn btn-danger">Ajouter un abonnement</a>
+        <h1 class="mb-0" data-i18n>Liste abonnements admin</h1>
+        <a href="add_abonnement.php" class="btn btn-danger" data-i18n>Ajouter un abonnement</a>
     </div>
     <div id="liste_abonnements" class="d-flex gap-4 flex-wrap justify-content-center"></div>
 </div>

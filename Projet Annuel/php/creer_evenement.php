@@ -6,28 +6,28 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Creer un evenement</title>
+    <title data-i18n>Creer un evenement</title>
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
 
-<h1>Creer un evenement</h1>
+<h1 data-i18n>Creer un evenement</h1>
 <h2 id="admin_err"></h2>
 
 <form onsubmit="createEvenement(event)">
-            <label>Nom :</label>
+            <label data-i18n>Nom :</label>
             <input type="text" name="nom" id="event_nom" placeholder="Nom" required><br><br>
-            <label>Date :</label>
+            <label data-i18n>Date :</label>
             <input type="datetime-local" step="60" name="date" id="event_date" required><br><br>
-            <label>Description :</label>
+            <label data-i18n>Description :</label>
             <input type="text" name="description" id="event_description" placeholder="Description" required><br><br>
-            <label>Tarif :</label>
+            <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="event_tarif" placeholder="Tarif" step="0.01" required><br><br>
-            <label>Image (optionnel) :</label>
+            <label data-i18n>Image (optionnel) :</label>
             <input type="file" name="image" id="event_image" accept="image/*" onchange="previewImage()"><br>
             <div id="imagePreview"></div><br>
-            <button type="submit">Creer l'evenement</button>
+            <button type="submit" data-i18n>Creer l'evenement</button>
 </form>
 
 <?php include 'includes/footer.php'?>

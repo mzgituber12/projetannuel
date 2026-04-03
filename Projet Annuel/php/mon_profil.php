@@ -8,11 +8,11 @@ include 'includes/header.php'?>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Mon Profil</title>
+    <title data-i18n>Mon Profil</title>
 </head>
 <body>
 
-<h2>Votre profil </h2>
+<h2 data-i18n>Votre profil </h2>
 
 <h2 id="status"></h2>
 
@@ -20,24 +20,24 @@ include 'includes/header.php'?>
     <div class="col-md-6">
 
         <div class="mb-3 position-relative">
-            <label for="Email" class="form-label">Email</label>
+            <label for="Email" class="form-label" data-i18n>Email</label>
             <div class="d-flex">
                 <input type="email" class="form-control me-2" id="email">
-                <button type="button" class="btn btn-danger" onclick="update_profil('email')">Modifier</button>
+                <button type="button" class="btn btn-danger" onclick="update_profil('email')" data-i18n>Modifier</button>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="Mot de passe" class="form-label">Mot de passe</label>
+            <label for="Mot de passe" class="form-label" data-i18n>Mot de passe</label>
             <div class="d-flex">
                 <input type="password" class="form-control" id="password" >
-                <button type="button" class="btn btn-danger" onclick="update_profil('password')">Modifier</button>
+                <button type="button" class="btn btn-danger" onclick="update_profil('password')" data-i18n>Modifier</button>
             </div>
         </div>
 
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="checkmdp">
-            <label class="form-check-label" for="checkmdp">Voir</label>
+            <label class="form-check-label" for="checkmdp" data-i18n>Voir</label>
         </div>
         <script> 
         const champs = document.getElementById("password")
@@ -51,44 +51,44 @@ include 'includes/header.php'?>
         </script>
 
         <div class="mb-3">
-            <label for="Prénom" class="form-label">Prénom</label>
+            <label for="Prénom" class="form-label" data-i18n>Prénom</label>
             <div class="d-flex">
                 <input type="text" class="form-control" id="prenom" >
-                <button type="button" class="btn btn-danger" onclick="update_profil('prenom')">Modifier</button>
+                <button type="button" class="btn btn-danger" onclick="update_profil('prenom')" data-i18n>Modifier</button>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="Nom" class="form-label">Nom</label>
+            <label for="Nom" class="form-label" data-i18n>Nom</label>
             <div class="d-flex">
                 <input type="text" class="form-control" id="nom" >
-                <button type="button" class="btn btn-danger" onclick="update_profil('nom')">Modifier</button>
+                <button type="button" class="btn btn-danger" onclick="update_profil('nom')" data-i18n>Modifier</button>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="Age" class="form-label">Age</label>
+            <label for="Age" class="form-label" data-i18n>Age</label>
             <div class="d-flex">
                 <input type="number" class="form-control" id="age" >
-                <button type="button" class="btn btn-danger" onclick="update_profil('age')">Modifier</button>
+                <button type="button" class="btn btn-danger" onclick="update_profil('age')" data-i18n>Modifier</button>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="langue" class="form-label">Langue</label>
+            <label for="langue" class="form-label" data-i18n>Langue</label>
             <div class="d-flex">
                 <select class="form-select" id="langue">
-                    <option value="fr">Francais</option>
-                    <option value="en">English</option>
-                    <option value="it">Italiano</option>
-                    <option value="de">Deutsch</option>
-                    <option value="ru">Russkiy</option>
-                    <option value="uk">Ukrayinska</option>
-                    <option value="pt">Portugues</option>
-                    <option value="pl">Polski</option>
-                    <option value="nl">Nederlands</option>
+                    <option value="fr" data-i18n>Francais</option>
+                    <option value="en" data-i18n>English</option>
+                    <option value="it" data-i18n>Italiano</option>
+                    <option value="de" data-i18n>Deutsch</option>
+                    <option value="ru" data-i18n>Russkiy</option>
+                    <option value="uk" data-i18n>Ukrayinska</option>
+                    <option value="pt" data-i18n>Portugues</option>
+                    <option value="pl" data-i18n>Polski</option>
+                    <option value="nl" data-i18n>Nederlands</option>
                 </select>
-                <button type="button" class="btn btn-danger ms-2" onclick="update_profil('langue')">Modifier</button>
+                <button type="button" class="btn btn-danger ms-2" onclick="update_profil('langue')" data-i18n>Modifier</button>
             </div>
         </div>
     </div>

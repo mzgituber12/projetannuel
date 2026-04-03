@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Paiement reussi</title>
+    <title data-i18n>Paiement reussi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
@@ -16,12 +16,12 @@
     <div class="alert alert-success border-success-subtle" role="alert">
         <div class="d-flex align-items-center mb-3">
             <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
-            <h1 class="ms-3 mb-0">Paiement confirmé</h1>
+            <h1 class="ms-3 mb-0" data-i18n>Paiement confirmé</h1>
         </div>
-        <p id="status" class="text-muted mb-3">Validation du paiement en cours...</p>
+        <p id="status" class="text-muted mb-3" data-i18n>Validation du paiement en cours...</p>
         <div class="d-flex gap-2 flex-wrap">
-            <a id="invoiceLink" class="btn btn-primary" href="boutique.php"><i class="bi bi-file-earmark-pdf"></i> Voir la facture</a>
-            <a class="btn btn-success" href="boutique.php"><i class="bi bi-shop"></i> Retour boutique</a>
+            <a id="invoiceLink" class="btn btn-primary" href="boutique.php"><i class="bi bi-file-earmark-pdf"></i> <span data-i18n>Voir la facture</span></a>
+            <a class="btn btn-success" href="boutique.php"><i class="bi bi-shop"></i> <span data-i18n>Retour boutique</span></a>
         </div>
     </div>
 </div>

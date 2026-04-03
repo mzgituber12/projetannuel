@@ -5,23 +5,23 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Checkout</title>
+    <title data-i18n>Checkout</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
-<h1 class="mt-5 mb-4">Checkout</h1>
+<h1 class="mt-5 mb-4" data-i18n>Checkout</h1>
 <div class="container" style="max-width:600px;">
     <div class="card shadow">
         <div class="card-body">
             <div id="items"></div>
-            <div id="total" class="h5 mt-3 pt-3 border-top">Total: 0.00 EUR</div>
+            <div id="total" class="h5 mt-3 pt-3 border-top"><span data-i18n>Total</span>: <span id="totalAmount">0.00 EUR</span></div>
 
             <div class="d-flex gap-2 flex-wrap mt-4">
-                <button id="payTransfer" class="btn btn-success">Payer par virement</button>
-                <button id="payStripe" class="btn btn-primary">Payer par carte</button>
-                <a class="btn btn-outline-secondary" href="panier.php">Retour panier</a>
+                <button id="payTransfer" class="btn btn-success" data-i18n>Payer par virement</button>
+                <button id="payStripe" class="btn btn-primary" data-i18n>Payer par carte</button>
+                <a class="btn btn-outline-secondary" href="panier.php" data-i18n>Retour panier</a>
             </div>
 
             <div id="message"></div>
@@ -70,11 +70,11 @@ async function chargerPanier() {
     const node = document.getElementById('items');
 
     if (data.message || !Array.isArray(data.article) || data.article.length === 0) {
-        node.innerHTML = '<p>Votre panier est vide.</p>';
+        node.innerHTML = '<p data-i18n>Votre panier est vide.</p>';
         document.getElementById('payTransfer').disabled = true;
         document.getElementById('payStripe').disabled = true;
         currentTotal = 0;
-        document.getElementById('total').textContent = 'Total: 0.00 EUR';
+        document.getElementById('totalAmount').textContent = '0.00 EUR';
         return false;
     }
 
@@ -87,7 +87,7 @@ async function chargerPanier() {
 
     currentTotal = total;
     node.innerHTML = html;
-    document.getElementById('total').textContent = 'Total: ' + total.toFixed(2) + ' EUR';
+    document.getElementById('totalAmount').textContent = total.toFixed(2) + ' EUR';
     return true;
 }
 
