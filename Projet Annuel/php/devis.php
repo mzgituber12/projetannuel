@@ -71,7 +71,6 @@ async function chargerDevis() {
                     <th>#</th>
                     <th>Service</th>
                     <th>Prestataire</th>
-                    <th>Créneau demandé</th>
                     <th>Tarif estimé</th>
                     <th>Statut</th>
                     <th>Détail</th>
@@ -80,14 +79,12 @@ async function chargerDevis() {
             <tbody>`;
 
     liste.forEach(d => {
-        const dateDebut = d.date_debut ? d.date_debut.replace('T', ' ').slice(0, 16) : '—';
         const tarif = d.tarif > 0 ? Number(d.tarif).toFixed(2) + ' €' : '—';
         html += `
             <tr>
                 <td>${d.id}</td>
                 <td>${d.nom_service || '—'}</td>
                 <td>${d.nom_prestataire || '—'}</td>
-                <td>${dateDebut}</td>
                 <td>${tarif}</td>
                 <td>${statutBadge(d.status)}</td>
                 <td><a href="devis_detail.php?id=${d.id}" class="btn btn-sm btn-outline-primary">Voir</a></td>

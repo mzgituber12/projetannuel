@@ -11,9 +11,14 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1> Contrats </h1>
-<h2> Vos Contrats </h2>
-<div id = "contrat"></div>
+<div class="container mt-4">
+    <h1>Mes contrats</h1>
+    <p class="text-muted">Retrouvez ici vos contrats lies aux abonnements et prestations.</p>
+
+    <div id="contrat">
+        <p>Chargement en cours...</p>
+    </div>
+</div>
 
 <?php include 'includes/footer.php';?>
 
@@ -35,13 +40,42 @@ async function listcontrats(token) {
     const data = await response.json();
     const tab_contrat = document.getElementById("contrat")
     if (data.message){
-        tab_contrat.innerHTML = data.message
+        tab_contrat.innerHTML = "<div class='alert alert-info'>" + data.message + "</div>";
     } else {
-        let html = "<table border = 1><tr><th>Nom du contrat</th></tr>";
-        data.contrat.forEach(contrats => {
-            html += "<tr><td>" + contrats.nom + "</td></tr>"
+        const formatDate = (value) => {
+            if (!value) return "—";
+            return String(value).slice(0, 10);
+        };
+
+        const badgeType = (type) => {
+            if (String(type || '').toLowerCase() === 'site') return "<span class='badge bg-primary'>Site</span>";
+            return "<span class='badge bg-secondary'>Presta</span>";
+        };
+
+        const paiementLabel = (mode) => {
+            const normalized = String(mode || '').toLowerCase();
+            if (normalized === 'an') return "Annuel";
+            if (normalized === 'mois') return "Mensuel";
+            return mode || '—';
+        };
+
+        let html = "<div class='table-responsive'><table class='table table-hover table-bordered align-middle'>";
+        html += "<thead class='table-light'><tr>";
+        html += "<th>#</th><th>Nom du contrat</th><th>Type</th><th>Paiement</th><th>Date debut</th><th>Date fin</th>";
+        html += "</tr></thead><tbody>";
+
+        data.contrat.forEach(c => {
+            html += "<tr>";
+            html += "<td>" + Number(c.id || 0) + "</td>";
+            html += "<td>" + String(c.nom || '—') + "</td>";
+            html += "<td>" + badgeType(c.type_contrat) + "</td>";
+            html += "<td>" + paiementLabel(c.type_paiement) + "</td>";
+            html += "<td>" + formatDate(c.date_debut) + "</td>";
+            html += "<td>" + formatDate(c.date_fin) + "</td>";
+            html += "</tr>";
         });
-        html += "</table>";
+
+        html += "</tbody></table></div>";
         tab_contrat.innerHTML = html;
     }
 }

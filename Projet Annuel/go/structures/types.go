@@ -21,7 +21,12 @@ type Result struct {
 }
 
 type Contrat struct {
-	Nom string `json:"nom"`
+	ID          int    `json:"id"`
+	Nom         string `json:"nom"`
+	DateDebut   string `json:"date_debut"`
+	DateFin     string `json:"date_fin"`
+	TypePaiement string `json:"type_paiement"`
+	TypeContrat string `json:"type_contrat"`
 }
 
 type Conseil struct {

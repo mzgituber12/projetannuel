@@ -80,8 +80,6 @@ async function chargerDetail() {
         return `<span class="badge bg-${couleur} fs-6">${statut}</span>`;
     };
 
-    const dateDebut = d.date_debut ? d.date_debut.replace('T', ' ').slice(0, 16) : '—';
-    const dateFin   = d.date_fin   ? d.date_fin.replace('T', ' ').slice(0, 16)   : '—';
     const tarif     = d.tarif > 0  ? Number(d.tarif).toFixed(2) + ' €'           : 'Non renseigné';
 
     let actionsHtml = '';
@@ -101,12 +99,12 @@ async function chargerDetail() {
     if (d.status === 'en_attente' && !d.can_modify) {
         infoHtml = `
             <div class="alert alert-info mt-4">
-                <strong>En attente de réponse.</strong> Le prestataire examinera votre demande et vous contactera pour confirmer ou ajuster le créneau et le tarif.
+                <strong>En attente de réponse.</strong> Le prestataire examinera votre demande et pourra ajuster le tarif proposé.
             </div>`;
     } else if (d.status === 'accepté') {
-        infoHtml = `<div class="alert alert-success mt-4"><strong>Devis accepté.</strong> Le rendez-vous est confirmé.</div>`;
+        infoHtml = `<div class="alert alert-success mt-4"><strong>Devis accepté.</strong> Le tarif négocié est prêt pour une future réservation.</div>`;
     } else if (d.status === 'refusé') {
-        infoHtml = `<div class="alert alert-danger mt-4"><strong>Devis refusé.</strong> Le prestataire n'est pas disponible pour ce créneau.</div>`;
+        infoHtml = `<div class="alert alert-danger mt-4"><strong>Devis refusé.</strong> Cette estimation n'a pas été validée.</div>`;
     }
 
     container.innerHTML = `
@@ -119,9 +117,6 @@ async function chargerDetail() {
 
                     <dt class="col-sm-3">Prestataire</dt>
                     <dd class="col-sm-9">${d.nom_prestataire || '—'}</dd>
-
-                    <dt class="col-sm-3">Créneau demandé</dt>
-                    <dd class="col-sm-9">${dateDebut} → ${dateFin}</dd>
 
                     <dt class="col-sm-3">Tarif estimé</dt>
                     <dd class="col-sm-9">${tarif}</dd>

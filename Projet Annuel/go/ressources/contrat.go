@@ -20,23 +20,31 @@ func Contrats(database *sql.DB) http.HandlerFunc {
 		}
 
 		token := request.Header.Get("Token")
+		if token == "" {
+			http.Error(response, "Token manquant", http.StatusUnauthorized)
+			return
+		}
 
-		sel, err := database.Prepare("SELECT c.nom FROM contrat c JOIN utilisateur u on c.id_utilisateur = u.id_utilisateur WHERE token = ?")
+		sel, err := database.Prepare(`
+			SELECT c.id_contrat, IFNULL(c.nom, ''), IFNULL(c.date_debut, ''), IFNULL(c.date_fin, ''), IFNULL(c.type_paiement, ''), IFNULL(c.type_contrat, '')
+			FROM contrat c JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur WHERE u.token = ? ORDER BY c.id_contrat DESC`)
 		if err != nil {
 			http.Error(response, "Erreur de préparation de la requête des contrats", http.StatusInternalServerError)
 			return
 		}
+		defer sel.Close()
 		rows, err := sel.Query(token)
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des contrats de la base de données", http.StatusInternalServerError)
 			return
 		} else {
+			defer rows.Close()
 			var contrats []structures.Contrat
 
 			for rows.Next() {
 				var c structures.Contrat
 
-				err := rows.Scan(&c.Nom)
+				err := rows.Scan(&c.ID, &c.Nom, &c.DateDebut, &c.DateFin, &c.TypePaiement, &c.TypeContrat)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des contrats : "+err.Error(), http.StatusInternalServerError)
 					return

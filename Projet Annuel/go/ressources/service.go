@@ -420,8 +420,30 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput string) (string, int, error) {
 	var idPrestataire int
 	var serviceName string
-	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, new(float64)); err != nil {
+	var serviceTarif float64
+	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
 		return "", http.StatusNotFound, errors.New("service introuvable")
+	}
+
+	finalTarif := serviceTarif
+	var linkedDevisID int
+	var linkedInterventionID int
+	var devisTarif sql.NullFloat64
+	err := database.QueryRow(`
+		SELECT d.id_devis, d.id_intervention, d.tarif_personalise
+		FROM devis d
+		JOIN intervention i ON i.id_intervention = d.id_intervention
+		WHERE d.id_utilisateur = ?
+		  AND i.id_service = ?
+		  AND IFNULL(d.status, '') = 'accepté'
+		  AND i.id_rdv IS NULL
+		ORDER BY d.id_devis DESC
+		LIMIT 1
+	`, idUser, idService).Scan(&linkedDevisID, &linkedInterventionID, &devisTarif)
+	if err == nil && devisTarif.Valid {
+		finalTarif = devisTarif.Float64
+	} else if err != nil && err != sql.ErrNoRows {
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la récupération du devis")
 	}
 
 	startInput = strings.TrimSpace(startInput)
@@ -451,7 +473,7 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	end := start.Add(time.Hour)
 
 	var count int
-	err := database.QueryRow("SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?", idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00")).Scan(&count)
+	err = database.QueryRow("SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?", idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00")).Scan(&count)
 	if err != nil {
 		return "", http.StatusInternalServerError, errors.New("erreur lors de la vérification des disponibilités")
 	}
@@ -479,9 +501,46 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	if err != nil {
 		return "", http.StatusInternalServerError, errors.New("erreur lors de la création du rendez-vous")
 	}
-	_, err = insertRdv.Exec(idUser, idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"), serviceName)
+	rdvResult, err := insertRdv.Exec(idUser, idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"), serviceName)
 	if err != nil {
 		return "", http.StatusInternalServerError, errors.New("erreur lors de l'insertion du rendez-vous")
+	}
+
+	idRdv, err := rdvResult.LastInsertId()
+	if err != nil {
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la récupération du rendez-vous")
+	}
+
+	var prestataireNullable sql.NullInt64
+	if idPrestataire > 0 {
+		prestataireNullable = sql.NullInt64{Int64: int64(idPrestataire), Valid: true}
+	}
+
+	insertIntervention, err := database.Prepare("INSERT INTO intervention (id_service, id_prestataire, id_utilisateur, id_rdv, statut, montant) VALUES (?, ?, ?, ?, 'confirmé', ?)")
+	if linkedInterventionID > 0 {
+		_, err = database.Exec(
+			"UPDATE intervention SET id_rdv = ?, statut = 'confirmé', montant = ?, id_prestataire = ? WHERE id_intervention = ?",
+			idRdv,
+			finalTarif,
+			prestataireNullable,
+			linkedInterventionID,
+		)
+		if err != nil {
+			return "", http.StatusInternalServerError, errors.New("erreur lors de la liaison de l'intervention au rendez-vous")
+		}
+
+		_, err = database.Exec("UPDATE devis SET status = 'accepté' WHERE id_devis = ?", linkedDevisID)
+		if err != nil {
+			return "", http.StatusInternalServerError, errors.New("erreur lors de la mise à jour du devis lié")
+		}
+	} else {
+		if err != nil {
+			return "", http.StatusInternalServerError, errors.New("erreur lors de la création de l'intervention")
+		}
+		_, err = insertIntervention.Exec(idService, prestataireNullable, idUser, idRdv, finalTarif)
+		if err != nil {
+			return "", http.StatusInternalServerError, errors.New("erreur lors de l'insertion de l'intervention")
+		}
 	}
 
 	insertDispo, err := database.Prepare("INSERT INTO disponibilite (id_prestataire, date, heure_debut, heure_fin, statut, type_regle, recurrence) VALUES (?, ?, ?, ?, 'indisponible', 'indisponible', 'unique')")
@@ -514,8 +573,7 @@ func ensureReferenceServiceTx(tx *sql.Tx, idUser int, idService int) error {
 
 func CreerDevis(database *sql.DB) http.HandlerFunc {
 	type payload struct {
-		IDService int    `json:"id_service"`
-		Start     string `json:"start"`
+		IDService int `json:"id_service"`
 	}
 
 	return func(response http.ResponseWriter, request *http.Request) {
@@ -545,7 +603,7 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 
 		var body payload
 		err = json.NewDecoder(request.Body).Decode(&body)
-		if err != nil || body.IDService <= 0 || strings.TrimSpace(body.Start) == "" {
+		if err != nil || body.IDService <= 0 {
 			response.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Données invalides"})
 			return
@@ -558,52 +616,6 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 		if err != nil {
 			response.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Service introuvable"})
-			return
-		}
-
-		normalized := strings.TrimSpace(strings.ReplaceAll(body.Start, "T", " "))
-		if idx := strings.Index(normalized, "."); idx != -1 {
-			normalized = normalized[:idx]
-		}
-		parseLayouts := []string{"2006-01-02 15:04:05", "2006-01-02 15:04", "2006-01-02 15", "2006-01-02"}
-		var start time.Time
-		var parseErr error
-		for _, layout := range parseLayouts {
-			start, parseErr = time.Parse(layout, normalized)
-			if parseErr == nil {
-				break
-			}
-		}
-		if parseErr != nil {
-			response.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Format de date invalide"})
-			return
-		}
-		end := start.Add(time.Hour)
-
-		var count int
-		err = database.QueryRow(
-			"SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?",
-			idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00"),
-		).Scan(&count)
-		if err != nil || count == 0 {
-			response.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Créneau non disponible"})
-			return
-		}
-
-		err = database.QueryRow(
-			"SELECT COUNT(*) FROM rendez_vous WHERE id_prestataire = ? AND NOT (date_fin <= ? OR date_debut >= ?)",
-			idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"),
-		).Scan(&count)
-		if err != nil {
-			response.WriteHeader(http.StatusInternalServerError)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur vérification rendez-vous"})
-			return
-		}
-		if count > 0 {
-			response.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Ce créneau est déjà réservé"})
 			return
 		}
 
@@ -621,24 +633,37 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		res, err := tx.Exec(
-			"INSERT INTO rendez_vous (id_utilisateur, id_prestataire, date_debut, date_fin, type, statut) VALUES (?, ?, ?, ?, ?, 'en_attente')",
-			idUser, idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"), serviceName,
-		)
-		if err != nil {
-			response.WriteHeader(http.StatusInternalServerError)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur création rendez-vous"})
-			return
-		}
-		idRdv, _ := res.LastInsertId()
-
 		var prestataireNullable sql.NullInt64
 		if idPrestataire > 0 {
 			prestataireNullable = sql.NullInt64{Int64: int64(idPrestataire), Valid: true}
 		}
+
+		var existingDevisID int
+		err = tx.QueryRow(`
+			SELECT d.id_devis
+			FROM devis d
+			JOIN intervention i ON i.id_intervention = d.id_intervention
+			WHERE d.id_utilisateur = ?
+			  AND i.id_service = ?
+			  AND IFNULL(d.status, '') = 'en_attente'
+			  AND i.id_rdv IS NULL
+			ORDER BY d.id_devis DESC
+			LIMIT 1
+		`, idUser, body.IDService).Scan(&existingDevisID)
+		if err == nil {
+			response.WriteHeader(http.StatusConflict)
+			json.NewEncoder(response).Encode(map[string]any{"message": "Un devis est déjà en attente pour ce service", "id_devis": existingDevisID})
+			return
+		}
+		if err != nil && err != sql.ErrNoRows {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur vérification devis existant"})
+			return
+		}
+
 		resInter, err := tx.Exec(
-			"INSERT INTO intervention (id_service, id_prestataire, id_utilisateur, id_rdv, statut, montant) VALUES (?, ?, ?, ?, 'en_attente', ?)",
-			body.IDService, prestataireNullable, idUser, idRdv, tarif,
+			"INSERT INTO intervention (id_service, id_prestataire, id_utilisateur, id_rdv, statut, montant) VALUES (?, ?, ?, NULL, 'devis', ?)",
+			body.IDService, prestataireNullable, idUser, tarif,
 		)
 		if err != nil {
 			response.WriteHeader(http.StatusInternalServerError)
@@ -658,44 +683,17 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 		}
 		idDevis, _ := resDevis.LastInsertId()
 
-		var idDispo int
-		err = tx.QueryRow(
-			"SELECT id_disponibilite FROM disponibilite WHERE id_prestataire = ? AND date = ? AND heure_debut = ? AND heure_fin = ? AND type_regle = 'indisponible' LIMIT 1",
-			idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00"),
-		).Scan(&idDispo)
-		if err != nil {
-			if err == sql.ErrNoRows {
-				if _, err = tx.Exec(
-					"INSERT INTO disponibilite (id_prestataire, date, heure_debut, heure_fin, statut, type_regle, recurrence) VALUES (?, ?, ?, ?, 'indisponible', 'indisponible', 'unique')",
-					idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00"),
-				); err != nil {
-					response.WriteHeader(http.StatusInternalServerError)
-					json.NewEncoder(response).Encode(map[string]string{"message": "Erreur création indisponibilité"})
-					return
-				}
-			} else {
-				response.WriteHeader(http.StatusInternalServerError)
-				json.NewEncoder(response).Encode(map[string]string{"message": "Erreur vérification indisponibilité"})
-				return
-			}
-		}
-
 		if err = tx.Commit(); err != nil {
 			response.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur validation transaction"})
 			return
 		}
 
-		titreNotif, contenuNotif := LireTemplate(database, "reservation_service", map[string]string{
-			"service": serviceName,
-			"date":    start.Format("02/01/2006 à 15:04"),
-		})
-		_ = creerNotification(database, idUser, titreNotif, contenuNotif)
-
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]any{
 			"message":  "Devis créé avec succès",
 			"id_devis": idDevis,
+			"service":  serviceName,
 		})
 	}
 }
@@ -919,6 +917,13 @@ func PatchDevis(database *sql.DB) http.HandlerFunc {
 			"UPDATE intervention i JOIN devis d ON d.id_intervention = i.id_intervention SET i.statut = ? WHERE d.id_devis = ?",
 			newInterventionStatut, id,
 		)
+
+		if body.Status == "accepté" {
+			_, _ = database.Exec(
+				"UPDATE intervention i JOIN devis d ON d.id_intervention = i.id_intervention SET i.montant = IFNULL(d.tarif_personalise, i.montant) WHERE d.id_devis = ?",
+				id,
+			)
+		}
 
 		json.NewEncoder(response).Encode(map[string]string{"message": "Devis " + body.Status + " avec succès"})
 	}

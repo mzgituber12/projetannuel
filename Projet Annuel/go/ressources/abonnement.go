@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 
 	"projet/structures"
 
@@ -16,6 +18,81 @@ import (
 	stripesubscription "github.com/stripe/stripe-go/v83/subscription"
 	"github.com/stripe/stripe-go/v83/webhook"
 )
+
+func creerContratAdherent(database *sql.DB, idUser int, idAbonnement int, typePaiement string) error {
+	var typePrestataire int
+	var typeAbonnement string
+	err := database.QueryRow("SELECT IFNULL(type_prestataire, 0), IFNULL(type, '') FROM abonnement WHERE id_abonnement = ?", idAbonnement).Scan(&typePrestataire, &typeAbonnement)
+	if err != nil {
+		return err
+	}
+
+	// type_prestataire = 0 corresponds to adhérent/site subscriptions.
+	if typePrestataire != 0 {
+		return nil
+	}
+
+	typePaiement = strings.TrimSpace(strings.ToLower(typePaiement))
+	if typePaiement != "an" {
+		typePaiement = "mois"
+	}
+
+	now := time.Now()
+	dateDebut := now.Format("2006-01-02")
+	dateFin := now.AddDate(0, 1, 0)
+	if typePaiement == "an" {
+		dateFin = now.AddDate(1, 0, 0)
+	}
+
+	var existingID int
+	err = database.QueryRow(`
+		SELECT id_contrat
+		FROM contrat
+		WHERE id_utilisateur = ?
+		  AND type_contrat = 'site'
+		  AND nom = ?
+		  AND date_debut = ?
+		ORDER BY id_contrat DESC
+		LIMIT 1
+	`, idUser, "Contrat abonnement "+typeAbonnement, dateDebut).Scan(&existingID)
+	if err == nil {
+		return nil
+	}
+	if err != sql.ErrNoRows {
+		return err
+	}
+
+	_, err = database.Exec(`
+		INSERT INTO contrat (id_devis, id_utilisateur, id_prestataire, date_debut, date_fin, nom, type_paiement, type_contrat)
+		VALUES (NULL, ?, NULL, ?, ?, ?, ?, 'site')
+	`, idUser, dateDebut, dateFin.Format("2006-01-02"), "Contrat abonnement "+typeAbonnement, typePaiement)
+
+	return err
+}
+
+func supprimerContratAdherent(database *sql.DB, idUser int, idAbonnement int) error {
+	var typePrestataire int
+	var typeAbonnement string
+	err := database.QueryRow("SELECT IFNULL(type_prestataire, 0), IFNULL(type, '') FROM abonnement WHERE id_abonnement = ?", idAbonnement).Scan(&typePrestataire, &typeAbonnement)
+	if err != nil {
+		return err
+	}
+
+	if typePrestataire != 0 {
+		return nil
+	}
+
+	_, err = database.Exec(`
+		DELETE FROM contrat
+		WHERE id_utilisateur = ?
+		  AND type_contrat = 'site'
+		  AND nom = ?
+		ORDER BY id_contrat DESC
+		LIMIT 1
+	`, idUser, "Contrat abonnement "+typeAbonnement)
+
+	return err
+}
 
 func ListAbonnements(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
@@ -248,6 +325,8 @@ func SouscrireAbonnement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		_ = creerContratAdherent(database, idUser, payload.IDAbonnement, payload.TypePaiement)
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]any{
 			"message":       "Session Checkout créée",
@@ -318,6 +397,10 @@ func MonAbonnement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		if souscription.Validite {
+			_ = creerContratAdherent(database, idUser, souscription.IDAbonnement, souscription.TypePaiement)
+		}
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]any{
 			"souscription": souscription,
@@ -386,6 +469,13 @@ func WebhookAbonnement(database *sql.DB) http.HandlerFunc {
 			}
 
 			if checkoutSession.Customer != "" && checkoutSession.Subscription != "" {
+				abonnementID := ""
+				typePaiement := "mois"
+				if checkoutSession.Metadata != nil {
+					abonnementID = checkoutSession.Metadata["abonnement_id"]
+					typePaiement = checkoutSession.Metadata["subscription_type"]
+				}
+
 				if userIDInt, convErr := strconv.Atoi(userIDStr); convErr == nil {
 					database.Exec(`
 						UPDATE souscris_abonnement
@@ -394,6 +484,10 @@ func WebhookAbonnement(database *sql.DB) http.HandlerFunc {
 						ORDER BY id_souscrit DESC
 						LIMIT 1
 					`, checkoutSession.Subscription, userIDInt, checkoutSession.Customer)
+
+					if abonnementIDInt, convAboErr := strconv.Atoi(abonnementID); convAboErr == nil {
+						_ = creerContratAdherent(database, userIDInt, abonnementIDInt, typePaiement)
+					}
 				} else {
 					database.Exec(`
 						UPDATE souscris_abonnement
@@ -448,11 +542,16 @@ func WebhookAbonnement(database *sql.DB) http.HandlerFunc {
 					LIMIT 1
 				`, abonnementID)
 
-				userIDInt, _ := strconv.Atoi(userID)
-				titreNotif, contenuNotif := LireTemplate(database, "abonnement_active", map[string]string{
-					"type": subType,
-				})
-				_ = creerNotification(database, userIDInt, titreNotif, contenuNotif)
+				userIDInt, userConvErr := strconv.Atoi(userID)
+				abonnementIDInt, aboConvErr := strconv.Atoi(abonnementID)
+				if userConvErr == nil && aboConvErr == nil {
+					_ = creerContratAdherent(database, userIDInt, abonnementIDInt, subType)
+
+					titreNotif, contenuNotif := LireTemplate(database, "abonnement_active", map[string]string{
+						"type": subType,
+					})
+					_ = creerNotification(database, userIDInt, titreNotif, contenuNotif)
+				}
 			}
 
 		case "customer.subscription.updated":
@@ -479,11 +578,19 @@ func WebhookAbonnement(database *sql.DB) http.HandlerFunc {
 				return
 			}
 
+			var idUser int
+			var idAbonnement int
+			_ = database.QueryRow(`SELECT id_utilisateur, id_abonnement FROM souscris_abonnement WHERE stripe_subscription_id = ? ORDER BY id_souscrit DESC LIMIT 1`, sub.ID).Scan(&idUser, &idAbonnement)
+
 			database.Exec(`
 				UPDATE souscris_abonnement 
 				SET validite = 0, date_expiration = NOW()
 				WHERE stripe_subscription_id = ?
 			`, sub.ID)
+
+			if idUser > 0 && idAbonnement > 0 {
+				_ = supprimerContratAdherent(database, idUser, idAbonnement)
+			}
 
 			database.Exec(`
 				UPDATE paiement_abonnement 
@@ -603,12 +710,13 @@ func CancelAbonnement(database *sql.DB) http.HandlerFunc {
 
 		var stripeSubID string
 		var idSouscrit int
+		var idAbonnement int
 		err = database.QueryRow(`
-			SELECT id_souscrit, IFNULL(stripe_subscription_id, '')
+			SELECT id_souscrit, id_abonnement, IFNULL(stripe_subscription_id, '')
 			FROM souscris_abonnement
 			WHERE id_utilisateur = ?
 			ORDER BY id_souscrit DESC LIMIT 1
-		`, idUser).Scan(&idSouscrit, &stripeSubID)
+		`, idUser).Scan(&idSouscrit, &idAbonnement, &stripeSubID)
 		if err != nil {
 			response.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Aucun abonnement trouvé"})
@@ -649,6 +757,10 @@ func CancelAbonnement(database *sql.DB) http.HandlerFunc {
 			SET pa.statut = 'canceled'
 			WHERE sa.id_souscrit = ? AND pa.statut IN ('active', 'pending')
 		`, idSouscrit)
+
+		if idAbonnement > 0 {
+			_ = supprimerContratAdherent(database, idUser, idAbonnement)
+		}
 
 		json.NewEncoder(response).Encode(map[string]string{"message": "Abonnement annulé avec succès"})
 	}

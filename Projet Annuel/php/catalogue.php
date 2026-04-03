@@ -214,13 +214,17 @@ function renderEvenements(items) {
 function renderServices(items) {
     let cards = [];
     items.forEach(s => {
-        const actionLabel = s.rejoindre == "Rejoindre" ? "Réserver" : (s.rejoindre == "Quitter" ? "Annuler" : "Indisponible");
-        const joinLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&description=${encodeURIComponent(s.description || "")}&tarif=${encodeURIComponent(s.tarif)}&image=${encodeURIComponent(s.image || "")}`;
-        const btnClass = s.rejoindre == "Quitter" ? "btn-outline-danger" : "btn-primary";
-        const actionState = s.rejoindre == "Quitter" ? "leave" : "join";
-        const action = s.rejoindre == "Rejoindre" ?
-            `<a class="btn btn-primary w-100" href="${joinLink}">${actionLabel}</a>` :
-            `<button class="btn ${btnClass} w-100" onclick="updateUserEvent('${localStorage.getItem('token')}', 'services', '${actionState}', ${s.id})">${actionLabel}</button>`;
+        const reserveLink = `${window.location.origin}/reservation.php?type=service&id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&description=${encodeURIComponent(s.description || "")}&tarif=${encodeURIComponent(s.tarif)}&image=${encodeURIComponent(s.image || "")}`;
+        const quoteLink = `${window.location.origin}/demande_devis_service.php?id=${encodeURIComponent(s.id)}&nom=${encodeURIComponent(s.nom)}&description=${encodeURIComponent(s.description || "")}&tarif=${encodeURIComponent(s.tarif)}&image=${encodeURIComponent(s.image || "")}`;
+        let action = `<div class="d-grid gap-2">` +
+            `<a class="btn btn-primary w-100" href="${reserveLink}">Réserver</a>` +
+            `<a class="btn btn-outline-primary w-100" href="${quoteLink}">Demander un devis</a>`;
+
+        if (s.rejoindre == "Quitter") {
+            action += `<button class="btn btn-outline-danger w-100" onclick="updateUserEvent('${localStorage.getItem('token')}', 'services', 'leave', ${s.id})">Annuler</button>`;
+        }
+
+        action += `</div>`;
 
         const categorieText = s.categorie ? `${String(s.categorie)}` : "Non renseignée";
         const prestataireText = s.prestataire ? `${String(s.prestataire)}` : "Non renseigné";

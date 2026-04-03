@@ -131,7 +131,10 @@ if ($image !== '') {
 
                     <p id="selectionInfo" class="mt-3 text-muted small"></p>
                     <div id="slotsList" class="mt-2 mb-3"></div>
-                    <button id="joinService" class="btn btn-primary btn-lg">Réserver</button>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button id="joinService" class="btn btn-primary btn-lg">Réserver</button>
+                        <a class="btn btn-outline-primary btn-lg" href="demande_devis_service.php?id=<?= $id ?>&nom=<?= urlencode($nom) ?>&description=<?= urlencode($description) ?>&tarif=<?= urlencode($tarif) ?>&image=<?= urlencode($image) ?>">Demander un devis</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,7 +142,6 @@ if ($image !== '') {
 
     <script>
         const serviceId = <?= $id ?>;
-        const serviceName = <?= json_encode($nom, JSON_UNESCAPED_UNICODE) ?>;
         let availabilityByDate = {};
         let currentMonth = new Date();
         let selectedDateKey = '';
@@ -309,6 +311,7 @@ if ($image !== '') {
             const response = await fetch(`${base}/service_disponible?id=${serviceId}`);
             if (!response.ok) {
                 document.getElementById('calendarError').textContent = 'Impossible de charger les disponibilités.';
+                document.getElementById('calendarError').classList.remove('d-none');
                 return;
             }
 
@@ -317,6 +320,7 @@ if ($image !== '') {
 
             if (!Array.isArray(slots)) {
                 document.getElementById('calendarError').textContent = 'Format de disponibilité invalide.';
+                document.getElementById('calendarError').classList.remove('d-none');
                 return;
             }
 
@@ -418,6 +422,7 @@ if ($image !== '') {
 
             if (slots.length === 0) {
                 document.getElementById('calendarError').textContent = 'Pas de disponibilité pour cette date.';
+                document.getElementById('calendarError').classList.remove('d-none');
                 return;
             }
 
@@ -431,11 +436,12 @@ if ($image !== '') {
 
             if (!isValid) {
                 document.getElementById('calendarError').textContent = 'Le créneau sélectionné n’est pas dans une période disponible.';
+                document.getElementById('calendarError').classList.remove('d-none');
                 return;
             }
 
             const base = (window.API_BASE || 'http://localhost:9000');
-            const resp = await fetch(base + '/creer_devis', {
+            const resp = await fetch(base + '/reservation_service', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Token': token },
                 body: JSON.stringify({ id_service: serviceId, start: start })
@@ -443,11 +449,14 @@ if ($image !== '') {
 
             if (!resp.ok) {
                 const text = await resp.text();
-                document.getElementById('calendarError').textContent = text || 'Erreur lors de la création du devis.';
+                document.getElementById('calendarError').textContent = text || 'Erreur lors de la réservation du service.';
+                document.getElementById('calendarError').classList.remove('d-none');
                 return;
             }
 
-            window.location.href = 'devis.php?message=' + encodeURIComponent('Votre demande de devis a été envoyée avec succès.');
+            const data = await resp.json();
+            await fetch('ajouter_session_state.php', { method: 'POST' });
+            window.location.href = 'catalogue.php?message=' + encodeURIComponent(data.message || 'Réservation confirmée');
         }
 
         function initSelects() {
