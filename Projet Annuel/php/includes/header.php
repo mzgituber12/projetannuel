@@ -37,6 +37,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fermer"></button>
     </div>
     <div class="offcanvas-body">
+        <div class="d-flex align-items-center justify-content-between border rounded p-2 mb-3">
+            <span data-i18n>Loupe texte</span>
+            <button id="loupe_toggle_btn" type="button" class="btn btn-sm btn-outline-secondary" aria-pressed="false" data-i18n>Activer</button>
+        </div>
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <div id="mon_compte"></div>
             <div id="autre_bouton"></div>
@@ -51,6 +55,175 @@
 <script>
 const _i18nCache = {};
 let zoomPage = Number(localStorage.getItem('zoom_page')) || 100;
+let loupeActive = localStorage.getItem('loupe_active') === '1';
+let loupeTarget = null;
+
+const LOUPE_EXCLUDED_TAGS = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 'CODE', 'PRE', 'HTML', 'BODY', 'HEADER', 'NAV'];
+const LOUPE_ALLOWED_SELECTOR = 'p,span,a,li,h1,h2,h3,h4,h5,h6,label,strong,em,small,td,th,dt,dd,button';
+
+function getLoupeElement() {
+    let lens = document.getElementById('text_loupe_lens');
+    if (lens) return lens;
+
+    lens = document.createElement('div');
+    lens.id = 'text_loupe_lens';
+    lens.setAttribute('aria-hidden', 'true');
+    lens.className = 'bg-white border border-primary rounded p-3 fs-5 fw-bold text-dark-emphasis';
+    Object.assign(lens.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        zIndex: '9999',
+        width: '300px',
+        maxHeight: '220px',
+        overflowY: 'auto',
+        pointerEvents: 'none',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.16)',
+        display: 'none',
+        whiteSpace: 'normal'
+    });
+    document.body.appendChild(lens);
+    return lens;
+}
+
+function syncLoupeButton() {
+    const btn = document.getElementById('loupe_toggle_btn');
+    if (!btn) return;
+    btn.dataset.i18nSrc = loupeActive ? 'Desactiver' : 'Activer';
+    btn.textContent = loupeActive ? 'Desactiver' : 'Activer';
+    btn.setAttribute('aria-pressed', loupeActive ? 'true' : 'false');
+    btn.classList.toggle('btn-outline-secondary', !loupeActive);
+    btn.classList.toggle('btn-primary', loupeActive);
+    if (window._lang && window._lang !== 'fr') {
+        TraductionI18n(window._lang);
+    }
+}
+
+function hideLoupe() {
+    const lens = document.getElementById('text_loupe_lens');
+    if (lens) lens.style.display = 'none';
+}
+
+function clearLoupeTarget() {
+    if (loupeTarget) {
+        loupeTarget.classList.remove('loupe-active-target');
+    }
+    loupeTarget = null;
+}
+
+function canUseLoupeElement(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (LOUPE_EXCLUDED_TAGS.includes(el.tagName)) return false;
+    if (el.closest('header')) return false;
+    const text = (el.innerText || '').trim();
+    return text.length > 0;
+}
+
+function getLoupeTextElement(fromElement) {
+    if (!fromElement) return null;
+    if (fromElement.matches && fromElement.matches(LOUPE_ALLOWED_SELECTOR)) {
+        return fromElement;
+    }
+    return fromElement.closest ? fromElement.closest(LOUPE_ALLOWED_SELECTOR) : null;
+}
+
+function sanitizeLoupeText(rawText) {
+    const text = String(rawText || '').replace(/\s+/g, ' ').trim();
+    if (!text) return '';
+    
+    return text.length > 400 ? text.slice(0, 400) + '…' : text;
+}
+
+function adaptLoupeSize(lens, element, text) {
+    const rect = element.getBoundingClientRect();
+    const textLength = String(text || '').trim().length;
+
+    const minWidth = 260;
+    const maxWidth = Math.max(320, Math.floor(window.innerWidth * 0.7));
+    const rectBasedWidth = Math.ceil(rect.width * 1.40);
+    const textBasedWidth = Math.min(maxWidth, 200 + Math.ceil(textLength * 1.5));
+    const nextWidth = Math.min(maxWidth, Math.max(minWidth, rectBasedWidth, textBasedWidth));
+
+    const minHeight = 120;
+    const maxHeight = Math.max(180, Math.floor(window.innerHeight * 0.45));
+    const rectBasedHeight = Math.ceil(rect.height * 1.7);
+    const estimatedLineCount = Math.ceil(textLength / 45);
+    const textBasedHeight = 70 + (estimatedLineCount * 32);
+    const nextHeight = Math.min(maxHeight, Math.max(minHeight, rectBasedHeight, textBasedHeight));
+
+    lens.style.width = nextWidth + 'px';
+    lens.style.maxHeight = nextHeight + 'px';
+}
+
+function updateLoupeFromEvent(event) {
+    if (!loupeActive) return;
+    const lens = getLoupeElement();
+    const hoveredElement = document.elementFromPoint(event.clientX, event.clientY);
+    const element = getLoupeTextElement(hoveredElement);
+
+    if (!canUseLoupeElement(element)) {
+        clearLoupeTarget();
+        hideLoupe();
+        return;
+    }
+
+    if (loupeTarget !== element) {
+        clearLoupeTarget();
+        loupeTarget = element;
+        loupeTarget.classList.add('loupe-active-target');
+    }
+
+    const source = (element.dataset && element.dataset.i18nSrc) ? element.dataset.i18nSrc : (element.innerText || element.textContent);
+    const textToShow = sanitizeLoupeText(source);
+    if (!textToShow) {
+        clearLoupeTarget();
+        hideLoupe();
+        return;
+    }
+    lens.textContent = textToShow;
+    adaptLoupeSize(lens, element, textToShow);
+    lens.style.display = 'block';
+
+    const offsetX = 20;
+    const offsetY = 20;
+    const maxX = window.innerWidth - lens.offsetWidth - 10;
+    const maxY = window.innerHeight - lens.offsetHeight - 10;
+    const x = Math.min(Math.max(10, event.clientX + offsetX), Math.max(10, maxX));
+    const y = Math.min(Math.max(10, event.clientY + offsetY), Math.max(10, maxY));
+    lens.style.left = x + 'px';
+    lens.style.top = y + 'px';
+}
+
+function setLoupeActive(active) {
+    loupeActive = !!active;
+    localStorage.setItem('loupe_active', loupeActive ? '1' : '0');
+    if (!loupeActive) {
+        clearLoupeTarget();
+        hideLoupe();
+    }
+    syncLoupeButton();
+}
+
+function toggleLoupePreference() {
+    setLoupeActive(!loupeActive);
+}
+
+document.addEventListener('mousemove', updateLoupeFromEvent);
+document.addEventListener('mouseleave', hideLoupe);
+document.addEventListener('scroll', hideLoupe, true);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('loupe_toggle_btn');
+    if (btn) {
+        btn.addEventListener('click', toggleLoupePreference);
+    }
+    syncLoupeButton();
+    getLoupeElement();
+});
+
+const loupeStyle = document.createElement('style');
+loupeStyle.textContent = '.loupe-active-target{outline:2px dashed rgba(13,110,253,.55);outline-offset:2px;}';
+document.head.appendChild(loupeStyle);
 
 function appliquerZoomPage() {
     for (const element of document.body.children) {
