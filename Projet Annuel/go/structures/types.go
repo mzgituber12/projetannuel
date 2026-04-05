@@ -192,3 +192,16 @@ type Devis struct {
 	DateFin        string  `json:"date_fin"`
 	CanModify      bool    `json:"can_modify"`
 }
+
+type SuiviIntervention struct {
+	ID               int     `json:"id"`
+	NomService       string  `json:"nom_service"`
+	TarifService     float64 `json:"tarif_service"`
+	NomUtilisateur   string  `json:"nom_utilisateur"`
+	PrenomUtilisateur string  `json:"prenom_utilisateur"`
+	DateDebut        string  `json:"date_debut"`
+	DateFin          string  `json:"date_fin"`
+	TypeRdv          string  `json:"type_rdv"`
+	Statut           string  `json:"statut"`
+	Montant          float64 `json:"montant"`
+}
