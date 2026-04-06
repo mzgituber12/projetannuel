@@ -205,3 +205,74 @@ type SuiviIntervention struct {
 	Statut           string  `json:"statut"`
 	Montant          float64 `json:"montant"`
 }
+
+type FinanceStats struct {
+	OrdersTotal               int     `json:"orders_total"`
+	ShopRevenueTotal          float64 `json:"shop_revenue_total"`
+	ShopPaidTotal             float64 `json:"shop_paid_total"`
+	ShopPendingTotal          float64 `json:"shop_pending_total"`
+	SubscriptionRevenueTotal  float64 `json:"subscription_revenue_total"`
+	SubscriptionPaidTotal     float64 `json:"subscription_paid_total"`
+	SubscriptionPendingTotal  float64 `json:"subscription_pending_total"`
+	SubscriptionCanceledTotal float64 `json:"subscription_canceled_total"`
+	InterventionsTotal        int     `json:"interventions_total"`
+	InterventionsAmountTotal  float64 `json:"interventions_amount_total"`
+	GlobalRevenueTotal        float64 `json:"global_revenue_total"`
+}
+
+type FinanceOrder struct {
+	IDAchat    int     `json:"id_achat"`
+	IDPanier   int     `json:"id_panier"`
+	DateAchat  string  `json:"date_achat"`
+	Email      string  `json:"email"`
+	NomComplet string  `json:"nom_complet"`
+	Montant    float64 `json:"montant"`
+	Mode       string  `json:"mode"`
+	Statut     string  `json:"statut"`
+	NbArticles int     `json:"nb_articles"`
+}
+
+type FinanceSubscriptionPayment struct {
+	IDPaiementAbonnement int     `json:"id_paiement_abonnement"`
+	IDAbonnement         int     `json:"id_abonnement"`
+	Abonnement           string  `json:"abonnement"`
+	Montant              float64 `json:"montant"`
+	DatePaiement         string  `json:"date_paiement"`
+	Mode                 string  `json:"mode"`
+	Statut               string  `json:"statut"`
+}
+
+type FinanceIntervention struct {
+	IDIntervention int     `json:"id_intervention"`
+	Service        string  `json:"service"`
+	Client         string  `json:"client"`
+	Prestataire    string  `json:"prestataire"`
+	Montant        float64 `json:"montant"`
+	Statut         string  `json:"statut"`
+	DateRDV        string  `json:"date_rdv"`
+}
+
+type FinanceMonthly struct {
+	Month        string  `json:"month"`
+	Shop         float64 `json:"shop"`
+	Subscription float64 `json:"subscription"`
+	Intervention float64 `json:"intervention"`
+	Total        float64 `json:"total"`
+}
+
+type FactureIntervention struct {
+	IDIntervention int     `json:"id_intervention"`
+	Service        string  `json:"service"`
+	Client         string  `json:"client"`
+	DateRdv        string  `json:"date_rdv"`
+	Statut         string  `json:"statut"`
+	Montant        float64 `json:"montant"`
+}
+
+type FacturePrestataire struct {
+	IDFacture      int                    `json:"id_facture"`
+	Mois           string                 `json:"mois"`
+	MontantTotal   float64                `json:"montant_total"`
+	DateGeneration string                 `json:"date_generation"`
+	Interventions  []FactureIntervention  `json:"interventions"`
+}

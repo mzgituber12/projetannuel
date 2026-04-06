@@ -76,6 +76,8 @@ func main() {
 	http.HandleFunc("/prestataire/disponibilites/{id}", ressources.Supprimer_disponibilite_prestataire(db))
 	http.HandleFunc("/prestataire/interventions", ressources.Interventions_prestataire(db))
 	http.HandleFunc("/prestataire/interventions/{id}", ressources.Maj_statut_intervention(db))
+	http.HandleFunc("/prestataire/factures", ressources.Factures_prestataire(db))
+	http.HandleFunc("/prestataire/factures/simuler", ressources.Simuler_generation_facture_prestataire(db))
 	http.HandleFunc("/reservation_evenement", ressources.Reservation_evenement(db))
 	http.HandleFunc("/service_disponible", ressources.Service_disponible(db))
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
@@ -123,6 +125,7 @@ func main() {
 	http.HandleFunc("/modifier_intervention/{id}", admin.Modifier_intervention(db))
 
 	http.HandleFunc("/gestion_contact", admin.Gestion_contact(db))
+	http.HandleFunc("/gestion_financier", admin.Gestion_financier(db))
 	http.HandleFunc("/add_abonnement", admin.Abonnement_admin_creation(db))
 	http.HandleFunc("/abonnement_all", liste_abonnement_all(db))
 	http.HandleFunc("/gestion_notifications", admin.Gestion_notifications(db))
