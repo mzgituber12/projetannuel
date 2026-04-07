@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : mar. 31 mars 2026 à 21:46
+-- Généré le : mar. 07 avr. 2026 à 10:29
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -76,7 +76,7 @@ CREATE TABLE `abonnement_push` (
 
 INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
 (68, 5, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-31 14:12:16'),
-(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-03-31 20:16:28');
+(392, 6, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-07 09:47:03');
 
 -- --------------------------------------------------------
 
@@ -235,7 +235,10 @@ CREATE TABLE `contrat` (
 
 INSERT INTO `contrat` (`id_contrat`, `id_devis`, `id_utilisateur`, `id_prestataire`, `date_debut`, `date_fin`, `nom`, `type_paiement`, `type_contrat`) VALUES
 (1, NULL, 1, NULL, NULL, NULL, 'contrat 1', NULL, 'presta'),
-(2, NULL, 1, NULL, NULL, NULL, 'contrat2', NULL, 'presta');
+(2, NULL, 1, NULL, NULL, NULL, 'contrat2', NULL, 'presta'),
+(3, NULL, 1, NULL, '2026-03-28', '2026-04-28', 'Contrat abonnement Premium', 'mois', 'site'),
+(6, NULL, 5, NULL, '2026-04-03', '2026-05-03', 'Contrat abonnement Premium', 'mois', 'site'),
+(7, NULL, 5, NULL, '2026-04-05', '2026-05-05', 'Contrat abonnement Premium', 'mois', 'site');
 
 -- --------------------------------------------------------
 
@@ -257,7 +260,9 @@ CREATE TABLE `devis` (
 --
 
 INSERT INTO `devis` (`id_devis`, `id_utilisateur`, `id_prestataire`, `id_intervention`, `tarif_personalise`, `status`) VALUES
-(17, 5, 1, 18, 4.00, 'en_attente');
+(18, 5, 1, 19, 4.00, 'refusé'),
+(19, 5, 1, 20, 4.00, 'refusé'),
+(20, 5, 1, 21, 4.00, 'accepté');
 
 -- --------------------------------------------------------
 
@@ -286,7 +291,57 @@ INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heur
 (1, 1, '2026-03-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
 (2, 1, '2026-03-20', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
 (3, 1, '2026-04-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
-(45, 1, '2026-04-15', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL);
+(46, 1, '2026-04-15', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(47, 1, '2026-04-15', '11:00:00', '12:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(48, 1, '2026-04-15', '12:00:00', '13:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(49, 1, '2026-04-15', '13:00:00', '14:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(51, 2, '2026-04-04', '07:00:00', '22:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(52, 2, '2026-04-03', '06:30:00', '07:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(53, 2, '2026-04-07', '07:00:00', '09:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(54, 2, '2026-04-03', '07:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(55, 2, '2026-04-04', '22:00:00', '23:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(56, 2, '2026-04-05', '20:30:00', '22:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(57, 2, '2026-04-02', '09:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(58, 2, '2026-04-05', '13:30:00', '15:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(59, 2, '2026-04-05', '07:00:00', '11:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(60, 2, '2026-04-05', '11:30:00', '13:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(61, 2, '2026-04-05', '16:00:00', '17:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(62, 2, '2026-04-07', '10:00:00', '13:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(63, 2, '2026-04-08', '08:30:00', '15:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(64, 2, '2026-04-09', '08:00:00', '15:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(67, 2, '2026-04-10', '11:00:00', '16:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(68, 2, '2026-04-12', '08:00:00', '12:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(69, 2, '2026-04-12', '15:00:00', '21:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(70, 2, '2026-04-07', '14:30:00', '19:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(71, 2, '2026-04-08', '15:30:00', '18:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(72, 2, '2026-04-09', '16:30:00', '20:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(73, 2, '2026-04-10', '17:30:00', '21:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(74, 2, '2026-04-11', '17:00:00', '20:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(75, 2, '2026-04-06', '09:00:00', '15:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(76, 2, '2026-04-06', '17:30:00', '23:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(77, 2, '2026-04-08', '20:30:00', '23:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(78, 2, '2026-04-09', '21:30:00', '23:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(79, 2, '2026-04-10', '21:30:00', '23:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(80, 2, '2026-04-11', '21:30:00', '23:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(81, 2, '2026-04-12', '22:00:00', '23:30:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(82, 2, '2026-04-08', '15:00:00', '15:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(83, 2, '2026-04-09', '15:30:00', '16:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(84, 2, '2026-04-10', '16:30:00', '17:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(85, 2, '2026-04-11', '15:00:00', '17:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(86, 2, '2026-04-12', '12:30:00', '14:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(87, 2, '2026-04-12', '14:30:00', '15:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(88, 2, '2026-04-10', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(90, 2, '2026-04-08', '07:00:00', '08:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(91, 2, '2026-04-09', '06:30:00', '07:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(93, 2, '2026-04-10', '06:30:00', '08:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(94, 2, '2026-04-11', '06:00:00', '07:30:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(95, 2, '2026-04-12', '06:00:00', '08:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(96, 2, '2026-04-06', '06:00:00', '09:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(98, 2, '2026-04-11', '07:30:00', '15:00:00', 'disponible', NULL, 'disponible', 'unique', NULL),
+(99, 2, '2026-04-13', '08:00:00', '17:00:00', 'disponible', 'lundi', 'disponible', 'hebdomadaire', '2026-05-13'),
+(100, 2, '2026-04-13', '06:00:00', '08:00:00', 'indisponible', NULL, 'indisponible', 'hebdomadaire', '2027-05-05'),
+(101, 2, '2026-04-13', '17:00:00', '23:30:00', 'indisponible', NULL, 'indisponible', 'hebdomadaire', '2027-05-05'),
+(103, 2, '2026-04-14', '09:00:00', '10:00:00', 'indisponible', 'mardi', 'indisponible', 'hebdomadaire', '2026-05-05');
 
 -- --------------------------------------------------------
 
@@ -358,6 +413,13 @@ CREATE TABLE `facture_prestataire` (
   `date_generation` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
+--
+-- Déchargement des données de la table `facture_prestataire`
+--
+
+INSERT INTO `facture_prestataire` (`id_facture`, `id_prestataire`, `mois`, `montant_total`, `date_generation`) VALUES
+(1, 2, '2026-04', 4.00, '2026-04-06');
+
 -- --------------------------------------------------------
 
 --
@@ -379,7 +441,10 @@ CREATE TABLE `intervention` (
 --
 
 INSERT INTO `intervention` (`id_intervention`, `id_service`, `id_prestataire`, `id_utilisateur`, `id_rdv`, `statut`, `montant`) VALUES
-(18, 1, 1, 5, 76, 'en_attente', 4.00);
+(19, 1, 1, 5, 80, 'annulé', 4.00),
+(20, 1, 1, 5, 83, 'annulé', 4.00),
+(21, 1, 1, 5, 85, 'confirmé', 4.00),
+(22, 1, 2, 5, 84, 'terminé', 4.00);
 
 -- --------------------------------------------------------
 
@@ -484,8 +549,16 @@ INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire
 (27, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:08:57', 1),
 (28, 5, 1, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-28 16:20:10', 1),
 (29, 5, 1, 'Commande créée', 'Votre commande #22 a été créée via stripe.', '2026-03-31 09:54:59', 1),
-(30, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-31 20:47:50', 0),
-(31, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Manger\" est confirmée.', '2026-03-31 20:57:58', 0);
+(30, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-03-31 20:47:50', 1),
+(31, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Manger\" est confirmée.', '2026-03-31 20:57:58', 1),
+(32, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"test\" est confirmée.', '2026-04-02 20:35:45', 1),
+(33, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-04-02 20:35:54', 1),
+(34, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 10:00.', '2026-04-02 20:41:18', 1),
+(35, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"test\" est confirmée.', '2026-04-02 20:41:46', 1),
+(36, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-04-02 20:53:41', 1),
+(37, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 11:00.', '2026-04-02 21:24:29', 1),
+(38, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 12:00.', '2026-04-02 21:37:03', 1),
+(39, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 13:00.', '2026-04-02 21:41:51', 1);
 
 -- --------------------------------------------------------
 
@@ -549,7 +622,9 @@ INSERT INTO `paiement_abonnement` (`id_paiement_abonnement`, `id_abonnement`, `m
 (16, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
 (17, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
 (18, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
-(19, 5, 30.00, '2026-03-31', 'stripe', 'pending');
+(19, 5, 30.00, '2026-03-31', 'stripe', 'canceled'),
+(20, 5, 30.00, '2026-04-02', 'stripe', 'canceled'),
+(21, 5, 30.00, '2026-04-03', 'stripe', 'pending');
 
 -- --------------------------------------------------------
 
@@ -600,7 +675,8 @@ CREATE TABLE `prestataire` (
 --
 
 INSERT INTO `prestataire` (`id_prestataire`, `id_utilisateur`, `type`, `telephone`, `valider`) VALUES
-(1, 4, 'coordonnier', '32', 1);
+(1, 4, 'coordonnier', '32', 1),
+(2, 5, 'sportif', '34', 1);
 
 -- --------------------------------------------------------
 
@@ -650,11 +726,11 @@ CREATE TABLE `reference_evenement` (
 --
 
 INSERT INTO `reference_evenement` (`id`, `id_utilisateur`, `id_evenement`) VALUES
-(46, 5, 3),
 (49, 1, 2),
 (50, 5, 2),
-(51, 5, 4),
-(52, 5, 1);
+(52, 5, 1),
+(55, 5, 4),
+(56, 5, 3);
 
 -- --------------------------------------------------------
 
@@ -673,7 +749,7 @@ CREATE TABLE `reference_service` (
 --
 
 INSERT INTO `reference_service` (`id`, `id_utilisateur`, `id_service`) VALUES
-(47, 5, 1);
+(48, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -697,12 +773,15 @@ CREATE TABLE `rendez_vous` (
 
 INSERT INTO `rendez_vous` (`id_rdv`, `id_utilisateur`, `id_prestataire`, `date_debut`, `date_fin`, `type`, `statut`) VALUES
 (1, 2, 1, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'rendez-vous pour des chaussures', 'attente'),
-(52, 5, NULL, '2026-03-29 07:00:00', '2026-03-29 08:00:00', 'eeee', 'confirmé'),
 (55, 1, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé'),
 (62, 5, NULL, '2026-07-27 23:43:00', '2026-07-28 00:43:00', 'Machine a laver 2', 'confirmé'),
-(63, 5, NULL, '2026-03-31 19:30:00', '2026-03-31 20:30:00', 'test', 'confirmé'),
-(76, 5, 1, '2026-04-15 10:00:00', '2026-04-15 11:00:00', 'Faire chier Laurent', 'en_attente'),
-(77, 5, NULL, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'Manger', 'confirmé');
+(77, 5, NULL, '2026-03-06 14:09:00', '2026-03-06 15:09:00', 'Manger', 'confirmé'),
+(80, 5, 1, '2026-04-15 10:00:00', '2026-04-15 11:00:00', 'Faire chier Laurent', 'annulé'),
+(81, 5, NULL, '2026-03-31 19:30:00', '2026-03-31 20:30:00', 'test', 'confirmé'),
+(82, 5, NULL, '2026-03-29 07:00:00', '2026-03-29 08:00:00', 'eeee', 'confirmé'),
+(83, 5, 1, '2026-04-15 11:00:00', '2026-04-15 12:00:00', 'Faire chier Laurent', 'annulé'),
+(84, 5, 1, '2026-04-15 12:00:00', '2026-04-15 13:00:00', 'Faire chier Laurent', 'confirmé'),
+(85, 5, 2, '2026-04-15 13:00:00', '2026-04-15 14:00:00', 'Faire chier Laurent', 'confirmé');
 
 -- --------------------------------------------------------
 
@@ -762,7 +841,9 @@ INSERT INTO `souscris_abonnement` (`id_souscrit`, `date_souscription`, `date_exp
 (16, '2026-03-31 21:27:06', '2026-03-31 21:30:50', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
 (17, '2026-03-31 21:30:59', '2026-03-31 21:31:52', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
 (18, '2026-03-31 21:31:58', '2026-03-31 21:32:33', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
-(19, '2026-03-31 21:32:43', NULL, 1, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL);
+(19, '2026-03-31 21:32:43', '2026-04-02 21:49:15', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(20, '2026-04-02 21:49:21', '2026-04-02 21:56:31', 0, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL),
+(21, '2026-04-03 17:37:54', NULL, 1, 'mois', 5, 5, 'cus_UFegbIU5G4W4cl', NULL);
 
 -- --------------------------------------------------------
 
@@ -774,6 +855,13 @@ CREATE TABLE `synthese_facture` (
   `id_facture` int(11) NOT NULL,
   `id_intervention` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `synthese_facture`
+--
+
+INSERT INTO `synthese_facture` (`id_facture`, `id_intervention`) VALUES
+(1, 22);
 
 -- --------------------------------------------------------
 
@@ -800,12 +888,12 @@ CREATE TABLE `utilisateur` (
   `id_utilisateur` int(11) NOT NULL,
   `nom` varchar(100) DEFAULT NULL,
   `prenom` varchar(100) DEFAULT NULL,
-  `age` int(11) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
+  `date_naissance` date NOT NULL,
   `password` varchar(1000) DEFAULT NULL,
   `token` varchar(1000) DEFAULT NULL,
   `role` enum('adherant','prestataire','admin') DEFAULT 'adherant',
-  `image` varchar(30) NOT NULL,
+  `image` varchar(30) DEFAULT NULL,
   `langue` enum('fr','en','it','de','ru','uk','pt','pl','nl') DEFAULT 'fr',
   `taille_police` varchar(20) DEFAULT '1',
   `tutoriel` int(11) DEFAULT 1,
@@ -817,12 +905,13 @@ CREATE TABLE `utilisateur` (
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `age`, `email`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`) VALUES
-(1, 'Laurent', 'Voillot', 19, 'test@example.com', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(2, 'Marc', 'Claude', 1, 'bb@bb', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
-(3, 'bb', 'bb', 20, 'cc@cc', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(4, 'cc', 'ac', 44, 'cc@ccc', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(5, 'admin', 'admin (le mdp est admin123)', 0, 'aa@aa.com', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'VH0fUH6u_ze7_-iXYASI66FM2Q15P9nSutL0-Zcx6Ms', 'adherant', '', 'fr', '1', 1, 0, 0);
+INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_naissance`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`) VALUES
+(1, 'Laurent', 'Voillot', 'test@example.com', '0000-00-00', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0),
+(2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
+(3, 'bb', 'bb', 'cc@cc', '0000-00-00', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
+(4, 'cc', 'ac', 'cc@ccc', '0000-00-00', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
+(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', NULL, 'admin', '', 'fr', '1', 1, 0, 0),
+(6, 'edodolf', 'hitlan', 'hittalan@gmail.com', '1950-02-23', '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1113,7 +1202,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=457;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=680;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -1149,19 +1238,19 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT pour la table `contrat`
 --
 ALTER TABLE `contrat`
-  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `devis`
 --
 ALTER TABLE `devis`
-  MODIFY `id_devis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_devis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `disponibilite`
 --
 ALTER TABLE `disponibilite`
-  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT pour la table `document`
@@ -1185,13 +1274,13 @@ ALTER TABLE `evenement`
 -- AUTO_INCREMENT pour la table `facture_prestataire`
 --
 ALTER TABLE `facture_prestataire`
-  MODIFY `id_facture` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_facture` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT pour la table `lien_contact`
@@ -1215,7 +1304,7 @@ ALTER TABLE `modele_notification`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
@@ -1227,7 +1316,7 @@ ALTER TABLE `paiement`
 -- AUTO_INCREMENT pour la table `paiement_abonnement`
 --
 ALTER TABLE `paiement_abonnement`
-  MODIFY `id_paiement_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_paiement_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `panier`
@@ -1239,7 +1328,7 @@ ALTER TABLE `panier`
 -- AUTO_INCREMENT pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
-  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `reference_article`
@@ -1251,19 +1340,19 @@ ALTER TABLE `reference_article`
 -- AUTO_INCREMENT pour la table `reference_evenement`
 --
 ALTER TABLE `reference_evenement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT pour la table `reference_service`
 --
 ALTER TABLE `reference_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
-  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT pour la table `service`
@@ -1275,7 +1364,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT pour la table `souscris_abonnement`
 --
 ALTER TABLE `souscris_abonnement`
-  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_souscrit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `token`
@@ -1287,7 +1376,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
