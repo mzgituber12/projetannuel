@@ -1,14 +1,15 @@
 package structures
 
 type User struct {
-	ID       int    `json:"id"`
-	Nom      string `json:"nom"`
-	Prenom   string `json:"prenom"`
-	Age      int    `json:"age"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-	Langue   string `json:"langue"`
+	ID            int    `json:"id"`
+	Nom           string `json:"nom"`
+	Prenom        string `json:"prenom"`
+	Age           int    `json:"age"`
+	DateNaissance string `json:"date_naissance"`
+	Email         string `json:"email"`
+	Password      string `json:"password"`
+	Role          string `json:"role"`
+	Langue        string `json:"langue"`
 }
 
 type Result struct {
@@ -21,12 +22,12 @@ type Result struct {
 }
 
 type Contrat struct {
-	ID          int    `json:"id"`
-	Nom         string `json:"nom"`
-	DateDebut   string `json:"date_debut"`
-	DateFin     string `json:"date_fin"`
+	ID           int    `json:"id"`
+	Nom          string `json:"nom"`
+	DateDebut    string `json:"date_debut"`
+	DateFin      string `json:"date_fin"`
 	TypePaiement string `json:"type_paiement"`
-	TypeContrat string `json:"type_contrat"`
+	TypeContrat  string `json:"type_contrat"`
 }
 
 type Conseil struct {
@@ -194,16 +195,16 @@ type Devis struct {
 }
 
 type SuiviIntervention struct {
-	ID               int     `json:"id"`
-	NomService       string  `json:"nom_service"`
-	TarifService     float64 `json:"tarif_service"`
-	NomUtilisateur   string  `json:"nom_utilisateur"`
+	ID                int     `json:"id"`
+	NomService        string  `json:"nom_service"`
+	TarifService      float64 `json:"tarif_service"`
+	NomUtilisateur    string  `json:"nom_utilisateur"`
 	PrenomUtilisateur string  `json:"prenom_utilisateur"`
-	DateDebut        string  `json:"date_debut"`
-	DateFin          string  `json:"date_fin"`
-	TypeRdv          string  `json:"type_rdv"`
-	Statut           string  `json:"statut"`
-	Montant          float64 `json:"montant"`
+	DateDebut         string  `json:"date_debut"`
+	DateFin           string  `json:"date_fin"`
+	TypeRdv           string  `json:"type_rdv"`
+	Statut            string  `json:"statut"`
+	Montant           float64 `json:"montant"`
 }
 
 type FinanceStats struct {
@@ -270,9 +271,9 @@ type FactureIntervention struct {
 }
 
 type FacturePrestataire struct {
-	IDFacture      int                    `json:"id_facture"`
-	Mois           string                 `json:"mois"`
-	MontantTotal   float64                `json:"montant_total"`
-	DateGeneration string                 `json:"date_generation"`
-	Interventions  []FactureIntervention  `json:"interventions"`
+	IDFacture      int                   `json:"id_facture"`
+	Mois           string                `json:"mois"`
+	MontantTotal   float64               `json:"montant_total"`
+	DateGeneration string                `json:"date_generation"`
+	Interventions  []FactureIntervention `json:"interventions"`
 }

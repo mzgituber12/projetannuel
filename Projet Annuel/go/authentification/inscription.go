@@ -62,10 +62,15 @@ func Inscription(database *sql.DB) http.HandlerFunc {
 		}
 		token := base64.RawURLEncoding.EncodeToString(bytes)
 
-		insert, _ := database.Prepare("INSERT INTO utilisateur (email, password, prenom, nom, age, token) VALUES (?, ?, ?, ?, ?, ?)")
-		_, err = insert.Exec(req.Email, hashedPassword, req.Prenom, req.Nom, req.Age, token)
+		insert, error := database.Prepare("INSERT INTO utilisateur (email, password, prenom, nom, date_naissance, token) VALUES (?, ?, ?, ?, ?, ?)")
+
+		if error != nil {
+			http.Error(response, "Erreur lors de la preparation de la requete", http.StatusInternalServerError)
+			return
+		}
+		_, err = insert.Exec(req.Email, hashedPassword, req.Prenom, req.Nom, req.DateNaissance, token)
 		if err != nil {
-			http.Error(response, "Erreur lors de l'insertion dans la base de données", http.StatusInternalServerError)
+			http.Error(response, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
