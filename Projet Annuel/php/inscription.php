@@ -54,7 +54,7 @@
 <script>
     async function signupUser(prenom, nom, date_naissance, email, password) {
         event.preventDefault();
-//marc
+
 
         const base = (window.API_BASE || 'http://localhost:9000');
         const response = await fetch(base + "/inscription", {
