@@ -70,6 +70,3 @@ services:
       LT_LOAD_ONLY: en,fr,ru,es,de,it,pt,nl,pl,uk
     ports:
       - "5000:5000"
-
-volumes:
-  mariadb_data:

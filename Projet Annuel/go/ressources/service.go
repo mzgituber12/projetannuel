@@ -655,7 +655,7 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 			json.NewEncoder(response).Encode(map[string]any{"message": "Un devis est déjà en attente pour ce service", "id_devis": existingDevisID})
 			return
 		}
-		if err != nil && err != sql.ErrNoRows {
+		if err != nil && !errors.Is(err, sql.ErrNoRows) {
 			response.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur vérification devis existant"})
 			return

@@ -3,6 +3,7 @@ package ressources
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"projet/structures"
 	"time"
@@ -36,7 +37,7 @@ func generateMonthlyInvoiceForReference(database *sql.DB, idPrestataire int, ref
 		_ = database.QueryRow("SELECT IFNULL(montant_total, 0) FROM facture_prestataire WHERE id_facture = ?", factureID).Scan(&existingTotal)
 		return false, monthKey, existingTotal, nil
 	}
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		return false, "", 0, err
 	}
 
