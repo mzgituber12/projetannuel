@@ -26,6 +26,8 @@ func main() {
 		log.Fatal("Erreur configuration charset utf8mb4 :", err)
 	}
 
+	ressources.DemarrerCronFacturationMensuelle(db)
+
 	http.HandleFunc("/inscription", authentification.Inscription(db))
 	http.HandleFunc("/connexion", authentification.Connexion(db))
 	http.HandleFunc("/deconnexion", authentification.Deconnexion(db))
@@ -126,6 +128,8 @@ func main() {
 
 	http.HandleFunc("/gestion_contact", admin.Gestion_contact(db))
 	http.HandleFunc("/gestion_financier", admin.Gestion_financier(db))
+	http.HandleFunc("/admin/factures_prestataires", admin.Factures_prestataires_admin(db))
+	http.HandleFunc("/admin/virement/confirmer/{id_facture}", admin.Confirmer_virement(db))
 	http.HandleFunc("/add_abonnement", admin.Abonnement_admin_creation(db))
 	http.HandleFunc("/abonnement_all", liste_abonnement_all(db))
 	http.HandleFunc("/gestion_notifications", admin.Gestion_notifications(db))

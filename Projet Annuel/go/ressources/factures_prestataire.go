@@ -15,7 +15,7 @@ func monthBounds(year int, month time.Month, location *time.Location) (time.Time
 	return start, end
 }
 
-func generateMonthlyInvoiceForReference(database *sql.DB, idPrestataire int, referenceDate time.Time, force bool) (bool, string, float64, error) {
+func genererFactureMensuelle(database *sql.DB, idPrestataire int, referenceDate time.Time, force bool) (bool, string, float64, error) {
 	if !force && referenceDate.Day() != 1 {
 		return false, "", 0, nil
 	}
@@ -108,20 +108,13 @@ func generateMonthlyInvoiceForReference(database *sql.DB, idPrestataire int, ref
 		return false, "", 0, err
 	}
 
+	_, _ = database.Exec("INSERT INTO virement (id_facture, date, montant, statut) VALUES (?, CURDATE(), ?, 'pending')", factureID64, total)
 	return true, monthKey, total, nil
 }
 
 func listFacturesPrestataire(database *sql.DB, idPrestataire int) ([]structures.FacturePrestataire, error) {
-	rows, err := database.Query(`
-		SELECT
-			id_facture,
-			IFNULL(mois, ''),
-			IFNULL(montant_total, 0),
-			IFNULL(DATE_FORMAT(date_generation, '%Y-%m-%d'), '')
-		FROM facture_prestataire
-		WHERE id_prestataire = ?
-		ORDER BY mois DESC, id_facture DESC
-	`, idPrestataire)
+	rows, err := database.Query(`SELECT fp.id_facture, IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), '')
+		FROM facture_prestataire fp LEFT JOIN virement v ON v.id_facture = fp.id_facture WHERE fp.id_prestataire = ? ORDER BY fp.mois DESC, fp.id_facture DESC`, idPrestataire)
 	if err != nil {
 		return nil, err
 	}
@@ -130,26 +123,12 @@ func listFacturesPrestataire(database *sql.DB, idPrestataire int) ([]structures.
 	factures := make([]structures.FacturePrestataire, 0)
 	for rows.Next() {
 		var f structures.FacturePrestataire
-		if scanErr := rows.Scan(&f.IDFacture, &f.Mois, &f.MontantTotal, &f.DateGeneration); scanErr != nil {
+		if scanErr := rows.Scan(&f.IDFacture, &f.Mois, &f.MontantTotal, &f.DateGeneration, &f.IDVirement, &f.StatutVirement, &f.DateVirement); scanErr != nil {
 			return nil, scanErr
 		}
 
-		interventionRows, qErr := database.Query(`
-			SELECT
-				i.id_intervention,
-				IFNULL(s.nom, ''),
-				TRIM(CONCAT(IFNULL(u.prenom, ''), ' ', IFNULL(u.nom, ''))),
-				IFNULL(DATE_FORMAT(rdv.date_debut, '%Y-%m-%d %H:%i:%s'), ''),
-				IFNULL(i.statut, ''),
-				IFNULL(i.montant, 0)
-			FROM synthese_facture sf
-			JOIN intervention i ON i.id_intervention = sf.id_intervention
-			LEFT JOIN service s ON s.id_service = i.id_service
-			LEFT JOIN utilisateur u ON u.id_utilisateur = i.id_utilisateur
-			LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv
-			WHERE sf.id_facture = ?
-			ORDER BY rdv.date_debut ASC, i.id_intervention ASC
-		`, f.IDFacture)
+		interventionRows, qErr := database.Query(`SELECT i.id_intervention, IFNULL(s.nom, ''),CONCAT(IFNULL(u.prenom, ''), ' ', IFNULL(u.nom, '')), IFNULL(DATE_FORMAT(rdv.date_debut, '%Y-%m-%d %H:%i:%s'), ''), IFNULL(i.statut, ''), IFNULL(i.montant, 0) 
+			FROM synthese_facture sf JOIN intervention i ON i.id_intervention = sf.id_intervention LEFT JOIN service s ON s.id_service = i.id_service LEFT JOIN utilisateur u ON u.id_utilisateur = i.id_utilisateur LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE sf.id_facture = ? ORDER BY rdv.date_debut ASC, i.id_intervention ASC`, f.IDFacture)
 		if qErr != nil {
 			return nil, qErr
 		}
@@ -194,7 +173,7 @@ func Factures_prestataire(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		created, monthKey, totalGenerated, err := generateMonthlyInvoiceForReference(database, idPrestataire, time.Now(), false)
+		created, monthKey, totalGenerated, err := genererFactureMensuelle(database, idPrestataire, time.Now(), false)
 		if err != nil {
 			http.Error(response, "Erreur génération facture mensuelle", http.StatusInternalServerError)
 			return
@@ -243,7 +222,7 @@ func Simuler_generation_facture_prestataire(database *sql.DB) http.HandlerFunc {
 		now := time.Now()
 		simulatedReference := time.Date(now.Year(), now.Month()+1, 1, 0, 0, 0, 0, now.Location())
 
-		created, monthKey, totalGenerated, err := generateMonthlyInvoiceForReference(database, idPrestataire, simulatedReference, true)
+		created, monthKey, totalGenerated, err := genererFactureMensuelle(database, idPrestataire, simulatedReference, true)
 		if err != nil {
 			http.Error(response, "Erreur simulation génération facture", http.StatusInternalServerError)
 			return

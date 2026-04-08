@@ -276,4 +276,20 @@ type FacturePrestataire struct {
 	MontantTotal   float64               `json:"montant_total"`
 	DateGeneration string                `json:"date_generation"`
 	Interventions  []FactureIntervention `json:"interventions"`
+	IDVirement     int                   `json:"id_virement"`
+	StatutVirement string                `json:"statut_virement"`
+	DateVirement   string                `json:"date_virement"`
+}
+
+type AdminFacturePrestataire struct {
+	IDFacture      int                   `json:"id_facture"`
+	IDPrestataire  int                   `json:"id_prestataire"`
+	NomPrestataire string                `json:"nom_prestataire"`
+	Mois           string                `json:"mois"`
+	MontantTotal   float64               `json:"montant_total"`
+	DateGeneration string                `json:"date_generation"`
+	Interventions  []FactureIntervention `json:"interventions"`
+	IDVirement     int                   `json:"id_virement"`
+	StatutVirement string                `json:"statut_virement"`
+	DateVirement   string                `json:"date_virement"`
 }
