@@ -1,0 +1,148 @@
+{
+  "status": "done",
+  "dataset_file": "dataset.csv",
+  "rows": 3000,
+  "numeric_features": [
+    "age",
+    "anciennete_mois",
+    "nb_interventions_totales",
+    "taux_annulation",
+    "depense_totale_estimee",
+    "score_satisfaction",
+    "est_abonne",
+    "target_service"
+  ],
+  "categorical_features": [
+    "sexe",
+    "langue",
+    "type_abonnement"
+  ],
+  "target_classes_count": 8,
+  "pearson_matrix": [
+    [
+      1.0,
+      -0.0255,
+      0.007,
+      -0.4635,
+      -0.0467,
+      0.1843,
+      -0.0046,
+      0.6579
+    ],
+    [
+      -0.0255,
+      1.0,
+      0.0093,
+      0.0258,
+      -0.0283,
+      -0.0453,
+      -0.0032,
+      -0.0359
+    ],
+    [
+      0.007,
+      0.0093,
+      1.0,
+      -0.0077,
+      -0.0284,
+      -0.0052,
+      0.0079,
+      0.0001
+    ],
+    [
+      -0.4635,
+      0.0258,
+      -0.0077,
+      1.0,
+      0.0347,
+      -0.6015,
+      -0.0041,
+      -0.4159
+    ],
+    [
+      -0.0467,
+      -0.0283,
+      -0.0284,
+      0.0347,
+      1.0,
+      -0.0126,
+      0.0428,
+      -0.0568
+    ],
+    [
+      0.1843,
+      -0.0453,
+      -0.0052,
+      -0.6015,
+      -0.0126,
+      1.0,
+      0.0212,
+      0.2681
+    ],
+    [
+      -0.0046,
+      -0.0032,
+      0.0079,
+      -0.0041,
+      0.0428,
+      0.0212,
+      1.0,
+      0.0025
+    ],
+    [
+      0.6579,
+      -0.0359,
+      0.0001,
+      -0.4159,
+      -0.0568,
+      0.2681,
+      0.0025,
+      1.0
+    ]
+  ],
+  "eta_scores": [
+    {
+      "feature": "age",
+      "score": 0.6123
+    },
+    {
+      "feature": "taux_annulation",
+      "score": 0.4572
+    },
+    {
+      "feature": "score_satisfaction",
+      "score": 0.2106
+    },
+    {
+      "feature": "depense_totale_estimee",
+      "score": 0.0036
+    },
+    {
+      "feature": "anciennete_mois",
+      "score": 0.0029
+    },
+    {
+      "feature": "est_abonne",
+      "score": 0.0019
+    },
+    {
+      "feature": "nb_interventions_totales",
+      "score": 0.0015
+    }
+  ],
+  "cramers_scores": [
+    {
+      "feature": "sexe",
+      "score": 0.0926
+    },
+    {
+      "feature": "type_abonnement",
+      "score": 0.0529
+    },
+    {
+      "feature": "langue",
+      "score": 0.0452
+    }
+  ],
+  "generated_at": "12/04/2026 11:00"
+}

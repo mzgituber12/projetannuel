@@ -13,6 +13,26 @@
 * localhost -> site internet 
 * localhost:8081 -> base de donnée 
 
+### Module ML automatique (sans installation locale)
+
+Le service `ml_trainer` s'exécute automatiquement avec Docker Compose.
+Il entraîne le modèle Python et génère les fichiers dans `php/ml/` :
+
+* `modele_silver_happy.pkl`
+* `colonnes_features.pkl`
+* `training_report.json`
+* `training_report.txt`
+
+Consulter les résultats dans la page :
+
+* `localhost/index_module_ml.php`
+
+Relancer un entraînement (sans supprimer de fichiers à la main) :
+
+* `docker compose run --rm ml_trainer`
+
+Le script `ml/train_model.py` est monté en volume dans le conteneur, donc toute modification est prise en compte au prochain run.
+
 ### Commandes pour Github
 
 #### Mettre sur Github

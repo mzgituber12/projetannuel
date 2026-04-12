@@ -28,6 +28,7 @@ services:
       ONESIGNAL_APP_ID: ${ONESIGNAL_APP_ID}
     volumes:
       - ./upload:/var/www/html/upload
+      - ./php/ml:/var/www/html/ml
     depends_on:
       - mariadb
 
@@ -70,3 +71,14 @@ services:
       LT_LOAD_ONLY: en,fr,ru,es,de,it,pt,nl,pl,uk
     ports:
       - "5000:5000"
+
+  ml_trainer:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    container_name: ml_trainer
+    restart: "no"
+    volumes:
+      - ./php:/app/php
+      - ./ml:/app/ml
+    command: ["python", "/app/ml/train_model.py"]

@@ -1,0 +1,3001 @@
+id_utilisateur,age,sexe,langue,anciennete_mois,nb_interventions_totales,taux_annulation,type_abonnement,depense_totale_estimee,score_satisfaction,target_service,est_abonne
+1,70,H,fr,24,3,0.12,Premium,450.86,4.1,Informatique,1
+2,67,H,fr,5,4,0.23,Premium,173.24,1.8,Club Voyage,1
+3,71,F,fr,1,5,0.14,Premium,1030.51,4.2,Informatique,1
+4,75,H,en,4,4,0.05,Premium,418.75,4.3,Informatique,1
+5,66,F,fr,2,2,0.1,Premium,593.74,4.7,Informatique,1
+6,66,F,fr,2,4,0.19,Premium,1008.4,4.4,Informatique,1
+7,75,F,fr,15,2,0.12,Premium,337.0,3.2,Jardinage,1
+8,71,F,fr,3,3,0.09,Premium,426.73,3.3,Informatique,1
+9,65,H,en,33,3,0.17,Premium,633.09,4.4,Sport Senior,1
+10,70,F,fr,9,3,0.23,Premium,185.43,3.9,Sport Senior,1
+11,65,F,fr,8,4,0.18,Premium,345.79,4.4,Informatique,1
+12,65,H,en,7,2,0.23,Premium,366.14,3.8,Sport Senior,1
+13,69,F,fr,15,6,0.13,Premium,154.12,4.2,Sport Senior,1
+14,60,H,fr,8,5,0.11,Premium,2114.76,4.5,Sport Senior,1
+15,60,F,fr,2,3,0.24,Standard,107.42,4.7,Club Voyage,1
+16,65,H,de,26,7,0.12,Standard,117.23,4.3,Informatique,1
+17,62,H,it,7,3,0.29,Premium,947.63,3.4,Portage repas,1
+18,69,F,fr,1,2,0.18,Premium,585.93,4.5,Club Voyage,1
+19,63,F,fr,10,2,0.25,Standard,145.74,3.9,Informatique,1
+20,60,F,fr,13,6,0.11,Premium,538.3,4.5,Sport Senior,1
+21,75,H,es,4,4,0.06,Premium,1071.55,4.4,Informatique,1
+22,66,F,es,20,5,0.12,Premium,323.23,4.7,Sport Senior,1
+23,68,F,fr,14,6,0.17,Premium,2648.22,4.1,Informatique,1
+24,60,F,en,13,6,0.14,Standard,83.37,4.8,Informatique,1
+25,65,F,fr,7,1,0.12,Premium,576.89,4.5,Sport Senior,1
+26,68,F,fr,40,5,0.13,Premium,842.02,4.2,Sport Senior,1
+27,62,H,fr,4,6,0.11,Premium,675.64,4.1,Sport Senior,1
+28,69,F,fr,11,5,0.13,Premium,281.21,4.7,Sport Senior,1
+29,64,F,de,5,5,0.22,Premium,262.49,3.7,Club Voyage,1
+30,66,H,fr,17,4,0.15,Premium,472.44,4.7,Sport Senior,1
+31,64,H,fr,1,5,0.13,Premium,635.99,4.7,Informatique,1
+32,77,F,de,1,1,0.14,Premium,536.23,3.4,Jardinage,1
+33,67,F,de,20,4,0.4,Premium,761.0,3.4,Sport Senior,1
+34,62,F,fr,7,9,0.17,Standard,146.57,4.6,Sport Senior,1
+35,72,H,fr,6,7,0.11,Premium,275.99,4.0,Jardinage,1
+36,61,F,fr,12,3,0.12,Premium,156.11,4.7,Sport Senior,1
+37,69,H,fr,15,6,0.26,Premium,243.15,2.4,Portage repas,1
+38,60,H,es,3,2,0.48,Premium,746.03,1.8,Portage repas,1
+39,61,H,de,3,5,0.23,Premium,361.03,4.1,Sport Senior,1
+40,68,F,fr,39,4,0.26,Premium,2665.3,2.6,Yoga,1
+41,71,F,fr,11,5,0.13,Premium,386.57,4.3,Aide à domicile,1
+42,68,F,fr,6,2,0.19,Premium,347.35,4.5,Sport Senior,1
+43,67,F,de,20,3,0.1,Premium,360.51,4.0,Club Voyage,1
+44,66,H,fr,9,5,0.13,Premium,198.81,4.4,Sport Senior,1
+45,60,H,fr,4,2,0.43,Premium,316.18,1.6,Sport Senior,1
+46,64,H,fr,3,6,0.25,Premium,816.33,3.7,Club Voyage,1
+47,65,H,fr,7,4,0.14,Premium,362.77,4.5,Sport Senior,1
+48,73,F,fr,24,2,0.14,Premium,175.53,3.0,Informatique,1
+49,69,F,fr,1,2,0.44,Premium,157.99,1.8,Yoga,1
+50,60,F,de,3,5,0.14,Premium,231.0,3.7,Sport Senior,1
+51,69,H,de,27,2,0.15,Premium,351.31,3.7,Sport Senior,1
+52,66,H,en,2,2,0.14,Premium,860.45,4.1,Sport Senior,1
+53,64,H,fr,12,4,0.13,Standard,113.32,3.8,Sport Senior,1
+54,71,F,fr,3,5,0.11,Premium,256.4,3.4,Jardinage,1
+55,73,F,fr,12,3,0.05,Premium,371.68,3.7,Jardinage,1
+56,72,H,fr,6,4,0.12,Basic,76.37,4.5,Jardinage,1
+57,63,F,de,2,4,0.24,Premium,169.98,4.6,Informatique,1
+58,66,H,fr,11,5,0.12,Premium,192.23,4.2,Informatique,1
+59,69,H,fr,14,3,0.16,Premium,175.18,3.7,Sport Senior,1
+60,72,H,de,14,3,0.1,Premium,386.1,3.2,Informatique,1
+61,65,F,es,13,6,0.25,Premium,291.24,3.6,Informatique,1
+62,67,F,fr,9,5,0.11,Premium,212.38,4.6,Club Voyage,1
+63,62,F,fr,9,8,0.15,Premium,466.36,3.9,Sport Senior,1
+64,62,F,fr,13,2,0.21,Premium,1314.28,4.4,Club Voyage,1
+65,72,F,fr,15,6,0.11,Premium,1229.04,3.7,Jardinage,1
+66,74,H,fr,13,6,0.11,Basic,71.12,4.3,Jardinage,1
+67,67,H,fr,11,6,0.18,Premium,525.44,3.9,Sport Senior,1
+68,73,F,es,3,4,0.1,Premium,287.2,3.7,Yoga,1
+69,69,F,fr,3,4,0.14,Premium,374.92,4.7,Sport Senior,1
+70,64,F,fr,4,4,0.13,Premium,240.8,4.4,Sport Senior,1
+71,69,F,fr,31,1,0.14,Premium,363.82,4.7,Club Voyage,1
+72,75,H,fr,18,2,0.11,Premium,373.8,3.2,Informatique,1
+73,67,F,it,10,5,0.14,Premium,208.39,4.6,Sport Senior,1
+74,75,F,fr,4,5,0.1,Premium,161.66,3.6,Aide à domicile,1
+75,60,F,fr,2,5,0.23,Premium,231.28,3.8,Sport Senior,1
+76,72,H,fr,28,3,0.11,Premium,399.41,4.3,Jardinage,1
+77,68,H,en,27,4,0.22,Premium,534.74,4.5,Informatique,1
+78,66,F,fr,2,8,0.13,Premium,655.41,3.6,Sport Senior,1
+79,68,F,en,20,7,0.18,Premium,223.01,3.7,Sport Senior,1
+80,60,H,fr,8,1,0.22,Premium,415.57,3.0,Sport Senior,1
+81,66,H,fr,5,5,0.47,Premium,715.22,1.6,Portage repas,1
+82,69,F,fr,17,5,0.13,Premium,841.39,4.4,Informatique,1
+83,75,H,de,12,2,0.14,Premium,315.93,3.2,Informatique,1
+84,65,H,de,19,6,0.13,Premium,277.51,3.8,Sport Senior,1
+85,63,H,fr,1,3,0.16,Premium,385.86,4.2,Sport Senior,1
+86,65,H,fr,5,4,0.21,Standard,132.0,4.8,Club Voyage,1
+87,72,H,fr,5,1,0.12,Premium,283.64,3.1,Yoga,1
+88,69,F,fr,5,8,0.15,Premium,600.8,3.9,Informatique,1
+89,65,H,fr,9,2,0.11,Premium,553.43,4.5,Club Voyage,1
+90,70,H,de,4,2,0.24,Premium,266.77,4.5,Club Voyage,1
+91,68,H,de,8,5,0.18,Premium,394.16,4.5,Sport Senior,1
+92,72,F,fr,6,3,0.07,Premium,171.21,3.9,Aide à domicile,1
+93,64,H,fr,16,4,0.13,Premium,581.37,3.6,Sport Senior,1
+94,66,H,it,12,6,0.14,Premium,311.17,4.7,Sport Senior,1
+95,66,F,en,13,3,0.14,Premium,265.56,3.7,Sport Senior,1
+96,60,H,fr,3,8,0.19,Premium,247.94,3.7,Sport Senior,1
+97,69,H,fr,5,5,0.16,Premium,314.9,4.7,Club Voyage,1
+98,69,H,fr,1,1,0.21,Premium,231.43,3.6,Sport Senior,1
+99,68,F,fr,2,4,0.38,Premium,560.65,1.9,Portage repas,1
+100,66,F,fr,4,1,0.32,Premium,241.38,2.7,Portage repas,1
+101,60,H,fr,1,4,0.22,Premium,1184.36,4.7,Club Voyage,1
+102,65,F,fr,12,3,0.14,Premium,1069.29,3.8,Informatique,1
+103,66,H,fr,76,3,0.24,Premium,162.28,3.7,Sport Senior,1
+104,63,F,fr,2,4,0.15,Premium,350.15,3.8,Sport Senior,1
+105,67,F,fr,21,4,0.2,Premium,196.77,3.5,Sport Senior,1
+106,70,F,en,2,2,0.35,Premium,255.0,2.5,Sport Senior,1
+107,77,F,it,14,4,0.27,Premium,1643.41,2.6,Club Voyage,1
+108,68,F,fr,13,3,0.16,Premium,258.92,4.2,Sport Senior,1
+109,69,F,fr,28,3,0.12,Premium,441.76,4.3,Sport Senior,1
+110,67,F,es,2,6,0.23,Premium,510.63,3.4,Club Voyage,1
+111,60,F,fr,5,5,0.2,Standard,148.72,4.4,Informatique,1
+112,67,H,fr,2,5,0.18,Premium,167.09,3.8,Sport Senior,1
+113,68,H,fr,7,3,0.35,Standard,126.19,3.1,Club Voyage,1
+114,80,F,fr,30,3,0.13,Premium,163.01,4.4,Yoga,1
+115,67,H,fr,19,5,0.21,Basic,33.87,4.6,Sport Senior,1
+116,69,F,de,16,1,0.22,Premium,511.96,3.8,Sport Senior,1
+117,67,H,fr,10,3,0.15,Premium,1712.89,4.7,Sport Senior,1
+118,62,H,fr,26,3,0.19,Premium,372.73,3.7,Informatique,1
+119,73,H,de,8,7,0.07,Standard,106.65,4.2,Informatique,1
+120,71,F,fr,2,3,0.07,Premium,198.02,3.7,Jardinage,1
+121,71,H,fr,22,6,0.05,Premium,229.4,3.8,Jardinage,1
+122,63,F,fr,4,3,0.16,Standard,146.72,4.8,Sport Senior,1
+123,75,H,fr,1,6,0.11,Premium,659.01,4.5,Aide à domicile,1
+124,60,F,fr,2,7,0.2,Premium,633.2,4.5,Club Voyage,1
+125,70,H,fr,12,5,0.22,Standard,131.4,3.9,Sport Senior,1
+126,78,H,fr,12,3,0.13,Premium,591.49,3.2,Jardinage,1
+127,63,H,fr,4,1,0.13,Premium,1123.31,4.2,Informatique,1
+128,65,F,fr,16,3,0.15,Premium,1517.21,3.6,Sport Senior,1
+129,68,H,fr,18,1,0.2,Premium,3277.23,4.0,Sport Senior,1
+130,65,F,fr,31,5,0.2,Premium,160.93,4.4,Sport Senior,1
+131,60,H,fr,11,1,0.2,Premium,3171.5,3.9,Sport Senior,1
+132,68,F,fr,19,9,0.29,Premium,249.44,2.0,Sport Senior,1
+133,62,F,de,17,8,0.16,Premium,206.15,3.7,Sport Senior,1
+134,70,H,fr,4,5,0.23,Premium,430.2,4.5,Sport Senior,1
+135,63,F,fr,5,3,0.18,Premium,207.87,4.2,Sport Senior,1
+136,75,F,en,8,6,0.15,Premium,455.69,3.7,Jardinage,1
+137,64,F,fr,1,3,0.14,Standard,115.18,3.6,Sport Senior,1
+138,66,F,fr,5,4,0.23,Premium,273.58,4.6,Sport Senior,1
+139,72,H,en,8,2,0.12,Premium,926.16,4.0,Informatique,1
+140,61,H,it,2,2,0.23,Premium,316.38,3.9,Informatique,1
+141,69,F,fr,2,3,0.15,Premium,370.87,3.7,Sport Senior,1
+142,74,F,fr,8,4,0.14,Premium,484.34,4.2,Aide à domicile,1
+143,60,F,fr,16,5,0.12,Premium,844.81,4.2,Sport Senior,1
+144,68,F,en,22,6,0.25,Standard,88.09,4.3,Sport Senior,1
+145,69,H,fr,10,3,0.17,Premium,528.59,4.5,Sport Senior,1
+146,71,H,fr,8,1,0.14,Premium,267.22,4.3,Jardinage,1
+147,61,F,it,6,5,0.22,Premium,378.38,2.5,Portage repas,1
+148,61,F,fr,3,1,0.11,Premium,773.21,3.7,Sport Senior,1
+149,70,F,en,2,3,0.18,Standard,127.39,4.1,Informatique,1
+150,69,H,fr,19,2,0.22,Standard,147.3,4.6,Informatique,1
+151,69,H,fr,8,4,0.23,Basic,70.4,4.7,Sport Senior,1
+152,69,F,fr,19,2,0.49,Premium,213.42,1.6,Portage repas,1
+153,64,F,en,15,5,0.18,Premium,960.0,3.7,Club Voyage,1
+154,69,H,fr,3,3,0.23,Premium,300.7,4.2,Informatique,1
+155,69,H,fr,9,5,0.25,Standard,113.35,4.3,Club Voyage,1
+156,64,F,fr,8,2,0.2,Premium,224.54,4.4,Informatique,1
+157,77,F,fr,7,2,0.11,Standard,100.72,3.9,Jardinage,1
+158,70,F,es,10,3,0.21,Standard,134.62,4.3,Sport Senior,1
+159,62,H,fr,49,3,0.23,Premium,451.98,4.1,Club Voyage,1
+160,71,F,fr,21,1,0.14,Standard,129.47,3.4,Yoga,1
+161,63,F,es,29,1,0.21,Premium,806.49,3.0,Yoga,1
+162,71,H,fr,1,6,0.06,Premium,312.84,4.3,Yoga,1
+163,73,F,fr,2,3,0.13,Premium,354.62,4.4,Aide à domicile,1
+164,63,H,fr,2,5,0.12,Premium,265.04,3.6,Club Voyage,1
+165,72,F,en,4,0,0.1,Premium,614.53,4.2,Aide à domicile,1
+166,70,F,fr,7,5,0.24,Premium,619.62,3.6,Sport Senior,1
+167,72,H,fr,13,4,0.1,Premium,432.95,3.6,Jardinage,1
+168,77,F,fr,9,2,0.07,Premium,520.31,3.3,Jardinage,1
+169,66,H,fr,29,3,0.22,Premium,279.48,4.2,Sport Senior,1
+170,64,H,fr,34,4,0.2,Premium,510.99,4.4,Informatique,1
+171,63,F,fr,3,6,0.11,Premium,252.72,4.6,Informatique,1
+172,63,H,fr,24,1,0.22,Premium,331.75,3.5,Sport Senior,1
+173,67,F,fr,8,2,0.22,Premium,265.83,4.5,Sport Senior,1
+174,69,H,fr,8,5,0.18,Premium,229.71,4.4,Sport Senior,1
+175,69,F,fr,19,5,0.11,Premium,190.81,3.7,Informatique,1
+176,72,H,en,2,4,0.06,Premium,481.42,3.3,Informatique,1
+177,68,F,en,26,4,0.13,Premium,944.89,4.0,Sport Senior,1
+178,75,F,fr,14,2,0.13,Premium,845.11,4.1,Informatique,1
+179,66,H,fr,25,1,0.23,Standard,121.19,3.6,Sport Senior,1
+180,81,H,fr,63,4,0.06,Premium,928.85,4.5,Aide à domicile,1
+181,71,F,de,9,5,0.09,Premium,256.74,3.6,Aide à domicile,1
+182,63,F,en,2,3,0.12,Premium,535.48,3.7,Sport Senior,1
+183,62,H,en,3,3,0.15,Premium,160.39,4.8,Sport Senior,1
+184,70,H,fr,5,1,0.16,Premium,370.99,4.1,Club Voyage,1
+185,66,F,fr,2,4,0.12,Premium,425.63,4.7,Sport Senior,1
+186,71,F,fr,21,2,0.07,Standard,100.98,3.6,Jardinage,1
+187,70,F,fr,5,3,0.12,Premium,538.72,4.1,Sport Senior,1
+188,67,H,fr,45,9,0.11,Premium,971.98,4.1,Sport Senior,1
+189,63,F,de,15,4,0.23,Premium,287.97,4.6,Sport Senior,1
+190,60,F,fr,3,3,0.2,Premium,983.11,4.6,Informatique,1
+191,65,H,fr,8,2,0.28,Premium,284.53,3.0,Sport Senior,1
+192,72,F,fr,8,7,0.15,Premium,653.44,4.4,Informatique,1
+193,69,F,de,9,1,0.36,Basic,56.13,3.3,Sport Senior,1
+194,61,F,fr,10,3,0.2,Premium,2292.98,3.9,Club Voyage,1
+195,68,F,fr,1,3,0.4,Premium,1095.48,2.6,Sport Senior,1
+196,69,F,de,14,5,0.19,Premium,263.72,4.7,Sport Senior,1
+197,63,H,fr,9,3,0.21,Basic,68.37,4.5,Sport Senior,1
+198,68,F,fr,19,1,0.1,Premium,416.97,4.5,Informatique,1
+199,68,H,fr,21,6,0.19,Standard,104.32,4.8,Sport Senior,1
+200,62,H,fr,4,4,0.15,Premium,472.7,4.7,Informatique,1
+201,69,H,en,1,5,0.14,Premium,460.28,4.1,Sport Senior,1
+202,70,F,en,15,0,0.2,Premium,155.94,4.0,Sport Senior,1
+203,73,F,fr,46,3,0.11,Premium,811.89,3.7,Jardinage,1
+204,73,F,fr,8,5,0.42,Premium,630.84,2.7,Yoga,1
+205,61,F,fr,4,3,0.24,Premium,722.88,4.2,Sport Senior,1
+206,63,F,fr,3,1,0.16,Premium,333.51,4.5,Sport Senior,1
+207,70,H,fr,5,3,0.18,Standard,106.72,3.6,Sport Senior,1
+208,70,F,fr,5,2,0.1,Premium,724.07,4.6,Club Voyage,1
+209,70,F,fr,7,6,0.21,Premium,266.74,4.1,Sport Senior,1
+210,87,F,en,13,4,0.04,Standard,108.94,4.3,Aide à domicile,1
+211,70,H,fr,4,4,0.15,Premium,976.74,4.0,Club Voyage,1
+212,73,F,fr,1,5,0.1,Premium,1775.99,4.4,Informatique,1
+213,72,H,fr,6,3,0.1,Premium,320.41,4.5,Jardinage,1
+214,71,F,it,24,5,0.07,Premium,1862.89,3.2,Jardinage,1
+215,66,H,fr,9,5,0.25,Premium,356.25,4.5,Informatique,1
+216,71,H,fr,41,8,0.15,Premium,244.26,3.5,Jardinage,1
+217,64,F,fr,9,8,0.19,Premium,199.98,3.8,Club Voyage,1
+218,66,F,fr,4,5,0.11,Premium,1226.91,4.6,Club Voyage,1
+219,65,F,fr,3,5,0.24,Premium,177.41,4.8,Informatique,1
+220,68,F,en,15,4,0.11,Premium,596.33,4.2,Sport Senior,1
+221,79,H,es,10,3,0.4,Premium,211.72,3.5,Yoga,1
+222,60,H,en,12,6,0.12,Premium,229.14,3.8,Informatique,1
+223,71,H,fr,17,3,0.07,Premium,755.05,3.4,Jardinage,1
+224,60,H,fr,16,5,0.2,Premium,244.34,4.7,Sport Senior,1
+225,65,F,fr,1,1,0.21,Premium,239.55,3.9,Informatique,1
+226,73,F,es,20,8,0.36,Premium,819.61,1.6,Sport Senior,1
+227,68,H,fr,10,4,0.15,Premium,1188.57,4.7,Club Voyage,1
+228,62,F,fr,6,3,0.21,Premium,554.65,3.6,Club Voyage,1
+229,64,H,fr,10,4,0.13,Premium,196.13,4.1,Sport Senior,1
+230,71,F,fr,12,4,0.09,Premium,220.1,4.2,Yoga,1
+231,64,F,fr,2,3,0.13,Premium,353.02,4.1,Club Voyage,1
+232,69,H,fr,7,4,0.15,Premium,428.09,4.6,Sport Senior,1
+233,68,F,fr,5,7,0.25,Premium,150.25,3.6,Informatique,1
+234,64,H,en,6,3,0.12,Premium,590.53,4.3,Informatique,1
+235,78,H,fr,2,3,0.08,Premium,354.6,3.5,Aide à domicile,1
+236,71,H,fr,3,5,0.08,Standard,83.93,3.6,Jardinage,1
+237,60,H,fr,3,8,0.19,Premium,157.5,4.2,Informatique,1
+238,68,H,fr,6,4,0.12,Premium,221.25,4.5,Sport Senior,1
+239,64,H,en,27,3,0.16,Premium,312.4,4.1,Sport Senior,1
+240,72,F,fr,3,5,0.05,Premium,1501.18,4.1,Informatique,1
+241,64,F,fr,7,2,0.38,Premium,400.66,2.2,Portage repas,1
+242,67,H,fr,5,4,0.2,Premium,169.01,3.8,Sport Senior,1
+243,70,F,de,19,6,0.21,Premium,395.08,4.6,Sport Senior,1
+244,72,F,fr,1,6,0.09,Premium,249.86,3.2,Jardinage,1
+245,61,F,fr,3,4,0.12,Premium,429.4,3.7,Sport Senior,1
+246,66,H,fr,3,2,0.2,Premium,526.91,4.8,Sport Senior,1
+247,65,H,fr,60,4,0.16,Premium,871.29,4.6,Sport Senior,1
+248,64,F,fr,11,7,0.19,Premium,324.78,4.7,Club Voyage,1
+249,76,H,it,2,6,0.12,Premium,1228.75,3.3,Informatique,1
+250,70,H,fr,4,6,0.13,Premium,684.72,3.6,Sport Senior,1
+251,61,H,de,3,6,0.1,Premium,188.04,3.9,Club Voyage,1
+252,72,H,fr,2,3,0.07,Premium,1940.05,4.4,Informatique,1
+253,78,H,fr,20,2,0.05,Premium,430.17,3.7,Informatique,1
+254,73,F,fr,9,3,0.09,Premium,169.78,3.0,Jardinage,1
+255,60,H,en,12,3,0.23,Premium,1242.54,3.9,Sport Senior,1
+256,65,F,fr,5,4,0.12,Premium,1745.52,4.1,Informatique,1
+257,74,H,it,10,9,0.13,Premium,322.52,3.1,Jardinage,1
+258,64,H,de,4,4,0.13,Premium,221.33,4.4,Sport Senior,1
+259,70,F,de,5,6,0.18,Premium,288.5,3.8,Sport Senior,1
+260,71,F,fr,13,3,0.07,Premium,586.62,4.1,Jardinage,1
+261,63,H,fr,2,7,0.43,Premium,920.46,2.7,Portage repas,1
+262,67,F,en,12,2,0.23,Premium,522.68,4.3,Sport Senior,1
+263,60,H,fr,23,5,0.13,Premium,359.23,4.2,Informatique,1
+264,62,F,fr,2,4,0.17,Premium,1097.72,4.6,Informatique,1
+265,66,F,fr,28,6,0.13,Premium,257.83,4.8,Informatique,1
+266,61,H,fr,1,8,0.15,Premium,755.46,4.2,Informatique,1
+267,76,H,fr,6,1,0.06,Premium,262.99,3.8,Informatique,1
+268,60,H,fr,12,4,0.17,Premium,467.5,4.6,Sport Senior,1
+269,65,F,fr,10,3,0.13,Premium,302.4,3.5,Informatique,1
+270,68,H,fr,2,5,0.16,Premium,316.68,4.6,Informatique,1
+271,75,F,fr,20,4,0.12,Premium,244.86,3.2,Jardinage,1
+272,60,H,fr,44,1,0.15,Premium,971.14,4.5,Sport Senior,1
+273,73,H,fr,3,4,0.13,Premium,184.24,3.3,Jardinage,1
+274,68,H,fr,28,4,0.13,Premium,183.17,3.9,Informatique,1
+275,63,F,fr,10,2,0.13,Premium,1806.92,4.3,Sport Senior,1
+276,70,F,fr,33,6,0.18,Premium,724.05,4.2,Sport Senior,1
+277,68,H,fr,3,2,0.18,Basic,49.13,4.1,Informatique,1
+278,64,F,fr,19,2,0.16,Premium,210.69,3.6,Sport Senior,1
+279,68,H,fr,1,2,0.18,Basic,77.71,3.7,Sport Senior,1
+280,66,F,en,26,1,0.13,Premium,154.78,3.9,Club Voyage,1
+281,68,H,fr,14,2,0.15,None,26.89,3.8,Sport Senior,0
+282,71,H,fr,6,2,0.11,Premium,296.78,3.8,Aide à domicile,1
+283,75,F,fr,3,4,0.15,Standard,132.82,3.2,Yoga,1
+284,61,F,fr,21,2,0.18,Premium,347.41,3.5,Informatique,1
+285,78,F,fr,12,4,0.26,Standard,90.24,1.7,Portage repas,1
+286,60,H,fr,6,4,0.2,Premium,353.86,4.7,Sport Senior,1
+287,67,H,fr,8,5,0.24,Premium,237.62,4.7,Club Voyage,1
+288,70,F,fr,22,5,0.19,Premium,1101.19,4.0,Club Voyage,1
+289,69,H,fr,5,4,0.15,Premium,1024.2,3.7,Club Voyage,1
+290,64,F,de,2,6,0.21,Premium,620.71,4.1,Club Voyage,1
+291,66,F,fr,30,4,0.11,Premium,255.01,4.2,Informatique,1
+292,65,H,fr,6,2,0.18,Premium,1621.15,4.2,Club Voyage,1
+293,65,F,fr,6,5,0.13,Standard,95.6,4.2,Sport Senior,1
+294,72,F,fr,3,6,0.12,Standard,107.74,4.5,Informatique,1
+295,69,F,en,28,4,0.21,Premium,309.69,4.7,Informatique,1
+296,64,F,fr,3,4,0.19,Premium,2009.85,4.0,Club Voyage,1
+297,72,F,fr,13,6,0.14,Premium,281.66,4.3,Jardinage,1
+298,69,F,it,26,4,0.15,Premium,286.0,4.1,Informatique,1
+299,72,H,fr,1,3,0.07,Standard,104.49,3.8,Informatique,1
+300,71,F,fr,22,5,0.09,Premium,705.8,4.4,Yoga,1
+301,63,H,es,7,3,0.19,Premium,709.9,4.5,Sport Senior,1
+302,65,F,fr,13,1,0.11,Premium,622.56,4.3,Sport Senior,1
+303,71,F,fr,6,2,0.12,Premium,200.18,3.1,Jardinage,1
+304,71,H,fr,15,3,0.15,Premium,188.15,3.6,Jardinage,1
+305,67,H,fr,4,5,0.21,Standard,117.69,3.8,Sport Senior,1
+306,68,F,fr,1,3,0.22,Premium,354.14,4.5,Club Voyage,1
+307,74,H,it,36,4,0.1,Standard,139.53,3.7,Jardinage,1
+308,65,H,fr,1,3,0.24,Standard,129.11,4.1,Sport Senior,1
+309,70,H,fr,21,3,0.16,Premium,235.95,4.4,Sport Senior,1
+310,66,F,de,3,4,0.21,Premium,223.91,4.2,Club Voyage,1
+311,66,F,fr,6,5,0.2,Premium,215.34,3.8,Informatique,1
+312,73,F,fr,21,6,0.14,Premium,480.94,3.5,Informatique,1
+313,72,H,fr,3,5,0.06,Premium,352.77,4.1,Informatique,1
+314,72,F,de,25,4,0.14,Premium,262.98,3.8,Jardinage,1
+315,74,H,en,9,5,0.09,Premium,383.37,4.3,Jardinage,1
+316,68,F,fr,6,3,0.15,Standard,149.81,3.7,Sport Senior,1
+317,71,F,fr,14,6,0.14,Premium,360.25,4.1,Jardinage,1
+318,66,H,fr,6,1,0.1,Premium,373.56,4.2,Informatique,1
+319,69,F,de,6,2,0.23,Standard,99.5,3.8,Sport Senior,1
+320,67,H,fr,16,4,0.1,Premium,734.46,4.5,Sport Senior,1
+321,68,H,fr,5,5,0.14,Premium,163.6,3.6,Sport Senior,1
+322,70,H,it,3,3,0.11,Premium,355.97,4.6,Sport Senior,1
+323,63,H,fr,20,4,0.14,Premium,840.6,4.2,Sport Senior,1
+324,78,H,fr,20,2,0.44,Premium,694.45,1.7,Yoga,1
+325,62,H,fr,9,4,0.32,Premium,340.38,2.7,Club Voyage,1
+326,61,H,fr,9,5,0.11,Premium,247.79,4.0,Sport Senior,1
+327,73,F,fr,15,6,0.05,Premium,706.69,3.4,Informatique,1
+328,71,F,de,9,4,0.11,Premium,568.12,3.2,Jardinage,1
+329,71,F,fr,7,7,0.14,Premium,201.92,3.5,Jardinage,1
+330,71,F,fr,64,4,0.12,Premium,175.33,3.5,Jardinage,1
+331,67,H,fr,2,2,0.19,Basic,63.1,4.2,Informatique,1
+332,63,H,fr,11,1,0.35,Premium,374.58,2.0,Portage repas,1
+333,68,H,fr,27,2,0.12,Premium,309.95,4.1,Sport Senior,1
+334,64,F,fr,14,2,0.18,Premium,821.83,3.9,Informatique,1
+335,72,H,it,26,2,0.47,Premium,441.35,3.2,Club Voyage,1
+336,67,F,fr,5,2,0.14,Premium,962.92,3.8,Sport Senior,1
+337,63,H,fr,4,3,0.21,Premium,189.56,4.6,Club Voyage,1
+338,66,H,fr,23,6,0.19,Premium,823.12,4.0,Informatique,1
+339,70,F,de,7,2,0.17,Premium,216.9,4.4,Sport Senior,1
+340,65,F,fr,15,9,0.15,Premium,616.87,3.7,Club Voyage,1
+341,63,F,en,2,3,0.14,Standard,103.09,4.2,Informatique,1
+342,69,H,fr,17,3,0.19,Premium,399.69,3.7,Club Voyage,1
+343,69,H,de,10,5,0.2,Basic,67.68,4.6,Club Voyage,1
+344,65,H,fr,4,2,0.21,Premium,267.43,4.4,Club Voyage,1
+345,65,F,en,9,8,0.2,Premium,471.0,4.6,Club Voyage,1
+346,69,F,fr,15,6,0.15,Premium,218.29,4.1,Sport Senior,1
+347,60,H,fr,1,3,0.18,Standard,142.91,4.6,Informatique,1
+348,60,H,fr,13,2,0.23,Premium,651.63,4.2,Sport Senior,1
+349,64,F,en,10,2,0.18,Premium,304.85,3.8,Sport Senior,1
+350,66,F,fr,3,4,0.18,Premium,223.84,3.6,Club Voyage,1
+351,69,H,es,17,11,0.12,Premium,342.44,4.6,Sport Senior,1
+352,75,F,it,5,4,0.09,Premium,2729.63,4.1,Yoga,1
+353,72,F,fr,4,6,0.12,Premium,833.29,4.4,Jardinage,1
+354,67,F,en,8,1,0.25,Premium,839.36,3.8,Informatique,1
+355,67,H,fr,14,5,0.45,Premium,469.2,2.5,Yoga,1
+356,62,H,fr,32,5,0.2,Premium,378.33,3.9,Sport Senior,1
+357,67,H,fr,2,5,0.22,Basic,48.7,3.6,Sport Senior,1
+358,66,H,fr,7,2,0.2,Premium,192.37,4.1,Sport Senior,1
+359,69,F,fr,1,5,0.24,Premium,225.46,3.6,Informatique,1
+360,63,F,fr,18,5,0.22,Basic,73.9,4.0,Informatique,1
+361,70,H,fr,8,5,0.16,Standard,131.19,4.2,Club Voyage,1
+362,75,F,fr,15,4,0.2,Basic,67.89,1.9,Sport Senior,1
+363,67,H,fr,5,4,0.17,Premium,321.16,4.4,Sport Senior,1
+364,70,F,fr,23,4,0.19,Premium,637.53,4.2,Sport Senior,1
+365,71,F,it,10,4,0.34,Premium,802.72,3.0,Portage repas,1
+366,65,F,fr,35,2,0.14,Premium,461.47,4.1,Informatique,1
+367,69,F,fr,1,2,0.31,Premium,153.22,2.7,Portage repas,1
+368,68,F,fr,9,5,0.21,Basic,70.59,4.4,Club Voyage,1
+369,68,F,fr,18,5,0.16,Standard,81.21,4.2,Sport Senior,1
+370,64,H,it,12,6,0.21,Standard,119.99,3.4,Yoga,1
+371,68,F,fr,1,4,0.15,Premium,162.63,3.6,Sport Senior,1
+372,70,H,fr,44,5,0.17,Premium,291.43,4.0,Informatique,1
+373,75,H,fr,5,2,0.06,Standard,147.12,4.2,Jardinage,1
+374,72,H,fr,4,6,0.08,Premium,434.31,3.3,Informatique,1
+375,78,F,es,8,0,0.09,Premium,275.0,3.9,Informatique,1
+376,64,H,en,10,5,0.18,Premium,333.96,4.4,Sport Senior,1
+377,72,F,fr,18,3,0.5,Premium,824.51,2.3,Portage repas,1
+378,68,F,fr,6,2,0.13,Standard,128.82,4.2,Club Voyage,1
+379,78,F,fr,7,8,0.11,Premium,462.92,3.7,Informatique,1
+380,63,H,fr,10,4,0.47,Premium,327.47,1.5,Sport Senior,1
+381,63,H,en,7,6,0.2,Premium,253.61,4.7,Club Voyage,1
+382,65,F,en,30,4,0.25,Premium,672.36,2.3,Club Voyage,1
+383,60,F,fr,23,2,0.15,Premium,669.01,3.8,Sport Senior,1
+384,65,H,de,8,7,0.13,Premium,155.31,4.4,Club Voyage,1
+385,64,F,fr,1,5,0.23,Premium,286.25,4.8,Sport Senior,1
+386,68,H,fr,28,2,0.2,Premium,414.7,4.0,Informatique,1
+387,69,H,fr,2,5,0.22,Premium,266.18,3.6,Club Voyage,1
+388,77,H,fr,4,13,0.06,Premium,528.8,4.0,Yoga,1
+389,72,H,fr,2,2,0.06,Premium,414.69,3.6,Jardinage,1
+390,65,H,fr,3,3,0.46,Premium,1434.59,3.4,Sport Senior,1
+391,63,F,fr,20,4,0.2,Standard,97.35,3.8,Informatique,1
+392,70,H,fr,11,6,0.15,Premium,300.26,4.1,Sport Senior,1
+393,61,H,en,38,6,0.17,Premium,160.1,3.9,Sport Senior,1
+394,77,F,fr,4,1,0.07,Premium,536.93,3.9,Jardinage,1
+395,73,F,fr,8,2,0.06,Standard,90.82,4.1,Jardinage,1
+396,65,F,en,46,4,0.21,Premium,436.87,3.9,Club Voyage,1
+397,60,F,de,22,3,0.11,Premium,200.05,3.7,Informatique,1
+398,74,H,de,16,5,0.1,Premium,184.06,3.0,Aide à domicile,1
+399,67,H,fr,3,6,0.18,Standard,104.1,3.8,Sport Senior,1
+400,74,F,fr,18,5,0.06,Premium,228.27,3.4,Yoga,1
+401,60,F,fr,6,4,0.16,Premium,788.54,4.6,Sport Senior,1
+402,65,H,fr,10,4,0.18,Premium,324.55,4.3,Sport Senior,1
+403,68,F,de,12,3,0.13,Premium,547.15,4.1,Sport Senior,1
+404,68,F,fr,12,5,0.21,Premium,1254.26,3.7,Informatique,1
+405,65,H,fr,16,6,0.48,Premium,408.95,2.1,Sport Senior,1
+406,71,H,fr,14,2,0.13,Premium,211.78,3.3,Jardinage,1
+407,62,F,fr,1,6,0.14,Premium,481.25,4.6,Sport Senior,1
+408,67,F,en,8,3,0.25,Premium,214.25,4.1,Sport Senior,1
+409,68,F,fr,14,3,0.24,Premium,221.2,3.5,Sport Senior,1
+410,70,H,fr,5,4,0.18,Standard,98.17,4.2,Sport Senior,1
+411,71,H,fr,5,1,0.15,Premium,694.78,4.4,Yoga,1
+412,62,F,fr,2,4,0.25,Premium,243.18,4.7,Informatique,1
+413,60,H,fr,7,0,0.24,Premium,383.09,4.4,Informatique,1
+414,74,H,fr,52,3,0.13,Standard,144.58,4.4,Jardinage,1
+415,69,F,fr,5,4,0.15,Premium,469.35,4.3,Sport Senior,1
+416,64,F,fr,10,4,0.25,Premium,180.01,4.4,Informatique,1
+417,75,H,de,17,2,0.11,Premium,295.66,3.2,Yoga,1
+418,68,F,de,1,6,0.23,Premium,668.37,4.7,Informatique,1
+419,73,F,de,28,4,0.06,Premium,623.4,4.1,Jardinage,1
+420,68,H,fr,6,5,0.16,Premium,325.37,4.7,Sport Senior,1
+421,78,H,fr,25,5,0.13,Standard,80.49,3.9,Jardinage,1
+422,76,H,fr,1,3,0.07,Premium,3629.44,3.4,Jardinage,1
+423,66,H,it,2,2,0.16,Premium,1338.46,4.2,Sport Senior,1
+424,72,H,es,5,5,0.41,Premium,590.36,3.3,Club Voyage,1
+425,71,F,it,6,3,0.08,Premium,181.28,4.2,Yoga,1
+426,74,H,fr,23,12,0.08,Premium,302.39,4.2,Informatique,1
+427,63,F,de,1,5,0.19,Premium,214.4,4.0,Sport Senior,1
+428,71,F,fr,13,2,0.07,Premium,910.2,3.6,Informatique,1
+429,73,H,fr,2,4,0.11,Premium,408.54,4.4,Jardinage,1
+430,60,H,fr,21,5,0.25,Premium,176.84,4.4,Sport Senior,1
+431,62,F,fr,19,6,0.13,Premium,227.23,4.6,Sport Senior,1
+432,60,H,fr,9,1,0.31,Premium,812.03,2.3,Sport Senior,1
+433,66,F,fr,3,3,0.16,Premium,1191.14,3.8,Informatique,1
+434,71,F,fr,13,6,0.05,Premium,1124.68,3.8,Yoga,1
+435,75,F,fr,3,6,0.08,Premium,606.81,4.0,Jardinage,1
+436,68,H,it,3,3,0.17,Premium,270.56,3.9,Club Voyage,1
+437,76,H,fr,12,4,0.09,None,24.76,3.5,Jardinage,0
+438,61,F,fr,57,2,0.1,Premium,420.02,3.7,Sport Senior,1
+439,60,H,en,27,3,0.1,Premium,330.67,3.7,Club Voyage,1
+440,67,F,de,11,3,0.17,Premium,370.4,3.6,Informatique,1
+441,69,H,fr,10,3,0.2,Premium,345.75,4.8,Sport Senior,1
+442,67,F,fr,78,5,0.19,Standard,114.61,4.2,Sport Senior,1
+443,60,F,fr,10,3,0.2,Premium,517.24,4.2,Sport Senior,1
+444,67,H,fr,7,1,0.14,Premium,549.14,4.4,Club Voyage,1
+445,61,F,fr,29,5,0.12,Premium,571.61,4.1,Informatique,1
+446,71,F,it,4,4,0.13,Premium,706.16,4.0,Jardinage,1
+447,69,H,fr,2,3,0.24,Premium,536.91,3.8,Sport Senior,1
+448,63,H,en,13,3,0.24,Premium,238.55,4.4,Informatique,1
+449,65,F,it,2,5,0.22,Premium,312.91,4.4,Club Voyage,1
+450,62,F,de,6,7,0.47,Premium,356.2,1.8,Yoga,1
+451,67,F,fr,7,4,0.22,Premium,360.95,4.7,Sport Senior,1
+452,72,F,de,10,4,0.13,Premium,735.95,3.8,Jardinage,1
+453,63,F,fr,58,5,0.12,Premium,554.2,4.6,Informatique,1
+454,70,H,fr,3,4,0.14,Premium,1744.91,4.5,Club Voyage,1
+455,65,H,fr,6,1,0.15,Premium,1934.8,4.5,Sport Senior,1
+456,64,F,fr,2,1,0.15,Premium,352.94,4.4,Club Voyage,1
+457,67,F,fr,12,6,0.16,None,15.38,4.1,Sport Senior,0
+458,62,F,fr,16,4,0.2,Premium,890.74,3.8,Sport Senior,1
+459,65,F,fr,8,3,0.18,Premium,214.92,4.3,Club Voyage,1
+460,62,H,fr,4,2,0.47,Premium,174.41,2.4,Yoga,1
+461,77,F,fr,12,7,0.38,Premium,240.77,2.9,Club Voyage,1
+462,68,F,fr,10,2,0.22,Premium,231.66,3.5,Sport Senior,1
+463,64,H,en,3,3,0.23,Premium,540.45,3.7,Sport Senior,1
+464,69,F,fr,7,3,0.17,Standard,95.11,3.9,Informatique,1
+465,67,H,fr,7,3,0.17,Standard,139.83,4.0,Sport Senior,1
+466,66,F,fr,49,5,0.25,Premium,435.77,4.2,Sport Senior,1
+467,71,H,fr,23,3,0.14,Premium,545.08,3.0,Informatique,1
+468,71,H,fr,16,4,0.07,Premium,553.25,4.2,Informatique,1
+469,65,H,fr,27,4,0.22,Premium,176.44,4.3,Sport Senior,1
+470,65,H,es,16,7,0.21,Premium,151.41,4.6,Informatique,1
+471,66,F,fr,29,4,0.22,Premium,220.8,2.8,Club Voyage,1
+472,60,F,fr,1,0,0.23,Premium,401.21,3.9,Sport Senior,1
+473,60,H,fr,8,5,0.17,Premium,1086.77,3.6,Informatique,1
+474,74,H,it,17,5,0.07,Basic,64.37,3.0,Jardinage,1
+475,76,F,fr,11,3,0.1,Premium,277.55,4.4,Jardinage,1
+476,66,F,fr,3,5,0.15,Standard,114.03,4.5,Informatique,1
+477,70,F,en,5,5,0.13,Standard,88.3,3.9,Sport Senior,1
+478,69,F,fr,5,5,0.23,Premium,717.77,3.8,Sport Senior,1
+479,83,F,fr,4,4,0.48,Premium,511.98,2.8,Portage repas,1
+480,73,H,fr,6,2,0.09,Premium,474.44,3.7,Aide à domicile,1
+481,67,F,fr,9,1,0.22,Premium,691.88,4.7,Sport Senior,1
+482,63,F,fr,24,1,0.11,Premium,225.61,3.6,Sport Senior,1
+483,60,H,fr,17,5,0.19,Premium,234.27,3.5,Sport Senior,1
+484,69,H,fr,22,2,0.23,Premium,1902.97,4.2,Sport Senior,1
+485,64,H,fr,26,1,0.21,Premium,271.87,4.2,Informatique,1
+486,60,H,fr,7,3,0.2,Premium,596.27,4.7,Sport Senior,1
+487,64,F,de,6,3,0.26,Premium,332.85,1.8,Club Voyage,1
+488,62,H,en,1,4,0.25,Basic,75.49,3.9,Club Voyage,1
+489,76,F,fr,32,6,0.1,Basic,64.51,4.0,Informatique,1
+490,72,F,fr,1,8,0.12,Premium,208.39,4.1,Yoga,1
+491,67,H,fr,17,3,0.16,Premium,770.83,4.5,Sport Senior,1
+492,75,H,fr,6,5,0.13,Premium,622.17,3.7,Informatique,1
+493,68,F,fr,36,4,0.22,Premium,688.04,3.8,Informatique,1
+494,63,F,es,7,6,0.13,Premium,150.35,4.7,Sport Senior,1
+495,75,F,fr,21,7,0.07,Premium,1206.26,4.4,Jardinage,1
+496,70,F,fr,4,9,0.11,Premium,153.04,4.7,Informatique,1
+497,62,F,fr,5,2,0.24,Premium,392.62,3.6,Informatique,1
+498,67,H,fr,11,4,0.17,Premium,328.42,3.8,Sport Senior,1
+499,63,F,fr,75,5,0.2,Premium,288.15,4.6,Sport Senior,1
+500,61,H,fr,9,1,0.17,Premium,966.28,3.6,Informatique,1
+501,72,H,fr,34,4,0.4,Premium,188.39,2.7,Yoga,1
+502,77,F,it,19,6,0.06,Standard,112.49,3.4,Informatique,1
+503,61,H,fr,20,2,0.21,Premium,336.49,3.8,Club Voyage,1
+504,70,F,de,7,3,0.19,Premium,240.5,4.5,Club Voyage,1
+505,64,F,en,6,3,0.22,Premium,4936.89,4.4,Sport Senior,1
+506,65,H,fr,3,5,0.18,Premium,568.95,4.5,Informatique,1
+507,65,H,en,40,4,0.23,Premium,238.68,3.9,Sport Senior,1
+508,63,H,fr,39,2,0.25,Standard,142.27,4.1,Informatique,1
+509,68,F,es,17,6,0.22,Basic,73.58,4.5,Club Voyage,1
+510,63,H,fr,5,7,0.19,Standard,145.83,4.6,Sport Senior,1
+511,69,F,fr,4,4,0.16,Premium,363.05,4.1,Sport Senior,1
+512,67,H,fr,54,4,0.16,Premium,1037.37,3.5,Informatique,1
+513,66,H,fr,1,1,0.23,Premium,812.35,4.5,Sport Senior,1
+514,63,F,es,23,3,0.23,Premium,397.76,3.9,Sport Senior,1
+515,65,H,fr,6,2,0.22,Premium,255.71,4.6,Club Voyage,1
+516,71,F,fr,7,5,0.05,Premium,410.61,3.4,Jardinage,1
+517,70,F,fr,22,7,0.21,Premium,218.69,3.8,Sport Senior,1
+518,63,F,de,2,6,0.14,Premium,1309.34,4.0,Club Voyage,1
+519,68,H,fr,6,4,0.17,Premium,284.64,4.0,Sport Senior,1
+520,71,H,fr,37,3,0.1,Premium,309.05,3.0,Aide à domicile,1
+521,60,H,fr,15,3,0.19,Basic,56.26,4.4,Sport Senior,1
+522,70,F,fr,17,5,0.24,Premium,283.22,4.6,Club Voyage,1
+523,64,H,fr,18,7,0.24,Premium,646.63,3.9,Informatique,1
+524,70,H,fr,1,3,0.1,Standard,140.95,4.5,Sport Senior,1
+525,64,F,fr,3,6,0.24,Premium,181.64,3.7,Informatique,1
+526,60,H,fr,9,4,0.13,Premium,624.38,4.4,Club Voyage,1
+527,60,F,fr,6,5,0.14,Standard,101.62,4.2,Sport Senior,1
+528,68,H,fr,7,4,0.19,Premium,771.88,4.1,Informatique,1
+529,69,F,fr,19,3,0.16,Premium,216.34,3.5,Sport Senior,1
+530,63,F,it,1,8,0.16,Premium,242.68,3.6,Sport Senior,1
+531,71,F,de,13,5,0.06,Standard,134.76,4.4,Informatique,1
+532,60,H,fr,1,8,0.38,Premium,448.1,2.5,Club Voyage,1
+533,67,F,fr,1,3,0.43,Premium,2369.61,2.2,Sport Senior,1
+534,61,F,fr,7,6,0.11,Premium,618.8,4.5,Sport Senior,1
+535,64,H,fr,23,5,0.46,Premium,165.86,2.0,Portage repas,1
+536,68,H,fr,2,4,0.11,Premium,821.46,4.0,Informatique,1
+537,63,F,fr,10,5,0.16,Premium,257.04,4.1,Sport Senior,1
+538,66,F,fr,14,3,0.11,Premium,994.43,4.5,Informatique,1
+539,73,F,de,4,1,0.07,Premium,631.39,3.8,Jardinage,1
+540,65,F,fr,9,5,0.19,Basic,31.44,3.7,Informatique,1
+541,72,H,fr,30,3,0.07,Standard,148.31,3.1,Informatique,1
+542,62,H,fr,9,6,0.2,Premium,704.93,4.8,Informatique,1
+543,70,H,fr,3,5,0.2,Premium,373.87,4.1,Club Voyage,1
+544,75,F,fr,12,1,0.08,Standard,146.0,4.3,Informatique,1
+545,60,H,fr,11,6,0.23,Premium,199.48,4.1,Informatique,1
+546,64,H,fr,1,1,0.17,Basic,72.07,3.6,Informatique,1
+547,70,H,fr,2,9,0.21,Premium,308.55,4.7,Sport Senior,1
+548,66,H,de,3,6,0.13,Premium,1941.35,4.2,Sport Senior,1
+549,69,H,fr,2,4,0.12,Premium,630.51,4.3,Informatique,1
+550,64,H,fr,4,2,0.21,Premium,1910.11,3.9,Sport Senior,1
+551,68,F,fr,8,3,0.14,Premium,670.82,4.6,Sport Senior,1
+552,67,H,fr,6,4,0.24,Premium,753.38,4.4,Sport Senior,1
+553,73,H,fr,27,6,0.14,Premium,1606.56,4.0,Informatique,1
+554,69,H,en,12,2,0.19,Premium,447.82,4.6,Informatique,1
+555,69,F,es,26,2,0.1,Premium,285.09,4.4,Informatique,1
+556,65,H,de,9,3,0.15,Premium,756.51,4.3,Sport Senior,1
+557,65,H,fr,2,4,0.2,Premium,1059.61,4.7,Sport Senior,1
+558,65,F,it,8,1,0.16,Premium,225.57,4.7,Informatique,1
+559,69,F,fr,21,3,0.15,Premium,185.92,4.3,Sport Senior,1
+560,65,H,fr,3,3,0.22,Premium,370.06,4.6,Sport Senior,1
+561,69,H,fr,2,2,0.13,Premium,644.06,3.7,Informatique,1
+562,78,F,en,5,7,0.07,Premium,627.07,4.0,Informatique,1
+563,72,F,fr,6,2,0.08,Standard,105.98,3.7,Informatique,1
+564,66,H,fr,5,8,0.13,Premium,1528.24,4.1,Sport Senior,1
+565,74,F,fr,2,5,0.08,Premium,198.27,3.1,Jardinage,1
+566,65,F,fr,4,7,0.24,Premium,267.88,2.4,Sport Senior,1
+567,60,F,fr,14,1,0.12,Premium,160.85,4.7,Informatique,1
+568,62,F,de,6,2,0.23,Premium,2867.65,4.1,Sport Senior,1
+569,60,F,fr,13,4,0.48,Premium,401.92,2.3,Portage repas,1
+570,66,F,fr,10,4,0.11,Premium,167.64,3.7,Informatique,1
+571,68,F,fr,10,8,0.11,Premium,660.98,3.6,Informatique,1
+572,76,F,fr,4,1,0.1,Premium,612.71,3.2,Aide à domicile,1
+573,69,F,fr,9,2,0.16,Premium,284.98,4.4,Sport Senior,1
+574,66,F,fr,1,3,0.23,Premium,648.76,4.5,Informatique,1
+575,72,F,fr,7,5,0.08,Premium,171.12,3.5,Jardinage,1
+576,60,H,fr,11,5,0.12,Premium,223.24,3.7,Sport Senior,1
+577,69,F,fr,3,2,0.19,Basic,66.31,4.1,Informatique,1
+578,71,F,fr,4,3,0.09,Standard,114.83,3.2,Aide à domicile,1
+579,60,F,fr,3,7,0.12,Premium,1406.26,4.8,Sport Senior,1
+580,73,F,fr,1,4,0.1,Premium,1231.18,3.2,Informatique,1
+581,69,H,es,6,8,0.24,Premium,349.05,1.9,Yoga,1
+582,65,H,fr,47,4,0.21,Premium,1252.54,4.5,Club Voyage,1
+583,71,H,fr,6,3,0.09,Premium,291.35,3.4,Aide à domicile,1
+584,79,F,fr,8,5,0.13,Premium,272.56,4.3,Aide à domicile,1
+585,68,H,fr,13,7,0.16,Premium,346.47,3.5,Sport Senior,1
+586,69,F,es,13,5,0.23,Premium,299.66,3.9,Sport Senior,1
+587,65,F,fr,36,3,0.15,Premium,278.78,4.7,Sport Senior,1
+588,63,F,fr,24,5,0.28,Premium,826.59,3.4,Sport Senior,1
+589,72,F,fr,19,3,0.12,Premium,373.42,4.1,Informatique,1
+590,63,H,fr,37,6,0.12,Premium,585.56,3.9,Sport Senior,1
+591,68,H,en,4,1,0.1,Premium,755.73,4.7,Sport Senior,1
+592,65,F,fr,12,6,0.13,Premium,451.75,3.7,Sport Senior,1
+593,70,H,fr,27,4,0.24,Premium,152.38,3.6,Sport Senior,1
+594,69,H,fr,12,1,0.25,Standard,112.2,4.7,Sport Senior,1
+595,73,F,fr,46,1,0.07,Premium,373.01,3.3,Informatique,1
+596,65,F,it,2,3,0.14,Premium,288.76,3.9,Informatique,1
+597,66,F,fr,7,4,0.19,Premium,355.14,4.0,Sport Senior,1
+598,63,F,fr,46,4,0.41,Premium,326.93,3.2,Yoga,1
+599,65,F,fr,6,5,0.13,Premium,2616.11,3.7,Club Voyage,1
+600,69,F,fr,17,3,0.23,Standard,114.25,4.3,Club Voyage,1
+601,71,F,fr,1,8,0.15,Basic,67.4,3.5,Jardinage,1
+602,63,F,fr,15,5,0.19,Premium,432.03,4.0,Informatique,1
+603,72,H,fr,33,8,0.14,Premium,245.05,3.0,Informatique,1
+604,74,H,fr,6,4,0.12,Premium,426.43,4.4,Aide à domicile,1
+605,70,H,fr,1,3,0.27,Premium,528.31,3.0,Portage repas,1
+606,77,F,es,1,3,0.07,Premium,925.07,3.1,Jardinage,1
+607,64,F,fr,27,4,0.23,Standard,99.17,4.3,Sport Senior,1
+608,61,H,fr,16,3,0.17,Premium,212.13,4.0,Sport Senior,1
+609,60,F,fr,2,5,0.19,Premium,466.66,3.5,Club Voyage,1
+610,75,F,fr,1,2,0.09,Premium,613.36,3.9,Jardinage,1
+611,71,H,fr,20,4,0.35,Premium,1914.75,2.9,Portage repas,1
+612,67,H,en,20,6,0.23,Premium,711.34,4.1,Sport Senior,1
+613,69,F,fr,2,2,0.16,Premium,316.45,4.5,Club Voyage,1
+614,62,F,fr,5,4,0.22,Premium,162.43,4.3,Sport Senior,1
+615,80,F,fr,19,5,0.14,Premium,210.85,3.1,Jardinage,1
+616,68,F,fr,9,7,0.2,Premium,206.11,4.7,Sport Senior,1
+617,68,F,fr,38,2,0.21,Premium,559.35,4.5,Informatique,1
+618,71,F,fr,8,4,0.13,Premium,406.74,4.3,Informatique,1
+619,70,F,fr,14,3,0.25,Standard,114.85,4.1,Sport Senior,1
+620,69,H,fr,9,3,0.31,Premium,233.66,3.2,Sport Senior,1
+621,64,H,fr,35,7,0.18,Premium,668.22,4.3,Sport Senior,1
+622,70,H,fr,7,8,0.19,Premium,438.74,3.9,Sport Senior,1
+623,77,F,fr,4,2,0.11,Premium,521.91,4.3,Jardinage,1
+624,74,F,fr,5,10,0.11,Premium,449.85,3.6,Informatique,1
+625,75,F,fr,23,4,0.06,Premium,1216.5,3.2,Jardinage,1
+626,65,F,fr,9,6,0.14,Premium,399.98,3.7,Club Voyage,1
+627,63,F,fr,6,3,0.19,Premium,243.17,4.7,Informatique,1
+628,67,H,fr,10,2,0.18,Premium,159.17,3.9,Club Voyage,1
+629,68,H,fr,2,3,0.14,Premium,404.35,3.7,Sport Senior,1
+630,73,H,fr,1,6,0.11,Basic,46.99,3.2,Informatique,1
+631,60,F,fr,4,3,0.2,Premium,285.76,4.1,Sport Senior,1
+632,75,H,fr,12,6,0.12,Premium,280.88,4.1,Aide à domicile,1
+633,67,F,fr,15,4,0.2,Standard,111.16,4.1,Sport Senior,1
+634,65,F,it,22,1,0.24,Premium,157.59,3.8,Sport Senior,1
+635,62,F,fr,32,6,0.22,Premium,632.9,3.5,Club Voyage,1
+636,60,H,fr,7,4,0.21,Premium,398.28,4.2,Sport Senior,1
+637,72,H,fr,17,1,0.07,Premium,359.25,3.2,Aide à domicile,1
+638,68,F,fr,1,2,0.25,Premium,423.12,4.1,Sport Senior,1
+639,61,H,fr,1,6,0.15,Premium,356.63,3.7,Informatique,1
+640,61,H,fr,2,4,0.16,Premium,895.05,4.0,Club Voyage,1
+641,66,F,fr,8,6,0.12,Premium,365.52,4.6,Sport Senior,1
+642,76,F,fr,3,3,0.1,Standard,103.13,4.4,Jardinage,1
+643,66,F,fr,5,3,0.24,Premium,1220.1,4.4,Sport Senior,1
+644,60,H,fr,13,4,0.11,Premium,445.35,4.1,Sport Senior,1
+645,66,F,fr,6,2,0.2,Premium,206.68,3.9,Informatique,1
+646,66,H,fr,10,3,0.22,Standard,121.49,4.3,Sport Senior,1
+647,60,F,fr,7,1,0.22,Premium,454.55,4.2,Sport Senior,1
+648,67,H,fr,3,3,0.13,Premium,301.52,4.6,Sport Senior,1
+649,66,F,fr,1,4,0.23,Premium,1166.66,4.8,Informatique,1
+650,71,H,fr,4,1,0.1,Premium,251.1,3.1,Jardinage,1
+651,77,H,fr,1,3,0.12,Premium,169.47,3.4,Aide à domicile,1
+652,73,H,fr,12,1,0.13,Premium,678.05,3.5,Jardinage,1
+653,66,H,it,20,4,0.48,Premium,694.24,2.8,Club Voyage,1
+654,62,F,es,5,4,0.21,Premium,378.99,3.6,Informatique,1
+655,80,H,fr,6,8,0.13,Premium,568.88,4.2,Aide à domicile,1
+656,68,F,fr,21,5,0.25,Premium,321.32,3.6,Club Voyage,1
+657,68,F,fr,4,5,0.2,Premium,399.29,3.9,Sport Senior,1
+658,67,H,fr,2,3,0.17,Premium,840.99,4.1,Sport Senior,1
+659,68,F,fr,9,5,0.12,Premium,546.12,4.4,Informatique,1
+660,67,F,fr,13,5,0.23,Premium,289.21,4.0,Club Voyage,1
+661,65,H,de,11,2,0.11,Premium,976.99,4.7,Informatique,1
+662,65,F,fr,16,3,0.11,Basic,49.93,4.6,Club Voyage,1
+663,67,H,fr,1,3,0.21,Premium,1709.99,3.9,Sport Senior,1
+664,65,F,fr,7,5,0.12,Standard,84.59,4.7,Informatique,1
+665,64,F,en,4,3,0.18,Premium,200.52,4.3,Informatique,1
+666,68,F,fr,18,4,0.18,Premium,320.49,4.1,Sport Senior,1
+667,66,H,fr,25,4,0.2,Premium,294.54,3.6,Informatique,1
+668,75,H,fr,4,4,0.06,Premium,740.79,3.4,Informatique,1
+669,60,H,en,2,5,0.2,Standard,142.07,2.1,Club Voyage,1
+670,73,H,fr,4,3,0.08,Premium,407.97,3.9,Aide à domicile,1
+671,74,F,it,2,3,0.11,Premium,208.52,3.6,Informatique,1
+672,60,F,fr,5,5,0.11,Premium,419.35,4.6,Informatique,1
+673,66,H,fr,10,7,0.19,Premium,314.43,4.7,Sport Senior,1
+674,66,F,fr,44,7,0.11,Premium,356.71,4.2,Informatique,1
+675,60,F,fr,7,4,0.19,Premium,213.29,4.7,Informatique,1
+676,64,F,fr,3,2,0.19,Premium,220.2,4.3,Informatique,1
+677,62,H,it,3,5,0.22,Premium,416.72,4.4,Club Voyage,1
+678,76,F,fr,3,5,0.12,Premium,704.55,4.2,Aide à domicile,1
+679,72,F,fr,3,4,0.06,Premium,205.2,3.4,Yoga,1
+680,74,F,fr,18,4,0.08,Premium,165.27,4.1,Informatique,1
+681,71,H,fr,1,5,0.07,Premium,540.96,4.3,Jardinage,1
+682,62,H,fr,72,4,0.2,Premium,322.65,4.1,Sport Senior,1
+683,65,F,fr,9,1,0.23,Premium,643.54,3.9,Club Voyage,1
+684,70,H,fr,10,4,0.15,Premium,160.44,3.6,Informatique,1
+685,61,F,fr,6,3,0.24,Basic,79.76,4.5,Sport Senior,1
+686,71,F,es,15,6,0.15,Premium,216.2,3.6,Jardinage,1
+687,66,H,fr,8,4,0.23,Premium,179.38,4.4,Sport Senior,1
+688,66,H,en,5,5,0.39,Premium,310.93,3.0,Portage repas,1
+689,71,F,fr,4,4,0.15,Premium,198.96,3.5,Informatique,1
+690,70,H,fr,32,2,0.16,Premium,599.08,3.5,Informatique,1
+691,66,H,fr,5,3,0.21,Premium,262.98,3.9,Informatique,1
+692,73,H,fr,7,3,0.05,Premium,373.52,3.8,Jardinage,1
+693,62,H,it,6,5,0.21,Premium,375.66,3.5,Sport Senior,1
+694,71,H,fr,2,9,0.15,Premium,387.05,3.1,Informatique,1
+695,70,F,fr,3,4,0.23,Premium,324.82,4.0,Sport Senior,1
+696,66,F,it,3,5,0.16,Premium,498.23,3.5,Club Voyage,1
+697,69,F,fr,15,6,0.14,Premium,175.22,4.1,Informatique,1
+698,61,F,fr,7,6,0.3,Premium,1014.47,2.3,Sport Senior,1
+699,72,H,fr,19,6,0.09,Premium,274.06,3.0,Jardinage,1
+700,67,F,en,15,4,0.14,Standard,115.97,4.1,Club Voyage,1
+701,65,F,fr,3,11,0.12,Premium,384.92,4.2,Sport Senior,1
+702,73,F,fr,10,6,0.07,Premium,167.61,3.5,Informatique,1
+703,64,F,fr,17,3,0.12,Premium,563.89,4.6,Informatique,1
+704,60,F,de,13,0,0.12,Premium,1939.66,4.8,Sport Senior,1
+705,60,H,fr,11,8,0.16,Premium,176.5,4.0,Club Voyage,1
+706,71,F,fr,17,1,0.08,Premium,432.02,3.5,Jardinage,1
+707,61,H,fr,1,6,0.15,Standard,81.3,3.8,Informatique,1
+708,76,H,de,16,2,0.07,Premium,476.14,3.4,Jardinage,1
+709,60,F,en,4,3,0.18,Premium,163.04,4.3,Sport Senior,1
+710,76,F,es,11,7,0.09,Premium,200.88,4.1,Aide à domicile,1
+711,69,F,fr,4,4,0.16,Standard,137.22,3.6,Sport Senior,1
+712,67,H,fr,22,3,0.11,Premium,594.85,4.2,Sport Senior,1
+713,65,H,fr,8,9,0.22,Premium,741.32,4.6,Sport Senior,1
+714,69,F,en,13,2,0.18,Premium,337.41,4.7,Informatique,1
+715,67,H,fr,19,2,0.13,Premium,165.84,3.9,Club Voyage,1
+716,73,H,fr,28,3,0.25,Premium,1181.1,2.9,Club Voyage,1
+717,68,F,en,16,3,0.22,Premium,181.68,2.4,Sport Senior,1
+718,68,F,fr,2,3,0.22,Basic,58.73,4.0,Sport Senior,1
+719,66,H,fr,24,6,0.21,Premium,477.85,3.7,Informatique,1
+720,67,H,fr,12,6,0.14,Standard,136.83,3.7,Informatique,1
+721,69,H,fr,12,10,0.19,Premium,730.31,4.0,Informatique,1
+722,60,H,fr,31,2,0.23,Premium,244.12,4.3,Club Voyage,1
+723,61,H,fr,4,3,0.21,Premium,536.76,4.0,Club Voyage,1
+724,71,F,fr,4,1,0.31,Premium,1016.16,3.1,Club Voyage,1
+725,68,H,fr,9,3,0.15,Standard,125.9,4.1,Sport Senior,1
+726,67,H,fr,17,3,0.22,Premium,210.57,3.6,Sport Senior,1
+727,68,H,fr,8,5,0.2,Premium,311.7,4.8,Sport Senior,1
+728,69,F,fr,13,3,0.15,Premium,1133.0,3.5,Club Voyage,1
+729,65,F,fr,8,3,0.15,Premium,195.56,3.6,Sport Senior,1
+730,64,F,fr,12,2,0.12,Premium,205.82,3.9,Sport Senior,1
+731,68,F,fr,21,3,0.21,Premium,485.46,4.3,Sport Senior,1
+732,63,F,fr,3,2,0.16,Premium,208.68,4.3,Sport Senior,1
+733,70,H,en,15,7,0.12,Premium,374.13,4.6,Sport Senior,1
+734,60,H,fr,19,2,0.17,Standard,95.71,4.6,Informatique,1
+735,73,F,en,8,7,0.14,Premium,1947.01,4.1,Informatique,1
+736,70,H,fr,5,5,0.22,Standard,112.66,4.6,Sport Senior,1
+737,69,F,fr,1,5,0.19,Premium,256.0,4.1,Informatique,1
+738,72,F,fr,20,2,0.15,Premium,322.66,4.1,Jardinage,1
+739,76,F,fr,5,1,0.07,Premium,1529.56,3.6,Jardinage,1
+740,73,F,fr,6,6,0.09,Standard,114.74,3.9,Informatique,1
+741,60,F,fr,5,5,0.17,Premium,1618.97,4.5,Sport Senior,1
+742,61,F,es,9,4,0.18,Premium,606.88,4.8,Informatique,1
+743,64,F,fr,15,5,0.3,Premium,462.32,2.5,Sport Senior,1
+744,68,H,fr,18,5,0.2,Premium,150.64,4.7,Sport Senior,1
+745,70,F,en,6,4,0.16,Premium,522.96,3.5,Sport Senior,1
+746,64,H,fr,14,2,0.23,Premium,185.64,3.6,Sport Senior,1
+747,68,H,en,16,4,0.47,Premium,912.25,3.3,Portage repas,1
+748,64,H,fr,5,5,0.25,Premium,152.28,3.9,Informatique,1
+749,64,H,de,2,4,0.23,Premium,302.49,4.5,Sport Senior,1
+750,60,F,fr,28,4,0.21,Premium,212.38,4.6,Club Voyage,1
+751,63,F,fr,14,2,0.28,Premium,150.29,3.2,Portage repas,1
+752,61,H,fr,13,2,0.45,Premium,599.23,2.2,Sport Senior,1
+753,63,F,fr,1,3,0.14,Premium,508.24,3.6,Sport Senior,1
+754,73,H,fr,21,5,0.13,Premium,871.13,4.0,Jardinage,1
+755,63,H,fr,11,1,0.11,Basic,79.73,3.7,Informatique,1
+756,81,H,fr,23,3,0.07,Premium,775.82,4.3,Soins Infirmiers,1
+757,70,H,fr,45,5,0.24,Premium,2457.61,3.8,Informatique,1
+758,68,H,en,38,1,0.25,Premium,230.74,3.8,Informatique,1
+759,63,H,fr,24,3,0.18,Premium,1508.25,3.8,Sport Senior,1
+760,71,F,fr,1,6,0.31,Premium,268.29,1.9,Club Voyage,1
+761,65,H,fr,27,1,0.2,Standard,110.46,3.8,Informatique,1
+762,68,F,fr,1,3,0.12,Premium,259.32,4.0,Sport Senior,1
+763,80,F,fr,23,4,0.11,Premium,765.97,4.3,Jardinage,1
+764,67,H,it,4,1,0.13,Premium,169.36,4.0,Sport Senior,1
+765,73,F,de,12,7,0.32,Premium,204.86,2.5,Sport Senior,1
+766,64,F,fr,1,4,0.15,Premium,532.41,4.6,Sport Senior,1
+767,67,F,en,18,1,0.23,Premium,331.97,4.1,Sport Senior,1
+768,76,H,fr,2,8,0.14,Premium,528.63,3.5,Yoga,1
+769,64,F,fr,7,3,0.1,Premium,400.55,3.5,Sport Senior,1
+770,77,H,fr,21,2,0.14,Premium,486.04,3.8,Yoga,1
+771,71,F,fr,15,5,0.07,Premium,234.33,3.0,Jardinage,1
+772,65,H,fr,1,3,0.23,Premium,398.6,4.3,Sport Senior,1
+773,71,H,fr,7,11,0.11,Premium,157.7,4.4,Jardinage,1
+774,72,F,fr,1,6,0.11,Premium,928.28,3.5,Jardinage,1
+775,71,F,fr,14,3,0.11,Premium,199.37,3.6,Aide à domicile,1
+776,60,F,fr,42,3,0.1,Premium,817.02,4.0,Sport Senior,1
+777,64,H,de,13,6,0.11,Premium,274.71,4.7,Informatique,1
+778,66,H,fr,4,2,0.14,Premium,389.24,4.3,Sport Senior,1
+779,67,H,fr,6,3,0.21,Premium,222.88,3.9,Sport Senior,1
+780,71,F,fr,46,7,0.13,Standard,146.91,4.0,Jardinage,1
+781,68,H,fr,4,4,0.2,Standard,82.0,3.6,Sport Senior,1
+782,61,H,fr,10,7,0.12,Standard,142.36,4.2,Sport Senior,1
+783,69,H,fr,7,5,0.24,Premium,255.56,4.8,Sport Senior,1
+784,71,H,fr,18,2,0.12,Premium,392.32,3.5,Informatique,1
+785,70,F,fr,25,3,0.24,Premium,743.14,4.7,Club Voyage,1
+786,73,F,fr,6,5,0.08,Premium,231.82,3.7,Jardinage,1
+787,72,H,fr,13,7,0.11,Premium,163.53,4.1,Jardinage,1
+788,70,H,fr,10,5,0.1,Standard,104.42,3.6,Club Voyage,1
+789,67,H,fr,4,9,0.19,Premium,486.21,3.6,Informatique,1
+790,60,F,en,4,2,0.23,Premium,1001.39,4.7,Informatique,1
+791,70,F,fr,10,5,0.22,Premium,912.01,4.2,Informatique,1
+792,69,F,it,3,5,0.22,Premium,584.37,4.7,Club Voyage,1
+793,69,F,fr,20,6,0.23,Premium,551.93,3.6,Informatique,1
+794,61,H,es,1,0,0.22,Premium,1287.79,4.3,Sport Senior,1
+795,62,H,fr,2,5,0.2,Premium,431.92,4.3,Sport Senior,1
+796,73,F,fr,6,3,0.1,Premium,555.29,3.8,Aide à domicile,1
+797,67,F,es,2,3,0.4,Premium,256.2,2.4,Yoga,1
+798,71,F,fr,8,3,0.08,Standard,111.38,4.2,Aide à domicile,1
+799,68,F,fr,7,6,0.16,Premium,191.62,3.8,Informatique,1
+800,68,H,fr,16,3,0.25,Premium,328.74,4.8,Sport Senior,1
+801,72,H,fr,37,3,0.09,Premium,347.66,4.4,Jardinage,1
+802,65,F,de,17,5,0.21,Premium,1546.29,3.7,Sport Senior,1
+803,68,H,fr,3,2,0.19,Premium,353.4,3.7,Sport Senior,1
+804,65,H,fr,33,2,0.18,Premium,850.36,4.4,Club Voyage,1
+805,65,H,fr,6,2,0.41,Premium,233.81,2.2,Yoga,1
+806,66,F,fr,8,3,0.13,Premium,258.07,3.6,Sport Senior,1
+807,69,H,fr,7,3,0.2,Standard,114.36,4.6,Informatique,1
+808,65,F,fr,4,7,0.25,Premium,182.86,4.1,Club Voyage,1
+809,74,F,fr,28,4,0.06,Premium,504.8,4.0,Aide à domicile,1
+810,63,F,fr,5,3,0.16,Premium,333.16,4.3,Club Voyage,1
+811,67,F,de,11,3,0.36,Premium,704.11,2.5,Sport Senior,1
+812,65,F,fr,4,4,0.11,Premium,382.83,4.5,Sport Senior,1
+813,75,F,fr,20,4,0.09,Premium,249.79,3.1,Yoga,1
+814,68,F,fr,18,3,0.11,Premium,1846.82,4.7,Informatique,1
+815,73,H,fr,5,1,0.13,Premium,307.19,4.3,Aide à domicile,1
+816,60,H,fr,14,4,0.11,Premium,839.65,3.8,Informatique,1
+817,69,F,es,15,0,0.1,Premium,240.24,4.7,Informatique,1
+818,72,H,fr,10,4,0.39,Premium,584.21,2.9,Portage repas,1
+819,68,H,it,12,6,0.15,Premium,695.76,4.0,Informatique,1
+820,73,H,fr,11,1,0.12,Premium,391.26,4.4,Jardinage,1
+821,65,F,fr,2,4,0.2,Basic,50.35,3.5,Club Voyage,1
+822,75,H,fr,14,1,0.09,Premium,336.03,3.5,Jardinage,1
+823,79,H,fr,8,5,0.09,Premium,886.21,4.0,Informatique,1
+824,66,H,fr,7,3,0.13,Premium,505.01,4.4,Sport Senior,1
+825,65,F,it,24,5,0.1,Premium,473.08,4.6,Club Voyage,1
+826,75,F,fr,1,6,0.06,Standard,83.49,3.6,Informatique,1
+827,75,F,de,4,4,0.1,Premium,186.09,4.2,Jardinage,1
+828,65,F,en,2,7,0.18,Premium,460.2,4.1,Informatique,1
+829,65,F,fr,1,2,0.14,Premium,459.85,3.8,Informatique,1
+830,66,F,fr,4,5,0.1,Premium,875.08,4.6,Informatique,1
+831,61,H,fr,54,4,0.11,Premium,294.92,4.0,Informatique,1
+832,63,H,es,4,3,0.14,Premium,458.17,3.7,Club Voyage,1
+833,62,F,fr,14,4,0.2,Premium,335.52,4.8,Sport Senior,1
+834,64,H,fr,2,6,0.23,Premium,150.36,3.5,Sport Senior,1
+835,67,F,fr,12,5,0.24,Basic,54.49,3.8,Informatique,1
+836,69,H,fr,50,4,0.22,Premium,467.5,3.3,Portage repas,1
+837,75,H,fr,5,1,0.11,Premium,380.6,4.2,Jardinage,1
+838,63,H,fr,23,4,0.23,Premium,201.96,4.2,Sport Senior,1
+839,72,H,fr,73,4,0.07,Standard,90.67,3.3,Yoga,1
+840,66,F,fr,11,5,0.14,Premium,548.06,4.5,Sport Senior,1
+841,67,H,fr,5,5,0.16,Premium,267.7,3.8,Sport Senior,1
+842,71,F,fr,14,6,0.06,Premium,517.02,4.5,Informatique,1
+843,62,H,fr,23,3,0.12,Premium,1471.19,4.5,Club Voyage,1
+844,69,H,fr,3,8,0.19,Basic,59.71,4.8,Club Voyage,1
+845,68,H,fr,8,5,0.23,Premium,189.22,4.4,Informatique,1
+846,70,F,fr,5,5,0.23,Premium,280.08,4.1,Sport Senior,1
+847,69,H,fr,4,3,0.17,Premium,1060.45,4.4,Sport Senior,1
+848,80,F,fr,24,3,0.07,Standard,89.43,3.5,Informatique,1
+849,64,F,fr,7,4,0.19,Premium,1558.18,4.3,Sport Senior,1
+850,65,H,fr,5,3,0.12,Premium,369.17,4.2,Sport Senior,1
+851,64,F,fr,12,2,0.22,Premium,306.67,4.1,Sport Senior,1
+852,65,H,en,3,3,0.23,Premium,282.63,3.8,Sport Senior,1
+853,64,F,en,4,6,0.19,Premium,233.59,4.6,Sport Senior,1
+854,73,F,en,9,4,0.07,Premium,765.92,3.9,Jardinage,1
+855,75,H,fr,7,5,0.06,Standard,140.86,3.0,Aide à domicile,1
+856,65,H,fr,5,8,0.3,Premium,436.56,2.6,Yoga,1
+857,63,F,fr,1,2,0.12,Premium,243.53,4.6,Informatique,1
+858,70,H,fr,9,8,0.17,Premium,179.99,4.7,Club Voyage,1
+859,65,F,fr,21,6,0.16,Premium,2621.14,4.7,Sport Senior,1
+860,71,H,fr,23,7,0.13,Premium,463.05,3.9,Yoga,1
+861,69,F,en,4,3,0.25,Premium,540.88,3.9,Sport Senior,1
+862,60,H,fr,11,1,0.46,Premium,822.88,2.3,Yoga,1
+863,75,H,fr,24,7,0.07,Standard,106.22,3.5,Aide à domicile,1
+864,76,H,fr,7,3,0.13,Premium,1345.36,3.9,Informatique,1
+865,64,F,fr,33,3,0.23,Basic,44.5,3.9,Informatique,1
+866,66,H,fr,28,2,0.1,Premium,179.03,3.8,Informatique,1
+867,69,H,it,3,4,0.23,Premium,229.38,4.3,Informatique,1
+868,69,H,fr,4,3,0.21,Premium,527.4,3.8,Sport Senior,1
+869,71,F,en,3,2,0.06,Premium,394.48,3.4,Jardinage,1
+870,78,H,fr,3,6,0.07,Premium,289.78,4.4,Informatique,1
+871,67,H,it,29,4,0.17,Premium,327.99,4.2,Sport Senior,1
+872,64,F,fr,33,2,0.42,Premium,151.44,1.7,Club Voyage,1
+873,61,F,fr,1,2,0.23,Standard,99.96,3.5,Informatique,1
+874,64,H,fr,11,7,0.18,Premium,592.17,4.7,Informatique,1
+875,67,F,fr,10,3,0.15,Premium,576.83,4.2,Club Voyage,1
+876,76,H,es,6,7,0.11,Premium,1176.36,3.4,Jardinage,1
+877,65,H,fr,12,3,0.21,Premium,176.02,4.7,Sport Senior,1
+878,69,H,fr,36,3,0.12,Premium,576.42,4.7,Informatique,1
+879,67,F,de,3,0,0.22,Premium,263.91,3.8,Informatique,1
+880,73,F,fr,2,6,0.06,Premium,858.31,4.0,Yoga,1
+881,80,H,fr,1,2,0.14,Premium,750.06,4.4,Jardinage,1
+882,65,F,fr,6,2,0.15,Premium,392.11,3.5,Sport Senior,1
+883,65,H,fr,5,5,0.19,Premium,252.39,4.0,Club Voyage,1
+884,73,F,en,7,4,0.34,Premium,714.32,1.6,Yoga,1
+885,71,F,fr,9,5,0.45,Premium,555.63,3.0,Club Voyage,1
+886,77,F,fr,18,4,0.14,Premium,191.53,4.0,Informatique,1
+887,70,H,fr,6,7,0.14,Standard,114.47,4.2,Sport Senior,1
+888,66,H,en,5,2,0.18,Premium,262.9,3.7,Sport Senior,1
+889,70,F,fr,22,4,0.19,Premium,1113.11,3.7,Sport Senior,1
+890,73,F,it,23,2,0.13,Premium,828.63,4.2,Informatique,1
+891,72,F,fr,4,6,0.07,Standard,136.01,4.5,Informatique,1
+892,70,H,fr,5,10,0.2,Standard,130.11,4.5,Informatique,1
+893,73,F,de,21,2,0.15,Premium,918.12,3.9,Informatique,1
+894,73,H,fr,1,3,0.12,Standard,133.5,4.1,Aide à domicile,1
+895,74,F,fr,5,7,0.06,Premium,497.71,3.8,Jardinage,1
+896,71,F,fr,8,1,0.11,Premium,202.3,4.2,Yoga,1
+897,67,F,fr,3,11,0.19,Premium,1207.4,4.4,Club Voyage,1
+898,68,H,fr,3,4,0.2,Premium,178.8,4.3,Informatique,1
+899,74,F,es,7,4,0.15,Premium,826.56,4.0,Aide à domicile,1
+900,63,F,en,17,6,0.14,Premium,383.93,4.1,Club Voyage,1
+901,69,H,fr,23,4,0.13,Premium,405.18,3.5,Sport Senior,1
+902,66,H,fr,47,3,0.15,Basic,68.47,4.5,Sport Senior,1
+903,68,F,fr,1,5,0.2,Basic,56.84,4.1,Club Voyage,1
+904,74,F,fr,3,5,0.07,Premium,277.59,3.6,Jardinage,1
+905,68,H,fr,17,7,0.13,Premium,403.47,3.7,Sport Senior,1
+906,68,F,en,10,5,0.17,Standard,134.62,3.7,Sport Senior,1
+907,61,H,fr,5,5,0.18,Standard,138.61,3.6,Sport Senior,1
+908,71,H,en,3,6,0.12,Premium,518.93,3.6,Informatique,1
+909,71,F,fr,4,2,0.1,Premium,519.5,3.8,Jardinage,1
+910,78,F,fr,7,5,0.13,Premium,296.6,4.1,Aide à domicile,1
+911,66,F,fr,3,5,0.11,Premium,618.16,4.4,Informatique,1
+912,69,H,fr,40,5,0.23,Standard,129.44,4.3,Sport Senior,1
+913,69,F,fr,2,5,0.18,Premium,249.1,4.7,Sport Senior,1
+914,75,F,es,51,5,0.06,Premium,1237.55,3.9,Yoga,1
+915,67,H,fr,23,3,0.11,Premium,349.76,4.3,Informatique,1
+916,69,H,de,7,3,0.21,Premium,366.37,4.5,Informatique,1
+917,71,F,fr,17,4,0.09,Premium,2095.07,4.2,Jardinage,1
+918,68,H,es,14,1,0.18,Standard,108.11,3.9,Sport Senior,1
+919,65,F,fr,3,6,0.19,Premium,626.24,3.5,Informatique,1
+920,68,F,de,5,1,0.24,Premium,1253.6,3.7,Club Voyage,1
+921,73,F,fr,9,1,0.08,Premium,255.37,3.8,Informatique,1
+922,62,F,fr,13,3,0.25,Premium,658.71,4.6,Sport Senior,1
+923,68,F,de,10,4,0.16,Premium,150.95,4.5,Informatique,1
+924,64,F,fr,8,2,0.13,Premium,191.18,3.9,Club Voyage,1
+925,73,H,fr,8,3,0.09,Premium,450.59,3.7,Jardinage,1
+926,60,H,fr,9,4,0.15,Premium,627.31,3.8,Informatique,1
+927,65,H,de,7,5,0.21,Premium,811.87,3.7,Informatique,1
+928,69,F,fr,10,4,0.15,Premium,1162.45,4.0,Sport Senior,1
+929,75,F,fr,27,4,0.1,Premium,313.76,3.9,Jardinage,1
+930,67,F,fr,13,5,0.18,Premium,860.47,4.1,Informatique,1
+931,65,H,fr,16,6,0.23,Premium,251.83,4.2,Sport Senior,1
+932,77,H,en,11,4,0.13,Premium,681.47,3.9,Aide à domicile,1
+933,60,F,fr,13,2,0.18,Premium,390.95,3.6,Sport Senior,1
+934,60,F,fr,11,5,0.29,Premium,473.02,1.6,Club Voyage,1
+935,70,F,de,1,5,0.23,Premium,464.7,4.0,Sport Senior,1
+936,65,F,fr,94,3,0.2,Standard,91.73,4.0,Club Voyage,1
+937,62,F,fr,1,3,0.19,Standard,134.73,3.7,Informatique,1
+938,71,H,fr,7,3,0.05,Premium,359.47,3.9,Jardinage,1
+939,69,H,fr,2,2,0.23,Standard,85.86,4.7,Informatique,1
+940,65,F,fr,2,3,0.15,Premium,643.91,4.1,Sport Senior,1
+941,61,F,fr,19,5,0.21,Premium,665.03,3.8,Sport Senior,1
+942,72,H,fr,7,5,0.07,Premium,430.23,3.4,Aide à domicile,1
+943,71,F,fr,20,0,0.42,Standard,135.05,2.9,Club Voyage,1
+944,67,F,fr,4,4,0.17,Premium,998.94,4.4,Sport Senior,1
+945,77,F,fr,4,1,0.11,Premium,1689.78,3.2,Informatique,1
+946,62,F,fr,4,5,0.2,Premium,372.5,3.7,Informatique,1
+947,60,F,fr,12,6,0.14,Premium,498.21,3.8,Sport Senior,1
+948,64,H,fr,21,4,0.18,Premium,389.15,3.8,Informatique,1
+949,67,F,fr,8,0,0.22,Premium,506.17,4.8,Sport Senior,1
+950,69,F,fr,6,5,0.2,Premium,300.95,3.8,Club Voyage,1
+951,66,H,fr,44,4,0.1,Premium,322.12,4.4,Sport Senior,1
+952,69,F,fr,2,2,0.15,Premium,683.45,4.1,Club Voyage,1
+953,61,H,fr,9,4,0.21,Premium,2162.64,4.5,Sport Senior,1
+954,75,H,fr,7,2,0.09,Standard,108.04,4.2,Informatique,1
+955,67,F,fr,2,5,0.22,Premium,304.76,3.8,Sport Senior,1
+956,73,H,it,4,5,0.14,Standard,128.79,4.2,Aide à domicile,1
+957,69,F,it,1,4,0.16,Premium,1183.47,4.3,Club Voyage,1
+958,70,H,fr,26,5,0.21,Premium,206.93,4.5,Club Voyage,1
+959,70,F,fr,12,2,0.36,Standard,104.38,2.5,Yoga,1
+960,70,H,fr,21,10,0.35,Premium,551.77,1.7,Club Voyage,1
+961,71,H,fr,9,3,0.08,Premium,1336.8,3.2,Jardinage,1
+962,74,F,fr,11,1,0.14,Premium,563.1,3.8,Jardinage,1
+963,68,H,fr,15,7,0.19,Premium,390.11,4.7,Informatique,1
+964,71,H,fr,29,3,0.15,Premium,459.39,3.6,Jardinage,1
+965,67,H,fr,2,0,0.24,Premium,1027.06,2.9,Club Voyage,1
+966,75,F,fr,5,7,0.48,Premium,164.55,3.5,Portage repas,1
+967,64,H,fr,15,4,0.11,Premium,302.81,4.1,Sport Senior,1
+968,77,F,fr,39,2,0.09,Premium,230.54,4.4,Informatique,1
+969,67,F,fr,48,4,0.23,Standard,130.1,3.7,Informatique,1
+970,60,F,fr,13,5,0.12,Premium,254.65,4.2,Sport Senior,1
+971,68,F,fr,3,4,0.25,Premium,803.33,3.7,Sport Senior,1
+972,64,H,fr,2,4,0.15,Premium,521.06,4.2,Sport Senior,1
+973,72,F,fr,36,1,0.06,Premium,554.48,3.6,Jardinage,1
+974,64,H,fr,7,3,0.19,Premium,372.32,3.6,Sport Senior,1
+975,65,F,fr,3,4,0.16,Premium,503.33,3.5,Informatique,1
+976,60,F,en,33,3,0.22,Premium,174.53,3.9,Sport Senior,1
+977,65,F,it,2,4,0.15,Premium,258.52,3.5,Sport Senior,1
+978,60,F,fr,16,0,0.2,Premium,386.14,3.7,Club Voyage,1
+979,60,F,fr,12,5,0.21,Premium,413.48,3.7,Club Voyage,1
+980,71,F,fr,2,3,0.1,Premium,427.83,3.8,Jardinage,1
+981,71,H,it,5,7,0.14,Premium,296.46,3.0,Yoga,1
+982,70,F,fr,2,3,0.14,Premium,244.85,4.2,Sport Senior,1
+983,63,F,de,12,3,0.17,Premium,4141.45,4.7,Informatique,1
+984,67,F,fr,8,6,0.24,Premium,684.04,3.6,Sport Senior,1
+985,67,H,fr,1,4,0.18,Premium,460.86,4.4,Informatique,1
+986,62,H,de,45,2,0.12,Premium,274.79,4.0,Club Voyage,1
+987,75,F,fr,6,3,0.28,Premium,230.81,2.7,Sport Senior,1
+988,72,F,fr,4,7,0.06,Premium,298.25,3.2,Informatique,1
+989,66,F,fr,4,1,0.11,Premium,418.57,3.9,Informatique,1
+990,68,H,fr,3,6,0.13,Basic,73.57,4.5,Informatique,1
+991,69,F,fr,85,7,0.22,Standard,94.36,4.4,Club Voyage,1
+992,60,F,fr,5,6,0.2,Premium,198.96,4.0,Informatique,1
+993,66,F,fr,7,5,0.24,Premium,390.84,3.9,Informatique,1
+994,64,F,fr,25,8,0.12,Premium,273.46,4.3,Informatique,1
+995,62,F,de,13,3,0.41,Premium,1080.4,3.1,Club Voyage,1
+996,66,H,fr,6,2,0.18,Standard,101.16,4.0,Club Voyage,1
+997,76,F,fr,28,3,0.12,Premium,181.55,4.4,Jardinage,1
+998,71,H,fr,17,3,0.07,Premium,1117.29,4.0,Jardinage,1
+999,65,F,fr,4,3,0.19,Premium,367.78,4.2,Informatique,1
+1000,70,F,fr,13,3,0.25,Premium,672.13,3.3,Yoga,1
+1001,74,H,es,31,5,0.44,Premium,1708.86,3.1,Portage repas,1
+1002,72,F,fr,9,1,0.11,Premium,190.1,3.2,Yoga,1
+1003,68,H,fr,16,4,0.1,Premium,305.86,3.6,Informatique,1
+1004,64,H,fr,43,2,0.37,Premium,266.31,2.0,Club Voyage,1
+1005,71,F,fr,15,3,0.12,Basic,69.33,3.9,Aide à domicile,1
+1006,69,H,it,2,4,0.24,Premium,258.34,4.7,Sport Senior,1
+1007,72,F,fr,4,8,0.14,Premium,670.11,3.7,Jardinage,1
+1008,71,H,fr,11,2,0.05,Premium,510.33,3.5,Aide à domicile,1
+1009,73,F,fr,4,4,0.13,Premium,543.4,3.3,Aide à domicile,1
+1010,65,H,fr,38,4,0.22,Premium,245.23,3.8,Sport Senior,1
+1011,74,F,fr,7,6,0.15,Premium,195.92,3.9,Informatique,1
+1012,68,F,fr,8,5,0.21,Premium,914.15,4.1,Sport Senior,1
+1013,78,H,fr,15,2,0.31,Premium,222.46,2.3,Portage repas,1
+1014,64,H,fr,9,4,0.12,Premium,418.99,3.5,Club Voyage,1
+1015,76,H,fr,6,5,0.15,Premium,377.38,3.7,Yoga,1
+1016,68,H,de,1,2,0.18,Premium,1066.31,4.3,Informatique,1
+1017,64,H,de,11,4,0.17,Premium,720.33,4.1,Informatique,1
+1018,65,F,fr,25,7,0.17,Standard,117.49,3.5,Sport Senior,1
+1019,66,F,fr,14,3,0.22,Standard,128.07,3.9,Sport Senior,1
+1020,70,F,fr,6,2,0.12,Premium,526.22,4.7,Sport Senior,1
+1021,70,F,fr,2,5,0.21,Premium,314.54,4.0,Sport Senior,1
+1022,65,F,fr,21,3,0.14,Premium,230.08,4.2,Sport Senior,1
+1023,67,H,fr,35,4,0.21,Premium,746.27,3.6,Sport Senior,1
+1024,78,F,it,6,3,0.14,Premium,384.73,3.7,Jardinage,1
+1025,76,H,de,16,3,0.15,Premium,345.35,4.0,Yoga,1
+1026,70,F,fr,7,8,0.18,Premium,617.98,4.2,Informatique,1
+1027,68,F,fr,9,4,0.21,Premium,245.3,4.4,Sport Senior,1
+1028,68,F,fr,22,4,0.19,Premium,1161.42,4.4,Informatique,1
+1029,71,H,fr,2,5,0.35,Premium,176.29,3.4,Club Voyage,1
+1030,62,H,fr,10,2,0.15,Premium,560.11,4.7,Sport Senior,1
+1031,66,H,fr,3,3,0.2,Premium,1042.79,4.2,Club Voyage,1
+1032,60,F,it,5,2,0.11,Standard,110.03,3.5,Sport Senior,1
+1033,69,H,fr,13,0,0.19,Premium,251.62,4.8,Club Voyage,1
+1034,71,F,fr,1,5,0.1,Premium,825.8,3.2,Informatique,1
+1035,65,F,fr,11,3,0.16,Premium,835.79,4.7,Sport Senior,1
+1036,75,F,fr,4,5,0.11,Premium,288.7,3.9,Jardinage,1
+1037,61,F,fr,14,4,0.25,Premium,183.98,3.8,Sport Senior,1
+1038,60,F,it,2,6,0.17,Premium,711.47,3.9,Sport Senior,1
+1039,69,H,fr,16,7,0.14,Premium,853.57,3.6,Club Voyage,1
+1040,73,H,fr,13,4,0.09,Standard,130.43,3.2,Aide à domicile,1
+1041,76,F,fr,43,5,0.14,Standard,126.4,4.0,Informatique,1
+1042,65,F,fr,30,1,0.16,Premium,396.55,3.6,Sport Senior,1
+1043,73,F,en,4,2,0.08,Premium,547.89,3.8,Informatique,1
+1044,67,F,fr,1,4,0.22,Premium,260.69,4.3,Informatique,1
+1045,67,H,en,13,9,0.13,Premium,570.22,3.6,Informatique,1
+1046,72,F,fr,12,3,0.12,Premium,187.63,4.1,Yoga,1
+1047,71,H,fr,1,4,0.15,Basic,61.0,4.3,Informatique,1
+1048,60,F,fr,2,7,0.17,Premium,235.91,4.0,Sport Senior,1
+1049,75,H,fr,11,3,0.05,Premium,348.34,4.1,Informatique,1
+1050,74,F,fr,30,5,0.13,Premium,265.58,3.8,Aide à domicile,1
+1051,64,H,en,29,1,0.24,Standard,131.07,3.7,Sport Senior,1
+1052,69,F,fr,2,2,0.12,Basic,77.48,4.1,Sport Senior,1
+1053,70,H,fr,6,1,0.18,Premium,219.49,4.6,Sport Senior,1
+1054,69,F,fr,1,5,0.15,Premium,679.06,4.2,Informatique,1
+1055,65,F,fr,8,2,0.25,Premium,904.65,4.2,Sport Senior,1
+1056,64,H,fr,17,6,0.23,Premium,856.42,3.7,Informatique,1
+1057,67,H,fr,19,3,0.23,Premium,172.41,3.8,Sport Senior,1
+1058,73,H,fr,9,5,0.07,Standard,131.58,3.3,Jardinage,1
+1059,70,H,fr,2,4,0.14,Premium,492.7,4.2,Club Voyage,1
+1060,66,H,fr,6,2,0.12,Premium,550.41,4.1,Informatique,1
+1061,71,F,fr,33,3,0.06,Premium,456.1,3.2,Informatique,1
+1062,60,F,fr,4,3,0.24,Basic,66.11,4.6,Club Voyage,1
+1063,73,F,fr,5,1,0.08,Premium,165.52,3.0,Informatique,1
+1064,60,H,es,17,5,0.22,Premium,323.38,3.8,Informatique,1
+1065,66,F,fr,16,2,0.18,Premium,489.0,3.9,Informatique,1
+1066,62,F,fr,30,5,0.24,Premium,611.82,4.7,Sport Senior,1
+1067,61,H,fr,6,3,0.21,Premium,371.66,4.1,Sport Senior,1
+1068,73,H,fr,9,4,0.33,Premium,431.48,2.0,Club Voyage,1
+1069,65,F,en,8,3,0.27,Premium,354.42,1.9,Club Voyage,1
+1070,69,F,fr,32,5,0.19,Premium,573.11,4.8,Sport Senior,1
+1071,67,F,de,18,6,0.11,Premium,425.34,4.3,Sport Senior,1
+1072,70,F,it,22,7,0.19,Premium,349.04,3.8,Club Voyage,1
+1073,68,F,fr,2,4,0.24,Premium,267.17,3.8,Club Voyage,1
+1074,61,H,fr,19,3,0.17,Premium,353.41,3.6,Sport Senior,1
+1075,72,H,fr,7,1,0.14,Premium,487.97,4.5,Informatique,1
+1076,65,H,fr,1,1,0.23,Premium,410.17,4.2,Informatique,1
+1077,60,F,fr,1,3,0.2,Premium,449.1,4.0,Sport Senior,1
+1078,65,H,fr,14,4,0.1,Premium,969.48,3.6,Sport Senior,1
+1079,75,F,fr,6,6,0.05,Premium,409.41,3.2,Informatique,1
+1080,72,F,fr,25,2,0.13,Premium,197.04,4.4,Aide à domicile,1
+1081,66,H,fr,16,4,0.15,Premium,671.47,4.7,Sport Senior,1
+1082,66,F,it,1,4,0.11,Standard,111.01,4.3,Sport Senior,1
+1083,66,F,fr,14,4,0.24,Standard,139.41,4.2,Informatique,1
+1084,78,H,en,3,5,0.11,Premium,433.23,4.3,Jardinage,1
+1085,69,F,fr,7,3,0.21,Premium,500.55,4.6,Informatique,1
+1086,70,H,fr,12,1,0.48,Standard,122.31,2.3,Sport Senior,1
+1087,73,F,fr,25,4,0.1,Premium,243.8,3.3,Informatique,1
+1088,69,H,fr,8,6,0.27,Premium,203.92,1.6,Sport Senior,1
+1089,66,F,fr,20,4,0.16,Premium,224.36,4.2,Informatique,1
+1090,67,F,fr,19,10,0.11,Premium,704.48,4.6,Sport Senior,1
+1091,67,H,en,7,2,0.15,Premium,582.77,3.9,Sport Senior,1
+1092,67,F,fr,9,6,0.17,Premium,326.13,3.7,Sport Senior,1
+1093,71,F,fr,15,9,0.1,Premium,213.97,3.0,Jardinage,1
+1094,68,F,en,1,3,0.4,Standard,112.49,2.4,Yoga,1
+1095,71,F,fr,27,7,0.11,Premium,1031.46,3.6,Aide à domicile,1
+1096,67,F,fr,18,3,0.16,Premium,531.8,3.9,Informatique,1
+1097,68,F,fr,4,3,0.16,Premium,188.15,3.8,Informatique,1
+1098,60,H,it,48,5,0.11,Premium,588.9,4.0,Informatique,1
+1099,72,F,fr,3,3,0.08,Premium,313.06,4.4,Aide à domicile,1
+1100,69,F,fr,30,5,0.21,Premium,263.2,2.0,Portage repas,1
+1101,72,F,fr,5,3,0.1,Premium,469.07,3.7,Jardinage,1
+1102,60,F,en,18,1,0.32,Premium,182.98,2.4,Sport Senior,1
+1103,78,H,fr,8,4,0.11,Premium,251.53,3.1,Jardinage,1
+1104,67,F,es,17,5,0.13,Premium,364.95,4.2,Informatique,1
+1105,73,H,fr,3,5,0.13,Premium,222.08,3.7,Informatique,1
+1106,62,F,en,4,9,0.13,Premium,565.58,4.5,Informatique,1
+1107,71,H,fr,2,6,0.14,Premium,1477.1,4.1,Informatique,1
+1108,62,H,fr,25,2,0.38,Premium,181.12,2.2,Portage repas,1
+1109,64,H,it,5,3,0.2,Standard,87.4,4.7,Informatique,1
+1110,77,F,fr,15,7,0.11,Basic,66.77,3.9,Jardinage,1
+1111,67,H,fr,21,3,0.18,Premium,293.6,4.7,Sport Senior,1
+1112,69,F,fr,28,5,0.15,Premium,194.82,3.7,Club Voyage,1
+1113,72,F,fr,2,0,0.11,Premium,391.06,3.8,Informatique,1
+1114,70,H,fr,27,2,0.14,Premium,368.21,3.9,Sport Senior,1
+1115,68,F,fr,3,2,0.23,Standard,91.84,3.9,Sport Senior,1
+1116,69,F,fr,17,8,0.41,Basic,77.53,3.4,Portage repas,1
+1117,80,H,fr,16,8,0.1,Premium,419.61,4.2,Aide à domicile,1
+1118,67,F,fr,1,5,0.18,Premium,369.05,4.3,Informatique,1
+1119,69,H,fr,3,4,0.22,Premium,235.55,4.7,Sport Senior,1
+1120,73,H,fr,9,6,0.12,Standard,87.96,4.0,Aide à domicile,1
+1121,73,H,fr,7,3,0.09,Premium,482.85,3.1,Aide à domicile,1
+1122,73,H,fr,31,7,0.13,Premium,916.08,3.2,Informatique,1
+1123,71,F,de,6,3,0.47,Premium,413.63,2.6,Club Voyage,1
+1124,62,F,fr,34,8,0.23,Premium,168.11,4.5,Sport Senior,1
+1125,76,F,it,8,6,0.33,Premium,343.17,2.3,Portage repas,1
+1126,62,F,it,41,5,0.23,Standard,111.02,4.6,Sport Senior,1
+1127,69,H,en,17,4,0.21,Premium,771.98,3.8,Informatique,1
+1128,64,H,fr,22,4,0.24,Premium,353.56,4.6,Informatique,1
+1129,67,F,en,2,4,0.23,Standard,80.48,3.6,Club Voyage,1
+1130,69,F,en,11,3,0.16,Premium,260.35,3.6,Informatique,1
+1131,69,H,fr,2,4,0.17,Premium,479.73,4.4,Sport Senior,1
+1132,70,F,fr,5,1,0.17,Premium,253.7,4.0,Club Voyage,1
+1133,76,F,fr,12,2,0.06,Premium,265.57,4.5,Jardinage,1
+1134,70,F,fr,16,2,0.15,Standard,124.35,4.2,Sport Senior,1
+1135,66,H,fr,1,7,0.24,Premium,521.04,3.9,Sport Senior,1
+1136,72,H,fr,10,4,0.26,Premium,197.12,2.9,Portage repas,1
+1137,73,H,fr,10,5,0.13,Basic,58.99,3.5,Aide à domicile,1
+1138,61,H,fr,1,3,0.13,Premium,246.06,3.5,Informatique,1
+1139,70,F,fr,9,3,0.23,Premium,725.97,4.7,Sport Senior,1
+1140,71,F,fr,16,4,0.09,Premium,243.0,4.3,Aide à domicile,1
+1141,66,H,de,1,2,0.19,Premium,1330.05,4.3,Sport Senior,1
+1142,74,F,fr,18,7,0.31,Premium,466.73,1.9,Portage repas,1
+1143,67,H,fr,11,4,0.17,Premium,434.24,4.4,Club Voyage,1
+1144,68,H,fr,22,4,0.16,Premium,298.83,4.2,Sport Senior,1
+1145,67,H,fr,3,4,0.23,Premium,313.55,4.6,Informatique,1
+1146,68,H,fr,22,5,0.15,Premium,268.23,3.9,Club Voyage,1
+1147,62,H,de,2,1,0.11,Premium,260.02,4.0,Sport Senior,1
+1148,60,H,fr,7,5,0.19,Premium,506.38,4.4,Sport Senior,1
+1149,75,F,es,3,5,0.09,Premium,156.64,3.2,Aide à domicile,1
+1150,63,F,fr,26,5,0.21,Standard,140.03,3.5,Sport Senior,1
+1151,63,F,fr,15,5,0.2,Standard,134.83,4.5,Informatique,1
+1152,60,H,fr,1,4,0.2,Premium,1701.23,4.1,Informatique,1
+1153,64,F,it,1,4,0.13,Premium,506.16,3.9,Informatique,1
+1154,61,H,fr,5,6,0.13,Premium,422.5,3.6,Club Voyage,1
+1155,76,F,fr,2,2,0.08,Standard,142.11,3.6,Yoga,1
+1156,73,H,en,12,4,0.14,Premium,545.26,3.2,Jardinage,1
+1157,64,F,fr,14,1,0.5,Premium,301.67,2.7,Sport Senior,1
+1158,79,H,fr,35,2,0.11,Premium,393.04,3.7,Jardinage,1
+1159,72,H,it,37,3,0.07,Premium,151.61,4.1,Informatique,1
+1160,66,F,fr,13,1,0.19,Premium,376.46,4.1,Sport Senior,1
+1161,60,F,fr,1,3,0.12,Premium,235.93,3.6,Club Voyage,1
+1162,79,H,fr,6,4,0.09,Premium,179.49,3.3,Informatique,1
+1163,61,F,fr,9,4,0.13,Premium,595.78,4.0,Sport Senior,1
+1164,60,F,fr,9,3,0.2,Standard,96.78,4.5,Informatique,1
+1165,73,H,fr,12,7,0.05,Premium,520.3,3.3,Jardinage,1
+1166,80,H,fr,39,4,0.41,Premium,572.59,2.2,Sport Senior,1
+1167,74,H,fr,26,5,0.14,Premium,163.84,3.3,Aide à domicile,1
+1168,70,F,it,2,3,0.22,Premium,171.8,4.5,Informatique,1
+1169,70,F,es,4,4,0.19,Premium,277.04,4.5,Sport Senior,1
+1170,72,H,fr,22,3,0.12,Premium,414.97,3.4,Jardinage,1
+1171,71,H,fr,21,8,0.08,Premium,293.04,3.9,Jardinage,1
+1172,69,H,de,4,2,0.11,Premium,468.45,3.9,Sport Senior,1
+1173,68,F,fr,16,6,0.18,Premium,1356.91,3.7,Sport Senior,1
+1174,67,F,fr,14,5,0.11,Premium,220.61,4.4,Sport Senior,1
+1175,64,F,de,8,5,0.11,Standard,83.97,3.7,Club Voyage,1
+1176,66,F,en,3,0,0.15,Premium,641.19,4.0,Informatique,1
+1177,60,F,fr,27,6,0.24,Premium,1273.13,4.2,Sport Senior,1
+1178,67,F,fr,14,3,0.18,Premium,453.41,3.6,Informatique,1
+1179,63,H,fr,3,2,0.16,Standard,138.71,4.3,Sport Senior,1
+1180,62,F,fr,15,5,0.2,Premium,299.91,3.7,Informatique,1
+1181,68,H,fr,17,1,0.21,Standard,135.34,4.7,Sport Senior,1
+1182,74,H,fr,27,1,0.1,Premium,553.84,4.3,Jardinage,1
+1183,72,H,fr,4,3,0.15,Standard,112.34,4.2,Jardinage,1
+1184,60,F,en,54,4,0.17,Premium,260.47,4.0,Club Voyage,1
+1185,63,H,en,2,3,0.2,Standard,148.28,3.6,Club Voyage,1
+1186,72,H,fr,12,3,0.12,Premium,366.52,4.0,Jardinage,1
+1187,63,H,en,13,4,0.23,Premium,247.03,4.0,Sport Senior,1
+1188,66,H,en,7,1,0.21,Premium,381.46,4.1,Informatique,1
+1189,70,H,fr,8,2,0.23,Premium,337.13,4.1,Sport Senior,1
+1190,63,H,fr,27,3,0.22,Premium,150.39,3.6,Club Voyage,1
+1191,68,F,fr,13,3,0.12,Premium,546.8,3.8,Informatique,1
+1192,61,H,fr,9,4,0.14,Premium,318.48,3.8,Informatique,1
+1193,64,F,fr,2,4,0.13,Premium,150.17,3.6,Informatique,1
+1194,69,H,fr,1,5,0.18,Premium,1988.88,4.0,Informatique,1
+1195,60,F,fr,2,1,0.24,Premium,484.8,4.5,Sport Senior,1
+1196,70,F,fr,38,6,0.18,Premium,292.94,4.3,Sport Senior,1
+1197,67,H,de,18,2,0.22,Premium,1027.36,4.2,Club Voyage,1
+1198,70,H,fr,41,7,0.22,Premium,1445.25,4.7,Informatique,1
+1199,69,F,fr,1,4,0.23,Premium,294.8,4.5,Sport Senior,1
+1200,74,F,fr,14,2,0.11,Premium,437.25,3.2,Jardinage,1
+1201,84,H,fr,1,3,0.03,Premium,150.23,3.8,Aide à domicile,1
+1202,81,F,de,19,7,0.03,Premium,294.37,4.2,Aide à domicile,1
+1203,84,H,fr,6,5,0.04,Premium,282.4,4.2,Portage repas,1
+1204,87,F,fr,2,2,0.06,Premium,383.92,4.6,Soins Infirmiers,1
+1205,84,H,en,11,3,0.08,Premium,432.16,4.8,Aide à domicile,1
+1206,84,H,fr,4,5,0.06,Premium,518.24,3.9,Soins Infirmiers,1
+1207,79,F,fr,13,3,0.1,Premium,400.49,3.6,Yoga,1
+1208,80,F,fr,13,1,0.05,Standard,125.71,4.1,Informatique,1
+1209,75,F,en,15,6,0.15,Premium,156.31,3.3,Jardinage,1
+1210,94,H,fr,59,8,0.06,Premium,213.89,4.3,Aide à domicile,1
+1211,76,F,fr,6,6,0.05,Premium,264.22,4.2,Aide à domicile,1
+1212,79,F,fr,8,2,0.11,Premium,767.55,3.1,Yoga,1
+1213,79,F,fr,20,5,0.29,Standard,130.61,2.2,Portage repas,1
+1214,89,F,en,11,5,0.35,Premium,248.8,3.4,Portage repas,1
+1215,82,F,fr,1,2,0.07,Premium,709.81,4.9,Portage repas,1
+1216,91,F,fr,23,4,0.06,Premium,260.52,5.0,Soins Infirmiers,1
+1217,79,F,fr,1,3,0.11,Premium,478.63,4.0,Jardinage,1
+1218,85,H,it,3,4,0.06,Premium,296.18,4.2,Aide à domicile,1
+1219,78,H,fr,2,1,0.14,Premium,406.67,4.1,Jardinage,1
+1220,96,F,en,1,4,0.35,Premium,275.84,1.7,Sport Senior,1
+1221,76,H,en,1,8,0.1,Premium,564.67,4.3,Jardinage,1
+1222,85,H,fr,1,6,0.03,Standard,96.21,4.6,Soins Infirmiers,1
+1223,87,H,fr,8,6,0.07,Premium,247.63,4.4,Aide à domicile,1
+1224,86,F,fr,4,4,0.02,Premium,419.83,3.8,Soins Infirmiers,1
+1225,82,F,en,2,1,0.07,Premium,507.52,3.9,Soins Infirmiers,1
+1226,83,F,fr,13,3,0.08,Premium,1093.29,4.2,Soins Infirmiers,1
+1227,84,H,fr,4,6,0.04,Premium,242.2,5.0,Soins Infirmiers,1
+1228,83,F,en,1,5,0.08,Premium,1081.57,5.0,Aide à domicile,1
+1229,89,F,fr,7,3,0.07,Premium,195.46,4.9,Aide à domicile,1
+1230,97,F,fr,5,8,0.07,Premium,958.63,4.0,Soins Infirmiers,1
+1231,80,F,fr,5,6,0.11,Premium,636.87,3.7,Jardinage,1
+1232,75,F,fr,8,3,0.15,Premium,159.46,4.0,Aide à domicile,1
+1233,83,F,en,14,3,0.07,Premium,423.36,4.2,Aide à domicile,1
+1234,99,F,fr,12,7,0.06,Premium,317.86,5.0,Aide à domicile,1
+1235,79,F,fr,34,8,0.07,Premium,546.24,3.8,Jardinage,1
+1236,93,H,it,9,2,0.23,Premium,276.99,1.8,Yoga,1
+1237,94,H,fr,8,3,0.04,Premium,258.99,4.7,Soins Infirmiers,1
+1238,80,H,es,3,6,0.13,Premium,990.15,3.8,Informatique,1
+1239,87,H,es,17,2,0.04,Premium,306.01,4.5,Aide à domicile,1
+1240,93,F,fr,2,5,0.07,Premium,641.44,4.8,Portage repas,1
+1241,81,F,fr,9,2,0.04,Premium,276.53,4.1,Soins Infirmiers,1
+1242,82,H,fr,7,5,0.04,Premium,1256.29,4.4,Aide à domicile,1
+1243,80,F,fr,13,0,0.14,Premium,192.47,3.3,Jardinage,1
+1244,77,F,fr,30,2,0.12,Premium,202.61,3.1,Informatique,1
+1245,80,F,fr,36,3,0.08,Premium,1121.25,4.1,Informatique,1
+1246,76,F,fr,3,1,0.14,Premium,231.97,3.4,Jardinage,1
+1247,84,F,it,4,2,0.08,Premium,1192.07,4.4,Soins Infirmiers,1
+1248,79,F,fr,21,3,0.12,Premium,675.91,3.7,Jardinage,1
+1249,85,F,fr,9,3,0.02,Premium,292.62,4.9,Soins Infirmiers,1
+1250,74,H,fr,8,3,0.1,Basic,77.63,3.5,Informatique,1
+1251,85,F,es,15,2,0.06,Premium,326.08,4.6,Aide à domicile,1
+1252,89,F,fr,12,5,0.06,Premium,359.2,3.9,Soins Infirmiers,1
+1253,72,F,en,43,0,0.14,Premium,842.49,4.1,Jardinage,1
+1254,86,H,fr,11,4,0.05,Premium,1180.09,4.0,Soins Infirmiers,1
+1255,91,F,fr,8,5,0.06,Premium,191.44,4.0,Aide à domicile,1
+1256,76,F,fr,10,3,0.1,Premium,628.62,3.2,Informatique,1
+1257,94,F,fr,20,6,0.06,Premium,610.88,3.9,Aide à domicile,1
+1258,86,F,fr,12,3,0.03,Premium,781.58,4.7,Soins Infirmiers,1
+1259,79,H,fr,13,6,0.07,Premium,493.51,3.2,Aide à domicile,1
+1260,83,H,fr,43,4,0.07,Basic,70.01,4.7,Aide à domicile,1
+1261,87,F,de,12,7,0.02,Premium,292.44,4.6,Aide à domicile,1
+1262,84,F,fr,6,2,0.05,Standard,131.37,3.9,Aide à domicile,1
+1263,87,H,es,15,2,0.06,Premium,281.6,4.8,Aide à domicile,1
+1264,78,F,fr,13,3,0.1,Premium,725.3,4.4,Yoga,1
+1265,85,F,fr,1,3,0.04,Premium,422.72,4.7,Soins Infirmiers,1
+1266,75,F,fr,8,5,0.14,Premium,829.69,3.6,Informatique,1
+1267,83,H,fr,17,2,0.06,Premium,435.28,4.3,Soins Infirmiers,1
+1268,78,F,fr,9,3,0.12,Standard,117.2,3.2,Yoga,1
+1269,79,F,fr,19,2,0.12,Basic,44.08,4.4,Yoga,1
+1270,91,H,fr,8,2,0.06,Premium,373.02,4.2,Soins Infirmiers,1
+1271,90,F,fr,50,1,0.05,Premium,279.06,4.8,Soins Infirmiers,1
+1272,87,F,fr,5,3,0.07,Premium,151.57,4.4,Soins Infirmiers,1
+1273,77,H,en,2,6,0.1,Standard,84.95,3.4,Aide à domicile,1
+1274,82,F,fr,7,4,0.06,Premium,183.97,4.2,Aide à domicile,1
+1275,91,F,fr,10,7,0.07,Premium,283.44,4.7,Portage repas,1
+1276,84,F,fr,6,3,0.07,Premium,564.13,4.5,Soins Infirmiers,1
+1277,97,F,fr,4,9,0.08,Premium,385.09,4.3,Aide à domicile,1
+1278,86,F,fr,14,4,0.05,Premium,1198.76,4.5,Aide à domicile,1
+1279,85,F,fr,6,5,0.08,Standard,144.62,4.2,Portage repas,1
+1280,82,F,fr,12,5,0.07,Premium,670.1,4.1,Aide à domicile,1
+1281,84,H,fr,19,3,0.08,Premium,343.93,4.6,Portage repas,1
+1282,83,F,fr,18,7,0.06,Premium,577.28,4.5,Aide à domicile,1
+1283,88,F,fr,6,3,0.43,Premium,233.54,3.5,Sport Senior,1
+1284,89,F,fr,11,3,0.34,Premium,780.5,2.2,Portage repas,1
+1285,79,H,es,8,5,0.12,Premium,419.37,3.8,Aide à domicile,1
+1286,76,F,fr,25,2,0.14,Premium,192.29,3.5,Jardinage,1
+1287,72,H,fr,26,9,0.09,Premium,327.98,4.3,Aide à domicile,1
+1288,87,F,it,6,5,0.02,Premium,273.4,4.3,Soins Infirmiers,1
+1289,77,F,it,2,9,0.15,Premium,489.77,3.7,Aide à domicile,1
+1290,71,F,fr,3,3,0.15,Standard,128.86,4.2,Informatique,1
+1291,86,H,fr,6,7,0.26,Premium,323.47,1.8,Portage repas,1
+1292,98,F,es,10,5,0.07,Premium,454.33,4.3,Aide à domicile,1
+1293,83,F,fr,13,5,0.05,Premium,340.02,4.8,Soins Infirmiers,1
+1294,89,F,de,5,8,0.07,Premium,972.76,4.1,Aide à domicile,1
+1295,84,H,fr,14,6,0.46,Premium,615.11,2.7,Club Voyage,1
+1296,83,F,fr,34,4,0.07,Premium,329.18,4.3,Aide à domicile,1
+1297,89,F,fr,13,5,0.04,Premium,393.84,4.4,Portage repas,1
+1298,82,F,fr,3,3,0.08,Premium,419.52,3.8,Soins Infirmiers,1
+1299,85,F,en,11,11,0.04,Premium,457.25,4.0,Aide à domicile,1
+1300,85,F,es,10,7,0.05,Basic,76.87,4.2,Aide à domicile,1
+1301,79,F,fr,25,3,0.07,Premium,260.18,3.3,Aide à domicile,1
+1302,89,F,fr,6,3,0.06,Standard,100.99,3.8,Aide à domicile,1
+1303,82,F,en,7,4,0.04,Premium,920.77,4.9,Aide à domicile,1
+1304,79,F,fr,11,6,0.08,Premium,315.42,4.1,Informatique,1
+1305,87,F,fr,9,2,0.07,Premium,283.7,4.7,Aide à domicile,1
+1306,78,F,fr,16,7,0.12,Premium,678.59,3.3,Jardinage,1
+1307,84,H,fr,1,4,0.07,Premium,464.26,4.4,Soins Infirmiers,1
+1308,83,H,en,10,5,0.06,Standard,134.25,4.9,Aide à domicile,1
+1309,90,H,fr,2,3,0.08,Premium,312.89,5.0,Aide à domicile,1
+1310,86,H,fr,5,4,0.07,Premium,253.27,4.7,Aide à domicile,1
+1311,83,F,es,14,3,0.05,Standard,82.02,4.6,Aide à domicile,1
+1312,88,H,fr,3,2,0.08,Premium,190.64,4.4,Soins Infirmiers,1
+1313,92,F,fr,5,6,0.05,Premium,285.93,4.1,Aide à domicile,1
+1314,87,F,fr,15,2,0.04,Premium,302.06,3.9,Portage repas,1
+1315,84,F,fr,13,5,0.08,Standard,101.17,4.1,Soins Infirmiers,1
+1316,76,F,fr,2,2,0.33,Premium,832.07,2.3,Portage repas,1
+1317,77,H,fr,11,6,0.14,Premium,305.18,3.2,Jardinage,1
+1318,82,F,fr,2,6,0.05,Premium,341.25,4.0,Aide à domicile,1
+1319,80,F,fr,4,3,0.09,Premium,456.28,3.4,Informatique,1
+1320,82,H,fr,8,2,0.47,Premium,176.29,2.6,Sport Senior,1
+1321,84,F,fr,2,5,0.05,Premium,477.07,4.9,Soins Infirmiers,1
+1322,87,F,fr,61,6,0.2,Premium,246.89,1.8,Club Voyage,1
+1323,83,H,fr,3,6,0.02,Premium,161.63,4.0,Soins Infirmiers,1
+1324,86,F,fr,19,2,0.07,Premium,523.92,4.5,Aide à domicile,1
+1325,84,F,fr,22,7,0.04,Premium,1092.17,4.7,Aide à domicile,1
+1326,72,F,de,63,2,0.11,Premium,591.37,4.2,Jardinage,1
+1327,78,F,it,7,2,0.49,Premium,692.96,2.1,Portage repas,1
+1328,83,H,fr,25,3,0.05,Premium,218.35,3.9,Aide à domicile,1
+1329,76,F,en,38,4,0.07,Standard,92.25,3.4,Aide à domicile,1
+1330,87,F,fr,3,5,0.05,Premium,1090.83,3.8,Aide à domicile,1
+1331,93,F,es,8,6,0.03,Premium,1713.33,4.9,Soins Infirmiers,1
+1332,91,F,fr,1,0,0.08,Premium,1137.78,4.2,Aide à domicile,1
+1333,82,H,fr,12,1,0.38,Premium,253.14,3.3,Yoga,1
+1334,92,F,fr,11,3,0.07,Standard,131.48,4.0,Aide à domicile,1
+1335,84,F,fr,3,4,0.04,Standard,141.18,4.3,Aide à domicile,1
+1336,81,F,es,20,8,0.35,Standard,86.11,2.6,Club Voyage,1
+1337,80,H,fr,1,8,0.11,Premium,303.89,3.9,Informatique,1
+1338,82,H,fr,20,2,0.04,Premium,1196.47,4.4,Aide à domicile,1
+1339,81,F,fr,1,2,0.02,Premium,295.67,4.3,Aide à domicile,1
+1340,85,F,fr,13,6,0.05,Premium,421.76,4.1,Soins Infirmiers,1
+1341,84,F,fr,1,5,0.08,Premium,995.32,4.6,Aide à domicile,1
+1342,84,H,fr,4,5,0.04,Premium,239.68,4.8,Aide à domicile,1
+1343,86,F,es,16,2,0.05,Premium,1687.51,3.9,Portage repas,1
+1344,91,H,fr,4,7,0.04,Premium,1629.88,4.2,Aide à domicile,1
+1345,89,F,fr,9,1,0.02,Premium,298.18,4.5,Aide à domicile,1
+1346,75,H,de,30,4,0.1,Premium,208.63,4.1,Yoga,1
+1347,68,H,fr,1,2,0.21,Premium,578.46,4.7,Informatique,1
+1348,89,F,fr,20,7,0.47,Premium,250.78,1.7,Club Voyage,1
+1349,75,F,fr,1,9,0.1,Standard,131.28,4.4,Jardinage,1
+1350,82,F,en,2,2,0.06,Premium,922.95,4.0,Soins Infirmiers,1
+1351,76,H,fr,2,3,0.07,Premium,876.33,3.9,Informatique,1
+1352,73,H,de,62,5,0.06,Premium,375.03,3.8,Informatique,1
+1353,87,H,en,3,4,0.46,Standard,120.58,2.8,Club Voyage,1
+1354,88,F,fr,28,1,0.03,Standard,123.84,4.3,Soins Infirmiers,1
+1355,80,F,fr,57,1,0.07,Premium,360.82,3.8,Jardinage,1
+1356,68,H,fr,6,2,0.14,Premium,222.0,4.4,Informatique,1
+1357,80,F,fr,12,2,0.14,Premium,252.07,4.0,Jardinage,1
+1358,86,F,en,19,5,0.02,Premium,750.06,4.8,Aide à domicile,1
+1359,75,F,es,6,6,0.09,Premium,595.34,4.0,Jardinage,1
+1360,85,F,fr,3,2,0.03,Premium,997.35,4.3,Soins Infirmiers,1
+1361,83,F,fr,7,3,0.23,Standard,149.92,1.5,Sport Senior,1
+1362,87,F,fr,18,6,0.06,Premium,251.65,4.8,Soins Infirmiers,1
+1363,84,F,fr,19,1,0.07,Premium,607.75,4.3,Soins Infirmiers,1
+1364,78,H,fr,4,2,0.06,Premium,473.92,4.3,Aide à domicile,1
+1365,91,F,fr,3,6,0.04,Premium,1128.32,4.2,Soins Infirmiers,1
+1366,83,F,fr,31,5,0.43,Premium,463.6,2.9,Portage repas,1
+1367,83,F,fr,1,5,0.02,Premium,1452.54,4.1,Aide à domicile,1
+1368,78,H,fr,16,1,0.34,Premium,510.1,2.0,Yoga,1
+1369,81,F,en,1,4,0.07,Premium,774.58,3.9,Soins Infirmiers,1
+1370,78,F,en,22,0,0.05,Premium,255.64,3.8,Yoga,1
+1371,82,F,fr,29,1,0.06,Premium,334.96,4.9,Aide à domicile,1
+1372,94,F,fr,5,4,0.06,Premium,686.32,4.4,Soins Infirmiers,1
+1373,75,F,fr,1,4,0.37,Premium,1203.47,3.4,Sport Senior,1
+1374,74,H,fr,8,1,0.43,Premium,593.46,3.4,Club Voyage,1
+1375,92,H,fr,5,5,0.06,Premium,309.84,5.0,Soins Infirmiers,1
+1376,82,F,fr,7,3,0.08,Premium,996.7,3.8,Portage repas,1
+1377,79,F,fr,14,1,0.12,Basic,57.34,4.5,Jardinage,1
+1378,90,H,fr,3,3,0.4,Standard,106.14,1.6,Sport Senior,1
+1379,80,F,fr,6,2,0.11,Premium,571.29,4.3,Yoga,1
+1380,94,H,fr,19,7,0.02,Premium,334.91,4.0,Aide à domicile,1
+1381,88,F,fr,13,5,0.28,Premium,537.54,2.8,Club Voyage,1
+1382,81,H,es,5,1,0.06,Premium,348.66,3.9,Soins Infirmiers,1
+1383,96,H,fr,14,6,0.04,Premium,522.87,4.9,Aide à domicile,1
+1384,80,H,fr,18,7,0.12,Premium,172.61,3.2,Aide à domicile,1
+1385,88,H,fr,11,3,0.04,Premium,522.68,4.9,Aide à domicile,1
+1386,85,F,de,4,6,0.07,Premium,733.71,4.1,Soins Infirmiers,1
+1387,91,H,fr,1,4,0.07,Premium,879.21,4.0,Aide à domicile,1
+1388,93,F,fr,20,3,0.04,Premium,1658.1,4.6,Aide à domicile,1
+1389,84,F,it,21,3,0.04,Premium,402.57,4.7,Aide à domicile,1
+1390,79,H,fr,15,4,0.1,Premium,412.28,3.5,Yoga,1
+1391,86,H,fr,1,4,0.03,Standard,97.91,4.0,Aide à domicile,1
+1392,79,H,fr,11,6,0.09,Premium,216.47,4.2,Aide à domicile,1
+1393,96,F,fr,21,4,0.06,Premium,283.76,4.7,Aide à domicile,1
+1394,84,H,fr,6,4,0.02,Premium,767.27,4.7,Aide à domicile,1
+1395,81,H,fr,3,6,0.07,Premium,203.12,4.7,Soins Infirmiers,1
+1396,85,F,fr,11,6,0.04,Premium,626.19,4.4,Aide à domicile,1
+1397,75,F,fr,22,6,0.14,Premium,330.73,3.6,Aide à domicile,1
+1398,78,F,fr,1,4,0.1,Premium,287.39,3.9,Informatique,1
+1399,91,F,fr,11,7,0.05,Premium,404.12,4.9,Aide à domicile,1
+1400,80,H,fr,13,4,0.05,Premium,242.17,4.5,Jardinage,1
+1401,77,F,de,12,3,0.1,Premium,234.95,3.9,Yoga,1
+1402,87,H,fr,13,3,0.06,Standard,84.67,4.4,Aide à domicile,1
+1403,91,H,fr,12,5,0.03,Premium,271.57,4.5,Soins Infirmiers,1
+1404,88,F,fr,2,4,0.27,Premium,225.57,2.8,Sport Senior,1
+1405,89,H,fr,4,3,0.03,Premium,219.16,4.8,Aide à domicile,1
+1406,79,F,fr,12,3,0.09,Premium,462.24,3.1,Jardinage,1
+1407,75,H,fr,1,1,0.14,Premium,560.87,3.4,Aide à domicile,1
+1408,93,F,fr,13,5,0.04,Premium,398.75,4.4,Aide à domicile,1
+1409,82,H,fr,14,1,0.3,Premium,734.3,2.4,Yoga,1
+1410,82,F,en,4,2,0.04,Premium,524.81,4.5,Aide à domicile,1
+1411,91,F,fr,11,8,0.02,Premium,261.53,4.6,Soins Infirmiers,1
+1412,87,H,fr,10,5,0.05,Premium,228.67,4.7,Aide à domicile,1
+1413,86,F,fr,4,5,0.05,Premium,425.32,4.2,Soins Infirmiers,1
+1414,96,F,fr,8,3,0.05,Premium,524.06,4.5,Portage repas,1
+1415,80,F,fr,29,1,0.14,Premium,1013.19,4.2,Jardinage,1
+1416,89,H,fr,7,2,0.05,Premium,858.79,3.9,Aide à domicile,1
+1417,84,F,fr,12,6,0.03,Premium,214.74,4.6,Soins Infirmiers,1
+1418,85,F,fr,1,4,0.05,Premium,305.2,4.2,Soins Infirmiers,1
+1419,93,F,it,1,2,0.05,Premium,566.46,4.3,Soins Infirmiers,1
+1420,87,F,fr,2,3,0.43,Premium,778.2,3.4,Sport Senior,1
+1421,87,F,fr,19,6,0.05,Premium,701.88,4.4,Aide à domicile,1
+1422,90,F,it,6,3,0.04,Premium,314.66,4.0,Soins Infirmiers,1
+1423,81,F,fr,4,4,0.06,Standard,121.43,4.4,Aide à domicile,1
+1424,78,F,fr,17,4,0.14,Standard,148.92,4.4,Jardinage,1
+1425,77,F,fr,3,7,0.1,Premium,411.86,3.9,Jardinage,1
+1426,72,H,fr,4,3,0.14,Premium,435.44,3.1,Yoga,1
+1427,96,F,fr,7,5,0.07,Standard,137.5,4.3,Soins Infirmiers,1
+1428,77,F,fr,5,5,0.06,Premium,343.18,3.5,Informatique,1
+1429,82,H,fr,11,4,0.03,Premium,548.71,4.0,Aide à domicile,1
+1430,82,F,fr,5,4,0.03,Standard,131.84,4.0,Portage repas,1
+1431,85,H,en,6,2,0.02,Premium,801.58,4.7,Soins Infirmiers,1
+1432,88,F,fr,24,3,0.05,Premium,244.83,5.0,Soins Infirmiers,1
+1433,89,F,fr,26,2,0.45,Premium,905.67,2.3,Sport Senior,1
+1434,80,F,fr,22,5,0.09,Premium,216.12,3.5,Informatique,1
+1435,82,H,fr,25,3,0.03,Standard,145.66,4.0,Soins Infirmiers,1
+1436,85,H,en,11,0,0.05,Premium,229.54,4.8,Aide à domicile,1
+1437,82,F,fr,13,7,0.03,Premium,306.88,5.0,Soins Infirmiers,1
+1438,93,F,fr,10,2,0.05,Premium,242.69,4.7,Aide à domicile,1
+1439,86,H,fr,19,5,0.37,Premium,278.6,2.2,Sport Senior,1
+1440,88,F,fr,10,3,0.06,Premium,432.58,5.0,Soins Infirmiers,1
+1441,87,F,fr,2,4,0.05,Premium,288.77,4.2,Soins Infirmiers,1
+1442,91,H,fr,20,2,0.06,Premium,314.09,4.8,Soins Infirmiers,1
+1443,85,H,fr,18,7,0.04,Standard,84.37,4.3,Aide à domicile,1
+1444,76,F,fr,21,3,0.15,Premium,453.02,4.5,Jardinage,1
+1445,86,H,fr,3,4,0.08,Premium,308.35,4.3,Aide à domicile,1
+1446,80,H,fr,4,3,0.39,Premium,1200.89,2.1,Club Voyage,1
+1447,80,F,de,5,5,0.1,Premium,156.17,3.1,Jardinage,1
+1448,87,F,en,9,1,0.06,Basic,77.94,4.1,Soins Infirmiers,1
+1449,91,F,de,2,5,0.04,Premium,542.96,4.0,Soins Infirmiers,1
+1450,84,H,es,6,2,0.02,Premium,436.94,4.2,Soins Infirmiers,1
+1451,85,H,fr,3,4,0.04,Standard,147.8,4.0,Portage repas,1
+1452,94,F,fr,4,1,0.03,Standard,97.4,4.5,Aide à domicile,1
+1453,85,H,fr,15,3,0.03,Premium,1132.86,4.7,Soins Infirmiers,1
+1454,99,F,it,24,5,0.08,Premium,1026.46,4.9,Aide à domicile,1
+1455,87,F,fr,1,4,0.04,Basic,45.27,4.5,Aide à domicile,1
+1456,73,H,es,11,1,0.09,Premium,229.52,3.4,Jardinage,1
+1457,88,F,fr,1,6,0.43,Premium,1253.81,2.1,Yoga,1
+1458,86,H,en,2,4,0.24,Premium,226.27,2.4,Yoga,1
+1459,91,F,fr,15,3,0.04,Premium,223.65,4.1,Aide à domicile,1
+1460,88,H,fr,16,4,0.07,Premium,264.11,4.5,Aide à domicile,1
+1461,83,F,en,21,7,0.06,Standard,135.08,3.9,Aide à domicile,1
+1462,76,F,fr,8,4,0.08,Standard,84.67,3.5,Aide à domicile,1
+1463,82,H,en,24,5,0.07,Premium,768.64,4.8,Portage repas,1
+1464,78,F,fr,3,4,0.05,Basic,75.81,3.1,Informatique,1
+1465,80,F,fr,4,3,0.11,Premium,403.59,3.3,Informatique,1
+1466,87,F,fr,2,5,0.05,Premium,673.07,4.4,Aide à domicile,1
+1467,94,H,fr,20,2,0.05,Standard,103.71,4.8,Soins Infirmiers,1
+1468,86,F,fr,4,4,0.02,Premium,158.09,3.9,Aide à domicile,1
+1469,76,F,fr,3,2,0.14,Premium,874.04,4.4,Jardinage,1
+1470,86,F,fr,12,6,0.05,Premium,507.2,4.4,Portage repas,1
+1471,91,F,fr,1,3,0.07,Premium,202.1,4.8,Aide à domicile,1
+1472,80,H,fr,1,2,0.08,Premium,866.43,3.7,Aide à domicile,1
+1473,83,F,fr,2,2,0.08,Premium,869.41,4.5,Portage repas,1
+1474,84,F,fr,1,8,0.04,Premium,410.69,4.8,Aide à domicile,1
+1475,79,F,fr,15,3,0.08,Premium,161.17,4.4,Jardinage,1
+1476,87,F,fr,10,4,0.04,Premium,237.89,4.0,Soins Infirmiers,1
+1477,83,H,fr,3,3,0.07,Premium,416.42,4.4,Soins Infirmiers,1
+1478,86,F,fr,4,5,0.06,Premium,284.78,3.8,Soins Infirmiers,1
+1479,78,H,fr,20,2,0.11,Premium,701.87,4.5,Informatique,1
+1480,81,F,es,9,1,0.06,Standard,97.39,4.2,Aide à domicile,1
+1481,88,F,it,15,5,0.05,Standard,100.2,4.8,Soins Infirmiers,1
+1482,81,H,fr,8,10,0.04,Premium,382.71,4.2,Soins Infirmiers,1
+1483,94,F,fr,4,4,0.04,Premium,223.49,3.8,Portage repas,1
+1484,81,H,en,43,4,0.07,Premium,200.53,4.7,Aide à domicile,1
+1485,85,H,fr,11,8,0.04,Standard,80.49,4.6,Soins Infirmiers,1
+1486,89,F,fr,2,6,0.03,Premium,336.37,4.0,Portage repas,1
+1487,75,F,fr,7,1,0.06,Premium,317.47,4.0,Informatique,1
+1488,73,H,fr,5,3,0.11,Premium,558.56,4.4,Informatique,1
+1489,74,F,es,3,2,0.08,Premium,349.92,3.8,Jardinage,1
+1490,91,F,fr,33,4,0.08,Premium,297.82,4.6,Soins Infirmiers,1
+1491,80,F,fr,26,1,0.14,Premium,849.11,4.3,Jardinage,1
+1492,99,F,fr,3,1,0.06,Standard,115.89,4.2,Aide à domicile,1
+1493,80,H,en,6,0,0.09,Premium,508.62,3.4,Jardinage,1
+1494,85,F,en,18,5,0.06,Standard,86.98,4.5,Aide à domicile,1
+1495,93,F,fr,3,3,0.04,Premium,169.34,3.8,Portage repas,1
+1496,96,F,fr,11,2,0.03,Standard,125.52,3.9,Soins Infirmiers,1
+1497,96,F,fr,15,3,0.07,Premium,619.02,4.7,Aide à domicile,1
+1498,91,F,en,13,2,0.02,Premium,314.27,5.0,Aide à domicile,1
+1499,90,H,en,15,4,0.03,Premium,327.6,3.9,Soins Infirmiers,1
+1500,87,F,fr,15,5,0.03,Standard,136.62,4.3,Aide à domicile,1
+1501,88,H,fr,41,3,0.03,Premium,260.56,4.3,Aide à domicile,1
+1502,80,H,fr,6,3,0.33,Premium,179.79,3.3,Portage repas,1
+1503,79,F,fr,26,2,0.05,Premium,450.05,4.3,Informatique,1
+1504,83,F,fr,1,1,0.05,Standard,149.86,4.6,Portage repas,1
+1505,82,F,fr,5,4,0.49,Premium,959.51,2.3,Portage repas,1
+1506,81,F,fr,1,4,0.07,Standard,86.67,4.4,Soins Infirmiers,1
+1507,88,H,fr,13,2,0.05,Premium,173.71,4.7,Aide à domicile,1
+1508,89,H,fr,2,3,0.03,Premium,1266.92,4.7,Soins Infirmiers,1
+1509,84,F,fr,23,2,0.06,Premium,233.8,4.1,Soins Infirmiers,1
+1510,92,F,fr,13,5,0.02,Standard,115.66,4.8,Aide à domicile,1
+1511,77,H,fr,1,3,0.43,Premium,394.59,2.5,Portage repas,1
+1512,82,H,fr,16,7,0.26,Premium,226.39,2.9,Portage repas,1
+1513,79,F,fr,24,6,0.12,Premium,169.68,3.4,Jardinage,1
+1514,72,F,fr,13,2,0.1,Standard,137.81,3.4,Informatique,1
+1515,83,F,it,1,3,0.03,Premium,3032.93,4.0,Aide à domicile,1
+1516,83,H,fr,24,6,0.08,Premium,270.79,4.6,Soins Infirmiers,1
+1517,93,F,it,16,7,0.06,Basic,70.96,5.0,Aide à domicile,1
+1518,87,F,fr,6,3,0.03,Premium,1093.95,4.1,Aide à domicile,1
+1519,77,F,fr,5,4,0.08,Premium,539.93,3.5,Yoga,1
+1520,95,F,fr,8,5,0.05,Premium,179.36,4.1,Portage repas,1
+1521,91,F,fr,25,5,0.07,Premium,156.98,4.1,Aide à domicile,1
+1522,87,H,fr,4,4,0.05,Premium,567.57,4.0,Soins Infirmiers,1
+1523,82,F,fr,2,3,0.06,Premium,271.8,4.6,Aide à domicile,1
+1524,78,F,en,24,7,0.09,Basic,70.94,3.5,Informatique,1
+1525,81,F,fr,1,7,0.08,Premium,1383.51,4.8,Aide à domicile,1
+1526,90,F,de,30,5,0.03,Premium,234.02,4.9,Aide à domicile,1
+1527,95,F,it,5,4,0.07,Premium,1095.58,4.3,Aide à domicile,1
+1528,93,F,fr,9,3,0.06,Premium,920.88,4.3,Aide à domicile,1
+1529,81,F,fr,2,4,0.06,Standard,148.68,4.2,Portage repas,1
+1530,77,F,fr,28,0,0.12,Premium,756.83,3.6,Jardinage,1
+1531,84,F,en,17,2,0.04,Premium,196.65,4.7,Aide à domicile,1
+1532,73,F,fr,31,5,0.11,Basic,74.38,3.4,Aide à domicile,1
+1533,85,H,en,14,0,0.04,Premium,235.78,4.0,Aide à domicile,1
+1534,83,H,fr,3,5,0.04,Premium,455.18,4.2,Aide à domicile,1
+1535,81,F,de,5,6,0.36,Premium,228.7,1.5,Club Voyage,1
+1536,74,H,fr,9,5,0.08,Premium,259.03,3.9,Aide à domicile,1
+1537,87,H,fr,12,4,0.05,Premium,826.7,4.3,Aide à domicile,1
+1538,80,F,en,32,5,0.09,Premium,360.6,3.1,Aide à domicile,1
+1539,76,H,en,6,2,0.49,Premium,168.67,3.4,Club Voyage,1
+1540,66,H,fr,15,6,0.11,Premium,580.69,4.4,Club Voyage,1
+1541,83,F,fr,39,5,0.05,Premium,387.89,4.2,Aide à domicile,1
+1542,94,F,fr,2,2,0.04,Basic,44.05,4.0,Aide à domicile,1
+1543,93,H,es,24,5,0.06,Premium,466.5,4.5,Soins Infirmiers,1
+1544,81,F,en,7,4,0.05,Premium,453.07,5.0,Aide à domicile,1
+1545,80,F,en,16,4,0.1,Premium,336.53,3.7,Informatique,1
+1546,86,F,fr,5,7,0.06,Premium,675.83,4.2,Aide à domicile,1
+1547,78,F,fr,5,3,0.08,Premium,193.38,4.4,Aide à domicile,1
+1548,85,H,fr,1,6,0.05,Premium,433.45,4.8,Aide à domicile,1
+1549,88,H,en,43,11,0.03,Standard,94.54,4.5,Aide à domicile,1
+1550,91,H,fr,21,4,0.05,Premium,458.64,4.5,Aide à domicile,1
+1551,83,F,it,2,2,0.04,Premium,1579.77,3.9,Aide à domicile,1
+1552,82,F,fr,92,5,0.03,Standard,149.41,3.9,Soins Infirmiers,1
+1553,78,F,fr,12,4,0.49,Premium,180.32,2.8,Yoga,1
+1554,79,F,fr,24,4,0.06,Premium,187.65,3.9,Jardinage,1
+1555,82,F,fr,1,8,0.03,Premium,367.45,4.4,Aide à domicile,1
+1556,86,H,fr,6,5,0.06,Standard,141.48,5.0,Aide à domicile,1
+1557,89,H,fr,14,3,0.04,Premium,463.86,4.2,Aide à domicile,1
+1558,79,F,fr,2,4,0.13,Premium,652.01,3.5,Jardinage,1
+1559,92,F,en,9,6,0.02,Premium,507.79,5.0,Portage repas,1
+1560,82,F,fr,8,5,0.04,Standard,80.47,4.4,Aide à domicile,1
+1561,83,F,fr,3,8,0.03,Premium,734.15,4.5,Soins Infirmiers,1
+1562,79,H,fr,5,5,0.11,Premium,700.98,3.9,Jardinage,1
+1563,69,F,fr,41,7,0.23,Premium,643.37,4.3,Sport Senior,1
+1564,89,H,en,5,3,0.05,Premium,446.24,3.9,Aide à domicile,1
+1565,88,F,fr,3,3,0.06,Premium,394.94,4.0,Soins Infirmiers,1
+1566,82,F,en,10,3,0.08,Premium,756.34,3.9,Aide à domicile,1
+1567,84,H,fr,14,3,0.03,Premium,1542.86,4.7,Aide à domicile,1
+1568,87,F,fr,16,2,0.06,Premium,154.49,4.4,Aide à domicile,1
+1569,74,F,fr,17,5,0.14,Premium,784.53,3.4,Yoga,1
+1570,80,F,fr,1,5,0.13,Premium,309.08,4.4,Jardinage,1
+1571,88,F,fr,7,3,0.05,Premium,298.52,4.3,Soins Infirmiers,1
+1572,76,H,fr,18,5,0.1,Standard,96.87,4.0,Informatique,1
+1573,85,F,fr,29,2,0.08,Premium,263.68,4.6,Aide à domicile,1
+1574,75,H,fr,12,6,0.1,Standard,149.12,4.5,Jardinage,1
+1575,86,F,fr,1,5,0.05,Premium,228.49,4.3,Aide à domicile,1
+1576,83,F,fr,7,3,0.08,Standard,137.56,4.5,Soins Infirmiers,1
+1577,74,H,fr,1,4,0.12,Premium,231.24,3.1,Aide à domicile,1
+1578,90,F,fr,17,1,0.02,Premium,239.29,4.2,Aide à domicile,1
+1579,79,F,fr,1,2,0.06,Premium,357.81,3.8,Jardinage,1
+1580,79,F,fr,3,4,0.05,Standard,90.99,4.3,Aide à domicile,1
+1581,85,F,fr,7,6,0.06,Standard,104.19,4.9,Soins Infirmiers,1
+1582,90,F,it,8,3,0.07,Premium,442.36,4.7,Portage repas,1
+1583,77,F,fr,7,5,0.12,Premium,174.97,3.9,Informatique,1
+1584,84,F,fr,8,2,0.04,Premium,782.28,4.3,Aide à domicile,1
+1585,86,F,es,15,7,0.03,Premium,396.55,4.2,Aide à domicile,1
+1586,88,H,fr,6,4,0.08,Premium,538.07,4.7,Aide à domicile,1
+1587,85,F,fr,10,2,0.06,Premium,1023.66,4.4,Aide à domicile,1
+1588,81,H,fr,5,4,0.05,Premium,258.48,4.8,Soins Infirmiers,1
+1589,79,F,fr,6,6,0.12,Premium,209.14,3.1,Jardinage,1
+1590,84,F,fr,12,3,0.04,Premium,665.11,4.6,Soins Infirmiers,1
+1591,77,H,es,9,3,0.07,Premium,497.8,3.2,Jardinage,1
+1592,66,H,fr,16,5,0.11,Premium,285.07,4.1,Sport Senior,1
+1593,86,H,en,10,3,0.07,Premium,1008.03,4.7,Soins Infirmiers,1
+1594,89,F,fr,20,2,0.06,Premium,279.44,4.2,Aide à domicile,1
+1595,69,F,fr,8,5,0.23,Premium,339.95,2.5,Sport Senior,1
+1596,77,F,fr,9,2,0.07,Premium,336.82,3.9,Jardinage,1
+1597,87,F,it,14,8,0.08,Premium,156.79,4.3,Aide à domicile,1
+1598,96,H,es,4,1,0.04,Premium,352.36,4.8,Soins Infirmiers,1
+1599,84,F,fr,6,1,0.07,Premium,1012.31,3.9,Aide à domicile,1
+1600,79,H,de,12,5,0.14,Premium,472.75,4.0,Aide à domicile,1
+1601,82,H,fr,1,4,0.05,Premium,339.49,4.1,Aide à domicile,1
+1602,92,F,fr,7,5,0.03,Premium,290.96,3.9,Aide à domicile,1
+1603,80,F,fr,11,3,0.07,Premium,431.5,4.2,Informatique,1
+1604,79,H,fr,42,2,0.12,Premium,603.29,3.2,Informatique,1
+1605,81,H,fr,26,4,0.06,Premium,539.14,4.4,Soins Infirmiers,1
+1606,78,F,fr,4,5,0.07,Premium,253.94,4.0,Yoga,1
+1607,84,F,fr,9,6,0.47,Premium,429.41,1.8,Club Voyage,1
+1608,93,F,fr,1,4,0.28,Premium,486.16,1.8,Club Voyage,1
+1609,85,H,fr,4,2,0.04,Standard,147.94,4.8,Aide à domicile,1
+1610,82,F,es,18,5,0.05,Premium,378.86,4.9,Aide à domicile,1
+1611,82,H,fr,2,5,0.04,Basic,58.76,4.0,Aide à domicile,1
+1612,74,F,fr,4,2,0.08,Premium,487.17,4.1,Aide à domicile,1
+1613,89,F,fr,35,5,0.08,Premium,561.64,4.3,Soins Infirmiers,1
+1614,83,F,fr,21,5,0.07,Premium,602.22,4.0,Soins Infirmiers,1
+1615,82,F,en,19,2,0.02,Premium,241.42,4.0,Aide à domicile,1
+1616,101,F,fr,24,4,0.02,Premium,424.04,5.0,Aide à domicile,1
+1617,85,F,en,17,3,0.03,Premium,1034.58,3.9,Soins Infirmiers,1
+1618,79,F,fr,2,1,0.11,Premium,1026.18,3.9,Aide à domicile,1
+1619,81,F,fr,9,5,0.06,Premium,323.52,4.3,Aide à domicile,1
+1620,90,F,fr,8,1,0.3,Premium,370.2,3.3,Sport Senior,1
+1621,84,H,fr,5,3,0.06,Premium,805.38,4.1,Portage repas,1
+1622,75,F,fr,22,6,0.08,Standard,99.68,4.0,Jardinage,1
+1623,89,F,fr,8,5,0.03,Premium,255.73,3.8,Aide à domicile,1
+1624,79,F,fr,1,3,0.13,Premium,963.95,3.2,Jardinage,1
+1625,95,H,fr,4,3,0.02,Premium,722.52,4.8,Aide à domicile,1
+1626,90,F,es,4,0,0.07,Premium,444.97,3.9,Aide à domicile,1
+1627,81,H,fr,27,7,0.06,Standard,99.28,4.1,Soins Infirmiers,1
+1628,91,H,fr,13,5,0.29,Premium,318.19,2.0,Club Voyage,1
+1629,84,F,fr,10,4,0.06,Premium,206.57,4.7,Aide à domicile,1
+1630,89,F,fr,9,4,0.07,Premium,431.56,4.6,Portage repas,1
+1631,86,H,fr,13,4,0.08,Premium,173.31,4.7,Portage repas,1
+1632,78,F,it,17,5,0.06,Standard,145.77,3.5,Aide à domicile,1
+1633,80,F,es,10,5,0.08,Basic,63.48,4.1,Yoga,1
+1634,90,H,fr,34,3,0.05,Premium,880.09,4.6,Aide à domicile,1
+1635,81,F,fr,46,7,0.04,Premium,240.51,4.6,Aide à domicile,1
+1636,81,H,fr,65,5,0.32,Premium,375.52,3.1,Club Voyage,1
+1637,78,F,fr,14,4,0.1,Premium,330.56,3.4,Informatique,1
+1638,86,H,fr,33,8,0.05,Standard,140.98,4.1,Aide à domicile,1
+1639,96,F,fr,7,4,0.31,Standard,120.94,2.6,Portage repas,1
+1640,77,F,fr,24,1,0.06,Standard,148.17,3.9,Yoga,1
+1641,84,F,fr,29,2,0.33,Premium,185.68,2.7,Portage repas,1
+1642,92,H,fr,29,6,0.07,Premium,444.02,3.9,Aide à domicile,1
+1643,83,F,fr,22,2,0.06,Premium,175.21,4.0,Aide à domicile,1
+1644,86,F,fr,7,5,0.06,Premium,1339.13,4.4,Soins Infirmiers,1
+1645,77,F,fr,3,3,0.1,Premium,753.18,4.1,Aide à domicile,1
+1646,86,F,it,5,4,0.04,Premium,632.24,4.4,Aide à domicile,1
+1647,82,F,fr,18,1,0.35,Premium,300.92,2.3,Portage repas,1
+1648,89,F,en,4,4,0.07,Premium,1112.1,4.3,Aide à domicile,1
+1649,91,F,fr,8,3,0.06,Premium,278.16,4.9,Aide à domicile,1
+1650,99,F,fr,10,4,0.03,Premium,322.98,4.2,Soins Infirmiers,1
+1651,87,F,fr,12,4,0.05,Premium,379.39,5.0,Portage repas,1
+1652,85,F,fr,33,2,0.07,Premium,580.59,5.0,Aide à domicile,1
+1653,85,H,de,13,2,0.07,Premium,551.21,3.9,Soins Infirmiers,1
+1654,81,F,fr,19,3,0.03,Premium,226.44,4.9,Aide à domicile,1
+1655,86,F,fr,11,2,0.04,Premium,216.2,5.0,Aide à domicile,1
+1656,82,F,fr,22,4,0.08,Premium,552.53,4.2,Aide à domicile,1
+1657,85,H,es,4,7,0.07,Premium,586.85,4.9,Soins Infirmiers,1
+1658,91,H,fr,3,3,0.04,Premium,241.75,4.4,Soins Infirmiers,1
+1659,77,H,es,32,5,0.1,Standard,93.02,3.3,Jardinage,1
+1660,90,F,de,15,4,0.05,Premium,280.54,5.0,Soins Infirmiers,1
+1661,91,F,fr,14,5,0.24,Premium,545.34,3.2,Portage repas,1
+1662,83,F,en,8,3,0.47,Premium,1403.77,2.6,Portage repas,1
+1663,71,F,es,6,5,0.14,Standard,127.0,3.6,Informatique,1
+1664,80,F,fr,10,3,0.1,Premium,235.41,3.2,Jardinage,1
+1665,91,H,fr,2,2,0.05,Premium,242.51,3.8,Soins Infirmiers,1
+1666,83,H,fr,8,3,0.04,Premium,979.68,4.8,Aide à domicile,1
+1667,78,H,fr,8,2,0.15,Premium,322.03,4.4,Jardinage,1
+1668,80,F,fr,10,3,0.14,Premium,160.25,4.0,Informatique,1
+1669,89,H,fr,13,7,0.03,Premium,517.78,4.9,Soins Infirmiers,1
+1670,87,F,fr,38,4,0.03,Premium,239.58,4.2,Soins Infirmiers,1
+1671,82,F,fr,13,1,0.07,Standard,124.35,4.1,Aide à domicile,1
+1672,81,H,fr,26,5,0.06,Premium,162.12,3.9,Aide à domicile,1
+1673,81,F,it,10,4,0.39,Premium,1325.86,3.1,Portage repas,1
+1674,78,F,fr,12,1,0.07,Premium,450.32,3.1,Informatique,1
+1675,93,F,fr,1,1,0.06,Premium,360.97,4.2,Portage repas,1
+1676,82,H,fr,2,5,0.04,Premium,271.15,3.8,Soins Infirmiers,1
+1677,91,H,fr,11,5,0.07,Premium,418.34,4.2,Soins Infirmiers,1
+1678,93,F,es,7,4,0.08,Premium,414.38,4.7,Soins Infirmiers,1
+1679,89,H,fr,20,0,0.05,Premium,418.35,4.1,Aide à domicile,1
+1680,81,F,fr,10,2,0.07,Premium,363.02,4.3,Aide à domicile,1
+1681,86,F,de,26,5,0.05,Premium,663.56,4.5,Aide à domicile,1
+1682,83,H,de,44,4,0.35,Premium,337.33,2.3,Portage repas,1
+1683,78,H,fr,2,10,0.11,Premium,151.45,4.4,Aide à domicile,1
+1684,85,H,en,7,1,0.06,Premium,202.89,4.2,Soins Infirmiers,1
+1685,76,F,fr,14,1,0.07,Basic,67.99,4.1,Jardinage,1
+1686,91,H,fr,5,6,0.05,Premium,1675.79,4.0,Aide à domicile,1
+1687,81,F,fr,4,4,0.06,Premium,660.36,4.5,Aide à domicile,1
+1688,85,H,fr,21,3,0.04,Premium,170.46,4.8,Aide à domicile,1
+1689,85,F,en,48,3,0.06,Premium,264.31,4.0,Soins Infirmiers,1
+1690,82,H,fr,18,4,0.45,Premium,198.96,3.0,Yoga,1
+1691,87,F,fr,9,2,0.07,Premium,1137.54,4.2,Aide à domicile,1
+1692,81,F,de,8,4,0.05,Standard,106.34,4.8,Soins Infirmiers,1
+1693,89,F,fr,10,6,0.36,Premium,362.91,3.5,Yoga,1
+1694,75,F,es,8,3,0.11,Premium,303.62,3.7,Aide à domicile,1
+1695,84,F,es,9,3,0.08,Premium,641.66,4.7,Aide à domicile,1
+1696,95,H,fr,3,6,0.04,Premium,304.72,4.0,Aide à domicile,1
+1697,77,F,fr,29,7,0.13,Standard,81.13,3.4,Aide à domicile,1
+1698,79,F,fr,17,5,0.09,Premium,270.88,3.8,Informatique,1
+1699,87,F,fr,14,1,0.03,Premium,152.15,4.4,Aide à domicile,1
+1700,85,F,fr,36,7,0.04,Premium,352.92,4.3,Aide à domicile,1
+1701,86,F,fr,5,2,0.06,Premium,1043.07,4.4,Soins Infirmiers,1
+1702,86,F,es,2,7,0.43,Standard,82.36,1.6,Sport Senior,1
+1703,87,F,fr,21,4,0.08,Premium,174.58,4.1,Portage repas,1
+1704,90,F,fr,78,1,0.07,Premium,212.82,4.5,Aide à domicile,1
+1705,86,F,fr,11,2,0.08,Premium,244.03,4.4,Aide à domicile,1
+1706,82,F,fr,1,5,0.04,Premium,598.66,4.5,Aide à domicile,1
+1707,88,F,de,19,3,0.05,Premium,288.23,4.8,Soins Infirmiers,1
+1708,95,F,fr,1,4,0.08,Premium,461.84,4.2,Aide à domicile,1
+1709,83,F,fr,10,7,0.03,Premium,200.73,4.7,Portage repas,1
+1710,78,H,fr,4,6,0.05,Premium,398.03,3.6,Informatique,1
+1711,90,H,fr,30,4,0.07,Premium,616.97,4.3,Aide à domicile,1
+1712,83,H,fr,8,5,0.05,Premium,184.33,4.8,Aide à domicile,1
+1713,70,F,fr,28,4,0.18,Premium,618.73,3.9,Club Voyage,1
+1714,89,H,fr,5,2,0.06,Premium,345.32,4.1,Aide à domicile,1
+1715,80,H,es,6,3,0.14,Premium,764.29,3.1,Informatique,1
+1716,83,H,de,36,4,0.04,Premium,281.87,4.8,Aide à domicile,1
+1717,85,F,fr,3,6,0.45,Premium,449.25,1.7,Yoga,1
+1718,85,F,en,11,3,0.05,Premium,320.57,4.7,Soins Infirmiers,1
+1719,88,H,fr,6,8,0.07,Premium,306.62,4.0,Portage repas,1
+1720,81,F,fr,18,3,0.04,Premium,407.37,4.6,Aide à domicile,1
+1721,87,F,fr,2,5,0.03,Premium,508.79,4.7,Soins Infirmiers,1
+1722,82,F,fr,7,2,0.03,Standard,121.87,4.2,Soins Infirmiers,1
+1723,88,F,fr,15,7,0.05,Premium,1042.62,4.3,Aide à domicile,1
+1724,87,F,fr,7,2,0.07,Basic,74.8,4.5,Aide à domicile,1
+1725,78,F,fr,1,5,0.14,Premium,191.47,3.7,Informatique,1
+1726,90,F,en,15,6,0.06,Premium,307.1,4.2,Aide à domicile,1
+1727,80,F,fr,9,4,0.1,Premium,460.57,3.6,Informatique,1
+1728,88,F,fr,1,0,0.05,Premium,1168.55,4.2,Soins Infirmiers,1
+1729,86,F,de,12,3,0.07,Basic,74.88,4.1,Soins Infirmiers,1
+1730,95,F,fr,31,4,0.07,Premium,220.62,4.7,Aide à domicile,1
+1731,82,H,fr,2,3,0.49,Basic,60.41,2.8,Club Voyage,1
+1732,81,H,en,11,4,0.06,Premium,339.64,4.0,Soins Infirmiers,1
+1733,83,F,fr,16,1,0.05,Premium,411.55,4.4,Aide à domicile,1
+1734,82,F,fr,1,2,0.02,Premium,1182.31,5.0,Aide à domicile,1
+1735,88,F,fr,1,5,0.07,Premium,364.71,4.4,Aide à domicile,1
+1736,74,H,it,8,3,0.06,Premium,763.42,3.3,Jardinage,1
+1737,77,F,fr,19,3,0.4,Premium,528.29,2.7,Club Voyage,1
+1738,77,F,it,3,5,0.13,Premium,233.78,3.5,Jardinage,1
+1739,89,F,fr,22,3,0.03,Standard,107.28,4.3,Aide à domicile,1
+1740,94,F,fr,13,2,0.03,Premium,412.64,4.7,Aide à domicile,1
+1741,83,H,en,5,6,0.07,Standard,100.37,4.8,Portage repas,1
+1742,82,H,fr,9,7,0.42,Premium,933.32,3.4,Club Voyage,1
+1743,84,F,fr,41,3,0.06,Premium,290.89,4.1,Aide à domicile,1
+1744,90,F,fr,3,4,0.02,Premium,861.54,4.4,Aide à domicile,1
+1745,78,F,en,9,8,0.11,Premium,225.52,3.3,Aide à domicile,1
+1746,85,F,fr,12,5,0.03,Premium,410.62,4.6,Aide à domicile,1
+1747,89,F,fr,2,1,0.06,Premium,391.53,4.3,Soins Infirmiers,1
+1748,87,F,fr,1,4,0.08,Premium,319.43,4.4,Portage repas,1
+1749,85,F,de,1,4,0.03,Premium,234.27,4.7,Soins Infirmiers,1
+1750,90,F,fr,5,5,0.08,Premium,453.3,5.0,Aide à domicile,1
+1751,67,H,fr,1,4,0.14,Premium,157.85,4.3,Sport Senior,1
+1752,88,F,fr,20,2,0.05,Standard,125.84,4.6,Aide à domicile,1
+1753,80,H,fr,72,4,0.39,Premium,895.02,2.9,Yoga,1
+1754,73,H,fr,1,2,0.1,Premium,592.48,3.5,Jardinage,1
+1755,87,F,fr,7,3,0.43,Premium,349.08,3.1,Yoga,1
+1756,92,H,fr,1,4,0.42,Premium,1254.76,2.9,Portage repas,1
+1757,83,F,en,2,3,0.08,Premium,267.3,4.1,Soins Infirmiers,1
+1758,89,F,en,5,7,0.06,Premium,954.08,4.2,Aide à domicile,1
+1759,93,F,fr,7,5,0.04,Premium,381.09,4.0,Soins Infirmiers,1
+1760,91,H,it,34,5,0.07,Standard,145.88,4.3,Aide à domicile,1
+1761,93,F,fr,7,7,0.03,Premium,1452.46,4.5,Aide à domicile,1
+1762,88,F,it,9,6,0.2,Premium,731.54,2.7,Sport Senior,1
+1763,84,H,fr,4,5,0.07,Premium,300.6,4.6,Soins Infirmiers,1
+1764,74,F,fr,1,10,0.13,Premium,592.48,3.3,Aide à domicile,1
+1765,82,H,de,28,5,0.05,Premium,239.76,4.9,Aide à domicile,1
+1766,78,H,it,2,3,0.14,Premium,642.85,3.8,Jardinage,1
+1767,97,H,fr,40,2,0.05,Basic,48.9,4.6,Soins Infirmiers,1
+1768,82,H,fr,2,1,0.41,Standard,146.46,3.3,Sport Senior,1
+1769,84,H,fr,12,5,0.07,Premium,724.87,4.0,Aide à domicile,1
+1770,87,F,fr,90,9,0.06,Premium,271.2,4.0,Portage repas,1
+1771,84,H,fr,2,3,0.04,Premium,390.97,4.0,Aide à domicile,1
+1772,94,F,fr,7,5,0.08,Standard,112.75,4.8,Aide à domicile,1
+1773,80,F,it,19,5,0.11,Premium,1452.26,3.5,Jardinage,1
+1774,85,F,fr,1,3,0.07,Premium,858.35,3.9,Soins Infirmiers,1
+1775,79,H,fr,15,7,0.13,Premium,282.04,4.4,Jardinage,1
+1776,76,H,fr,2,2,0.48,Premium,239.57,3.4,Yoga,1
+1777,80,H,fr,4,9,0.12,Premium,754.66,4.3,Aide à domicile,1
+1778,83,F,fr,3,6,0.04,Premium,1617.38,5.0,Aide à domicile,1
+1779,81,F,fr,29,3,0.03,Premium,710.23,4.2,Soins Infirmiers,1
+1780,79,F,en,3,0,0.06,Premium,1881.88,3.3,Jardinage,1
+1781,75,H,it,1,9,0.08,Premium,158.33,3.0,Jardinage,1
+1782,83,H,fr,11,7,0.06,Premium,171.93,4.2,Soins Infirmiers,1
+1783,74,F,fr,6,4,0.13,Standard,127.92,3.2,Aide à domicile,1
+1784,88,F,fr,7,1,0.03,Premium,471.54,4.7,Aide à domicile,1
+1785,84,F,it,2,5,0.04,Premium,381.1,5.0,Aide à domicile,1
+1786,75,F,en,17,5,0.1,Premium,293.25,3.9,Aide à domicile,1
+1787,82,H,fr,12,2,0.04,Premium,632.7,4.5,Aide à domicile,1
+1788,79,F,fr,6,5,0.07,Premium,887.54,3.6,Aide à domicile,1
+1789,85,F,en,3,5,0.02,Standard,97.72,4.1,Aide à domicile,1
+1790,92,F,fr,11,5,0.05,Premium,205.41,4.1,Aide à domicile,1
+1791,72,F,fr,19,2,0.08,Premium,638.23,4.2,Informatique,1
+1792,84,H,de,5,2,0.08,Premium,227.78,4.8,Aide à domicile,1
+1793,83,F,fr,1,5,0.04,Premium,174.87,4.1,Soins Infirmiers,1
+1794,88,F,fr,3,6,0.06,Premium,748.01,4.9,Portage repas,1
+1795,85,F,fr,14,4,0.07,Standard,118.04,4.7,Aide à domicile,1
+1796,79,H,fr,55,1,0.09,Premium,260.17,3.8,Aide à domicile,1
+1797,82,H,fr,1,3,0.04,Premium,430.74,4.3,Aide à domicile,1
+1798,79,H,fr,5,4,0.12,Premium,209.25,3.2,Jardinage,1
+1799,90,F,fr,1,6,0.05,Premium,619.62,4.8,Soins Infirmiers,1
+1800,84,F,fr,5,3,0.03,Premium,210.08,3.8,Portage repas,1
+1801,95,F,it,7,4,0.03,Premium,1021.96,5.0,Soins Infirmiers,1
+1802,83,H,fr,31,10,0.05,Premium,299.46,4.4,Portage repas,1
+1803,79,F,fr,2,3,0.1,Premium,566.57,3.7,Jardinage,1
+1804,74,H,fr,19,2,0.3,Premium,601.49,1.5,Portage repas,1
+1805,73,H,fr,7,10,0.12,Premium,200.45,4.3,Aide à domicile,1
+1806,74,H,fr,21,7,0.12,Basic,64.06,3.0,Informatique,1
+1807,85,F,fr,9,4,0.02,Premium,441.95,4.5,Soins Infirmiers,1
+1808,87,F,it,1,4,0.04,Premium,350.87,4.2,Aide à domicile,1
+1809,74,F,fr,36,5,0.08,Premium,516.59,3.4,Jardinage,1
+1810,89,H,de,2,4,0.05,Premium,276.27,4.3,Aide à domicile,1
+1811,81,H,es,11,1,0.07,Premium,234.68,4.4,Portage repas,1
+1812,84,F,fr,26,6,0.04,Premium,1651.37,3.9,Soins Infirmiers,1
+1813,93,F,fr,1,4,0.03,Standard,101.97,4.4,Portage repas,1
+1814,89,H,es,10,4,0.41,Premium,595.7,3.4,Portage repas,1
+1815,82,H,es,21,2,0.03,Premium,209.12,4.7,Aide à domicile,1
+1816,78,F,fr,52,2,0.1,Premium,253.14,4.2,Jardinage,1
+1817,71,H,fr,16,2,0.06,Premium,256.96,4.2,Aide à domicile,1
+1818,79,F,fr,4,6,0.12,Premium,174.14,4.2,Jardinage,1
+1819,82,F,es,15,1,0.06,Premium,522.99,4.5,Aide à domicile,1
+1820,78,H,fr,15,7,0.05,Premium,1007.37,3.4,Aide à domicile,1
+1821,83,H,fr,15,3,0.07,Premium,482.31,4.6,Aide à domicile,1
+1822,84,H,en,24,2,0.05,Premium,359.71,4.5,Soins Infirmiers,1
+1823,82,F,fr,2,4,0.29,Premium,150.42,3.2,Yoga,1
+1824,80,H,fr,2,10,0.12,Premium,500.72,4.0,Jardinage,1
+1825,85,F,fr,13,3,0.03,Premium,1858.76,4.1,Aide à domicile,1
+1826,86,F,it,37,4,0.08,Premium,244.21,4.7,Aide à domicile,1
+1827,77,F,fr,8,6,0.06,Premium,245.13,3.1,Aide à domicile,1
+1828,92,F,fr,39,5,0.04,Premium,211.39,4.6,Aide à domicile,1
+1829,83,H,fr,34,4,0.04,Premium,223.87,4.4,Aide à domicile,1
+1830,84,F,fr,28,3,0.07,Basic,36.83,4.6,Aide à domicile,1
+1831,88,F,fr,29,4,0.07,Premium,457.88,4.0,Portage repas,1
+1832,85,F,fr,28,4,0.08,Premium,168.37,4.6,Soins Infirmiers,1
+1833,89,F,fr,21,5,0.03,Standard,91.32,5.0,Soins Infirmiers,1
+1834,85,F,en,15,3,0.05,Premium,604.94,4.9,Portage repas,1
+1835,80,F,en,1,3,0.15,Standard,139.35,4.0,Aide à domicile,1
+1836,86,H,fr,2,5,0.05,Premium,252.56,4.9,Aide à domicile,1
+1837,77,F,fr,2,3,0.12,Premium,1070.35,3.3,Aide à domicile,1
+1838,84,F,fr,1,5,0.03,Standard,107.26,4.9,Aide à domicile,1
+1839,83,F,en,2,4,0.04,Standard,97.17,4.6,Aide à domicile,1
+1840,82,H,fr,31,1,0.05,Premium,410.77,4.8,Aide à domicile,1
+1841,83,F,fr,14,4,0.21,Premium,830.62,3.3,Portage repas,1
+1842,72,F,fr,5,7,0.09,Standard,93.98,4.2,Aide à domicile,1
+1843,80,F,fr,19,4,0.14,Premium,458.86,3.4,Jardinage,1
+1844,84,F,fr,9,3,0.03,Premium,527.1,4.1,Soins Infirmiers,1
+1845,84,F,fr,2,8,0.03,Basic,63.77,4.5,Soins Infirmiers,1
+1846,77,H,fr,26,4,0.14,Premium,627.28,4.2,Aide à domicile,1
+1847,91,F,fr,5,8,0.03,Premium,667.72,4.7,Aide à domicile,1
+1848,78,F,fr,15,2,0.05,Premium,258.05,3.7,Aide à domicile,1
+1849,89,H,fr,5,9,0.06,Premium,901.86,4.5,Soins Infirmiers,1
+1850,86,H,fr,9,1,0.06,Premium,822.01,4.1,Portage repas,1
+1851,80,F,fr,21,3,0.14,Premium,359.63,3.6,Yoga,1
+1852,94,F,fr,3,1,0.4,Premium,230.77,3.4,Yoga,1
+1853,76,F,fr,46,4,0.1,Premium,152.07,4.2,Informatique,1
+1854,89,F,fr,1,6,0.03,Premium,321.35,3.8,Soins Infirmiers,1
+1855,90,H,fr,10,4,0.05,Premium,522.38,5.0,Portage repas,1
+1856,79,H,fr,30,6,0.09,Premium,255.51,3.9,Informatique,1
+1857,92,H,fr,35,5,0.05,Basic,57.09,4.8,Portage repas,1
+1858,82,F,it,4,1,0.03,Premium,913.75,4.6,Aide à domicile,1
+1859,85,F,fr,2,3,0.03,Premium,385.59,4.3,Soins Infirmiers,1
+1860,85,F,fr,16,4,0.03,Premium,244.42,5.0,Aide à domicile,1
+1861,83,H,fr,1,3,0.08,Premium,657.41,4.9,Portage repas,1
+1862,88,F,fr,8,4,0.03,Premium,1121.36,3.9,Soins Infirmiers,1
+1863,88,F,fr,20,0,0.08,Basic,35.2,4.6,Aide à domicile,1
+1864,73,H,fr,10,3,0.12,Premium,468.72,3.8,Jardinage,1
+1865,91,H,fr,3,5,0.02,Standard,105.77,4.2,Aide à domicile,1
+1866,74,H,fr,9,3,0.05,Premium,493.67,3.5,Jardinage,1
+1867,90,F,fr,31,1,0.03,Premium,366.84,4.5,Soins Infirmiers,1
+1868,90,H,en,12,5,0.05,Premium,550.69,4.2,Aide à domicile,1
+1869,77,H,de,16,5,0.08,Premium,222.11,3.9,Jardinage,1
+1870,81,F,fr,5,2,0.06,Basic,73.99,4.8,Aide à domicile,1
+1871,77,F,fr,3,3,0.06,Premium,230.97,4.4,Yoga,1
+1872,82,F,fr,4,5,0.06,Premium,458.55,4.9,Aide à domicile,1
+1873,82,H,fr,10,5,0.06,Premium,746.13,4.0,Soins Infirmiers,1
+1874,88,F,fr,4,2,0.04,Standard,129.69,4.7,Aide à domicile,1
+1875,91,F,fr,10,3,0.08,Premium,753.13,3.9,Soins Infirmiers,1
+1876,92,F,fr,15,3,0.45,Premium,197.21,3.1,Portage repas,1
+1877,80,H,fr,16,3,0.08,Premium,442.55,4.0,Informatique,1
+1878,82,F,fr,3,3,0.03,Premium,220.23,3.8,Soins Infirmiers,1
+1879,73,F,fr,17,3,0.1,Premium,383.11,3.3,Jardinage,1
+1880,79,F,en,14,4,0.12,Premium,675.93,3.9,Jardinage,1
+1881,89,H,fr,1,5,0.07,Standard,124.09,4.7,Portage repas,1
+1882,93,F,fr,1,5,0.08,Premium,192.22,3.8,Soins Infirmiers,1
+1883,76,F,fr,13,3,0.11,Premium,383.97,3.7,Jardinage,1
+1884,80,H,fr,6,2,0.15,Premium,2261.65,3.8,Informatique,1
+1885,83,F,fr,2,9,0.05,Premium,166.01,4.4,Aide à domicile,1
+1886,85,H,fr,1,1,0.06,Premium,1693.74,4.5,Aide à domicile,1
+1887,79,F,fr,3,5,0.08,Premium,1646.03,3.9,Jardinage,1
+1888,86,F,fr,38,2,0.02,Premium,306.35,3.9,Aide à domicile,1
+1889,81,F,fr,16,1,0.03,Premium,260.88,4.6,Aide à domicile,1
+1890,83,F,fr,10,3,0.39,Premium,190.36,3.1,Sport Senior,1
+1891,87,H,fr,35,3,0.04,Premium,313.57,4.8,Soins Infirmiers,1
+1892,84,F,fr,12,3,0.07,Standard,107.47,4.5,Aide à domicile,1
+1893,81,H,fr,16,4,0.26,Premium,311.56,1.9,Club Voyage,1
+1894,83,F,fr,4,2,0.02,Premium,1096.73,4.7,Portage repas,1
+1895,83,F,es,11,3,0.42,Premium,203.1,2.3,Yoga,1
+1896,81,F,fr,2,6,0.05,Premium,273.15,4.6,Soins Infirmiers,1
+1897,82,H,fr,7,4,0.05,Standard,84.92,4.5,Aide à domicile,1
+1898,93,F,fr,1,3,0.06,Premium,446.68,4.1,Soins Infirmiers,1
+1899,87,F,de,3,7,0.2,Premium,409.19,1.8,Portage repas,1
+1900,82,F,en,1,4,0.04,Premium,348.47,4.6,Soins Infirmiers,1
+1901,88,F,fr,6,5,0.05,Premium,278.42,4.8,Aide à domicile,1
+1902,81,F,fr,23,4,0.04,Premium,262.01,4.8,Soins Infirmiers,1
+1903,91,H,fr,6,1,0.08,Premium,494.78,3.8,Soins Infirmiers,1
+1904,86,F,fr,22,2,0.06,Premium,323.61,4.0,Soins Infirmiers,1
+1905,83,H,fr,13,4,0.03,Premium,426.05,3.8,Soins Infirmiers,1
+1906,86,F,fr,9,8,0.03,Premium,393.3,4.5,Aide à domicile,1
+1907,74,H,fr,4,8,0.09,Premium,813.48,4.2,Informatique,1
+1908,77,H,fr,31,3,0.12,Premium,569.17,4.4,Jardinage,1
+1909,76,F,en,1,2,0.07,Premium,386.4,3.8,Informatique,1
+1910,84,H,fr,15,2,0.08,Premium,1115.8,3.8,Soins Infirmiers,1
+1911,94,F,fr,12,2,0.26,Premium,463.5,2.3,Portage repas,1
+1912,97,H,fr,7,6,0.03,Premium,940.64,4.4,Aide à domicile,1
+1913,87,H,it,4,3,0.07,Premium,538.15,4.0,Soins Infirmiers,1
+1914,87,F,en,7,6,0.04,Basic,75.87,4.9,Aide à domicile,1
+1915,73,F,fr,25,2,0.1,Premium,940.54,4.3,Aide à domicile,1
+1916,80,F,fr,22,4,0.1,Premium,368.97,4.3,Aide à domicile,1
+1917,79,F,it,35,4,0.11,Premium,317.67,3.7,Yoga,1
+1918,80,F,fr,5,4,0.13,Premium,414.74,3.4,Aide à domicile,1
+1919,82,F,fr,6,4,0.06,Premium,251.29,4.9,Soins Infirmiers,1
+1920,81,F,en,1,4,0.05,Premium,397.11,3.9,Aide à domicile,1
+1921,72,H,fr,35,3,0.06,Premium,206.25,3.6,Jardinage,1
+1922,88,F,fr,5,7,0.02,Premium,917.82,4.3,Aide à domicile,1
+1923,77,F,it,7,2,0.06,Premium,302.39,3.8,Aide à domicile,1
+1924,85,F,fr,29,2,0.08,Premium,243.84,4.2,Aide à domicile,1
+1925,96,F,fr,9,2,0.08,Premium,158.01,4.3,Aide à domicile,1
+1926,78,F,fr,11,3,0.08,Premium,410.59,4.2,Informatique,1
+1927,68,F,fr,3,2,0.49,Premium,384.63,2.4,Yoga,1
+1928,82,H,fr,9,5,0.06,Premium,451.84,4.3,Aide à domicile,1
+1929,90,H,fr,31,2,0.43,Standard,145.59,3.3,Portage repas,1
+1930,95,F,fr,10,2,0.05,Standard,91.99,4.1,Aide à domicile,1
+1931,76,H,fr,4,8,0.13,Premium,546.24,4.2,Aide à domicile,1
+1932,86,F,fr,1,7,0.08,Premium,1086.05,4.2,Soins Infirmiers,1
+1933,81,H,fr,5,6,0.03,Standard,145.69,4.9,Aide à domicile,1
+1934,83,H,es,11,1,0.06,Premium,1181.03,4.4,Aide à domicile,1
+1935,99,F,fr,1,3,0.03,Premium,415.6,4.7,Portage repas,1
+1936,74,F,fr,12,3,0.14,Premium,329.29,3.7,Jardinage,1
+1937,85,F,fr,9,5,0.05,Premium,240.94,4.0,Soins Infirmiers,1
+1938,86,F,fr,19,2,0.03,Standard,109.4,4.6,Aide à domicile,1
+1939,90,H,fr,1,3,0.03,Premium,729.8,4.2,Aide à domicile,1
+1940,84,F,fr,19,2,0.36,Premium,178.06,2.7,Sport Senior,1
+1941,85,H,fr,9,6,0.04,Premium,177.46,4.7,Aide à domicile,1
+1942,81,H,fr,6,5,0.04,Premium,732.25,4.9,Soins Infirmiers,1
+1943,85,F,fr,41,7,0.03,Basic,73.42,4.1,Aide à domicile,1
+1944,81,H,fr,3,1,0.04,Standard,97.88,4.0,Aide à domicile,1
+1945,87,H,fr,10,2,0.04,Premium,326.39,4.3,Aide à domicile,1
+1946,81,H,fr,5,6,0.05,Premium,418.72,4.8,Aide à domicile,1
+1947,86,H,fr,9,6,0.03,Premium,488.03,4.8,Soins Infirmiers,1
+1948,83,H,fr,10,1,0.08,Premium,260.12,4.8,Aide à domicile,1
+1949,90,F,fr,2,2,0.08,Premium,2507.1,4.5,Soins Infirmiers,1
+1950,83,H,fr,13,5,0.03,Premium,275.96,4.0,Soins Infirmiers,1
+1951,73,F,fr,13,2,0.06,Premium,275.33,3.5,Jardinage,1
+1952,91,H,fr,18,3,0.06,Premium,175.04,4.4,Portage repas,1
+1953,78,H,es,2,4,0.1,Premium,365.66,4.4,Yoga,1
+1954,80,F,it,5,4,0.07,Premium,541.61,4.0,Jardinage,1
+1955,80,F,fr,13,6,0.12,Premium,867.35,3.0,Informatique,1
+1956,92,F,fr,2,1,0.27,Standard,100.6,3.1,Portage repas,1
+1957,71,F,fr,14,8,0.1,Premium,272.0,4.4,Jardinage,1
+1958,101,F,fr,1,2,0.02,Premium,473.4,4.5,Aide à domicile,1
+1959,90,H,fr,5,7,0.03,Premium,529.66,4.7,Aide à domicile,1
+1960,85,H,fr,23,4,0.03,Premium,332.89,4.0,Aide à domicile,1
+1961,83,H,fr,18,4,0.08,Premium,511.08,3.8,Aide à domicile,1
+1962,85,F,it,13,1,0.04,Premium,173.37,4.9,Aide à domicile,1
+1963,87,H,fr,25,3,0.03,Premium,1151.6,3.9,Portage repas,1
+1964,87,H,en,15,6,0.05,Premium,732.66,4.8,Aide à domicile,1
+1965,87,F,en,9,7,0.05,Standard,112.92,4.6,Portage repas,1
+1966,84,F,fr,47,6,0.07,Standard,140.12,3.9,Aide à domicile,1
+1967,82,F,fr,15,8,0.07,Standard,143.32,4.7,Aide à domicile,1
+1968,83,H,fr,12,4,0.02,Premium,569.62,4.4,Aide à domicile,1
+1969,82,F,fr,7,2,0.21,Standard,118.49,3.2,Sport Senior,1
+1970,90,H,fr,28,2,0.03,Premium,254.11,4.6,Soins Infirmiers,1
+1971,87,F,fr,5,6,0.33,Premium,476.44,3.2,Club Voyage,1
+1972,66,H,fr,1,5,0.24,Premium,314.08,4.4,Sport Senior,1
+1973,87,F,de,3,5,0.08,Premium,407.36,4.9,Aide à domicile,1
+1974,85,F,fr,2,7,0.03,Standard,141.17,4.5,Aide à domicile,1
+1975,83,F,es,5,2,0.06,Premium,532.97,4.3,Soins Infirmiers,1
+1976,81,F,fr,21,1,0.06,Premium,202.76,4.0,Aide à domicile,1
+1977,90,H,en,13,2,0.02,Premium,255.41,4.1,Aide à domicile,1
+1978,89,F,fr,3,6,0.03,Premium,400.52,4.8,Portage repas,1
+1979,79,H,fr,19,9,0.11,Premium,359.62,4.3,Aide à domicile,1
+1980,86,F,it,9,4,0.08,Premium,337.57,4.5,Aide à domicile,1
+1981,78,F,fr,9,6,0.14,Premium,181.65,4.2,Informatique,1
+1982,75,F,fr,6,2,0.14,Premium,260.59,4.2,Informatique,1
+1983,80,F,fr,24,4,0.09,Premium,331.73,3.8,Jardinage,1
+1984,89,H,fr,5,3,0.05,Standard,110.22,4.0,Aide à domicile,1
+1985,89,F,fr,2,1,0.06,Premium,228.73,4.2,Aide à domicile,1
+1986,87,H,fr,5,5,0.02,Premium,451.57,4.9,Aide à domicile,1
+1987,88,H,fr,16,3,0.05,Standard,119.18,4.8,Soins Infirmiers,1
+1988,87,F,fr,13,2,0.07,Premium,835.35,4.1,Aide à domicile,1
+1989,80,F,it,3,3,0.12,Premium,914.41,4.4,Jardinage,1
+1990,86,H,fr,2,5,0.04,Standard,122.3,5.0,Aide à domicile,1
+1991,88,H,fr,13,1,0.05,Premium,981.11,4.0,Aide à domicile,1
+1992,88,H,fr,14,2,0.05,Premium,295.22,4.6,Aide à domicile,1
+1993,91,F,fr,6,0,0.03,Premium,462.85,4.5,Soins Infirmiers,1
+1994,88,H,fr,23,1,0.06,Premium,222.58,4.7,Soins Infirmiers,1
+1995,86,F,fr,46,2,0.03,Premium,692.99,4.3,Soins Infirmiers,1
+1996,90,H,fr,3,4,0.04,Premium,458.27,4.1,Aide à domicile,1
+1997,83,H,fr,11,6,0.06,Premium,172.65,3.9,Soins Infirmiers,1
+1998,78,F,fr,1,3,0.06,Standard,130.38,4.2,Informatique,1
+1999,83,F,en,15,2,0.03,Standard,102.96,4.2,Soins Infirmiers,1
+2000,79,F,fr,7,6,0.38,Premium,384.88,2.5,Sport Senior,1
+2001,79,F,fr,3,2,0.06,Premium,523.51,4.3,Jardinage,1
+2002,83,H,es,17,5,0.24,Premium,557.44,3.0,Sport Senior,1
+2003,79,F,fr,20,8,0.22,Premium,301.33,2.7,Club Voyage,1
+2004,82,F,en,2,3,0.07,Standard,131.23,4.3,Aide à domicile,1
+2005,72,F,fr,1,4,0.14,Premium,191.89,3.2,Jardinage,1
+2006,85,H,en,5,4,0.02,Premium,832.53,4.4,Aide à domicile,1
+2007,84,F,fr,12,6,0.05,Premium,224.73,4.8,Soins Infirmiers,1
+2008,79,F,fr,19,4,0.13,Premium,371.41,4.1,Yoga,1
+2009,87,F,fr,10,6,0.06,Standard,140.06,4.5,Aide à domicile,1
+2010,89,H,fr,11,5,0.04,Premium,433.48,4.3,Aide à domicile,1
+2011,74,H,en,20,4,0.08,Premium,229.62,4.3,Jardinage,1
+2012,79,F,fr,10,7,0.07,Premium,765.06,3.6,Aide à domicile,1
+2013,79,F,fr,12,9,0.11,Premium,614.88,3.9,Jardinage,1
+2014,78,F,fr,9,6,0.14,Premium,222.74,3.3,Informatique,1
+2015,88,F,fr,26,4,0.33,Premium,299.24,3.4,Club Voyage,1
+2016,82,F,fr,4,3,0.06,Premium,213.09,4.7,Aide à domicile,1
+2017,82,H,fr,4,4,0.02,Standard,106.38,5.0,Portage repas,1
+2018,71,F,fr,2,5,0.1,Premium,166.77,4.3,Aide à domicile,1
+2019,87,H,fr,21,3,0.03,Premium,388.06,4.8,Soins Infirmiers,1
+2020,76,F,es,7,5,0.14,Premium,429.57,3.9,Jardinage,1
+2021,84,H,fr,6,2,0.07,Premium,372.94,4.5,Aide à domicile,1
+2022,85,H,fr,48,5,0.06,Premium,260.13,4.6,Aide à domicile,1
+2023,92,F,it,32,3,0.05,Premium,698.57,4.9,Aide à domicile,1
+2024,76,F,fr,43,2,0.08,Premium,348.42,3.8,Jardinage,1
+2025,65,H,fr,2,0,0.21,Premium,581.25,3.9,Sport Senior,1
+2026,85,F,fr,27,4,0.07,Standard,80.12,4.9,Aide à domicile,1
+2027,94,F,fr,5,6,0.23,None,14.36,1.9,Portage repas,0
+2028,91,F,fr,1,3,0.06,Premium,415.56,4.0,Aide à domicile,1
+2029,85,H,fr,6,3,0.05,Standard,105.93,4.9,Soins Infirmiers,1
+2030,81,F,fr,9,4,0.06,Premium,279.39,3.9,Soins Infirmiers,1
+2031,88,H,fr,2,5,0.02,Premium,260.06,4.0,Aide à domicile,1
+2032,78,F,fr,10,2,0.15,Premium,1179.1,3.9,Jardinage,1
+2033,86,H,de,21,1,0.03,Premium,456.04,5.0,Aide à domicile,1
+2034,87,F,fr,6,2,0.08,Premium,378.14,4.7,Aide à domicile,1
+2035,90,H,fr,6,9,0.39,Premium,646.89,2.7,Club Voyage,1
+2036,100,F,fr,5,4,0.06,Premium,444.69,4.0,Soins Infirmiers,1
+2037,86,F,de,31,1,0.03,Premium,229.62,4.7,Soins Infirmiers,1
+2038,80,F,fr,1,5,0.08,Premium,780.37,4.5,Informatique,1
+2039,83,F,fr,8,3,0.03,Standard,136.29,4.8,Portage repas,1
+2040,73,F,it,4,2,0.07,Premium,428.88,4.1,Aide à domicile,1
+2041,79,F,fr,27,5,0.07,Standard,96.02,3.2,Jardinage,1
+2042,81,F,it,2,5,0.07,Premium,389.84,4.1,Aide à domicile,1
+2043,80,H,fr,7,1,0.08,Premium,386.44,3.8,Informatique,1
+2044,84,F,fr,7,3,0.03,Premium,1266.17,4.7,Soins Infirmiers,1
+2045,79,F,de,27,7,0.13,Standard,94.69,3.5,Yoga,1
+2046,90,H,fr,3,8,0.07,Premium,204.77,4.3,Aide à domicile,1
+2047,84,F,fr,13,4,0.03,Premium,639.53,4.2,Aide à domicile,1
+2048,83,F,fr,2,5,0.02,Premium,433.04,4.8,Soins Infirmiers,1
+2049,82,F,de,37,4,0.05,Premium,382.54,4.3,Aide à domicile,1
+2050,84,H,fr,11,1,0.02,Premium,154.11,4.1,Aide à domicile,1
+2051,88,H,fr,12,7,0.07,Premium,206.42,4.0,Portage repas,1
+2052,78,H,fr,7,3,0.05,Premium,896.61,4.1,Yoga,1
+2053,80,F,fr,6,4,0.11,Premium,317.79,4.5,Informatique,1
+2054,82,H,fr,3,3,0.03,Premium,447.14,4.3,Soins Infirmiers,1
+2055,75,F,fr,12,4,0.08,Premium,302.0,3.9,Aide à domicile,1
+2056,79,F,fr,38,6,0.34,Standard,128.52,2.2,Yoga,1
+2057,81,F,fr,6,5,0.03,Premium,698.99,3.8,Aide à domicile,1
+2058,89,F,fr,26,4,0.05,Premium,495.3,4.2,Aide à domicile,1
+2059,85,F,fr,2,4,0.05,Premium,2094.55,3.9,Aide à domicile,1
+2060,85,F,en,34,2,0.05,Standard,146.95,4.7,Aide à domicile,1
+2061,89,F,it,6,6,0.02,Premium,639.47,4.8,Aide à domicile,1
+2062,83,F,fr,6,5,0.04,Standard,115.97,4.9,Aide à domicile,1
+2063,86,H,fr,8,6,0.04,Premium,375.58,4.5,Aide à domicile,1
+2064,83,F,fr,16,8,0.07,Premium,723.28,4.3,Portage repas,1
+2065,85,H,fr,16,3,0.08,Basic,63.11,4.6,Aide à domicile,1
+2066,80,F,fr,8,7,0.1,Premium,281.08,4.5,Jardinage,1
+2067,69,H,fr,9,4,0.1,Premium,211.03,4.0,Sport Senior,1
+2068,83,F,fr,1,5,0.08,Premium,188.86,4.7,Portage repas,1
+2069,92,F,de,5,3,0.05,Premium,450.68,4.6,Aide à domicile,1
+2070,89,F,fr,6,4,0.03,Premium,811.7,4.1,Soins Infirmiers,1
+2071,89,F,fr,10,5,0.05,Premium,297.66,3.8,Portage repas,1
+2072,91,H,fr,10,9,0.04,Premium,390.32,4.5,Soins Infirmiers,1
+2073,84,F,de,15,4,0.07,Premium,362.87,4.0,Aide à domicile,1
+2074,85,F,fr,16,6,0.04,Premium,331.63,4.0,Aide à domicile,1
+2075,80,H,fr,4,4,0.07,Standard,138.53,3.5,Jardinage,1
+2076,82,H,fr,18,5,0.32,Premium,803.79,2.5,Yoga,1
+2077,87,F,fr,1,4,0.02,Premium,419.36,3.8,Aide à domicile,1
+2078,91,F,fr,16,5,0.07,Premium,454.18,4.2,Soins Infirmiers,1
+2079,83,F,fr,2,3,0.08,Premium,173.71,4.1,Aide à domicile,1
+2080,81,F,fr,16,2,0.07,Premium,229.34,3.9,Soins Infirmiers,1
+2081,84,F,fr,9,3,0.06,Premium,287.63,3.9,Aide à domicile,1
+2082,87,H,fr,7,5,0.07,Standard,97.06,4.1,Aide à domicile,1
+2083,75,F,en,15,1,0.12,Standard,85.81,4.2,Aide à domicile,1
+2084,70,F,fr,1,2,0.14,Premium,204.79,3.8,Sport Senior,1
+2085,80,F,fr,4,4,0.06,Premium,503.01,3.4,Informatique,1
+2086,76,H,fr,12,5,0.14,Premium,196.38,3.6,Aide à domicile,1
+2087,80,H,fr,23,1,0.07,Standard,146.58,3.0,Jardinage,1
+2088,83,F,fr,6,2,0.07,Premium,172.58,4.0,Soins Infirmiers,1
+2089,81,H,fr,4,4,0.05,Premium,230.05,4.2,Aide à domicile,1
+2090,92,F,en,9,1,0.06,Premium,249.51,4.7,Aide à domicile,1
+2091,85,F,es,12,6,0.07,Premium,1872.45,4.6,Aide à domicile,1
+2092,85,F,fr,7,3,0.08,Premium,769.92,4.7,Aide à domicile,1
+2093,87,F,fr,26,8,0.05,Premium,751.75,4.4,Aide à domicile,1
+2094,77,F,fr,9,4,0.4,Premium,843.41,2.9,Yoga,1
+2095,90,H,fr,1,3,0.08,Standard,148.94,3.9,Aide à domicile,1
+2096,83,F,fr,4,4,0.06,Standard,124.55,4.7,Soins Infirmiers,1
+2097,88,H,fr,8,4,0.49,Standard,136.6,1.5,Club Voyage,1
+2098,77,F,de,15,4,0.1,Premium,963.13,3.4,Informatique,1
+2099,74,H,fr,3,6,0.07,Premium,213.76,3.3,Yoga,1
+2100,88,F,de,45,5,0.08,Standard,121.69,4.5,Aide à domicile,1
+2101,86,F,en,5,3,0.04,Premium,234.58,3.9,Aide à domicile,1
+2102,78,F,en,10,3,0.13,Premium,273.61,3.8,Jardinage,1
+2103,78,F,fr,1,5,0.14,Premium,410.48,3.2,Yoga,1
+2104,90,F,fr,26,6,0.07,Premium,404.78,3.9,Soins Infirmiers,1
+2105,76,F,fr,19,4,0.07,Premium,170.72,3.3,Yoga,1
+2106,93,H,fr,3,6,0.05,Premium,573.13,4.9,Portage repas,1
+2107,78,F,fr,33,6,0.1,Premium,198.59,3.9,Jardinage,1
+2108,87,F,es,5,3,0.03,Premium,292.24,4.1,Aide à domicile,1
+2109,82,F,fr,15,4,0.02,Premium,573.64,4.0,Aide à domicile,1
+2110,87,H,en,21,6,0.04,Premium,198.17,3.9,Portage repas,1
+2111,80,H,it,17,2,0.11,Premium,210.0,3.4,Informatique,1
+2112,83,F,fr,30,2,0.03,Premium,531.61,4.0,Soins Infirmiers,1
+2113,84,F,fr,24,4,0.08,Premium,166.73,4.3,Soins Infirmiers,1
+2114,77,F,fr,63,3,0.14,Premium,243.41,3.9,Jardinage,1
+2115,88,H,fr,3,5,0.02,Premium,516.55,4.6,Aide à domicile,1
+2116,80,H,en,5,4,0.07,Premium,1712.76,3.1,Jardinage,1
+2117,82,F,fr,13,5,0.04,Premium,537.49,4.3,Aide à domicile,1
+2118,78,F,fr,16,5,0.1,Premium,483.33,3.9,Yoga,1
+2119,68,F,fr,10,5,0.21,Premium,506.35,4.1,Informatique,1
+2120,82,H,fr,1,4,0.08,Standard,140.34,4.9,Aide à domicile,1
+2121,98,F,fr,23,6,0.03,Premium,363.24,4.8,Aide à domicile,1
+2122,88,F,en,39,5,0.05,Premium,323.36,4.4,Soins Infirmiers,1
+2123,83,F,fr,7,3,0.03,Premium,428.31,4.7,Soins Infirmiers,1
+2124,82,H,fr,4,4,0.05,Premium,363.5,4.4,Portage repas,1
+2125,84,H,fr,1,2,0.05,Premium,448.7,4.2,Aide à domicile,1
+2126,87,H,fr,4,2,0.21,Premium,258.12,2.2,Yoga,1
+2127,76,F,fr,15,4,0.09,Premium,347.05,4.4,Aide à domicile,1
+2128,90,H,es,30,2,0.05,Standard,124.01,4.4,Soins Infirmiers,1
+2129,88,F,fr,2,7,0.03,Premium,256.38,4.4,Aide à domicile,1
+2130,88,F,fr,10,5,0.08,Premium,1007.52,3.9,Soins Infirmiers,1
+2131,86,F,fr,15,5,0.08,Premium,427.36,4.9,Soins Infirmiers,1
+2132,84,H,fr,4,4,0.03,Premium,325.66,4.3,Aide à domicile,1
+2133,88,F,fr,11,6,0.06,Premium,1509.42,4.7,Soins Infirmiers,1
+2134,87,H,fr,16,3,0.03,Standard,111.49,4.0,Soins Infirmiers,1
+2135,81,H,fr,22,2,0.02,Standard,136.32,4.8,Soins Infirmiers,1
+2136,80,F,it,8,2,0.14,Premium,1303.43,3.9,Informatique,1
+2137,84,F,fr,17,4,0.08,Premium,343.56,4.3,Aide à domicile,1
+2138,93,F,fr,5,4,0.04,Premium,272.74,4.1,Aide à domicile,1
+2139,76,F,fr,3,2,0.08,Standard,126.88,4.2,Aide à domicile,1
+2140,75,F,fr,3,7,0.07,Premium,473.78,3.5,Yoga,1
+2141,84,F,it,6,3,0.02,Premium,511.91,4.8,Aide à domicile,1
+2142,84,H,de,1,5,0.05,Standard,137.96,4.8,Aide à domicile,1
+2143,85,H,fr,4,3,0.06,Premium,296.0,4.4,Soins Infirmiers,1
+2144,85,F,it,13,3,0.06,Premium,253.2,4.3,Aide à domicile,1
+2145,82,F,en,13,4,0.05,Premium,406.41,4.3,Aide à domicile,1
+2146,92,F,de,1,8,0.04,Standard,135.26,4.8,Aide à domicile,1
+2147,74,H,fr,5,2,0.11,Premium,901.57,4.1,Informatique,1
+2148,79,H,fr,11,3,0.13,Premium,689.0,3.2,Jardinage,1
+2149,83,F,fr,5,7,0.04,Premium,247.66,3.9,Aide à domicile,1
+2150,74,F,en,7,2,0.07,Premium,278.51,3.6,Informatique,1
+2151,82,H,fr,15,5,0.07,Premium,296.92,4.9,Aide à domicile,1
+2152,93,F,fr,1,3,0.04,Premium,177.67,5.0,Soins Infirmiers,1
+2153,84,F,fr,4,4,0.02,Premium,232.26,4.9,Soins Infirmiers,1
+2154,85,F,fr,2,3,0.02,Premium,266.77,4.1,Soins Infirmiers,1
+2155,76,F,fr,2,4,0.09,Premium,1203.37,4.3,Informatique,1
+2156,80,F,it,39,4,0.24,Premium,706.19,2.2,Sport Senior,1
+2157,81,H,fr,6,0,0.04,Premium,699.46,3.9,Soins Infirmiers,1
+2158,82,H,it,9,3,0.35,Premium,445.2,2.1,Portage repas,1
+2159,91,F,fr,16,5,0.08,Standard,135.47,4.2,Soins Infirmiers,1
+2160,87,H,fr,1,3,0.07,Premium,320.34,4.3,Soins Infirmiers,1
+2161,77,F,fr,4,4,0.15,Premium,719.8,3.2,Aide à domicile,1
+2162,85,H,fr,22,6,0.06,Standard,121.02,4.5,Aide à domicile,1
+2163,86,F,fr,24,2,0.04,Premium,551.05,4.0,Soins Infirmiers,1
+2164,90,H,fr,6,1,0.03,Premium,2123.18,4.9,Aide à domicile,1
+2165,93,H,fr,6,7,0.03,Premium,774.36,4.4,Aide à domicile,1
+2166,77,F,fr,17,3,0.07,Premium,1026.4,3.1,Informatique,1
+2167,79,H,fr,5,4,0.08,Premium,394.36,3.1,Informatique,1
+2168,76,H,fr,2,5,0.14,Premium,718.33,3.7,Jardinage,1
+2169,82,H,fr,4,3,0.07,Premium,186.48,4.2,Soins Infirmiers,1
+2170,86,F,fr,6,2,0.08,Premium,625.95,4.6,Aide à domicile,1
+2171,89,H,fr,1,6,0.03,Premium,558.97,4.1,Aide à domicile,1
+2172,83,H,fr,8,6,0.03,Premium,417.6,4.3,Soins Infirmiers,1
+2173,82,F,fr,17,5,0.02,Premium,948.98,3.9,Aide à domicile,1
+2174,84,H,fr,9,3,0.06,Premium,215.2,3.9,Soins Infirmiers,1
+2175,78,F,fr,1,3,0.11,Premium,285.13,3.8,Jardinage,1
+2176,96,F,fr,7,0,0.03,Premium,357.44,4.7,Aide à domicile,1
+2177,74,H,fr,15,4,0.06,Standard,145.31,4.1,Yoga,1
+2178,85,F,fr,1,5,0.04,Premium,397.08,4.7,Portage repas,1
+2179,96,F,en,1,9,0.34,Standard,83.72,3.1,Sport Senior,1
+2180,84,F,fr,6,2,0.31,Premium,765.21,2.6,Yoga,1
+2181,82,H,fr,3,3,0.04,Premium,343.74,4.0,Aide à domicile,1
+2182,81,F,fr,33,6,0.06,Premium,218.3,4.9,Aide à domicile,1
+2183,82,F,fr,11,6,0.03,Premium,169.88,4.8,Soins Infirmiers,1
+2184,92,F,fr,5,4,0.06,Premium,274.49,4.7,Portage repas,1
+2185,70,H,fr,15,8,0.35,Premium,574.32,2.8,Yoga,1
+2186,93,H,de,6,5,0.05,Premium,513.26,4.2,Aide à domicile,1
+2187,75,H,en,2,7,0.06,Premium,188.32,3.8,Informatique,1
+2188,82,H,fr,4,5,0.23,Premium,168.3,3.0,Portage repas,1
+2189,81,F,fr,13,6,0.03,Premium,560.09,3.8,Aide à domicile,1
+2190,87,F,fr,1,5,0.06,Premium,185.81,4.8,Aide à domicile,1
+2191,74,F,fr,4,2,0.14,Premium,347.41,3.8,Jardinage,1
+2192,86,F,fr,3,1,0.08,Premium,365.62,4.5,Portage repas,1
+2193,96,F,fr,3,5,0.06,Premium,425.06,4.3,Portage repas,1
+2194,75,H,fr,14,0,0.14,Premium,658.0,3.7,Informatique,1
+2195,85,F,fr,21,1,0.07,Standard,120.57,4.7,Soins Infirmiers,1
+2196,80,H,es,16,1,0.06,Basic,71.78,4.3,Jardinage,1
+2197,86,F,fr,13,4,0.03,Premium,210.32,4.0,Aide à domicile,1
+2198,84,F,de,30,2,0.03,Premium,1399.41,4.8,Soins Infirmiers,1
+2199,80,F,de,1,1,0.1,Premium,1669.57,4.1,Aide à domicile,1
+2200,86,F,fr,3,3,0.07,Premium,1433.0,3.8,Aide à domicile,1
+2201,94,H,fr,7,8,0.05,Premium,283.78,4.6,Soins Infirmiers,1
+2202,82,F,fr,6,5,0.08,Basic,79.59,4.1,Aide à domicile,1
+2203,88,F,fr,7,4,0.06,Basic,50.81,4.0,Aide à domicile,1
+2204,76,H,fr,3,2,0.07,Premium,202.62,4.0,Yoga,1
+2205,78,F,fr,2,3,0.11,Premium,282.63,3.8,Informatique,1
+2206,86,F,fr,9,5,0.2,Premium,937.38,2.2,Portage repas,1
+2207,92,F,fr,32,5,0.05,Premium,663.04,4.1,Portage repas,1
+2208,86,F,fr,6,1,0.06,Premium,397.23,3.8,Aide à domicile,1
+2209,82,H,fr,1,4,0.04,Premium,162.51,4.5,Soins Infirmiers,1
+2210,83,H,fr,15,1,0.02,Premium,153.54,4.9,Soins Infirmiers,1
+2211,76,H,fr,5,7,0.13,Premium,405.81,4.3,Jardinage,1
+2212,87,F,fr,4,4,0.47,Premium,578.38,3.0,Sport Senior,1
+2213,89,F,fr,5,1,0.03,Premium,453.09,5.0,Aide à domicile,1
+2214,81,H,fr,16,1,0.07,Standard,144.74,4.9,Aide à domicile,1
+2215,81,F,fr,21,7,0.05,Premium,557.31,4.5,Soins Infirmiers,1
+2216,85,F,en,11,1,0.29,Premium,465.59,3.4,Portage repas,1
+2217,81,F,fr,5,4,0.03,Standard,140.62,4.0,Aide à domicile,1
+2218,83,F,fr,5,9,0.06,Premium,176.82,4.8,Soins Infirmiers,1
+2219,96,F,fr,2,3,0.08,Premium,574.43,3.8,Aide à domicile,1
+2220,82,H,it,33,5,0.07,Premium,274.51,4.3,Soins Infirmiers,1
+2221,81,H,fr,13,3,0.06,Premium,1180.75,4.0,Soins Infirmiers,1
+2222,80,F,fr,1,1,0.1,Premium,494.47,4.3,Jardinage,1
+2223,88,F,fr,14,5,0.02,Premium,224.37,4.0,Aide à domicile,1
+2224,82,F,fr,8,4,0.04,Premium,328.46,4.8,Aide à domicile,1
+2225,80,H,fr,44,7,0.06,Premium,348.38,3.3,Informatique,1
+2226,91,F,fr,21,3,0.08,Premium,184.91,3.8,Soins Infirmiers,1
+2227,92,H,es,3,4,0.07,Premium,159.58,4.5,Aide à domicile,1
+2228,80,F,fr,16,8,0.13,Premium,580.39,3.4,Informatique,1
+2229,72,H,fr,8,3,0.07,Premium,651.19,3.6,Informatique,1
+2230,90,F,fr,3,5,0.06,Premium,536.79,4.6,Aide à domicile,1
+2231,79,H,fr,15,9,0.12,Premium,1113.03,3.7,Yoga,1
+2232,88,F,en,10,4,0.04,Premium,214.68,4.2,Aide à domicile,1
+2233,72,H,fr,1,7,0.07,Premium,1263.96,4.5,Informatique,1
+2234,89,F,fr,13,4,0.06,Premium,161.07,4.5,Aide à domicile,1
+2235,76,H,fr,13,5,0.06,Standard,147.29,3.9,Aide à domicile,1
+2236,88,H,en,2,5,0.03,Standard,81.01,4.7,Soins Infirmiers,1
+2237,84,F,fr,6,1,0.07,Premium,231.82,4.2,Soins Infirmiers,1
+2238,78,H,fr,11,5,0.06,Premium,221.32,3.1,Aide à domicile,1
+2239,81,F,fr,2,4,0.03,Premium,504.38,4.1,Aide à domicile,1
+2240,88,F,fr,23,4,0.03,Premium,402.5,4.9,Aide à domicile,1
+2241,84,F,es,1,6,0.02,Standard,127.51,4.5,Aide à domicile,1
+2242,87,F,fr,2,3,0.06,Premium,241.87,5.0,Portage repas,1
+2243,95,H,fr,2,3,0.06,Premium,246.02,4.8,Aide à domicile,1
+2244,74,H,fr,10,7,0.1,Basic,79.98,3.2,Jardinage,1
+2245,93,F,fr,12,3,0.08,Premium,151.08,4.6,Soins Infirmiers,1
+2246,84,F,fr,7,4,0.04,Premium,178.74,4.9,Aide à domicile,1
+2247,78,H,es,5,2,0.08,Premium,1042.61,4.0,Informatique,1
+2248,76,H,fr,20,5,0.12,Premium,385.96,3.6,Jardinage,1
+2249,82,F,en,1,6,0.03,Premium,562.46,4.1,Soins Infirmiers,1
+2250,89,H,fr,4,2,0.04,Standard,99.85,4.9,Soins Infirmiers,1
+2251,83,F,fr,1,5,0.06,Premium,860.88,4.3,Portage repas,1
+2252,93,F,fr,1,3,0.03,Premium,937.73,4.5,Aide à domicile,1
+2253,75,H,fr,6,4,0.13,Basic,66.95,3.3,Jardinage,1
+2254,83,F,es,3,6,0.06,Premium,188.36,4.6,Aide à domicile,1
+2255,76,F,it,4,0,0.07,Premium,492.35,3.2,Jardinage,1
+2256,86,F,fr,21,3,0.05,Premium,554.52,4.5,Aide à domicile,1
+2257,89,H,fr,3,4,0.05,Premium,192.44,5.0,Aide à domicile,1
+2258,81,H,fr,19,6,0.08,Premium,259.35,5.0,Aide à domicile,1
+2259,68,F,de,14,4,0.17,Premium,205.34,4.4,Informatique,1
+2260,85,F,it,5,3,0.07,Premium,361.74,4.6,Aide à domicile,1
+2261,86,F,en,10,5,0.05,Premium,862.93,3.9,Soins Infirmiers,1
+2262,86,F,fr,8,3,0.05,Premium,178.71,4.8,Aide à domicile,1
+2263,91,F,fr,2,4,0.05,Premium,737.48,4.5,Soins Infirmiers,1
+2264,77,H,fr,29,1,0.14,Premium,177.19,4.1,Informatique,1
+2265,88,F,fr,11,5,0.37,Premium,168.09,3.0,Sport Senior,1
+2266,91,F,fr,26,3,0.39,Premium,637.44,2.1,Yoga,1
+2267,73,F,fr,21,2,0.12,Premium,692.38,3.6,Informatique,1
+2268,85,F,fr,1,4,0.08,Premium,654.4,4.9,Aide à domicile,1
+2269,80,H,it,3,4,0.12,Standard,115.58,3.4,Yoga,1
+2270,83,F,en,2,4,0.05,Premium,228.11,4.1,Aide à domicile,1
+2271,86,F,fr,22,1,0.03,Premium,639.69,3.9,Soins Infirmiers,1
+2272,81,F,fr,24,2,0.05,Premium,342.34,4.0,Soins Infirmiers,1
+2273,79,F,fr,10,8,0.12,Standard,140.28,3.2,Aide à domicile,1
+2274,84,F,fr,2,2,0.03,Premium,477.82,4.4,Aide à domicile,1
+2275,77,F,en,2,9,0.06,Premium,186.93,3.5,Yoga,1
+2276,77,F,en,21,2,0.05,Premium,1391.59,3.1,Informatique,1
+2277,88,F,fr,32,1,0.07,Premium,1139.63,4.6,Aide à domicile,1
+2278,77,F,fr,3,1,0.14,Premium,536.93,3.7,Jardinage,1
+2279,87,F,fr,1,2,0.06,Premium,983.77,4.3,Soins Infirmiers,1
+2280,86,H,fr,5,6,0.23,Premium,348.77,1.6,Club Voyage,1
+2281,73,F,fr,1,2,0.08,Premium,610.9,4.0,Informatique,1
+2282,79,F,en,22,5,0.25,Premium,1080.05,2.8,Portage repas,1
+2283,91,F,fr,9,0,0.02,Premium,403.02,4.9,Soins Infirmiers,1
+2284,78,F,fr,13,4,0.15,Premium,270.0,3.4,Jardinage,1
+2285,81,H,fr,7,4,0.05,Standard,84.68,4.4,Aide à domicile,1
+2286,86,F,es,6,6,0.06,Premium,309.85,4.4,Soins Infirmiers,1
+2287,88,H,fr,4,4,0.08,Premium,639.91,4.9,Portage repas,1
+2288,82,F,fr,18,3,0.03,Premium,705.63,5.0,Aide à domicile,1
+2289,80,F,fr,15,3,0.07,Premium,495.75,3.3,Jardinage,1
+2290,92,H,fr,6,1,0.02,Premium,214.77,4.5,Soins Infirmiers,1
+2291,94,F,fr,5,5,0.03,Basic,68.11,4.9,Soins Infirmiers,1
+2292,89,F,fr,1,4,0.06,Premium,222.83,4.7,Aide à domicile,1
+2293,84,F,fr,1,1,0.05,Premium,259.59,4.7,Aide à domicile,1
+2294,79,H,it,12,1,0.09,Premium,257.81,3.9,Informatique,1
+2295,79,F,fr,9,9,0.14,Premium,543.17,4.1,Jardinage,1
+2296,87,H,fr,7,5,0.06,Premium,1621.53,4.8,Aide à domicile,1
+2297,86,F,de,22,1,0.08,Premium,365.55,4.7,Aide à domicile,1
+2298,92,H,fr,9,3,0.04,Premium,278.44,4.8,Aide à domicile,1
+2299,87,F,fr,6,1,0.32,Premium,269.13,3.3,Portage repas,1
+2300,74,H,en,3,7,0.4,Premium,365.8,2.2,Yoga,1
+2301,90,F,fr,21,3,0.06,Premium,170.71,4.4,Aide à domicile,1
+2302,78,H,fr,11,5,0.13,Premium,364.58,3.8,Jardinage,1
+2303,81,F,fr,2,4,0.02,Premium,474.96,4.8,Aide à domicile,1
+2304,85,F,fr,13,6,0.28,Premium,391.64,1.7,Club Voyage,1
+2305,95,F,fr,7,6,0.05,Premium,477.53,4.5,Aide à domicile,1
+2306,101,F,en,21,4,0.07,Premium,468.52,4.2,Soins Infirmiers,1
+2307,87,F,fr,31,3,0.21,Standard,80.24,2.9,Sport Senior,1
+2308,82,H,fr,12,3,0.07,Premium,551.19,3.9,Soins Infirmiers,1
+2309,87,H,de,16,5,0.05,Premium,193.6,4.0,Soins Infirmiers,1
+2310,89,F,fr,1,3,0.08,Standard,137.82,4.7,Portage repas,1
+2311,82,H,fr,10,3,0.02,Standard,136.87,4.3,Aide à domicile,1
+2312,94,F,fr,17,3,0.07,Premium,468.44,5.0,Aide à domicile,1
+2313,85,F,fr,9,0,0.07,Premium,277.14,4.0,Aide à domicile,1
+2314,86,H,fr,11,2,0.05,Standard,86.23,4.9,Soins Infirmiers,1
+2315,87,H,fr,28,7,0.02,Premium,485.42,4.8,Aide à domicile,1
+2316,86,H,es,3,4,0.06,Standard,104.68,4.6,Soins Infirmiers,1
+2317,89,F,de,2,1,0.06,Premium,370.35,5.0,Aide à domicile,1
+2318,80,H,it,15,2,0.05,Premium,400.77,3.7,Jardinage,1
+2319,80,F,it,21,4,0.12,Premium,672.53,4.4,Jardinage,1
+2320,77,F,fr,23,5,0.14,Premium,1377.37,3.7,Jardinage,1
+2321,86,F,fr,13,1,0.05,Standard,111.15,4.6,Aide à domicile,1
+2322,88,H,it,22,5,0.06,Premium,317.54,4.0,Aide à domicile,1
+2323,86,H,fr,15,4,0.07,Premium,265.47,4.1,Soins Infirmiers,1
+2324,94,H,es,2,4,0.06,Premium,468.52,4.3,Soins Infirmiers,1
+2325,83,F,fr,18,7,0.2,Premium,393.52,3.1,Yoga,1
+2326,88,F,fr,3,1,0.07,Premium,249.77,4.4,Soins Infirmiers,1
+2327,77,F,fr,4,6,0.08,Premium,232.73,4.2,Jardinage,1
+2328,81,F,es,7,3,0.03,Standard,135.56,4.4,Aide à domicile,1
+2329,88,F,fr,5,3,0.05,Premium,729.88,4.0,Soins Infirmiers,1
+2330,89,H,fr,5,2,0.03,Premium,478.16,4.6,Portage repas,1
+2331,82,F,fr,3,9,0.03,Premium,690.07,4.9,Soins Infirmiers,1
+2332,83,F,fr,5,7,0.03,Premium,258.34,4.7,Soins Infirmiers,1
+2333,74,F,en,1,6,0.09,Premium,195.8,4.0,Jardinage,1
+2334,81,F,fr,8,4,0.23,Standard,139.76,2.4,Sport Senior,1
+2335,89,F,fr,18,3,0.03,Premium,441.3,4.4,Aide à domicile,1
+2336,87,H,fr,24,2,0.07,Standard,144.14,4.4,Aide à domicile,1
+2337,87,F,fr,21,7,0.02,Premium,1453.19,4.5,Aide à domicile,1
+2338,84,H,fr,7,4,0.03,Standard,116.33,4.2,Aide à domicile,1
+2339,84,F,fr,16,5,0.03,Premium,412.2,4.4,Aide à domicile,1
+2340,80,F,fr,5,4,0.08,Premium,1159.88,3.4,Jardinage,1
+2341,88,F,es,1,3,0.02,Premium,534.78,4.6,Aide à domicile,1
+2342,86,H,fr,14,8,0.04,Premium,381.12,4.6,Soins Infirmiers,1
+2343,86,H,fr,13,3,0.06,Premium,152.6,4.6,Soins Infirmiers,1
+2344,80,F,fr,20,3,0.08,Standard,109.64,3.0,Informatique,1
+2345,71,F,fr,12,6,0.11,Premium,613.16,4.4,Informatique,1
+2346,90,F,fr,3,5,0.07,Premium,1104.89,4.9,Aide à domicile,1
+2347,81,F,fr,24,5,0.05,Premium,233.11,3.9,Aide à domicile,1
+2348,78,H,fr,12,5,0.07,Standard,133.13,4.3,Aide à domicile,1
+2349,88,F,fr,20,2,0.08,Basic,46.34,3.8,Portage repas,1
+2350,81,F,fr,18,5,0.08,Premium,151.1,5.0,Aide à domicile,1
+2351,90,F,fr,5,3,0.03,Premium,302.37,4.7,Aide à domicile,1
+2352,87,F,fr,1,5,0.05,Premium,1190.21,4.7,Aide à domicile,1
+2353,88,F,fr,3,7,0.03,Premium,567.42,4.6,Aide à domicile,1
+2354,75,F,fr,2,3,0.08,Premium,422.7,3.3,Jardinage,1
+2355,91,H,de,4,4,0.06,Premium,240.44,4.1,Aide à domicile,1
+2356,85,H,fr,8,7,0.03,Premium,207.69,4.4,Aide à domicile,1
+2357,81,F,fr,29,4,0.07,Premium,1019.54,4.0,Aide à domicile,1
+2358,84,H,fr,25,5,0.07,Premium,388.84,4.3,Aide à domicile,1
+2359,73,F,de,16,2,0.08,Basic,61.59,4.1,Informatique,1
+2360,86,F,fr,1,2,0.04,Premium,193.21,5.0,Soins Infirmiers,1
+2361,77,F,en,6,1,0.09,Premium,166.67,3.4,Aide à domicile,1
+2362,75,F,fr,14,8,0.08,Premium,213.91,3.5,Aide à domicile,1
+2363,74,F,es,2,4,0.07,Premium,519.52,3.4,Yoga,1
+2364,90,F,en,20,5,0.03,Premium,303.88,4.8,Portage repas,1
+2365,80,F,it,30,3,0.13,Premium,311.4,4.2,Jardinage,1
+2366,93,H,fr,6,6,0.03,Premium,947.06,4.7,Aide à domicile,1
+2367,80,F,fr,15,4,0.13,Premium,189.69,3.3,Jardinage,1
+2368,73,F,fr,2,1,0.11,Premium,1471.36,3.4,Jardinage,1
+2369,77,F,fr,15,4,0.09,Premium,193.55,4.3,Jardinage,1
+2370,91,F,it,1,3,0.05,Premium,355.65,4.8,Aide à domicile,1
+2371,83,F,fr,2,3,0.04,Premium,264.44,4.9,Aide à domicile,1
+2372,80,H,fr,15,7,0.22,Premium,365.52,2.3,Portage repas,1
+2373,84,F,fr,15,3,0.06,Premium,472.6,3.8,Aide à domicile,1
+2374,87,F,fr,13,3,0.03,Premium,468.55,4.8,Aide à domicile,1
+2375,90,F,fr,8,5,0.03,Premium,181.29,4.4,Soins Infirmiers,1
+2376,92,F,en,14,8,0.05,Standard,134.86,4.7,Aide à domicile,1
+2377,81,F,fr,18,5,0.4,Premium,2453.14,1.7,Sport Senior,1
+2378,76,F,fr,41,0,0.07,Premium,224.84,3.4,Informatique,1
+2379,81,F,fr,27,8,0.08,Premium,579.38,4.8,Soins Infirmiers,1
+2380,85,F,fr,19,7,0.02,Standard,91.51,4.0,Soins Infirmiers,1
+2381,78,F,fr,15,4,0.07,Premium,264.78,3.5,Informatique,1
+2382,78,H,fr,11,4,0.14,Premium,299.11,4.5,Jardinage,1
+2383,86,F,fr,2,2,0.06,Premium,483.4,4.7,Aide à domicile,1
+2384,83,H,fr,3,7,0.04,Basic,37.51,4.2,Aide à domicile,1
+2385,84,H,fr,21,2,0.07,Premium,378.23,4.7,Aide à domicile,1
+2386,79,F,fr,20,6,0.41,Standard,132.0,3.2,Sport Senior,1
+2387,82,F,es,12,3,0.05,Premium,429.26,4.4,Aide à domicile,1
+2388,78,F,en,7,3,0.12,Standard,144.54,3.4,Yoga,1
+2389,89,H,de,1,6,0.03,Premium,167.03,4.2,Soins Infirmiers,1
+2390,90,F,fr,5,4,0.03,Premium,266.05,3.9,Aide à domicile,1
+2391,72,H,de,7,1,0.08,Standard,142.7,3.9,Informatique,1
+2392,78,H,en,8,6,0.46,Premium,226.37,1.7,Sport Senior,1
+2393,75,H,en,32,5,0.14,Standard,127.47,3.5,Jardinage,1
+2394,80,F,fr,2,9,0.12,Basic,76.41,4.3,Jardinage,1
+2395,83,F,fr,9,6,0.07,Premium,747.66,3.8,Portage repas,1
+2396,75,H,es,6,3,0.1,Standard,117.42,3.1,Jardinage,1
+2397,78,F,fr,56,1,0.07,Premium,287.05,4.0,Informatique,1
+2398,77,F,fr,24,4,0.13,Premium,604.8,4.0,Jardinage,1
+2399,85,H,de,7,3,0.47,Premium,202.48,1.9,Sport Senior,1
+2400,84,F,fr,98,7,0.36,Premium,171.13,2.5,Sport Senior,1
+2401,79,H,fr,9,4,0.13,Premium,396.86,4.3,Jardinage,1
+2402,85,H,fr,3,3,0.03,Premium,809.92,4.8,Aide à domicile,1
+2403,80,F,de,10,3,0.42,Standard,129.95,2.2,Sport Senior,1
+2404,82,H,fr,4,3,0.07,Premium,293.67,4.8,Aide à domicile,1
+2405,94,F,fr,13,11,0.05,Standard,82.81,4.6,Aide à domicile,1
+2406,92,F,fr,34,6,0.07,Premium,241.78,4.2,Soins Infirmiers,1
+2407,76,F,en,19,5,0.05,Premium,340.34,3.5,Jardinage,1
+2408,88,F,fr,4,2,0.48,Premium,167.15,2.0,Yoga,1
+2409,88,F,de,5,3,0.06,Premium,229.75,4.7,Aide à domicile,1
+2410,77,F,de,1,9,0.08,Standard,107.34,4.1,Jardinage,1
+2411,88,F,fr,5,5,0.03,Premium,352.22,4.6,Portage repas,1
+2412,93,F,fr,2,6,0.47,Premium,770.58,3.2,Club Voyage,1
+2413,77,H,fr,9,6,0.09,Standard,137.67,4.5,Jardinage,1
+2414,78,H,fr,15,5,0.09,Premium,201.23,3.8,Aide à domicile,1
+2415,90,F,fr,17,2,0.07,Premium,495.03,4.4,Soins Infirmiers,1
+2416,85,F,de,1,3,0.03,Premium,873.28,4.9,Aide à domicile,1
+2417,87,F,en,5,1,0.06,Standard,100.29,4.7,Soins Infirmiers,1
+2418,86,F,fr,5,3,0.07,Premium,289.33,4.0,Soins Infirmiers,1
+2419,86,H,fr,2,3,0.04,Premium,415.34,4.7,Soins Infirmiers,1
+2420,76,H,fr,6,5,0.08,Premium,305.19,4.0,Aide à domicile,1
+2421,90,F,fr,5,3,0.05,Basic,45.66,4.5,Soins Infirmiers,1
+2422,91,F,fr,13,5,0.03,Premium,494.46,3.9,Aide à domicile,1
+2423,82,F,it,26,4,0.02,Premium,1116.61,3.9,Soins Infirmiers,1
+2424,83,F,de,8,3,0.03,Premium,363.55,4.1,Soins Infirmiers,1
+2425,74,F,fr,17,0,0.07,Standard,145.14,3.5,Jardinage,1
+2426,87,H,it,2,2,0.02,Premium,219.66,4.6,Soins Infirmiers,1
+2427,87,H,fr,28,5,0.04,Premium,1364.46,4.7,Portage repas,1
+2428,83,F,fr,2,3,0.07,Premium,685.78,4.4,Aide à domicile,1
+2429,90,F,fr,3,4,0.04,Premium,552.58,4.5,Aide à domicile,1
+2430,81,H,fr,2,4,0.04,Premium,440.41,4.6,Aide à domicile,1
+2431,87,F,de,5,2,0.06,Premium,195.13,4.3,Aide à domicile,1
+2432,77,F,fr,10,4,0.07,Premium,282.06,3.3,Jardinage,1
+2433,83,F,fr,54,4,0.02,Premium,311.14,4.0,Aide à domicile,1
+2434,82,H,fr,19,0,0.39,Premium,514.01,2.7,Club Voyage,1
+2435,85,F,fr,6,1,0.08,Premium,1107.34,5.0,Aide à domicile,1
+2436,81,H,fr,11,3,0.05,Premium,810.18,3.9,Aide à domicile,1
+2437,83,H,fr,12,3,0.02,Standard,106.39,4.2,Portage repas,1
+2438,88,H,fr,21,0,0.03,Premium,396.15,5.0,Aide à domicile,1
+2439,81,H,fr,17,2,0.03,Premium,597.05,4.1,Portage repas,1
+2440,74,F,fr,11,5,0.08,Premium,543.31,4.3,Informatique,1
+2441,94,F,fr,14,2,0.03,Premium,200.18,4.0,Aide à domicile,1
+2442,92,H,fr,17,1,0.05,Premium,3407.97,4.4,Aide à domicile,1
+2443,76,H,fr,2,3,0.11,Standard,119.21,4.1,Jardinage,1
+2444,88,F,de,3,3,0.06,Standard,139.22,4.9,Portage repas,1
+2445,80,F,fr,14,5,0.1,Premium,399.2,4.5,Informatique,1
+2446,85,H,fr,23,5,0.06,Premium,1800.87,4.1,Aide à domicile,1
+2447,85,H,fr,7,5,0.08,Premium,169.63,4.1,Portage repas,1
+2448,82,F,fr,47,2,0.06,Premium,267.71,4.6,Aide à domicile,1
+2449,79,F,fr,3,4,0.06,Premium,784.01,4.2,Informatique,1
+2450,79,F,fr,7,9,0.48,Premium,326.46,2.5,Portage repas,1
+2451,78,F,fr,6,2,0.08,Premium,253.38,3.4,Jardinage,1
+2452,79,F,fr,32,2,0.27,Premium,520.66,2.9,Portage repas,1
+2453,83,F,en,5,3,0.07,Premium,411.83,4.8,Aide à domicile,1
+2454,79,F,fr,8,2,0.08,Premium,755.16,3.7,Informatique,1
+2455,88,F,fr,3,4,0.06,Premium,930.54,4.5,Aide à domicile,1
+2456,92,H,fr,9,8,0.4,Premium,423.35,2.6,Sport Senior,1
+2457,80,H,en,24,4,0.09,Premium,418.2,3.2,Informatique,1
+2458,85,F,fr,5,2,0.03,Premium,393.03,4.8,Aide à domicile,1
+2459,86,F,fr,20,2,0.05,Premium,489.75,4.3,Soins Infirmiers,1
+2460,86,H,fr,30,3,0.05,Premium,346.1,5.0,Soins Infirmiers,1
+2461,84,F,fr,1,6,0.07,Premium,330.99,4.5,Aide à domicile,1
+2462,88,H,fr,17,4,0.05,Premium,862.54,4.9,Aide à domicile,1
+2463,86,H,en,4,3,0.03,Premium,1113.74,4.2,Soins Infirmiers,1
+2464,76,F,fr,3,2,0.11,Standard,99.14,3.5,Jardinage,1
+2465,89,H,fr,12,1,0.04,Premium,333.82,3.9,Aide à domicile,1
+2466,89,F,fr,15,1,0.02,Premium,190.88,4.8,Aide à domicile,1
+2467,79,F,fr,7,4,0.05,Premium,258.22,3.3,Aide à domicile,1
+2468,84,F,fr,1,3,0.05,Premium,456.96,4.1,Soins Infirmiers,1
+2469,88,F,fr,29,7,0.34,Premium,565.74,1.7,Portage repas,1
+2470,82,H,fr,16,8,0.05,Premium,302.74,4.3,Aide à domicile,1
+2471,90,F,fr,4,3,0.08,Basic,71.66,3.8,Soins Infirmiers,1
+2472,98,F,fr,9,5,0.04,Premium,153.02,4.6,Soins Infirmiers,1
+2473,79,F,fr,1,5,0.06,Premium,678.43,4.3,Informatique,1
+2474,75,H,fr,5,1,0.09,Basic,36.98,4.4,Aide à domicile,1
+2475,85,F,fr,9,3,0.04,Premium,856.22,4.7,Portage repas,1
+2476,88,F,fr,9,4,0.05,Premium,502.49,4.7,Aide à domicile,1
+2477,82,H,fr,3,4,0.03,Premium,949.11,4.4,Soins Infirmiers,1
+2478,92,F,fr,18,1,0.02,Premium,282.51,4.7,Soins Infirmiers,1
+2479,75,H,fr,5,3,0.1,Basic,63.65,4.0,Yoga,1
+2480,88,F,de,11,5,0.02,Premium,467.26,4.0,Soins Infirmiers,1
+2481,80,H,fr,4,2,0.12,Premium,918.1,4.0,Jardinage,1
+2482,94,H,fr,7,3,0.06,Premium,693.92,3.9,Aide à domicile,1
+2483,95,F,en,3,4,0.07,Premium,194.89,4.8,Aide à domicile,1
+2484,79,F,fr,13,3,0.12,Premium,354.96,4.1,Jardinage,1
+2485,80,H,fr,7,4,0.14,Premium,216.22,3.6,Yoga,1
+2486,89,F,en,1,6,0.07,Premium,171.94,4.4,Aide à domicile,1
+2487,81,H,fr,1,3,0.08,Premium,711.16,4.7,Aide à domicile,1
+2488,83,F,fr,8,5,0.03,Standard,127.05,4.8,Aide à domicile,1
+2489,84,F,fr,3,5,0.03,Premium,161.99,4.1,Soins Infirmiers,1
+2490,72,F,fr,11,2,0.09,Standard,136.92,3.3,Jardinage,1
+2491,83,H,fr,7,3,0.07,Standard,100.52,4.3,Soins Infirmiers,1
+2492,79,F,fr,13,4,0.1,Premium,372.31,4.4,Jardinage,1
+2493,81,H,de,37,5,0.26,Premium,838.65,1.6,Portage repas,1
+2494,92,H,de,10,3,0.07,Premium,285.63,4.1,Aide à domicile,1
+2495,76,F,it,19,4,0.14,Standard,99.28,3.8,Informatique,1
+2496,88,F,en,17,5,0.04,Premium,648.42,3.9,Soins Infirmiers,1
+2497,82,H,de,31,8,0.02,Premium,1275.57,4.5,Soins Infirmiers,1
+2498,82,F,fr,3,2,0.04,Premium,197.47,4.1,Portage repas,1
+2499,88,H,fr,22,1,0.06,Premium,225.82,4.6,Aide à domicile,1
+2500,86,F,fr,29,3,0.08,Premium,500.25,4.3,Soins Infirmiers,1
+2501,87,F,en,6,5,0.06,Premium,1212.07,4.4,Aide à domicile,1
+2502,89,H,fr,5,5,0.07,Premium,218.49,4.9,Aide à domicile,1
+2503,82,F,fr,37,2,0.02,Standard,114.05,4.0,Soins Infirmiers,1
+2504,80,F,fr,12,5,0.11,Premium,548.79,3.6,Informatique,1
+2505,77,F,fr,6,7,0.47,Premium,627.56,2.1,Sport Senior,1
+2506,79,F,fr,19,5,0.09,Premium,332.78,3.5,Aide à domicile,1
+2507,101,F,fr,5,3,0.04,Premium,211.89,4.6,Soins Infirmiers,1
+2508,91,H,fr,3,7,0.06,Premium,733.69,4.4,Aide à domicile,1
+2509,75,F,fr,10,2,0.15,Premium,505.23,4.1,Yoga,1
+2510,76,F,fr,11,3,0.08,Premium,179.08,4.4,Aide à domicile,1
+2511,86,H,fr,21,2,0.27,Premium,344.42,2.0,Yoga,1
+2512,87,F,fr,8,3,0.06,Standard,112.31,4.8,Aide à domicile,1
+2513,87,F,fr,21,5,0.08,Premium,573.24,4.9,Aide à domicile,1
+2514,82,H,fr,5,2,0.08,Premium,268.49,5.0,Aide à domicile,1
+2515,83,H,en,11,2,0.04,Premium,233.69,4.2,Soins Infirmiers,1
+2516,85,F,fr,3,2,0.06,Premium,322.56,4.4,Aide à domicile,1
+2517,84,F,fr,6,5,0.04,Premium,342.01,5.0,Aide à domicile,1
+2518,70,F,fr,24,5,0.24,Premium,677.58,3.9,Sport Senior,1
+2519,82,F,fr,3,2,0.04,Premium,531.37,4.6,Portage repas,1
+2520,78,F,it,20,7,0.11,Premium,292.21,4.5,Jardinage,1
+2521,85,F,fr,4,7,0.07,Premium,610.04,4.1,Portage repas,1
+2522,101,F,fr,1,3,0.05,Premium,456.31,3.9,Soins Infirmiers,1
+2523,86,F,fr,2,6,0.05,Premium,235.4,4.5,Soins Infirmiers,1
+2524,82,F,de,17,4,0.39,Premium,299.71,3.5,Portage repas,1
+2525,89,H,en,4,4,0.04,Premium,294.13,4.0,Aide à domicile,1
+2526,86,F,fr,13,9,0.07,Premium,496.11,4.5,Aide à domicile,1
+2527,86,F,fr,15,7,0.03,Premium,246.9,4.0,Aide à domicile,1
+2528,87,F,en,6,5,0.02,Premium,242.32,4.7,Portage repas,1
+2529,96,F,fr,8,3,0.06,Premium,1599.73,4.1,Aide à domicile,1
+2530,77,H,en,7,6,0.21,Premium,702.31,2.8,Yoga,1
+2531,86,F,fr,36,4,0.05,Premium,180.21,4.9,Aide à domicile,1
+2532,78,F,fr,5,1,0.1,Premium,522.87,4.2,Informatique,1
+2533,87,F,fr,3,3,0.04,Premium,364.04,3.9,Soins Infirmiers,1
+2534,78,H,fr,6,1,0.12,Premium,452.97,4.4,Informatique,1
+2535,81,F,fr,14,2,0.05,Premium,369.61,4.0,Soins Infirmiers,1
+2536,82,F,es,15,5,0.08,Premium,857.74,4.2,Aide à domicile,1
+2537,89,F,fr,31,9,0.03,Premium,436.63,4.0,Aide à domicile,1
+2538,89,F,fr,26,4,0.02,Premium,315.11,4.3,Aide à domicile,1
+2539,76,F,fr,5,3,0.13,Premium,762.3,3.2,Informatique,1
+2540,84,F,fr,8,4,0.07,Premium,399.1,4.0,Aide à domicile,1
+2541,79,H,en,17,5,0.1,Premium,364.95,4.2,Informatique,1
+2542,76,H,en,30,4,0.13,Premium,425.73,3.8,Jardinage,1
+2543,82,F,fr,5,6,0.07,Premium,307.26,5.0,Aide à domicile,1
+2544,82,F,es,8,4,0.05,Premium,333.61,4.1,Soins Infirmiers,1
+2545,98,F,en,28,3,0.49,Premium,207.11,2.0,Portage repas,1
+2546,86,H,it,6,7,0.03,Premium,181.57,4.4,Soins Infirmiers,1
+2547,75,F,fr,8,5,0.07,Standard,148.97,3.9,Informatique,1
+2548,80,H,it,29,2,0.13,Standard,108.74,3.3,Informatique,1
+2549,90,F,fr,20,4,0.06,Premium,163.83,4.4,Soins Infirmiers,1
+2550,96,F,fr,4,3,0.06,Premium,288.06,4.4,Aide à domicile,1
+2551,74,F,it,5,2,0.13,Premium,359.63,3.1,Informatique,1
+2552,72,H,fr,6,6,0.1,Premium,266.55,3.8,Jardinage,1
+2553,95,H,fr,30,3,0.05,Basic,50.3,4.0,Portage repas,1
+2554,86,H,en,83,2,0.08,Premium,1167.07,4.3,Soins Infirmiers,1
+2555,78,F,en,18,3,0.12,Premium,789.79,3.9,Jardinage,1
+2556,87,F,fr,8,5,0.08,Premium,473.05,5.0,Soins Infirmiers,1
+2557,68,H,it,1,5,0.13,Premium,1523.21,3.9,Sport Senior,1
+2558,84,H,fr,15,7,0.04,Premium,151.52,4.2,Aide à domicile,1
+2559,85,F,fr,6,3,0.37,Premium,1499.2,2.3,Portage repas,1
+2560,89,F,en,13,0,0.45,Premium,153.0,1.7,Sport Senior,1
+2561,77,F,fr,12,3,0.1,Premium,400.85,3.8,Informatique,1
+2562,84,F,fr,8,0,0.07,Standard,119.52,4.9,Aide à domicile,1
+2563,78,F,fr,35,5,0.09,Premium,335.07,3.7,Informatique,1
+2564,85,F,fr,1,4,0.04,Premium,451.02,4.9,Soins Infirmiers,1
+2565,78,F,fr,15,5,0.15,Premium,292.61,4.4,Informatique,1
+2566,81,F,en,7,7,0.03,Premium,586.22,3.9,Aide à domicile,1
+2567,78,F,en,16,5,0.11,Premium,358.45,3.7,Informatique,1
+2568,87,H,fr,14,9,0.07,Premium,218.03,3.8,Aide à domicile,1
+2569,89,H,en,1,3,0.06,Premium,210.43,4.9,Aide à domicile,1
+2570,82,F,fr,5,2,0.03,Premium,633.54,4.1,Aide à domicile,1
+2571,84,H,fr,3,3,0.02,Premium,196.29,4.6,Aide à domicile,1
+2572,75,H,it,3,7,0.11,Premium,688.77,4.1,Informatique,1
+2573,82,F,fr,16,1,0.07,Premium,880.73,4.2,Aide à domicile,1
+2574,83,F,fr,4,8,0.07,Standard,87.15,4.6,Soins Infirmiers,1
+2575,99,H,fr,8,4,0.06,Premium,819.69,4.3,Soins Infirmiers,1
+2576,77,H,fr,4,1,0.07,Premium,1721.45,3.5,Jardinage,1
+2577,92,H,it,11,5,0.08,Premium,405.12,4.7,Portage repas,1
+2578,89,H,fr,16,4,0.07,Premium,534.78,3.9,Portage repas,1
+2579,85,F,fr,5,2,0.03,Premium,759.14,4.8,Aide à domicile,1
+2580,94,F,fr,12,7,0.02,Premium,265.66,4.4,Aide à domicile,1
+2581,86,F,fr,21,6,0.04,Premium,383.14,4.5,Soins Infirmiers,1
+2582,86,F,fr,2,3,0.04,Standard,115.73,3.9,Soins Infirmiers,1
+2583,83,F,fr,15,6,0.31,Premium,370.0,3.0,Portage repas,1
+2584,91,F,it,5,4,0.02,Premium,493.28,4.8,Soins Infirmiers,1
+2585,90,F,de,2,9,0.07,Premium,500.45,5.0,Soins Infirmiers,1
+2586,80,H,fr,10,4,0.1,Premium,776.6,3.1,Jardinage,1
+2587,76,F,fr,4,3,0.08,Premium,178.17,4.0,Informatique,1
+2588,82,F,fr,21,1,0.07,Premium,216.26,3.9,Aide à domicile,1
+2589,79,F,de,1,3,0.08,Premium,1508.68,3.4,Aide à domicile,1
+2590,83,F,es,2,4,0.07,Premium,293.63,4.2,Soins Infirmiers,1
+2591,91,H,fr,9,4,0.05,Premium,388.62,5.0,Aide à domicile,1
+2592,81,H,fr,11,2,0.07,Premium,313.87,5.0,Portage repas,1
+2593,83,H,fr,16,3,0.02,Premium,171.61,4.7,Aide à domicile,1
+2594,84,F,fr,4,3,0.07,Premium,1213.68,4.2,Aide à domicile,1
+2595,89,F,fr,23,1,0.03,Premium,217.11,4.1,Aide à domicile,1
+2596,70,F,fr,37,4,0.22,Standard,134.39,4.1,Club Voyage,1
+2597,80,F,fr,9,1,0.08,Premium,230.9,4.1,Informatique,1
+2598,85,H,fr,18,8,0.06,Basic,66.77,4.6,Soins Infirmiers,1
+2599,91,H,fr,9,2,0.03,Premium,196.68,4.9,Soins Infirmiers,1
+2600,81,H,fr,1,5,0.06,Premium,152.64,4.3,Aide à domicile,1
+2601,72,F,fr,5,1,0.12,Premium,542.68,3.5,Informatique,1
+2602,87,H,fr,2,4,0.06,Premium,193.22,4.6,Aide à domicile,1
+2603,80,F,fr,54,4,0.12,Premium,673.73,4.4,Yoga,1
+2604,76,H,fr,4,4,0.08,Premium,1013.71,3.2,Jardinage,1
+2605,80,F,fr,13,3,0.11,Premium,618.64,4.1,Informatique,1
+2606,82,F,fr,5,3,0.03,Premium,278.74,4.2,Soins Infirmiers,1
+2607,80,F,fr,13,5,0.1,Premium,370.73,3.8,Jardinage,1
+2608,70,H,fr,3,7,0.21,Standard,97.77,3.5,Informatique,1
+2609,89,F,fr,19,7,0.05,Premium,297.54,4.2,Soins Infirmiers,1
+2610,91,F,fr,2,5,0.03,Premium,166.37,4.8,Aide à domicile,1
+2611,87,H,en,28,6,0.31,Premium,577.12,3.2,Portage repas,1
+2612,77,F,fr,23,2,0.29,Premium,2593.56,2.6,Club Voyage,1
+2613,82,F,fr,14,1,0.04,Premium,493.95,4.8,Aide à domicile,1
+2614,83,F,fr,1,5,0.02,Basic,67.33,3.8,Aide à domicile,1
+2615,87,F,fr,3,3,0.07,Premium,248.04,4.6,Aide à domicile,1
+2616,88,H,fr,24,6,0.07,Premium,365.25,4.4,Soins Infirmiers,1
+2617,79,H,fr,2,1,0.1,Premium,355.13,3.9,Informatique,1
+2618,84,F,fr,3,5,0.05,Premium,184.55,4.5,Soins Infirmiers,1
+2619,86,H,de,10,3,0.03,Premium,402.95,4.9,Aide à domicile,1
+2620,92,F,fr,4,4,0.02,Standard,122.56,4.6,Aide à domicile,1
+2621,88,F,fr,4,5,0.05,Premium,155.5,4.1,Portage repas,1
+2622,88,F,fr,11,3,0.07,Premium,555.14,4.2,Aide à domicile,1
+2623,84,F,de,6,3,0.07,Standard,146.94,3.9,Soins Infirmiers,1
+2624,92,F,en,2,3,0.06,Premium,509.36,4.0,Soins Infirmiers,1
+2625,86,H,fr,10,5,0.06,Standard,110.72,4.2,Aide à domicile,1
+2626,78,H,en,6,5,0.09,Premium,1358.92,3.3,Jardinage,1
+2627,92,F,fr,16,2,0.07,Premium,178.25,4.3,Aide à domicile,1
+2628,88,F,en,2,4,0.06,Premium,276.9,4.6,Aide à domicile,1
+2629,81,H,en,12,5,0.08,Premium,431.42,5.0,Aide à domicile,1
+2630,81,H,fr,7,11,0.05,Premium,210.67,4.2,Soins Infirmiers,1
+2631,85,H,fr,7,4,0.38,Premium,371.41,3.1,Portage repas,1
+2632,86,F,fr,4,0,0.46,Premium,524.72,1.9,Yoga,1
+2633,85,H,fr,1,5,0.04,Premium,714.14,4.0,Soins Infirmiers,1
+2634,85,F,fr,23,4,0.07,Premium,623.77,4.5,Aide à domicile,1
+2635,94,F,fr,5,1,0.08,Premium,288.63,3.9,Aide à domicile,1
+2636,90,F,fr,14,9,0.08,Premium,294.5,4.0,Portage repas,1
+2637,85,F,fr,36,0,0.02,Premium,2168.68,4.6,Aide à domicile,1
+2638,89,F,fr,10,7,0.41,Premium,708.04,2.0,Yoga,1
+2639,77,F,fr,7,2,0.07,Premium,158.4,4.5,Aide à domicile,1
+2640,86,F,fr,4,5,0.06,Premium,358.73,4.5,Aide à domicile,1
+2641,94,H,fr,33,2,0.05,Premium,253.27,4.6,Soins Infirmiers,1
+2642,82,F,fr,14,3,0.04,Premium,297.17,4.1,Aide à domicile,1
+2643,78,F,fr,14,4,0.09,Standard,123.84,3.4,Aide à domicile,1
+2644,80,F,fr,7,3,0.11,Premium,238.18,4.3,Jardinage,1
+2645,77,H,es,23,4,0.1,Premium,1410.68,4.1,Jardinage,1
+2646,79,F,fr,16,5,0.06,Premium,526.29,4.1,Jardinage,1
+2647,81,F,fr,4,2,0.06,Basic,45.13,4.5,Soins Infirmiers,1
+2648,75,F,fr,11,5,0.07,Premium,876.52,3.9,Jardinage,1
+2649,84,H,fr,7,8,0.24,Premium,791.78,1.6,Sport Senior,1
+2650,89,H,fr,1,4,0.03,Premium,248.43,3.9,Portage repas,1
+2651,78,F,fr,20,5,0.12,Premium,587.81,3.3,Jardinage,1
+2652,93,F,fr,2,4,0.05,Premium,166.51,4.7,Aide à domicile,1
+2653,87,H,it,9,3,0.08,Premium,227.32,4.1,Aide à domicile,1
+2654,90,F,fr,5,5,0.06,Premium,1098.19,3.9,Soins Infirmiers,1
+2655,80,F,fr,6,5,0.12,Premium,266.45,4.2,Jardinage,1
+2656,89,F,it,8,3,0.06,Basic,74.2,4.7,Aide à domicile,1
+2657,77,F,fr,70,3,0.15,Premium,314.8,3.4,Informatique,1
+2658,89,F,fr,7,7,0.05,Premium,310.98,4.9,Aide à domicile,1
+2659,85,F,fr,3,3,0.06,Premium,863.75,4.5,Aide à domicile,1
+2660,87,H,fr,12,6,0.06,Premium,334.97,4.3,Aide à domicile,1
+2661,76,H,fr,4,2,0.24,Premium,236.35,3.4,Portage repas,1
+2662,78,F,fr,2,4,0.06,Premium,764.05,3.6,Informatique,1
+2663,87,H,en,1,3,0.08,Premium,364.75,4.7,Aide à domicile,1
+2664,78,F,es,1,2,0.14,Premium,181.74,3.7,Jardinage,1
+2665,86,F,de,7,5,0.04,Premium,834.29,5.0,Aide à domicile,1
+2666,75,F,de,7,3,0.08,Premium,386.65,3.8,Aide à domicile,1
+2667,89,H,fr,3,1,0.06,Premium,331.93,4.1,Soins Infirmiers,1
+2668,76,H,fr,19,3,0.1,Premium,381.81,4.2,Jardinage,1
+2669,87,H,fr,2,3,0.07,Standard,140.62,4.1,Aide à domicile,1
+2670,87,H,fr,30,2,0.02,Premium,217.12,3.9,Portage repas,1
+2671,79,F,it,11,5,0.49,Premium,332.1,2.7,Yoga,1
+2672,87,H,fr,1,1,0.04,Premium,283.4,4.4,Aide à domicile,1
+2673,85,H,de,40,5,0.06,Premium,916.47,4.8,Portage repas,1
+2674,80,H,en,5,3,0.08,Premium,394.06,4.0,Informatique,1
+2675,77,F,es,8,3,0.09,Premium,656.23,4.5,Jardinage,1
+2676,72,F,it,5,5,0.23,Premium,333.65,3.1,Portage repas,1
+2677,86,F,fr,16,2,0.04,Premium,770.94,4.7,Aide à domicile,1
+2678,74,F,fr,8,6,0.07,Premium,455.14,4.0,Jardinage,1
+2679,84,F,fr,2,4,0.03,Premium,334.73,4.8,Aide à domicile,1
+2680,82,F,fr,2,6,0.08,Premium,327.65,4.8,Soins Infirmiers,1
+2681,88,F,fr,16,2,0.06,Premium,154.32,4.7,Portage repas,1
+2682,82,F,en,4,6,0.02,Premium,496.77,4.2,Soins Infirmiers,1
+2683,82,F,it,2,4,0.02,Premium,320.67,4.9,Aide à domicile,1
+2684,88,F,fr,9,11,0.06,Premium,221.63,4.0,Aide à domicile,1
+2685,86,H,fr,20,8,0.04,Premium,802.52,4.8,Aide à domicile,1
+2686,85,F,fr,4,4,0.04,Standard,121.8,4.2,Soins Infirmiers,1
+2687,86,F,fr,4,3,0.03,Premium,236.18,4.1,Aide à domicile,1
+2688,74,H,fr,22,3,0.07,Premium,753.52,3.4,Aide à domicile,1
+2689,88,F,fr,2,4,0.05,Premium,426.24,4.4,Aide à domicile,1
+2690,87,F,fr,12,2,0.08,Premium,318.72,4.3,Aide à domicile,1
+2691,77,F,fr,38,3,0.08,Premium,404.8,3.3,Jardinage,1
+2692,82,F,fr,23,3,0.07,Premium,382.27,4.3,Aide à domicile,1
+2693,83,H,fr,1,3,0.05,Standard,98.42,4.6,Aide à domicile,1
+2694,83,F,fr,5,1,0.05,Premium,250.43,3.8,Soins Infirmiers,1
+2695,86,F,fr,2,7,0.04,Premium,1206.89,3.8,Portage repas,1
+2696,92,F,fr,36,7,0.05,Premium,195.42,4.3,Soins Infirmiers,1
+2697,90,F,es,52,5,0.05,Premium,256.71,3.8,Aide à domicile,1
+2698,76,H,fr,4,4,0.11,Premium,214.71,4.2,Yoga,1
+2699,87,F,fr,14,1,0.05,Premium,308.89,3.8,Soins Infirmiers,1
+2700,91,F,fr,23,3,0.05,Premium,207.7,4.4,Aide à domicile,1
+2701,86,F,fr,4,3,0.37,Premium,488.81,2.2,Sport Senior,1
+2702,90,F,de,3,4,0.03,Premium,387.78,4.5,Soins Infirmiers,1
+2703,96,F,fr,1,3,0.06,Premium,614.88,4.5,Aide à domicile,1
+2704,90,H,fr,7,3,0.07,Standard,142.86,5.0,Soins Infirmiers,1
+2705,85,H,fr,28,3,0.02,Premium,252.22,4.4,Soins Infirmiers,1
+2706,90,H,fr,28,1,0.05,Premium,276.44,4.7,Aide à domicile,1
+2707,84,H,fr,2,8,0.05,Premium,476.8,4.3,Soins Infirmiers,1
+2708,84,H,fr,3,5,0.04,Premium,175.56,4.6,Aide à domicile,1
+2709,81,F,fr,7,6,0.06,Premium,688.91,4.5,Aide à domicile,1
+2710,93,H,fr,19,8,0.04,Premium,855.53,4.7,Aide à domicile,1
+2711,79,H,fr,12,2,0.06,Premium,150.13,4.0,Aide à domicile,1
+2712,93,H,fr,9,5,0.03,Premium,223.61,4.7,Aide à domicile,1
+2713,86,F,fr,11,5,0.06,Premium,216.38,4.1,Soins Infirmiers,1
+2714,75,F,fr,2,1,0.11,Premium,2720.29,4.2,Informatique,1
+2715,86,H,fr,8,4,0.05,Premium,234.78,4.6,Soins Infirmiers,1
+2716,71,H,fr,59,7,0.07,Premium,1267.35,4.0,Yoga,1
+2717,87,H,fr,2,5,0.02,Standard,120.21,4.8,Aide à domicile,1
+2718,89,F,fr,9,3,0.08,Premium,150.03,4.7,Aide à domicile,1
+2719,80,F,fr,5,5,0.1,Premium,191.2,4.3,Informatique,1
+2720,84,F,fr,10,2,0.03,Premium,168.35,4.6,Soins Infirmiers,1
+2721,95,H,de,11,2,0.3,Premium,267.27,1.9,Sport Senior,1
+2722,80,F,fr,11,5,0.14,Premium,187.83,3.4,Jardinage,1
+2723,77,F,fr,23,4,0.09,Premium,171.93,4.2,Aide à domicile,1
+2724,92,H,fr,6,4,0.04,Premium,836.61,3.9,Portage repas,1
+2725,95,F,it,9,4,0.05,Premium,881.5,4.1,Soins Infirmiers,1
+2726,84,H,fr,1,1,0.39,Premium,707.7,3.4,Sport Senior,1
+2727,90,F,es,19,9,0.07,Premium,503.6,4.6,Portage repas,1
+2728,92,H,de,4,2,0.04,Premium,356.66,3.8,Aide à domicile,1
+2729,79,F,fr,21,5,0.06,Premium,222.51,4.4,Informatique,1
+2730,81,H,de,4,5,0.03,Premium,154.48,4.8,Aide à domicile,1
+2731,91,H,fr,1,2,0.08,Premium,442.74,5.0,Portage repas,1
+2732,94,F,en,3,2,0.07,Standard,129.5,4.2,Aide à domicile,1
+2733,87,F,fr,51,3,0.07,Standard,149.52,4.1,Aide à domicile,1
+2734,78,F,fr,5,5,0.14,Premium,832.9,3.4,Informatique,1
+2735,95,H,fr,2,11,0.06,Premium,1514.9,4.7,Soins Infirmiers,1
+2736,80,H,en,2,6,0.07,Premium,453.6,4.3,Jardinage,1
+2737,81,F,fr,5,3,0.06,Premium,802.52,4.3,Aide à domicile,1
+2738,86,F,fr,1,4,0.04,Premium,272.03,3.9,Aide à domicile,1
+2739,93,F,fr,9,3,0.02,Standard,113.57,4.3,Aide à domicile,1
+2740,89,H,fr,3,4,0.03,Premium,540.41,4.0,Aide à domicile,1
+2741,86,H,fr,9,1,0.05,Premium,522.18,4.0,Soins Infirmiers,1
+2742,86,F,fr,2,3,0.07,Premium,350.7,4.2,Aide à domicile,1
+2743,84,F,fr,7,3,0.05,Premium,272.79,3.8,Aide à domicile,1
+2744,87,F,fr,11,2,0.02,Premium,715.05,4.6,Aide à domicile,1
+2745,68,H,fr,1,3,0.15,Premium,150.51,4.2,Informatique,1
+2746,82,F,fr,7,5,0.06,Premium,178.32,3.9,Soins Infirmiers,1
+2747,85,F,fr,5,2,0.04,Standard,147.84,4.9,Soins Infirmiers,1
+2748,77,F,es,4,3,0.14,Premium,354.45,3.7,Jardinage,1
+2749,86,F,fr,12,7,0.05,Standard,138.69,4.3,Soins Infirmiers,1
+2750,82,F,de,11,3,0.04,Premium,191.56,4.2,Aide à domicile,1
+2751,94,F,fr,12,5,0.03,Premium,188.29,4.8,Portage repas,1
+2752,93,F,fr,3,2,0.06,Premium,268.84,3.8,Portage repas,1
+2753,81,H,fr,5,2,0.39,Standard,100.75,1.7,Club Voyage,1
+2754,83,H,en,3,6,0.04,Premium,355.08,3.9,Soins Infirmiers,1
+2755,83,F,fr,10,3,0.03,Premium,898.23,4.6,Aide à domicile,1
+2756,81,F,fr,8,7,0.05,Premium,369.07,4.5,Soins Infirmiers,1
+2757,85,H,fr,5,2,0.06,Premium,1136.42,5.0,Soins Infirmiers,1
+2758,79,H,fr,19,5,0.15,Premium,962.74,4.4,Jardinage,1
+2759,77,F,en,2,2,0.13,Premium,616.94,3.4,Jardinage,1
+2760,87,F,fr,45,7,0.06,Premium,351.54,4.9,Aide à domicile,1
+2761,87,F,fr,2,4,0.04,Premium,337.17,4.6,Soins Infirmiers,1
+2762,79,F,fr,18,4,0.11,Premium,610.1,4.3,Jardinage,1
+2763,89,F,fr,6,4,0.06,Premium,242.08,4.1,Soins Infirmiers,1
+2764,80,F,fr,25,6,0.09,Basic,73.45,3.2,Informatique,1
+2765,85,H,fr,1,6,0.06,Premium,490.87,4.7,Soins Infirmiers,1
+2766,88,F,it,6,6,0.05,Standard,133.99,5.0,Aide à domicile,1
+2767,83,F,fr,5,8,0.06,Premium,153.37,4.1,Aide à domicile,1
+2768,86,F,en,60,5,0.05,Premium,331.21,4.0,Soins Infirmiers,1
+2769,80,F,fr,51,5,0.14,Premium,306.89,3.9,Yoga,1
+2770,82,F,fr,3,6,0.07,Standard,107.01,4.9,Aide à domicile,1
+2771,82,F,fr,12,3,0.02,Premium,378.03,4.3,Soins Infirmiers,1
+2772,79,H,fr,10,6,0.06,Premium,717.3,3.8,Aide à domicile,1
+2773,82,F,fr,3,4,0.07,Standard,134.28,4.6,Soins Infirmiers,1
+2774,74,H,fr,3,4,0.07,Premium,916.51,3.6,Informatique,1
+2775,81,H,fr,55,5,0.02,Standard,95.05,4.3,Aide à domicile,1
+2776,82,F,fr,8,4,0.05,Premium,1801.63,5.0,Aide à domicile,1
+2777,82,F,fr,2,5,0.06,Premium,238.31,4.8,Aide à domicile,1
+2778,82,F,fr,3,3,0.04,Premium,372.07,4.8,Aide à domicile,1
+2779,83,H,fr,4,3,0.03,Basic,72.89,4.6,Aide à domicile,1
+2780,86,H,fr,9,5,0.35,Premium,315.1,2.5,Sport Senior,1
+2781,89,H,fr,5,3,0.05,Premium,397.57,4.3,Soins Infirmiers,1
+2782,80,F,fr,8,4,0.15,Premium,309.1,4.0,Informatique,1
+2783,76,H,de,3,5,0.11,Premium,211.06,4.0,Informatique,1
+2784,77,F,en,5,3,0.05,Premium,155.3,3.5,Jardinage,1
+2785,81,F,fr,1,3,0.07,Premium,818.12,4.2,Aide à domicile,1
+2786,81,F,fr,27,3,0.02,Premium,339.42,4.4,Aide à domicile,1
+2787,79,F,fr,3,5,0.05,Premium,1135.91,3.6,Yoga,1
+2788,76,H,en,17,2,0.06,Premium,217.33,3.5,Jardinage,1
+2789,81,F,fr,6,5,0.05,Premium,233.87,4.8,Aide à domicile,1
+2790,85,F,fr,8,1,0.03,Premium,635.91,4.1,Aide à domicile,1
+2791,87,F,fr,5,3,0.07,Standard,90.4,4.7,Aide à domicile,1
+2792,80,H,fr,15,3,0.06,Standard,125.44,3.4,Informatique,1
+2793,81,H,fr,23,4,0.06,Premium,796.78,4.5,Aide à domicile,1
+2794,78,F,fr,5,4,0.09,Standard,129.68,3.1,Yoga,1
+2795,83,F,fr,4,4,0.08,Basic,77.27,4.5,Aide à domicile,1
+2796,78,F,fr,14,4,0.09,Premium,1476.47,3.8,Informatique,1
+2797,87,H,fr,3,5,0.07,Standard,108.58,3.8,Aide à domicile,1
+2798,73,H,fr,13,6,0.11,Premium,383.71,3.4,Informatique,1
+2799,81,F,fr,2,5,0.06,Premium,349.97,4.7,Aide à domicile,1
+2800,85,F,en,12,8,0.08,Basic,34.96,4.8,Aide à domicile,1
+2801,85,F,fr,9,2,0.04,Premium,267.4,4.3,Aide à domicile,1
+2802,100,H,fr,2,2,0.07,Premium,474.05,4.1,Soins Infirmiers,1
+2803,86,F,fr,13,1,0.03,Premium,439.67,4.6,Aide à domicile,1
+2804,77,F,en,8,2,0.11,Premium,682.25,4.2,Informatique,1
+2805,83,F,en,3,3,0.08,Premium,242.89,4.8,Soins Infirmiers,1
+2806,73,H,fr,6,3,0.09,Premium,585.57,4.1,Informatique,1
+2807,83,H,fr,9,2,0.07,Premium,190.78,4.3,Soins Infirmiers,1
+2808,79,F,fr,2,8,0.08,Standard,107.15,3.6,Informatique,1
+2809,89,H,fr,38,6,0.2,Standard,117.26,3.2,Club Voyage,1
+2810,80,H,fr,14,1,0.34,Standard,102.81,2.1,Portage repas,1
+2811,83,F,de,2,4,0.08,Premium,742.67,3.8,Aide à domicile,1
+2812,80,F,fr,21,2,0.15,Standard,98.59,3.3,Aide à domicile,1
+2813,94,F,es,5,7,0.05,Premium,412.33,4.0,Aide à domicile,1
+2814,82,H,it,11,5,0.05,Premium,267.69,4.4,Aide à domicile,1
+2815,94,F,fr,4,3,0.04,Premium,305.05,4.1,Soins Infirmiers,1
+2816,88,F,de,16,2,0.06,Premium,985.82,4.5,Soins Infirmiers,1
+2817,86,F,fr,16,3,0.29,Premium,233.19,2.0,Sport Senior,1
+2818,86,H,fr,10,4,0.04,Premium,540.16,4.6,Soins Infirmiers,1
+2819,86,F,fr,4,3,0.04,Premium,341.26,4.0,Aide à domicile,1
+2820,72,F,fr,4,3,0.08,Premium,293.23,3.8,Jardinage,1
+2821,82,F,fr,6,6,0.04,Premium,2085.08,4.4,Soins Infirmiers,1
+2822,89,F,fr,2,4,0.03,Standard,104.53,4.7,Aide à domicile,1
+2823,83,H,fr,5,6,0.03,Premium,928.8,4.7,Aide à domicile,1
+2824,75,F,fr,14,3,0.13,Premium,559.87,3.3,Aide à domicile,1
+2825,83,H,fr,22,7,0.07,Premium,225.65,4.7,Aide à domicile,1
+2826,94,H,it,5,4,0.03,Premium,1219.31,3.8,Soins Infirmiers,1
+2827,91,F,fr,4,6,0.05,Basic,75.5,4.1,Soins Infirmiers,1
+2828,83,H,fr,22,1,0.07,Premium,218.15,4.3,Aide à domicile,1
+2829,89,F,fr,27,5,0.07,Standard,125.94,3.9,Aide à domicile,1
+2830,81,F,fr,7,6,0.07,Premium,460.47,3.9,Soins Infirmiers,1
+2831,73,H,fr,1,10,0.11,Standard,135.93,3.7,Aide à domicile,1
+2832,78,F,fr,15,4,0.12,Premium,468.27,3.1,Jardinage,1
+2833,93,F,fr,19,9,0.05,Premium,285.27,4.5,Aide à domicile,1
+2834,82,F,fr,1,3,0.03,Premium,225.68,3.9,Aide à domicile,1
+2835,82,H,de,11,7,0.06,Premium,451.92,4.4,Aide à domicile,1
+2836,82,F,fr,11,2,0.02,Premium,267.12,4.7,Portage repas,1
+2837,95,F,fr,6,5,0.22,Standard,138.61,3.5,Club Voyage,1
+2838,93,F,fr,17,3,0.05,Premium,3114.06,4.8,Aide à domicile,1
+2839,97,H,fr,7,4,0.03,Premium,224.27,4.6,Soins Infirmiers,1
+2840,83,H,fr,14,7,0.07,Basic,56.18,4.1,Aide à domicile,1
+2841,85,F,fr,9,3,0.06,Premium,168.83,3.8,Soins Infirmiers,1
+2842,74,H,fr,4,8,0.05,Standard,120.15,3.0,Aide à domicile,1
+2843,92,F,fr,12,3,0.07,Premium,641.3,4.4,Portage repas,1
+2844,76,F,fr,17,1,0.07,Premium,428.34,4.2,Jardinage,1
+2845,85,H,en,44,4,0.06,Premium,455.57,3.9,Aide à domicile,1
+2846,77,H,fr,6,4,0.12,Premium,246.3,3.4,Informatique,1
+2847,80,H,fr,1,3,0.15,Premium,264.83,3.3,Informatique,1
+2848,78,H,fr,54,4,0.13,Premium,246.13,3.1,Aide à domicile,1
+2849,80,F,fr,12,4,0.09,Premium,310.33,4.5,Jardinage,1
+2850,80,H,fr,36,4,0.05,Premium,646.03,4.1,Informatique,1
+2851,80,F,fr,2,2,0.08,Premium,433.31,4.2,Jardinage,1
+2852,89,F,fr,6,2,0.02,Premium,494.07,5.0,Aide à domicile,1
+2853,77,F,fr,2,3,0.12,Premium,493.85,3.2,Aide à domicile,1
+2854,85,F,fr,22,1,0.04,Premium,671.92,4.5,Aide à domicile,1
+2855,91,F,de,26,3,0.02,Premium,417.01,4.8,Aide à domicile,1
+2856,80,F,fr,9,4,0.06,Premium,441.27,4.3,Jardinage,1
+2857,79,F,fr,3,5,0.08,Premium,857.16,3.7,Yoga,1
+2858,82,F,en,2,4,0.03,Premium,194.52,4.0,Soins Infirmiers,1
+2859,91,F,fr,11,6,0.24,Premium,167.0,3.1,Portage repas,1
+2860,85,F,fr,9,2,0.03,Standard,128.23,3.9,Soins Infirmiers,1
+2861,80,F,fr,15,2,0.14,Premium,383.34,4.3,Jardinage,1
+2862,86,H,fr,5,3,0.03,Basic,75.16,4.6,Aide à domicile,1
+2863,77,H,fr,7,5,0.05,Premium,479.29,4.0,Aide à domicile,1
+2864,88,H,fr,1,3,0.07,Premium,303.45,4.7,Aide à domicile,1
+2865,86,F,fr,12,7,0.04,Premium,820.81,4.8,Aide à domicile,1
+2866,82,H,fr,7,5,0.05,Premium,193.46,4.0,Soins Infirmiers,1
+2867,78,F,fr,31,3,0.14,Premium,281.44,3.3,Jardinage,1
+2868,78,F,en,13,7,0.14,Premium,812.69,4.3,Informatique,1
+2869,87,F,fr,7,5,0.02,Premium,1001.34,4.6,Aide à domicile,1
+2870,91,H,fr,4,2,0.07,Premium,192.19,4.3,Soins Infirmiers,1
+2871,80,F,fr,29,6,0.14,Premium,382.99,3.9,Aide à domicile,1
+2872,86,F,fr,1,4,0.02,Premium,419.1,4.0,Aide à domicile,1
+2873,71,F,fr,5,6,0.05,Premium,446.53,4.3,Jardinage,1
+2874,80,H,fr,35,2,0.09,Premium,268.41,3.7,Jardinage,1
+2875,83,F,de,13,6,0.35,Premium,923.06,2.5,Sport Senior,1
+2876,78,F,fr,10,4,0.12,Basic,73.03,3.8,Jardinage,1
+2877,78,F,fr,3,6,0.12,Premium,236.44,3.6,Aide à domicile,1
+2878,79,F,fr,22,2,0.1,Premium,473.87,3.3,Yoga,1
+2879,85,H,fr,3,5,0.02,Premium,477.4,4.2,Aide à domicile,1
+2880,82,F,fr,4,5,0.06,Premium,977.3,4.9,Portage repas,1
+2881,70,H,fr,3,4,0.37,Premium,863.65,3.3,Yoga,1
+2882,71,F,en,3,7,0.11,Premium,263.53,3.6,Yoga,1
+2883,80,H,fr,37,3,0.06,Premium,936.81,3.5,Jardinage,1
+2884,86,F,fr,12,5,0.05,Premium,187.05,4.0,Soins Infirmiers,1
+2885,67,F,fr,13,6,0.17,Premium,697.36,4.7,Informatique,1
+2886,81,F,fr,38,7,0.26,Premium,1409.52,2.8,Club Voyage,1
+2887,80,F,fr,4,2,0.09,Premium,875.28,3.7,Jardinage,1
+2888,92,F,en,1,0,0.04,Premium,360.4,4.4,Aide à domicile,1
+2889,81,H,es,11,4,0.08,Premium,253.96,4.8,Soins Infirmiers,1
+2890,86,F,fr,9,3,0.05,Standard,97.49,4.6,Aide à domicile,1
+2891,84,H,fr,8,4,0.06,Premium,424.54,4.4,Portage repas,1
+2892,71,H,en,1,4,0.28,Standard,135.7,1.7,Yoga,1
+2893,88,F,fr,8,5,0.08,Premium,175.58,3.8,Aide à domicile,1
+2894,85,H,fr,5,1,0.07,Standard,127.74,3.9,Aide à domicile,1
+2895,87,H,fr,4,6,0.07,Premium,229.13,4.4,Aide à domicile,1
+2896,101,F,fr,4,3,0.07,Premium,323.83,4.0,Aide à domicile,1
+2897,71,H,fr,5,1,0.15,Premium,412.19,3.9,Informatique,1
+2898,94,F,en,6,3,0.02,Premium,204.83,4.1,Aide à domicile,1
+2899,82,F,en,5,1,0.07,Premium,779.0,3.8,Soins Infirmiers,1
+2900,85,H,fr,47,6,0.04,Premium,280.34,3.8,Aide à domicile,1
+2901,83,F,fr,33,3,0.03,Premium,176.34,4.2,Portage repas,1
+2902,81,F,en,11,4,0.02,Premium,396.87,4.5,Portage repas,1
+2903,80,F,fr,48,8,0.11,Premium,1593.08,3.1,Jardinage,1
+2904,85,H,fr,57,5,0.08,Premium,432.99,4.9,Aide à domicile,1
+2905,74,H,fr,6,6,0.13,Premium,247.72,3.2,Informatique,1
+2906,88,F,fr,8,3,0.06,Standard,97.57,4.8,Aide à domicile,1
+2907,81,H,fr,39,3,0.06,Premium,277.84,4.9,Soins Infirmiers,1
+2908,77,H,fr,12,2,0.06,Premium,399.63,3.7,Informatique,1
+2909,81,F,fr,3,3,0.08,Premium,242.87,4.9,Soins Infirmiers,1
+2910,91,F,it,15,4,0.03,Standard,87.38,4.0,Aide à domicile,1
+2911,80,H,fr,3,1,0.09,Premium,167.69,3.9,Aide à domicile,1
+2912,86,H,fr,5,6,0.07,Premium,1060.2,4.7,Aide à domicile,1
+2913,79,H,fr,4,4,0.29,Premium,1042.93,1.7,Sport Senior,1
+2914,88,F,fr,4,2,0.05,Premium,162.92,4.6,Portage repas,1
+2915,88,F,fr,1,5,0.05,Premium,567.24,4.9,Aide à domicile,1
+2916,95,F,fr,26,7,0.03,Standard,128.99,4.5,Soins Infirmiers,1
+2917,82,F,fr,5,3,0.02,Premium,1018.45,4.0,Soins Infirmiers,1
+2918,88,F,fr,2,0,0.03,Premium,402.93,3.8,Portage repas,1
+2919,84,H,en,2,1,0.07,Premium,707.9,4.9,Aide à domicile,1
+2920,91,F,fr,10,2,0.06,Standard,83.97,4.1,Portage repas,1
+2921,79,H,fr,60,2,0.09,Premium,569.46,4.0,Informatique,1
+2922,88,F,fr,2,7,0.06,Premium,329.13,4.8,Aide à domicile,1
+2923,82,F,fr,2,1,0.08,Premium,654.67,3.8,Aide à domicile,1
+2924,83,F,es,7,4,0.02,Premium,688.48,4.3,Aide à domicile,1
+2925,84,F,en,10,3,0.08,Premium,349.05,4.8,Soins Infirmiers,1
+2926,85,F,fr,5,5,0.07,Premium,204.78,4.4,Soins Infirmiers,1
+2927,83,H,fr,5,0,0.04,Premium,617.91,4.4,Aide à domicile,1
+2928,85,H,fr,7,5,0.04,Premium,315.6,4.5,Soins Infirmiers,1
+2929,93,F,fr,5,2,0.03,Premium,164.74,4.0,Portage repas,1
+2930,89,F,fr,30,2,0.02,Premium,158.61,4.2,Aide à domicile,1
+2931,89,H,fr,1,3,0.05,Standard,101.58,4.4,Soins Infirmiers,1
+2932,81,F,en,4,4,0.05,Premium,220.16,3.8,Aide à domicile,1
+2933,78,F,fr,20,3,0.12,Premium,800.1,4.0,Jardinage,1
+2934,89,F,fr,22,4,0.04,Premium,381.78,4.6,Aide à domicile,1
+2935,89,H,fr,2,6,0.29,Premium,216.76,3.4,Club Voyage,1
+2936,92,F,fr,44,4,0.04,Premium,630.47,4.7,Aide à domicile,1
+2937,80,F,fr,15,5,0.08,Premium,170.14,3.5,Aide à domicile,1
+2938,82,H,fr,4,5,0.06,Premium,357.4,4.2,Aide à domicile,1
+2939,74,F,fr,8,7,0.1,Premium,286.83,4.2,Jardinage,1
+2940,81,F,fr,5,5,0.06,Premium,617.63,4.1,Soins Infirmiers,1
+2941,89,F,it,2,4,0.07,Standard,93.77,4.7,Aide à domicile,1
+2942,81,H,fr,5,4,0.08,Premium,167.74,4.7,Aide à domicile,1
+2943,87,F,fr,11,6,0.04,Standard,89.3,3.9,Aide à domicile,1
+2944,82,H,fr,21,4,0.07,Premium,269.05,4.1,Aide à domicile,1
+2945,85,H,en,6,3,0.04,Premium,872.82,4.9,Aide à domicile,1
+2946,77,F,fr,6,6,0.08,Premium,221.01,3.6,Informatique,1
+2947,84,H,fr,8,7,0.03,Premium,220.09,4.8,Aide à domicile,1
+2948,66,F,de,13,5,0.25,Premium,665.12,1.8,Portage repas,1
+2949,82,F,fr,17,7,0.05,Premium,778.54,4.2,Aide à domicile,1
+2950,74,H,fr,5,3,0.15,Premium,308.5,3.5,Informatique,1
+2951,91,F,fr,11,3,0.05,Premium,572.7,4.5,Aide à domicile,1
+2952,88,F,en,6,5,0.04,Standard,139.91,3.8,Aide à domicile,1
+2953,86,F,fr,16,3,0.07,Premium,997.21,4.1,Soins Infirmiers,1
+2954,93,F,fr,3,7,0.03,Premium,1847.43,4.7,Aide à domicile,1
+2955,78,H,fr,4,4,0.08,Premium,502.48,4.2,Jardinage,1
+2956,94,F,es,7,4,0.06,Basic,62.5,4.5,Aide à domicile,1
+2957,89,H,fr,27,4,0.03,Premium,211.88,4.7,Soins Infirmiers,1
+2958,82,F,fr,11,5,0.07,Premium,540.69,4.3,Soins Infirmiers,1
+2959,90,F,de,41,2,0.03,Premium,236.37,4.6,Soins Infirmiers,1
+2960,77,F,fr,2,2,0.07,Premium,916.3,3.2,Informatique,1
+2961,79,F,es,8,5,0.1,Premium,530.12,3.1,Jardinage,1
+2962,80,F,de,7,5,0.1,Premium,188.18,3.8,Informatique,1
+2963,80,H,it,12,2,0.06,Premium,339.81,3.1,Jardinage,1
+2964,77,H,fr,21,3,0.12,Premium,161.99,3.3,Jardinage,1
+2965,91,H,fr,23,7,0.05,Premium,286.15,4.7,Aide à domicile,1
+2966,82,F,en,14,4,0.08,Premium,212.49,4.3,Soins Infirmiers,1
+2967,86,H,es,13,2,0.07,Premium,847.59,4.1,Aide à domicile,1
+2968,80,F,fr,36,3,0.07,Premium,1799.74,3.3,Informatique,1
+2969,73,F,en,6,7,0.14,Standard,105.39,4.0,Informatique,1
+2970,85,H,fr,22,3,0.02,Basic,71.09,3.9,Aide à domicile,1
+2971,72,H,fr,31,8,0.07,Premium,272.18,3.7,Jardinage,1
+2972,83,F,fr,9,3,0.07,Standard,98.28,4.7,Aide à domicile,1
+2973,75,F,en,16,4,0.08,Premium,343.63,4.0,Yoga,1
+2974,95,F,fr,6,6,0.07,Premium,602.89,4.3,Aide à domicile,1
+2975,89,H,fr,3,1,0.08,Premium,1094.33,4.8,Aide à domicile,1
+2976,84,F,es,11,3,0.03,Premium,389.05,3.8,Soins Infirmiers,1
+2977,91,H,fr,3,2,0.04,Premium,283.74,4.5,Aide à domicile,1
+2978,78,F,fr,8,6,0.1,Basic,68.03,4.0,Informatique,1
+2979,87,F,fr,25,2,0.04,Premium,338.16,4.3,Aide à domicile,1
+2980,85,F,fr,2,6,0.04,Premium,350.59,4.6,Aide à domicile,1
+2981,85,F,fr,1,5,0.07,Premium,552.11,4.4,Portage repas,1
+2982,91,F,de,12,2,0.06,Premium,187.88,4.6,Aide à domicile,1
+2983,88,H,fr,5,1,0.07,Premium,233.82,4.3,Aide à domicile,1
+2984,85,H,en,7,2,0.04,Standard,101.51,4.8,Aide à domicile,1
+2985,74,H,fr,7,3,0.07,Basic,52.96,3.6,Informatique,1
+2986,78,H,fr,2,6,0.14,Standard,136.43,4.4,Informatique,1
+2987,83,H,fr,1,2,0.02,Standard,94.29,4.9,Soins Infirmiers,1
+2988,84,F,fr,28,5,0.02,Premium,433.53,4.2,Aide à domicile,1
+2989,77,H,fr,3,5,0.05,Premium,218.78,3.7,Informatique,1
+2990,98,F,fr,7,4,0.04,Premium,215.29,4.1,Soins Infirmiers,1
+2991,93,F,fr,43,2,0.06,Premium,150.66,4.4,Aide à domicile,1
+2992,87,F,fr,22,0,0.04,None,24.94,5.0,Aide à domicile,0
+2993,84,F,fr,2,3,0.06,Premium,1106.81,3.8,Soins Infirmiers,1
+2994,82,F,fr,9,5,0.06,Standard,148.77,4.3,Soins Infirmiers,1
+2995,78,H,de,16,2,0.05,Premium,238.09,4.3,Jardinage,1
+2996,84,F,fr,15,6,0.07,Standard,103.41,4.7,Aide à domicile,1
+2997,85,F,fr,18,4,0.05,Premium,720.63,4.7,Aide à domicile,1
+2998,76,F,de,8,4,0.11,Premium,371.42,4.1,Jardinage,1
+2999,86,F,en,3,8,0.05,Premium,170.97,4.8,Aide à domicile,1
+3000,83,F,fr,8,4,0.07,Premium,241.97,3.9,Aide à domicile,1
