@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pingouin as pg
 
 BASE_DIR = Path("/app/php")
 DATASET_PATH = BASE_DIR / "dataset.csv"
@@ -25,55 +26,6 @@ COLONNE_CATEGORIE = [
     "langue",
     "type_abonnement",
 ]
-
-
-def eta_squared_with_target(num_series, target_series):
-    data = pd.DataFrame({"x": num_series, "g": target_series}).dropna()
-    data = data[data["g"].astype(str).str.strip() != ""]
-    if len(data) < 2:
-        return 0.0
-
-    overall_mean = data["x"].mean()
-    ss_total = ((data["x"] - overall_mean) ** 2).sum()
-    if ss_total <= 0:
-        return 0.0
-
-    grouped = data.groupby("g")["x"]
-    means = grouped.mean()
-    counts = grouped.size()
-    ss_between = (((means - overall_mean) ** 2) * counts).sum()
-    return float(ss_between / ss_total)
-
-
-def cramers_v(cat_a_series, cat_b_series):
-    data = pd.DataFrame({"a": cat_a_series, "b": cat_b_series}).dropna()
-    data["a"] = data["a"].astype(str).str.strip()
-    data["b"] = data["b"].astype(str).str.strip()
-    data = data[(data["a"] != "") & (data["b"] != "")]
-    if data.empty:
-        return 0.0
-
-    contingency = pd.crosstab(data["a"], data["b"])
-    rows, cols = contingency.shape
-    if rows < 2 or cols < 2:
-        return 0.0
-
-    observed = contingency.to_numpy(dtype=float)
-    total = observed.sum()
-    row_totals = observed.sum(axis=1, keepdims=True)
-    col_totals = observed.sum(axis=0, keepdims=True)
-    expected = (row_totals @ col_totals) / total
-
-    with np.errstate(divide="ignore", invalid="ignore"):
-        chi2_matrix = np.where(expected > 0, ((observed - expected) ** 2) / expected, 0.0)
-    chi2 = float(chi2_matrix.sum())
-
-    k = min(rows - 1, cols - 1)
-    if k <= 0 or total <= 0:
-        return 0.0
-
-    value = (chi2 / total / k) ** 0.5
-    return float(max(0.0, min(1.0, value)))
 
 
 def _filter_available_columns(columns_list, dataframe):
@@ -101,25 +53,38 @@ def main():
 
     eta_scores = []
     for col in numeric_cols:
-        eta_scores.append(
-            {
-                "feature": col,
-                "score": round(
-                    eta_squared_with_target(numeric_df[col], df["target_service"]),
-                    4,
-                ),
-            }
-        )
+        data = df[[col, "target_service"]].dropna()
+        non_empty = data[col].astype(str).str.strip() != ""
+        data = data[non_empty]
+        
+        if len(data) >= 2:
+            try:
+                eta_sq = pg.eta(data["target_service"], data[col])[0]
+                eta_sq = float(eta_sq) if not np.isnan(eta_sq) else 0.0
+            except Exception:
+                eta_sq = 0.0
+        else:
+            eta_sq = 0.0
+            
+        eta_scores.append({"feature": col, "score": round(eta_sq, 4)})
     eta_scores.sort(key=lambda item: item["score"], reverse=True)
 
     cramers_scores = []
     for col in categorical_cols:
-        cramers_scores.append(
-            {
-                "feature": col,
-                "score": round(cramers_v(df[col], df["target_service"]), 4),
-            }
-        )
+        data = df[[col, "target_service"]].dropna()
+        non_empty = (data[col].astype(str).str.strip() != "") & (data["target_service"].astype(str).str.strip() != "")
+        data = data[non_empty]
+        
+        if not data.empty and data[col].nunique() >= 2 and data["target_service"].nunique() >= 2:
+            try:
+                cramers_val = pg.cramers(data[col], data["target_service"])
+                cramers_val = float(cramers_val) if not np.isnan(cramers_val) else 0.0
+            except Exception:
+                cramers_val = 0.0
+        else:
+            cramers_val = 0.0
+            
+        cramers_scores.append({"feature": col, "score": round(cramers_val, 4)})
     cramers_scores.sort(key=lambda item: item["score"], reverse=True)
 
     report = {

@@ -185,6 +185,7 @@ type PaiementAbonnement struct {
 
 type Devis struct {
 	ID             int     `json:"id"`
+	IDService      int     `json:"id_service"`
 	NomService     string  `json:"nom_service"`
 	NomPrestataire string  `json:"nom_prestataire"`
 	Tarif          float64 `json:"tarif"`
@@ -192,6 +193,32 @@ type Devis struct {
 	DateDebut      string  `json:"date_debut"`
 	DateFin        string  `json:"date_fin"`
 	CanModify      bool    `json:"can_modify"`
+}
+
+type Evaluation struct {
+	IDEvaluation  int    `json:"id_evaluation"`
+	IDUtilisateur int    `json:"id_utilisateur"`
+	NomAuteur     string `json:"nom_auteur"`
+	Note          int    `json:"note"`
+	Commentaire   string `json:"commentaire"`
+	Date          string `json:"date"`
+}
+
+type EvaluationResume struct {
+	IDService     int          `json:"id_service"`
+	AverageRating float64      `json:"average_rating"`
+	TotalReviews  int          `json:"total_reviews"`
+	CanReview     bool         `json:"can_review"`
+	UserReview    *Evaluation  `json:"user_review"`
+	Reviews       []Evaluation `json:"reviews"`
+}
+
+type EvaluationParService struct {
+	IDService     int          `json:"id_service"`
+	NomService    string       `json:"nom_service"`
+	AverageRating float64      `json:"average_rating"`
+	TotalReviews  int          `json:"total_reviews"`
+	Reviews       []Evaluation `json:"reviews"`
 }
 
 type SuiviIntervention struct {

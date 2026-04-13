@@ -80,6 +80,7 @@ func main() {
 	http.HandleFunc("/prestataire/interventions/{id}", ressources.Maj_statut_intervention(db))
 	http.HandleFunc("/prestataire/factures", ressources.Factures_prestataire(db))
 	http.HandleFunc("/prestataire/factures/simuler", ressources.Simuler_generation_facture_prestataire(db))
+	http.HandleFunc("/prestataire/evaluations", ressources.EvaluationsPrestataire(db))
 	http.HandleFunc("/reservation_evenement", ressources.Reservation_evenement(db))
 	http.HandleFunc("/service_disponible", ressources.Service_disponible(db))
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
@@ -93,6 +94,7 @@ func main() {
 	http.HandleFunc("/notifications/{id}/read", ressources.MarquerNotificationLue(db))
 	http.HandleFunc("/notifications/{id}", ressources.SupprimerNotificationUtilisateur(db))
 	http.HandleFunc("/push/subscription", ressources.EnregistrerAbonnementPush(db))
+	http.HandleFunc("/evaluations/service/{id}", ressources.EvaluationsService(db))
 
 	http.HandleFunc("/admin", admin.Estadmin(db))
 

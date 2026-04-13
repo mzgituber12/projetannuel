@@ -725,7 +725,7 @@ func MesDevis(database *sql.DB) http.HandlerFunc {
 		}
 
 		rows, err := database.Query(`
-			SELECT d.id_devis, IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, '') FROM devis d
+			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, '') FROM devis d
 			JOIN intervention i ON i.id_intervention = d.id_intervention
 			LEFT JOIN service s ON s.id_service = i.id_service
 			LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire
@@ -741,7 +741,7 @@ func MesDevis(database *sql.DB) http.HandlerFunc {
 		devisList := make([]structures.Devis, 0)
 		for rows.Next() {
 			var d structures.Devis
-			if err := rows.Scan(&d.ID, &d.NomService, &d.NomPrestataire, &d.Tarif, &d.Status, &d.DateDebut, &d.DateFin); err != nil {
+			if err := rows.Scan(&d.ID, &d.IDService, &d.NomService, &d.NomPrestataire, &d.Tarif, &d.Status, &d.DateDebut, &d.DateFin); err != nil {
 				continue
 			}
 			devisList = append(devisList, d)
@@ -790,9 +790,9 @@ func DevisDetail(database *sql.DB) http.HandlerFunc {
 
 		var d structures.Devis
 		err = database.QueryRow(`
-			SELECT d.id_devis, IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, ''), IFNULL(d.id_prestataire, 0) FROM devis d
+			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, '') FROM devis d
 			JOIN intervention i ON i.id_intervention = d.id_intervention LEFT JOIN service s ON s.id_service = i.id_service LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE d.id_devis = ?`, id).Scan(
-			&d.ID, &d.NomService, &d.NomPrestataire, &d.Tarif, &d.Status, &d.DateDebut, &d.DateFin, new(int),
+			&d.ID, &d.IDService, &d.NomService, &d.NomPrestataire, &d.Tarif, &d.Status, &d.DateDebut, &d.DateFin,
 		)
 		if err != nil {
 			response.WriteHeader(http.StatusNotFound)

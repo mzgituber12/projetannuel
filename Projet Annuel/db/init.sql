@@ -351,13 +351,20 @@ INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heur
 
 CREATE TABLE `document` (
   `id_document` int(11) NOT NULL,
-  `id_prestataire` int(11) NOT NULL,
-  `type_document` enum('CI','habilitation','diplome','autre') DEFAULT 'autre',
+  `id_utilisateur` int(11) NOT NULL,
+  `type_document` enum('CIR','CIV','habilitation','diplome','autre') DEFAULT 'autre',
   `nom_fichier` varchar(255) NOT NULL,
-  `chemin_fichier` varchar(500) NOT NULL,
+  `chemin_fichier` varchar(500) DEFAULT NULL,
   `date_upload` datetime DEFAULT current_timestamp(),
   `valide` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `document`
+--
+
+INSERT INTO `document` (`id_document`, `id_utilisateur`, `type_document`, `nom_fichier`, `chemin_fichier`, `date_upload`, `valide`) VALUES
+(1, 5, 'autre', 'recto_1776004115.png', NULL, '2026-04-12 14:28:35', 0);
 
 -- --------------------------------------------------------
 
@@ -373,6 +380,15 @@ CREATE TABLE `evaluation` (
   `commentaire` text DEFAULT NULL,
   `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `evaluation`
+--
+
+INSERT INTO `evaluation` (`id_evaluation`, `id_utilisateur`, `id_service`, `note`, `commentaire`, `date`) VALUES
+(2, 1, 2, 5, 'Excellent prestataire, très professionnel et ponctuel. Je recommande vivement !', '2026-03-10'),
+(3, 3, 2, 4, 'Bon travail dans l ensemble, quelques petits détails à améliorer mais globalement très satisfait.', '2026-03-22'),
+(4, 6, 2, 3, 'Correct, mais pas exceptionnel. Communication perfectible.', '2026-04-01');
 
 -- --------------------------------------------------------
 
@@ -805,7 +821,7 @@ CREATE TABLE `service` (
 
 INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id_prestataire`, `id_categorie`) VALUES
 (1, 'Faire chier Laurent', '', 'Laurent ta mere a été concue pour manger du porc et suer du jus d orangeuh', 4.00, 1, 1),
-(2, 'Cirage de cheveux', '', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, NULL, 2),
+(2, 'Cirage de cheveux', '', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, 2, 2),
 (3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -1019,7 +1035,7 @@ ALTER TABLE `disponibilite`
 --
 ALTER TABLE `document`
   ADD PRIMARY KEY (`id_document`),
-  ADD KEY `id_prestataire` (`id_prestataire`);
+  ADD KEY `fk_document_user` (`id_utilisateur`);
 
 --
 -- Index pour la table `evaluation`
@@ -1256,13 +1272,13 @@ ALTER TABLE `disponibilite`
 -- AUTO_INCREMENT pour la table `document`
 --
 ALTER TABLE `document`
-  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `id_evaluation` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_evaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `evenement`
@@ -1446,7 +1462,7 @@ ALTER TABLE `disponibilite`
 -- Contraintes pour la table `document`
 --
 ALTER TABLE `document`
-  ADD CONSTRAINT `document_ibfk_1` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_document_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `evaluation`
