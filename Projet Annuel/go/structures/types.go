@@ -193,6 +193,7 @@ type Devis struct {
 	DateDebut      string  `json:"date_debut"`
 	DateFin        string  `json:"date_fin"`
 	CanModify      bool    `json:"can_modify"`
+	CanEditTarif   bool    `json:"can_edit_tarif"`
 }
 
 type Evaluation struct {

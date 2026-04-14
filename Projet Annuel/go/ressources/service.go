@@ -717,20 +717,35 @@ func MesDevis(database *sql.DB) http.HandlerFunc {
 		}
 
 		var idUser int
-		err := database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&idUser)
+		var role string
+		err := database.QueryRow("SELECT id_utilisateur, role FROM utilisateur WHERE token = ?", token).Scan(&idUser, &role)
 		if err != nil {
 			response.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Utilisateur introuvable"})
 			return
 		}
 
-		rows, err := database.Query(`
+		var idPrestataireCaller int
+		if role == "prestataire" {
+			_ = database.QueryRow("SELECT id_prestataire FROM prestataire WHERE id_utilisateur = ?", idUser).Scan(&idPrestataireCaller)
+		}
+
+		baseQuery := `
 			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, '') FROM devis d
 			JOIN intervention i ON i.id_intervention = d.id_intervention
 			LEFT JOIN service s ON s.id_service = i.id_service
 			LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire
 			LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur
-			LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE d.id_utilisateur = ? ORDER BY d.id_devis DESC`, idUser)
+			LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv`
+
+		query := baseQuery + " WHERE d.id_utilisateur = ? ORDER BY d.id_devis DESC"
+		queryArg := any(idUser)
+		if role == "prestataire" && idPrestataireCaller > 0 {
+			query = baseQuery + " WHERE d.id_prestataire = ? ORDER BY d.id_devis DESC"
+			queryArg = idPrestataireCaller
+		}
+
+		rows, err := database.Query(query, queryArg)
 		if err != nil {
 			response.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur récupération des devis"})
@@ -814,7 +829,8 @@ func DevisDetail(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		d.CanModify = (isOwner || isLinkedPresta || isAdmin) && d.Status == "en_attente"
+		d.CanModify = (isOwner || isAdmin) && d.Status == "en_attente"
+		d.CanEditTarif = (isLinkedPresta || isAdmin) && d.Status == "refusé"
 
 		json.NewEncoder(response).Encode(d)
 	}
@@ -887,12 +903,11 @@ func PatchDevis(database *sql.DB) http.HandlerFunc {
 		_ = database.QueryRow("SELECT id_prestataire FROM prestataire WHERE id_utilisateur = ?", idUser).Scan(&idPrestataireCaller)
 
 		isOwner := ownerID == idUser
-		isLinkedPresta := idPrestataireCaller > 0 && idPrestataireCaller == linkedPrestaID
 		isAdmin := role == "admin"
 
-		if !isOwner && !isLinkedPresta && !isAdmin {
+		if !isOwner && !isAdmin {
 			response.WriteHeader(http.StatusForbidden)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Accès refusé"})
+			json.NewEncoder(response).Encode(map[string]string{"message": "Seul le client peut accepter ou refuser ce devis"})
 			return
 		}
 
@@ -926,6 +941,138 @@ func PatchDevis(database *sql.DB) http.HandlerFunc {
 		}
 
 		json.NewEncoder(response).Encode(map[string]string{"message": "Devis " + body.Status + " avec succès"})
+	}
+}
+
+func PatchDevisTarif(database *sql.DB) http.HandlerFunc {
+	type payload struct {
+		Tarif float64 `json:"tarif"`
+	}
+
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "PATCH, OPTIONS")
+		response.Header().Set("Content-Type", "application/json")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		token := request.Header.Get("Token")
+		if token == "" {
+			response.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Token manquant"})
+			return
+		}
+
+		var idUser int
+		var role string
+		err := database.QueryRow("SELECT id_utilisateur, role FROM utilisateur WHERE token = ?", token).Scan(&idUser, &role)
+		if err != nil {
+			response.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Utilisateur introuvable"})
+			return
+		}
+
+		id, err := strconv.Atoi(request.PathValue("id"))
+		if err != nil || id <= 0 {
+			response.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Identifiant invalide"})
+			return
+		}
+
+		var body payload
+		if err := json.NewDecoder(request.Body).Decode(&body); err != nil || body.Tarif <= 0 {
+			response.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Tarif invalide"})
+			return
+		}
+
+		var idPrestataireCaller int
+		_ = database.QueryRow("SELECT id_prestataire FROM prestataire WHERE id_utilisateur = ?", idUser).Scan(&idPrestataireCaller)
+
+		var currentStatus string
+		var linkedPrestaID int
+		var interventionID int
+		var ownerID int
+		err = database.QueryRow("SELECT IFNULL(status, ''), IFNULL(id_prestataire, 0), IFNULL(id_intervention, 0), IFNULL(id_utilisateur, 0) FROM devis WHERE id_devis = ?", id).Scan(&currentStatus, &linkedPrestaID, &interventionID, &ownerID)
+		if err != nil {
+			response.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Devis introuvable"})
+			return
+		}
+
+		isLinkedPresta := idPrestataireCaller > 0 && idPrestataireCaller == linkedPrestaID
+		isAdmin := role == "admin"
+		if !isLinkedPresta && !isAdmin {
+			response.WriteHeader(http.StatusForbidden)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Accès refusé"})
+			return
+		}
+
+		if currentStatus != "refusé" {
+			response.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Seuls les devis refusés peuvent être modifiés"})
+			return
+		}
+
+		tx, err := database.Begin()
+		if err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur transaction"})
+			return
+		}
+		defer tx.Rollback()
+
+		_, err = tx.Exec("UPDATE devis SET tarif_personalise = ?, status = 'en_attente' WHERE id_devis = ?", body.Tarif, id)
+		if err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur mise à jour du devis"})
+			return
+		}
+
+		if interventionID > 0 {
+			_, err = tx.Exec("UPDATE intervention SET montant = ?, statut = 'devis' WHERE id_intervention = ?", body.Tarif, interventionID)
+			if err != nil {
+				response.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(response).Encode(map[string]string{"message": "Erreur mise à jour de l'intervention"})
+				return
+			}
+		}
+
+		if err = tx.Commit(); err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur validation transaction"})
+			return
+		}
+
+		if ownerID > 0 {
+			var serviceName string
+			if interventionID > 0 {
+				_ = database.QueryRow("SELECT IFNULL(s.nom, '') FROM intervention i LEFT JOIN service s ON s.id_service = i.id_service WHERE i.id_intervention = ?",interventionID).Scan(&serviceName)
+			}
+			var prestataireNom string
+			_ = database.QueryRow("SELECT IFNULL(CONCAT(prenom, ' ', nom), '') FROM utilisateur WHERE id_utilisateur = ?", idUser).Scan(&prestataireNom)
+
+			titreNotif, contenuNotif := LireTemplate(database, "devis_modifie_prestataire", map[string]string{
+				"service":     serviceName,
+				"tarif":       fmt.Sprintf("%.2f €", body.Tarif),
+				"prestataire": prestataireNom,
+			})
+			if titreNotif == "devis_modifie_prestataire" && contenuNotif == "" {
+				titreNotif = "Votre devis a été modifié"
+				contenuNotif = fmt.Sprintf("Le prestataire a proposé un nouveau tarif de %.2f € pour votre devis%s.", body.Tarif, func() string {
+					if strings.TrimSpace(serviceName) == "" {
+						return ""
+					}
+					return " (" + serviceName + ")"
+				}())
+			}
+			_ = creerNotification(database, ownerID, titreNotif, contenuNotif)
+		}
+
+		json.NewEncoder(response).Encode(map[string]string{"message": "Devis modifié et renvoyé en attente"})
 	}
 }
 

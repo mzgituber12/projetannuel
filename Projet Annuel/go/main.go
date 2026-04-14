@@ -104,6 +104,7 @@ func main() {
 	http.HandleFunc("/mes_devis", ressources.MesDevis(db))
 	http.HandleFunc("/devis/{id}", ressources.DevisDetail(db))
 	http.HandleFunc("/devis/{id}/statut", ressources.PatchDevis(db))
+	http.HandleFunc("/devis/{id}/tarif", ressources.PatchDevisTarif(db))
 	http.HandleFunc("/notifications", ressources.NotificationsUtilisateur(db))
 	http.HandleFunc("/notifications/unread-count", ressources.CompteurNotifications(db))
 	http.HandleFunc("/notifications/read-all", ressources.MarquerToutesNotificationsLues(db))

@@ -55,6 +55,19 @@ async function loadConseilDetail() {
             </div>
         </div>
     `;
+
+    if a in table'{{conseil}}' && conseil.auteur_id {
+        const authorResponse = await fetch(base + '/users/' + encodeURIComponent(conseil.auteur_id), {
+            method: 'GET'
+        });
+        if (authorResponse.ok) {
+            const author = await authorResponse.json();
+            const authorInfo = document.createElement('p');
+            authorInfo.className = 'text-muted small mb-3';
+            authorInfo.textContent = 'Auteur : ' + String(author.name || 'Inconnu');
+            container.querySelector('.h3').insertAdjacentElement('afterend', authorInfo);
+        }
+    }
 }
 
 window.addEventListener('DOMContentLoaded', loadConseilDetail);

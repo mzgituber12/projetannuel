@@ -24,6 +24,21 @@
 <script>
 const devisId = <?= intval($_GET['id'] ?? 0) ?>;
 
+async function getCurrentUserRole(token) {
+    const base = (window.API_BASE || 'http://localhost:9000');
+    try {
+        const response = await fetch(`${base}/enligne`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Token': token }
+        });
+        if (!response.ok) return '';
+        const data = await response.json();
+        return String(data.role || '').toLowerCase();
+    } catch (_) {
+        return '';
+    }
+}
+
 async function changerStatut(statut) {
     const token = localStorage.getItem('token');
     const base = (window.API_BASE || 'http://localhost:9000');
@@ -47,6 +62,38 @@ async function changerStatut(statut) {
     chargerDetail();
 }
 
+async function modifierTarifDevis() {
+    const token = localStorage.getItem('token');
+    const base = (window.API_BASE || 'http://localhost:9000');
+    const tarifInput = document.getElementById('tarif-personnalise');
+    const btn = document.getElementById('btn-modifier-tarif');
+    if (!tarifInput) return;
+
+    const tarif = Number(String(tarifInput.value || '').replace(',', '.'));
+    if (!Number.isFinite(tarif) || tarif <= 0) {
+        alert('Veuillez saisir un tarif valide.');
+        return;
+    }
+
+    if (btn) btn.disabled = true;
+    const response = await fetch(`${base}/devis/${devisId}/tarif`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Token': token },
+        body: JSON.stringify({ tarif: tarif })
+    });
+
+    if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        alert(data.message || 'Erreur lors de la modification du devis.');
+        if (btn) btn.disabled = false;
+        return;
+    }
+
+    const data = await response.json().catch(() => ({}));
+    alert(data.message || 'Devis mis à jour.');
+    chargerDetail();
+}
+
 async function chargerDetail() {
     if (!devisId) {
         document.getElementById('devisDetail').innerHTML = '<p class="text-danger">Identifiant de devis invalide.</p>';
@@ -58,6 +105,7 @@ async function chargerDetail() {
         window.location.href = 'connexion.php';
         return;
     }
+    const currentRole = await getCurrentUserRole(token);
 
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(`${base}/devis/${devisId}`, {
@@ -83,7 +131,8 @@ async function chargerDetail() {
     const tarif     = d.tarif > 0  ? Number(d.tarif).toFixed(2) + ' €'           : 'Non renseigné';
 
     let actionsHtml = '';
-    if (d.can_modify) {
+    const isPrestataire = currentRole === 'prestataire';
+    if (d.can_modify && !isPrestataire) {
         actionsHtml = `
             <div class="d-flex gap-2 mt-4">
                 <button id="btn-accepté" class="btn btn-success" onclick="changerStatut('accepté')">
@@ -92,6 +141,19 @@ async function chargerDetail() {
                 <button id="btn-refusé" class="btn btn-danger" onclick="changerStatut('refusé')">
                     <i class="bi bi-x-circle me-1"></i><span data-i18n>Refuser le devis</span>
                 </button>
+            </div>`;
+    }
+    if (d.can_edit_tarif) {
+        actionsHtml += `
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title" data-i18n>Modifier le tarif du devis refusé</h5>
+                    <p class="text-muted mb-3" data-i18n>Ce devis sera repassé en attente pour permettre une nouvelle réponse du client.</p>
+                    <div class="input-group">
+                        <input id="tarif-personnalise" type="number" min="0.01" step="0.01" class="form-control" value="${Number(d.tarif || 0).toFixed(2)}" />
+                        <button id="btn-modifier-tarif" class="btn btn-primary" onclick="modifierTarifDevis()" data-i18n>Enregistrer le nouveau tarif</button>
+                    </div>
+                </div>
             </div>`;
     }
 
