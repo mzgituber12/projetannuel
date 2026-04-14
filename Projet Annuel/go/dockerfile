@@ -1,15 +1,28 @@
-FROM golang:1.25.6-alpine
+FROM golang:1.25.6-alpine AS base
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
+
+COPY go.mod go.sum ./
 RUN go mod download
 
+FROM base AS development
+
+
+RUN go install github.com/githubnemo/CompileDaemon@latest
 COPY . .
-
-RUN go build -o main .
-
 EXPOSE 9000
+CMD ["CompileDaemon", "--build=go build -o /tmp/main .", "--command=/tmp/main"]
 
+FROM base AS builder
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /main .
+
+FROM alpine:3.21 AS production
+
+RUN apk add --no-cache ca-certificates
+WORKDIR /app
+COPY --from=builder /main ./main
+EXPOSE 9000
 CMD ["./main"]

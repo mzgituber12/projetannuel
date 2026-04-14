@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"projet/admin"
 	"projet/authentification"
@@ -16,8 +17,23 @@ import (
 	_ "modernc.org/sqlite"
 )
 
+func variableEnv(cle string, valeurParDefaut string) string {
+	valeur := os.Getenv(cle)
+	if valeur == "" {
+		return valeurParDefaut
+	}
+	return valeur
+}
+
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(mariadb:3306)/projet?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local")
+	dbUser := variableEnv("DB_USER", "root")
+	dbPassword := variableEnv("DB_PASSWORD", "root")
+	dbHost := variableEnv("DB_HOST", "mariadb")
+	dbPort := variableEnv("DB_PORT", "3306")
+	dbName := variableEnv("DB_NAME", "projet")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local", dbUser, dbPassword, dbHost, dbPort, dbName)
+
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal("Erreur d'ouverture de la base de données :", err)
 	}

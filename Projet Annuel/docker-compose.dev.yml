@@ -1,7 +1,7 @@
 services:
   mariadb:
     image: mariadb:11
-    container_name: projetannuel_mariadb
+    container_name: projetannuel_mariadb_dev
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
@@ -12,7 +12,7 @@ services:
       - "${DB_EXPOSE_PORT:-3306}:3306"
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-      - mariadb_data:/var/lib/mysql
+      - mariadb_data_dev:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent || exit 1"]
       interval: 10s
@@ -25,7 +25,7 @@ services:
       context: ./go
       dockerfile: dockerfile
       target: development
-    container_name: projetannuel_go
+    container_name: projetannuel_go_dev
     restart: unless-stopped
     environment:
       DB_HOST: mariadb
@@ -53,7 +53,7 @@ services:
       context: ./php
       dockerfile: dockerfile
       target: development
-    container_name: projetannuel_php
+    container_name: projetannuel_php_dev
     restart: unless-stopped
     environment:
       API_URL: ${PUBLIC_API_URL:-http://localhost:9000}
@@ -71,7 +71,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: projetannuel_phpmyadmin
+    container_name: projetannuel_phpmyadmin_dev
     restart: unless-stopped
     environment:
       PMA_HOST: mariadb
@@ -86,7 +86,7 @@ services:
 
   libretranslate:
     image: libretranslate/libretranslate:latest
-    container_name: projetannuel_libretranslate
+    container_name: projetannuel_libretranslate_dev
     restart: unless-stopped
     environment:
       LT_LOAD_ONLY: ${LT_LOAD_ONLY:-en,fr,ru,es,de,it,pt,nl,pl,uk}
@@ -98,7 +98,7 @@ services:
       context: ./ml
       dockerfile: Dockerfile
       target: development
-    container_name: projetannuel_ml_trainer
+    container_name: projetannuel_ml_trainer_dev
     restart: "no"
     volumes:
       - ./php:/app/php
@@ -108,4 +108,4 @@ services:
         condition: service_healthy
 
 volumes:
-  mariadb_data:
+  mariadb_data_dev:

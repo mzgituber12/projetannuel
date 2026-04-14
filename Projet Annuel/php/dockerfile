@@ -1,7 +1,18 @@
-﻿FROM php:8.2-apache
+﻿FROM php:8.2-apache AS base
+
+WORKDIR /var/www/html
+
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-COPY . /var/www/html/
+FROM base AS development
 
 EXPOSE 80
+CMD ["apache2-foreground"]
+
+FROM base AS production
+
+COPY . /var/www/html/
+RUN chown -R www-data:www-data /var/www/html
+EXPOSE 80
+CMD ["apache2-foreground"]
