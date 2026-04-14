@@ -2,7 +2,10 @@ package authentification
 
 import (
 	"database/sql"
+	"encoding/json"
 	"net/http"
+
+	"projet/structures"
 )
 
 func Deconnexion(database *sql.DB) http.HandlerFunc {
@@ -16,17 +19,33 @@ func Deconnexion(database *sql.DB) http.HandlerFunc {
 		}
 
 		token := request.Header.Get("Token")
-		del, err := database.Prepare("UPDATE utilisateur SET token = NULL WHERE token = ?")
+		if token == "" {
+			http.Error(response, "Token manquant", http.StatusUnauthorized)
+			return
+		}
+
+		del, err := database.Prepare("UPDATE utilisateur SET token = NULL, tutoriel = 0 WHERE token = ?")
 		if err != nil {
 			http.Error(response, "Erreur lors de la préparation de la suppression du token de la base de données", http.StatusInternalServerError)
 			return
 		}
 
-		_, err = del.Exec(token)
+		result, err := del.Exec(token)
 
 		if err != nil {
 			http.Error(response, "Erreur lors de la suppression du token de la base de données", http.StatusInternalServerError)
 			return
 		}
+
+		rowsAffected, _ := result.RowsAffected()
+		if rowsAffected == 0 {
+			http.Error(response, "Utilisateur introuvable", http.StatusUnauthorized)
+			return
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(structures.Result{
+			Message: "Déconnexion réussie",
+		})
 	}
 }
