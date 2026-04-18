@@ -5,12 +5,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 
 	"projet/structures"
+
+	"github.com/stripe/stripe-go/v83"
+	stripesession "github.com/stripe/stripe-go/v83/checkout/session"
 )
 
 func Services(database *sql.DB) http.HandlerFunc {
@@ -417,12 +422,22 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput string) (string, int, error) {
+
+type serviceReservationPrecheck struct {
+	ServiceName          string
+	FinalTarif           float64
+	IDPrestataire        int
+	LinkedDevisID        int
+	LinkedInterventionID int
+	Start                time.Time
+}
+
+func precheckServiceReservation(database *sql.DB, idUser int, idService int, startInput string) (*serviceReservationPrecheck, int, error) {
 	var idPrestataire int
 	var serviceName string
 	var serviceTarif float64
 	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
-		return "", http.StatusNotFound, errors.New("service introuvable")
+		return nil, http.StatusNotFound, errors.New("service introuvable")
 	}
 
 	finalTarif := serviceTarif
@@ -443,7 +458,7 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	if err == nil && devisTarif.Valid {
 		finalTarif = devisTarif.Float64
 	} else if err != nil && err != sql.ErrNoRows {
-		return "", http.StatusInternalServerError, errors.New("erreur lors de la récupération du devis")
+		return nil, http.StatusInternalServerError, errors.New("erreur lors de la récupération du devis")
 	}
 
 	startInput = strings.TrimSpace(startInput)
@@ -468,17 +483,17 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	}
 
 	if parseErr != nil {
-		return "", http.StatusBadRequest, errors.New("format de date/heure invalide")
+		return nil, http.StatusBadRequest, errors.New("format de date/heure invalide")
 	}
 	end := start.Add(time.Hour)
 
 	var count int
 	err = database.QueryRow("SELECT COUNT(*) FROM disponibilite WHERE id_prestataire = ? AND (statut = 'disponible' OR statut IS NULL) AND type_regle = 'disponible' AND date = ? AND heure_debut <= ? AND heure_fin >= ?", idPrestataire, start.Format("2006-01-02"), start.Format("15:04:00"), end.Format("15:04:00")).Scan(&count)
 	if err != nil {
-		return "", http.StatusInternalServerError, errors.New("erreur lors de la vérification des disponibilités")
+		return nil, http.StatusInternalServerError, errors.New("erreur lors de la vérification des disponibilités")
 	}
 	if count == 0 {
-		return "", http.StatusBadRequest, errors.New("créneau non disponible")
+		return nil, http.StatusBadRequest, errors.New("créneau non disponible")
 	}
 
 	err = database.QueryRow(
@@ -486,11 +501,49 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 		idPrestataire, start.Format("2006-01-02 15:04:05"), end.Format("2006-01-02 15:04:05"),
 	).Scan(&count)
 	if err != nil {
-		return "", http.StatusInternalServerError, errors.New("erreur lors de la vérification des rendez-vous existants")
+		return nil, http.StatusInternalServerError, errors.New("erreur lors de la vérification des rendez-vous existants")
 	}
 	if count > 0 {
-		return "", http.StatusBadRequest, errors.New("ce créneau est déjà réservé")
+		return nil, http.StatusBadRequest, errors.New("ce créneau est déjà réservé")
 	}
+
+	return &serviceReservationPrecheck{
+		ServiceName:          serviceName,
+		FinalTarif:           finalTarif,
+		IDPrestataire:        idPrestataire,
+		LinkedDevisID:        linkedDevisID,
+		LinkedInterventionID: linkedInterventionID,
+		Start:                start,
+	}, http.StatusOK, nil
+}
+
+func reservationAlreadyExists(database *sql.DB, idUser int, idService int, start time.Time) (bool, error) {
+	var count int
+	err := database.QueryRow(`
+		SELECT COUNT(*)
+		FROM rendez_vous rv
+		JOIN intervention i ON i.id_rdv = rv.id_rdv
+		WHERE rv.id_utilisateur = ? AND i.id_service = ? AND rv.date_debut = ?
+	`, idUser, idService, start.Format("2006-01-02 15:04:05")).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput string) (string, int, error) {
+	pc, status, err := precheckServiceReservation(database, idUser, idService, startInput)
+	if err != nil {
+		return "", status, err
+	}
+
+	serviceName := pc.ServiceName
+	finalTarif := pc.FinalTarif
+	idPrestataire := pc.IDPrestataire
+	linkedDevisID := pc.LinkedDevisID
+	linkedInterventionID := pc.LinkedInterventionID
+	start := pc.Start
+	end := start.Add(time.Hour)
 
 	insertRef, err := database.Prepare("INSERT INTO reference_service (id_utilisateur, id_service) VALUES (?, ?)")
 	if err == nil {
@@ -517,6 +570,9 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 	}
 
 	insertIntervention, err := database.Prepare("INSERT INTO intervention (id_service, id_prestataire, id_utilisateur, id_rdv, statut, montant) VALUES (?, ?, ?, ?, 'confirmé', ?)")
+	if err != nil {
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la création de l'intervention")
+	}
 	if linkedInterventionID > 0 {
 		_, err = database.Exec(
 			"UPDATE intervention SET id_rdv = ?, statut = 'confirmé', montant = ?, id_prestataire = ? WHERE id_intervention = ?",
@@ -534,9 +590,6 @@ func reserveServiceSlot(database *sql.DB, idUser int, idService int, startInput 
 			return "", http.StatusInternalServerError, errors.New("erreur lors de la mise à jour du devis lié")
 		}
 	} else {
-		if err != nil {
-			return "", http.StatusInternalServerError, errors.New("erreur lors de la création de l'intervention")
-		}
 		_, err = insertIntervention.Exec(idService, prestataireNullable, idUser, idRdv, finalTarif)
 		if err != nil {
 			return "", http.StatusInternalServerError, errors.New("erreur lors de l'insertion de l'intervention")
@@ -1076,6 +1129,242 @@ func PatchDevisTarif(database *sql.DB) http.HandlerFunc {
 	}
 }
 
+func finalizePaidServiceReservation(database *sql.DB, idUser int, idService int, startCanonical string) (string, int, error) {
+	pc, status, err := precheckServiceReservation(database, idUser, idService, startCanonical)
+	if err != nil {
+		return "", status, err
+	}
+	already, err := reservationAlreadyExists(database, idUser, idService, pc.Start)
+	if err != nil {
+		return "", http.StatusInternalServerError, errors.New("erreur lors de la vérification de la réservation")
+	}
+	if already {
+		return "Réservation déjà enregistrée", http.StatusOK, nil
+	}
+	return reserveServiceSlot(database, idUser, idService, startCanonical)
+}
+
+
+func ReservationServicePay(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		var body structures.RequetePaiementReservationService
+		if err := json.NewDecoder(request.Body).Decode(&body); err != nil {
+			http.Error(response, "Payload invalide", http.StatusBadRequest)
+			return
+		}
+
+		pm := strings.ToLower(strings.TrimSpace(body.PaymentMethod))
+		if pm == "" {
+			pm = "stripe"
+		}
+		if pm != "stripe" && pm != "transfer" {
+			http.Error(response, "Mode de paiement invalide (stripe ou transfer)", http.StatusBadRequest)
+			return
+		}
+
+		token := request.Header.Get("Token")
+		if token == "" {
+			http.Error(response, "Token manquant", http.StatusUnauthorized)
+			return
+		}
+
+		var idUser int
+		if err := database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&idUser); err != nil {
+			http.Error(response, "Token invalide", http.StatusUnauthorized)
+			return
+		}
+
+		if pm == "transfer" {
+			message, statusCode, reservationErr := reserveServiceSlot(database, idUser, body.IDService, body.Start)
+			if reservationErr != nil {
+				http.Error(response, reservationErr.Error(), statusCode)
+				return
+			}
+			response.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(response).Encode(map[string]any{
+				"message":        message,
+				"payment_method": "transfer",
+				"virement": map[string]string{
+					"iban":      "FR76 1234 5678 9012 3456 7890 123",
+					"reference": "RESV-" + strconv.Itoa(idUser) + "-" + strconv.Itoa(body.IDService),
+				},
+			})
+			return
+		}
+
+		pc, statusCode, err := precheckServiceReservation(database, idUser, body.IDService, body.Start)
+		if err != nil {
+			http.Error(response, err.Error(), statusCode)
+			return
+		}
+
+		if pc.FinalTarif <= 0 {
+			message, code, reservationErr := reserveServiceSlot(database, idUser, body.IDService, body.Start)
+			if reservationErr != nil {
+				http.Error(response, reservationErr.Error(), code)
+				return
+			}
+			response.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(response).Encode(map[string]any{
+				"message":        message,
+				"payment_method": "none",
+				"montant":        0,
+			})
+			return
+		}
+
+		stripeSecret := os.Getenv("STRIPE_SECRET_KEY")
+		if stripeSecret == "" {
+			http.Error(response, "Configuration Stripe manquante", http.StatusInternalServerError)
+			return
+		}
+		stripe.Key = stripeSecret
+
+		baseURL := strings.TrimRight(os.Getenv("APP_BASE_URL"), "/")
+		if baseURL == "" {
+			baseURL = "http://localhost"
+		}
+
+		startCanonical := pc.Start.Format("2006-01-02 15:04:05")
+		amountCents := int64(math.Round(pc.FinalTarif * 100))
+		if amountCents < 1 {
+			amountCents = 1
+		}
+
+		sessionParams := &stripe.CheckoutSessionParams{
+			Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+			SuccessURL: stripe.String(baseURL + "/reservation_success.php?session_id={CHECKOUT_SESSION_ID}"),
+			CancelURL:  stripe.String(baseURL + "/cancel.php"),
+			Metadata: map[string]string{
+				"reservation_kind": "service",
+				"id_utilisateur":   strconv.Itoa(idUser),
+				"id_service":       strconv.Itoa(body.IDService),
+				"start":            startCanonical,
+			},
+			LineItems: []*stripe.CheckoutSessionLineItemParams{
+				{
+					Quantity: stripe.Int64(1),
+					PriceData: &stripe.CheckoutSessionLineItemPriceDataParams{
+						Currency:   stripe.String("eur"),
+						UnitAmount: stripe.Int64(amountCents),
+						ProductData: &stripe.CheckoutSessionLineItemPriceDataProductDataParams{
+							Name: stripe.String("Réservation : " + pc.ServiceName),
+						},
+					},
+				},
+			},
+		}
+
+		checkoutSession, stripeErr := stripesession.New(sessionParams)
+		if stripeErr != nil {
+			http.Error(response, "Erreur création session Stripe: "+stripeErr.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(map[string]any{
+			"message":         "Redirection vers le paiement",
+			"payment_method":  "stripe",
+			"url":             checkoutSession.URL,
+			"session_id":      checkoutSession.ID,
+			"montant":         pc.FinalTarif,
+			"service":         pc.ServiceName,
+			"start":           startCanonical,
+		})
+	}
+}
+
+func ConfirmReservationStripe(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		var body structures.RequeteConfirmationReservationStripe
+		if err := json.NewDecoder(request.Body).Decode(&body); err != nil || strings.TrimSpace(body.SessionID) == "" {
+			http.Error(response, "session_id invalide", http.StatusBadRequest)
+			return
+		}
+
+		token := request.Header.Get("Token")
+		if token == "" {
+			http.Error(response, "Token manquant", http.StatusUnauthorized)
+			return
+		}
+
+		var idUser int
+		if err := database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&idUser); err != nil {
+			http.Error(response, "Token invalide", http.StatusUnauthorized)
+			return
+		}
+
+		stripeSecret := os.Getenv("STRIPE_SECRET_KEY")
+		if stripeSecret == "" {
+			http.Error(response, "Configuration Stripe manquante", http.StatusInternalServerError)
+			return
+		}
+		stripe.Key = stripeSecret
+
+		sess, err := stripesession.Get(body.SessionID, nil)
+		if err != nil {
+			http.Error(response, "Session Stripe introuvable", http.StatusBadRequest)
+			return
+		}
+
+		if sess.Metadata == nil || sess.Metadata["reservation_kind"] != "service" {
+			http.Error(response, "Session invalide pour une réservation service", http.StatusBadRequest)
+			return
+		}
+
+		idUserMeta, err1 := strconv.Atoi(sess.Metadata["id_utilisateur"])
+		idSvc, err2 := strconv.Atoi(sess.Metadata["id_service"])
+		start := strings.TrimSpace(sess.Metadata["start"])
+		if err1 != nil || err2 != nil || start == "" {
+			http.Error(response, "Métadonnées de réservation invalides", http.StatusBadRequest)
+			return
+		}
+
+		if idUserMeta != idUser {
+			http.Error(response, "Session ne correspond pas à l'utilisateur", http.StatusForbidden)
+			return
+		}
+
+		if string(sess.PaymentStatus) != string(stripe.CheckoutSessionPaymentStatusPaid) {
+			response.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(response).Encode(map[string]any{
+				"message":          "Paiement non finalisé",
+				"payment_status":   sess.PaymentStatus,
+				"reservation_done": false,
+			})
+			return
+		}
+
+		message, statusCode, reservationErr := finalizePaidServiceReservation(database, idUserMeta, idSvc, start)
+		if reservationErr != nil {
+			http.Error(response, reservationErr.Error(), statusCode)
+			return
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(map[string]any{
+			"message":          message,
+			"reservation_done": true,
+		})
+	}
+}
+
 func Reservation_service(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
@@ -1109,9 +1398,19 @@ func Reservation_service(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		message, statusCode, reservationErr := reserveServiceSlot(database, idUser, p.ID, p.Start)
+		pc, statusCode, precheckErr := precheckServiceReservation(database, idUser, p.ID, p.Start)
+		if precheckErr != nil {
+			http.Error(response, precheckErr.Error(), statusCode)
+			return
+		}
+		if pc.FinalTarif > 0 {
+			http.Error(response, "Ce service est payant : utilisez le paiement (carte ou virement) depuis la page de réservation.", http.StatusPaymentRequired)
+			return
+		}
+
+		message, code, reservationErr := reserveServiceSlot(database, idUser, p.ID, p.Start)
 		if reservationErr != nil {
-			http.Error(response, reservationErr.Error(), statusCode)
+			http.Error(response, reservationErr.Error(), code)
 			return
 		}
 

@@ -754,7 +754,28 @@ func WebhookPaiement(database *sql.DB) http.HandlerFunc {
 				http.Error(response, "Événement Stripe invalide", http.StatusBadRequest)
 				return
 			}
-
+			if checkoutSession.Metadata != nil && checkoutSession.Metadata["reservation_kind"] == "service" {
+				if string(checkoutSession.PaymentStatus) != string(stripe.CheckoutSessionPaymentStatusPaid) {
+					response.Header().Set("Content-Type", "application/json")
+					json.NewEncoder(response).Encode(structures.Result{Message: "Paiement réservation non finalisé", Value: 1})
+					return
+				}
+				idUserMeta, err1 := strconv.Atoi(checkoutSession.Metadata["id_utilisateur"])
+				idSvc, err2 := strconv.Atoi(checkoutSession.Metadata["id_service"])
+				start := strings.TrimSpace(checkoutSession.Metadata["start"])
+				if err1 != nil || err2 != nil || start == "" {
+					http.Error(response, "Métadonnées réservation invalides", http.StatusBadRequest)
+					return
+				}
+				_, _, resErr := finalizePaidServiceReservation(database, idUserMeta, idSvc, start)
+				if resErr != nil {
+					http.Error(response, resErr.Error(), http.StatusInternalServerError)
+					return
+				}
+				response.Header().Set("Content-Type", "application/json")
+				json.NewEncoder(response).Encode(structures.Result{Message: "Réservation service confirmée (webhook)", Value: 1})
+				return
+			}
 			orderIDString := checkoutSession.ClientReferenceID
 			if orderIDString == "" {
 				orderIDString = checkoutSession.Metadata["order_id"]

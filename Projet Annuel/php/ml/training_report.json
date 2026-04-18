@@ -1,36 +1,13 @@
 {
-  "dataset_file": "dataset.csv",
-  "rows": 3000,
-  "features_count": 11,
-  "selected_base_features": [
-    "age",
-    "sexe",
-    "type_abonnement",
-    "langue",
-    "score_satisfaction",
-    "taux_annulation",
-    "nb_interventions_totales"
-  ],
-  "train_rows": 2400,
   "status": "done",
-  "cv_splits": 5,
-  "search_iterations": 40,
-  "accuracy": 0.475,
-  "accuracy_percent": 47.5,
-  "f1_macro": 0.2994436574590419,
-  "f1_macro_percent": 29.94,
-  "weak_classes_min_recall": 0.0,
-  "selected_strategy": "random_forest_single_model_blended_score",
-  "best_cv_score": 0.4152477114145137,
-  "best_params": {
-    "n_estimators": 500,
-    "min_samples_split": 8,
-    "min_samples_leaf": 3,
-    "max_features": "sqrt",
-    "max_depth": null,
-    "class_weight": null,
-    "bootstrap": true
-  },
+  "dataset_file": "dataset.csv",
+  "rows": 50000,
+  "train_rows": 40000,
+  "features_count": 14,
+  "accuracy_percent": 70.57,
+  "accuracy": 0.7057,
+  "f1_macro": 0.712514343294038,
+  "f1_macro_percent": 71.25,
   "classes": [
     "Aide à domicile",
     "Club Voyage",
@@ -43,66 +20,66 @@
   ],
   "report": {
     "Aide à domicile": {
-      "precision": 0.596244131455399,
-      "recall": 0.7888198757763976,
-      "f1-score": 0.679144385026738,
-      "support": 161.0
+      "precision": 0.8244186046511628,
+      "recall": 0.5990705534431771,
+      "f1-score": 0.6939075116222168,
+      "support": 2367.0
     },
     "Club Voyage": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1-score": 0.0,
-      "support": 41.0
+      "precision": 0.9880810488676997,
+      "recall": 0.9707259953161592,
+      "f1-score": 0.9793266391021854,
+      "support": 854.0
     },
     "Informatique": {
-      "precision": 0.29411764705882354,
-      "recall": 0.15789473684210525,
-      "f1-score": 0.2054794520547945,
-      "support": 95.0
+      "precision": 0.7375178316690443,
+      "recall": 0.3887218045112782,
+      "f1-score": 0.5091088133924175,
+      "support": 1330.0
     },
     "Jardinage": {
-      "precision": 0.41284403669724773,
-      "recall": 0.703125,
-      "f1-score": 0.5202312138728323,
-      "support": 64.0
+      "precision": 0.3561893203883495,
+      "recall": 0.7141119221411192,
+      "f1-score": 0.47530364372469636,
+      "support": 822.0
     },
     "Portage repas": {
-      "precision": 0.14285714285714285,
-      "recall": 0.07692307692307693,
-      "f1-score": 0.1,
-      "support": 39.0
+      "precision": 0.9458303635067712,
+      "recall": 0.9215277777777777,
+      "f1-score": 0.9335209285965529,
+      "support": 1440.0
     },
     "Soins Infirmiers": {
-      "precision": 0.43478260869565216,
-      "recall": 0.13333333333333333,
-      "f1-score": 0.20408163265306123,
-      "support": 75.0
+      "precision": 0.842057761732852,
+      "recall": 0.8735955056179775,
+      "f1-score": 0.8575367647058824,
+      "support": 1068.0
     },
     "Sport Senior": {
-      "precision": 0.4827586206896552,
-      "recall": 0.8571428571428571,
-      "f1-score": 0.6176470588235294,
-      "support": 98.0
+      "precision": 0.7075306479859895,
+      "recall": 0.7984189723320159,
+      "f1-score": 0.7502321262766946,
+      "support": 1012.0
     },
     "Yoga": {
-      "precision": 0.5,
-      "recall": 0.037037037037037035,
-      "f1-score": 0.06896551724137931,
-      "support": 27.0
+      "precision": 0.443363446838082,
+      "recall": 0.5763324299909666,
+      "f1-score": 0.5011783189316575,
+      "support": 1107.0
     },
-    "accuracy": 0.475,
+    "accuracy": 0.7057,
     "macro avg": {
-      "precision": 0.35795052343174005,
-      "recall": 0.3442844896318509,
-      "f1-score": 0.2994436574590419,
-      "support": 600.0
+      "precision": 0.7306236282049939,
+      "recall": 0.7303131201413089,
+      "f1-score": 0.712514343294038,
+      "support": 10000.0
     },
     "weighted avg": {
-      "precision": 0.41558161505786667,
-      "recall": 0.475,
-      "f1-score": 0.4062586580026238,
-      "support": 600.0
+      "precision": 0.7537044154813386,
+      "recall": 0.7057,
+      "f1-score": 0.7120797059490948,
+      "support": 10000.0
     }
   },
-  "trained_at": "14/04/2026 14:56"
+  "trained_at": "15/04/2026 18:34"
 }

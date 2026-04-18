@@ -100,6 +100,8 @@ func main() {
 	http.HandleFunc("/reservation_evenement", ressources.Reservation_evenement(db))
 	http.HandleFunc("/service_disponible", ressources.Service_disponible(db))
 	http.HandleFunc("/reservation_service", ressources.Reservation_service(db))
+	http.HandleFunc("/paiement_reservation_service", ressources.ReservationServicePay(db))
+	http.HandleFunc("/confirmation_reservation_stripe", ressources.ConfirmReservationStripe(db))
 	http.HandleFunc("/creer_devis", ressources.CreerDevis(db))
 	http.HandleFunc("/mes_devis", ressources.MesDevis(db))
 	http.HandleFunc("/devis/{id}", ressources.DevisDetail(db))

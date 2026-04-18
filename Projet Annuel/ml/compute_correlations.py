@@ -20,17 +20,11 @@ COLONNE_NUMERIC = [
     "score_satisfaction",
     "est_abonne",
 ]
-
 COLONNE_CATEGORIE = [
     "sexe",
     "langue",
     "type_abonnement",
 ]
-
-
-def _filter_available_columns(columns_list, dataframe):
-    return [col for col in columns_list if col in dataframe.columns]
-
 
 def main():
     if not DATASET_PATH.exists():
@@ -40,8 +34,8 @@ def main():
     if "target_service" not in df.columns:
         raise ValueError("La colonne target_service est obligatoire dans le dataset")
 
-    numeric_cols = _filter_available_columns(COLONNE_NUMERIC, df)
-    categorical_cols = _filter_available_columns(COLONNE_CATEGORIE, df)
+    numeric_cols = df.columns.intersection(COLONNE_NUMERIC)
+    categorical_cols = df.columns.intersection(COLONNE_CATEGORIE)
 
     numeric_df = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
 

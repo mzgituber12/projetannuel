@@ -131,8 +131,15 @@ if ($image !== '') {
 
                     <p id="selectionInfo" class="mt-3 text-muted small"></p>
                     <div id="slotsList" class="mt-2 mb-3"></div>
+                    <div class="border rounded p-3 bg-white mb-3">
+                        <h6 class="mb-2" data-i18n>Paiement de la réservation</h6>
+                        <p class="text-muted small mb-3" data-i18n>Comme pour le panier boutique, vous pouvez payer par carte (Stripe) ou indiquer un virement ; la réservation est enregistrée après validation du paiement (carte) ou immédiatement avec les coordonnées de virement.</p>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" id="payServiceStripe" class="btn btn-primary btn-lg" data-i18n>Réserver et payer par carte</button>
+                            <button type="button" id="payServiceTransfer" class="btn btn-success btn-lg" data-i18n>Réserver et payer par virement</button>
+                        </div>
+                    </div>
                     <div class="d-flex gap-2 flex-wrap">
-                        <button id="joinService" class="btn btn-primary btn-lg" data-i18n>Réserver</button>
                         <a class="btn btn-outline-primary btn-lg" href="demande_devis_service.php?id=<?= $id ?>&nom=<?= urlencode($nom) ?>&description=<?= urlencode($description) ?>&tarif=<?= urlencode($tarif) ?>&image=<?= urlencode($image) ?>" data-i18n>Demander un devis</a>
                     </div>
                 </div>
@@ -403,27 +410,25 @@ if ($image !== '') {
             document.getElementById('selectionInfo').textContent = `Date sélectionnée : ${year}-${month}-${day} ${hour}:${minute}`;
         }
 
-        async function joinService() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Vous devez être connecté pour réserver.');
-                return;
-            }
-
+        function buildStartForReservation() {
             const year = document.getElementById('yearSelect').value;
             const month = pad(document.getElementById('monthSelect').value);
             const day = pad(document.getElementById('daySelect').value);
             const hour = document.getElementById('hourSelect').value;
             const minute = '00';
+            return `${year}-${month}-${day} ${hour}:${minute}`;
+        }
 
-            const start = `${year}-${month}-${day} ${hour}:${minute}`;
-            const selectedDate = `${year}-${month}-${day}`;
+        function validateSlotSelection(start) {
+            document.getElementById('calendarError').classList.add('d-none');
+            document.getElementById('calendarError').textContent = '';
+            const selectedDate = start.split(' ')[0];
             const slots = availabilityByDate[selectedDate] || [];
 
             if (slots.length === 0) {
                 document.getElementById('calendarError').textContent = 'Pas de disponibilité pour cette date.';
                 document.getElementById('calendarError').classList.remove('d-none');
-                return;
+                return false;
             }
 
             const isValid = slots.some(slot => {
@@ -437,24 +442,59 @@ if ($image !== '') {
             if (!isValid) {
                 document.getElementById('calendarError').textContent = 'Le créneau sélectionné n’est pas dans une période disponible.';
                 document.getElementById('calendarError').classList.remove('d-none');
+                return false;
+            }
+            return true;
+        }
+
+        async function reserveWithPayment(paymentMethod) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Vous devez être connecté pour réserver.');
+                return;
+            }
+
+            const start = buildStartForReservation();
+            if (!validateSlotSelection(start)) {
                 return;
             }
 
             const base = (window.API_BASE || 'http://localhost:9000');
-            const resp = await fetch(base + '/reservation_service', {
+            const resp = await fetch(base + '/paiement_reservation_service', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Token': token },
-                body: JSON.stringify({ id_service: serviceId, start: start })
+                body: JSON.stringify({
+                    id_service: serviceId,
+                    start: start,
+                    payment_method: paymentMethod
+                })
             });
 
+            const text = await resp.text();
+            let data = null;
+            try { data = JSON.parse(text); } catch { data = { message: text }; }
+
             if (!resp.ok) {
-                const text = await resp.text();
-                document.getElementById('calendarError').textContent = text || 'Erreur lors de la réservation du service.';
+                document.getElementById('calendarError').textContent = data.message || text || 'Erreur lors de la réservation.';
                 document.getElementById('calendarError').classList.remove('d-none');
                 return;
             }
 
-            const data = await resp.json();
+            if (paymentMethod === 'stripe' && data.url) {
+                window.location.href = data.url;
+                return;
+            }
+
+            if (paymentMethod === 'transfer') {
+                const ref = (data.virement && data.virement.reference) ? data.virement.reference : '';
+                const iban = (data.virement && data.virement.iban) ? data.virement.iban : '';
+                const msg = (data.message || 'Réservation enregistrée.') + (ref ? '\nRéférence virement : ' + ref : '') + (iban ? '\nIBAN : ' + iban : '');
+                alert(msg);
+                await fetch('ajouter_session_state.php', { method: 'POST' });
+                window.location.href = 'catalogue.php?message=' + encodeURIComponent(data.message || 'Réservation confirmée');
+                return;
+            }
+
             await fetch('ajouter_session_state.php', { method: 'POST' });
             window.location.href = 'catalogue.php?message=' + encodeURIComponent(data.message || 'Réservation confirmée');
         }
@@ -510,7 +550,8 @@ if ($image !== '') {
 
         initSelects();
         fetchDisponibilites();
-        document.getElementById('joinService').addEventListener('click', joinService);
+        document.getElementById('payServiceStripe').addEventListener('click', () => reserveWithPayment('stripe'));
+        document.getElementById('payServiceTransfer').addEventListener('click', () => reserveWithPayment('transfer'));
     </script>
 <?php else : ?>
     <div class="alert alert-warning" role="alert">

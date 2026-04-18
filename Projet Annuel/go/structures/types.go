@@ -122,6 +122,18 @@ type Rdv struct {
 	End   string `json:"end"`
 }
 
+// RequetePaiementReservationService décrit le corps JSON pour initier le paiement lors d'une réservation de service (carte ou virement).
+type RequetePaiementReservationService struct {
+	IDService     int    `json:"id_service"`
+	Start         string `json:"start"`
+	PaymentMethod string `json:"payment_method"`
+}
+
+// RequeteConfirmationReservationStripe décrit le corps JSON pour confirmer la réservation après le retour Stripe Checkout.
+type RequeteConfirmationReservationStripe struct {
+	SessionID string `json:"session_id"`
+}
+
 type List struct {
 	Contrat            []Contrat            `json:"contrat"`
 	Conseil            []Conseil            `json:"conseil"`

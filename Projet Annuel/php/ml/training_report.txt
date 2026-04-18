@@ -1,14 +1,14 @@
                   precision    recall  f1-score   support
 
- Aide à domicile       0.60      0.79      0.68       161
-     Club Voyage       0.00      0.00      0.00        41
-    Informatique       0.29      0.16      0.21        95
-       Jardinage       0.41      0.70      0.52        64
-   Portage repas       0.14      0.08      0.10        39
-Soins Infirmiers       0.43      0.13      0.20        75
-    Sport Senior       0.48      0.86      0.62        98
-            Yoga       0.50      0.04      0.07        27
+ Aide à domicile       0.82      0.60      0.69      2367
+     Club Voyage       0.99      0.97      0.98       854
+    Informatique       0.74      0.39      0.51      1330
+       Jardinage       0.36      0.71      0.48       822
+   Portage repas       0.95      0.92      0.93      1440
+Soins Infirmiers       0.84      0.87      0.86      1068
+    Sport Senior       0.71      0.80      0.75      1012
+            Yoga       0.44      0.58      0.50      1107
 
-        accuracy                           0.47       600
-       macro avg       0.36      0.34      0.30       600
-    weighted avg       0.42      0.47      0.41       600
+        accuracy                           0.71     10000
+       macro avg       0.73      0.73      0.71     10000
+    weighted avg       0.75      0.71      0.71     10000
