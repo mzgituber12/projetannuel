@@ -22,6 +22,7 @@ func Abonnement_admin_creation(database *sql.DB) http.HandlerFunc {
 			Name_abonnement      string  `json:"name_abonnement"`
 			Prix_mois_abonnement float64 `json:"prix_mois_abonnement"`
 			Prix_an_abonnement   float64 `json:"prix_an_abonnement"`
+			Nb_avantage          int     `json:"nb_avantage"`
 			Ai1                  string  `json:"ai1"`
 			Ai2                  string  `json:"ai2"`
 			Ai3                  string  `json:"ai3"`
@@ -44,9 +45,14 @@ func Abonnement_admin_creation(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		if data.Prix_mois_abonnement*12 != data.Prix_an_abonnement {
+			http.Error(response, "Le prix/an n'est pas bon !", http.StatusBadRequest)
+			return
+		}
+
 		insertStatement, err := database.Prepare(`
-			INSERT INTO abonnement (type, categorie, prix_mois, prix_an, statut, contenue1, contenue2, contenue3, contenue4)
-			VALUES (?, ?, ?, ?, 'actif', ?, ?, ?, ?)
+			INSERT INTO abonnement (type, categorie, prix_mois, prix_an, statut, contenue1, contenue2, contenue3, contenue4, nb_avantage)
+			VALUES (?, ?, ?, ?, 'actif', ?, ?, ?, ?, ?)
 		`)
 		if err != nil {
 			http.Error(response, "Erreur lors de la preparation de la requete", http.StatusInternalServerError)
@@ -63,6 +69,7 @@ func Abonnement_admin_creation(database *sql.DB) http.HandlerFunc {
 			strings.TrimSpace(data.Ai2),
 			strings.TrimSpace(data.Ai3),
 			strings.TrimSpace(data.Ai4),
+			data.Nb_avantage,
 		)
 		if err != nil {
 			http.Error(response, "Erreur dans la bdd", http.StatusInternalServerError)
