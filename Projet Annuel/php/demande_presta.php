@@ -163,6 +163,8 @@ include 'includes/header.php'; ?>
                     return;
                 }
 
+                window.location.href = "index.php";
+
         }
 
 

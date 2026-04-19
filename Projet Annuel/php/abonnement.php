@@ -33,7 +33,17 @@ include 'includes/header.php'?>
 
     <div class="d-flex justify-content-center gap-4 flex-wrap" id="abonnements-container">
     </div>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <button class="btn btn-danger" type="button" onclick="add_abonnement()" style="display:inline-block !important; visibility:visible !important; opacity:1 !important;">Creer</button>
+    </div>
 </div>
+
+<button class="btn btn-danger shadow"
+        type="button"
+        onclick="add_abonnement()"
+        style="position:fixed; right:24px; bottom:24px; z-index:9999; display:inline-block !important; visibility:visible !important; opacity:1 !important;">
+    Creer
+</button>
 
 <?php include 'includes/footer.php'?>
 

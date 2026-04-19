@@ -372,6 +372,13 @@ function initOneSignalPush(token) {
     });
 }
 
+function headerFallbackConnexion(nonConnecter, langueBadge) {
+    if (langueBadge) langueBadge.innerHTML = "";
+    if (nonConnecter) {
+        nonConnecter.innerHTML = "<ul class='navbar-nav ms-auto d-flex flex-row gap-2 align-items-center'><li class='nav-item'><a class='nav-link active' href='inscription.php'>Inscription</a></li><li class='nav-item'><a class='nav-link active' href='connexion.php'>Connexion</a></li></ul>";
+    }
+}
+
 async function headerUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
     const nonConnecter = document.getElementById("non_connecter");
@@ -384,22 +391,34 @@ async function headerUser(token) {
     const autreBouton = document.getElementById("autre_bouton");
     const deconnexionBouton = document.getElementById("deconnexion_connecter_bouton");
 
-    const response = await fetch(base + "/enligne", {
-        method: "GET",
-        headers: {"Content-Type": "application/json", "Token": token},
-    });
-
-    if (!response.ok) {
-        if (langueBadge) langueBadge.innerHTML = "";
-        nonConnecter.innerHTML = "<ul class='navbar-nav ms-auto d-flex flex-row gap-2 align-items-center'><li class='nav-item'><a class='nav-link active' href='inscription.php'>Inscription</a></li><li class='nav-item'><a class='nav-link active' href='connexion.php'>Connexion</a></li></ul>";
+    let response;
+    try {
+        response = await fetch(base + "/enligne", {
+            method: "GET",
+            headers: {"Content-Type": "application/json", "Token": token},
+        });
+    } catch (e) {
+        console.error("[header] API injoignable (" + base + "). Le backend Go doit tourner (ex. docker compose up go, ou port 9000).", e);
+        headerFallbackConnexion(nonConnecter, langueBadge);
         return;
     }
 
-    const data = await response.json();
+    if (!response.ok) {
+        headerFallbackConnexion(nonConnecter, langueBadge);
+        return;
+    }
+
+    let data;
+    try {
+        data = await response.json();
+    } catch (e) {
+        console.error("[header] Réponse /enligne invalide (JSON). Vérifier les logs du serveur Go.", e);
+        headerFallbackConnexion(nonConnecter, langueBadge);
+        return;
+    }
 
     if (data.message == "Pas identifié") {
-        if (langueBadge) langueBadge.innerHTML = "";
-        nonConnecter.innerHTML = "<ul class='navbar-nav ms-auto d-flex flex-row gap-2 align-items-center'><li class='nav-item'><a class='nav-link active' href='inscription.php'>Inscription</a></li><li class='nav-item'><a class='nav-link active' href='connexion.php'>Connexion</a></li></ul>";
+        headerFallbackConnexion(nonConnecter, langueBadge);
         return;
     }
 

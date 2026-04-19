@@ -40,7 +40,18 @@ async function init() {
         allDaySlot: false,
         locale: "fr",
         height: "auto",
-        events: base + "/planning_rdv",
+        events: async function (info) {
+            const url = new URL(base + "/planning_rdv");
+            url.searchParams.set("start", info.startStr);
+            url.searchParams.set("end", info.endStr);
+            const res = await fetch(url.toString(), {
+                headers: { Token: token }
+            });
+            if (!res.ok) {
+                throw new Error("Chargement des rendez-vous impossible");
+            }
+            return await res.json();
+        },
 
         eventClick: function(info) {
             alert(

@@ -235,24 +235,47 @@ func Planning_rdv(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		sel, err := database.Prepare("SELECT id_rdv, date_debut, date_fin, type FROM rendez_vous")
-		if err != nil {
-			http.Error(response, "Erreur lors de la préparation de la requête des rendez-vous", http.StatusInternalServerError)
+		token := strings.TrimSpace(request.Header.Get("Token"))
+		if token == "" {
+			http.Error(response, "Token requis", http.StatusUnauthorized)
 			return
 		}
 
-		rows, err := sel.Query()
+		var idUser int
+		err := database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&idUser)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				http.Error(response, "Non authentifié", http.StatusUnauthorized)
+				return
+			}
+			http.Error(response, "Erreur lors de la vérification du compte", http.StatusInternalServerError)
+			return
+		}
+
+		rows, err := database.Query(
+			"SELECT id_rdv, date_debut, date_fin, IFNULL(type, '') FROM rendez_vous WHERE id_utilisateur = ? ORDER BY date_debut",
+			idUser,
+		)
 		if err != nil {
 			http.Error(response, "Erreur lors de la lecture des rendez-vous", http.StatusInternalServerError)
 			return
 		}
+		defer rows.Close()
 
-		var events []structures.Rdv
+		events := make([]structures.Rdv, 0)
 		for rows.Next() {
 			var e structures.Rdv
-			if err := rows.Scan(&e.ID, &e.Start, &e.End, &e.Title); err != nil {
+			var start sql.NullTime
+			var end sql.NullTime
+			if err := rows.Scan(&e.ID, &start, &end, &e.Title); err != nil {
 				http.Error(response, "Erreur lors du scan des rendez-vous", http.StatusInternalServerError)
 				return
+			}
+			if start.Valid {
+				e.Start = start.Time.Format("2006-01-02T15:04:05")
+			}
+			if end.Valid {
+				e.End = end.Time.Format("2006-01-02T15:04:05")
 			}
 			events = append(events, e)
 		}
