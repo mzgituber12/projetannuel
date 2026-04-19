@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'includes/api_config.php';
 
 $report_json_path = __DIR__ . '/ml/training_report.json';

@@ -5,9 +5,6 @@
   "train_rows": 40000,
   "features_count": 14,
   "accuracy_percent": 70.57,
-  "accuracy": 0.7057,
-  "f1_macro": 0.712514343294038,
-  "f1_macro_percent": 71.25,
   "classes": [
     "Aide à domicile",
     "Club Voyage",
@@ -18,68 +15,5 @@
     "Sport Senior",
     "Yoga"
   ],
-  "report": {
-    "Aide à domicile": {
-      "precision": 0.8244186046511628,
-      "recall": 0.5990705534431771,
-      "f1-score": 0.6939075116222168,
-      "support": 2367.0
-    },
-    "Club Voyage": {
-      "precision": 0.9880810488676997,
-      "recall": 0.9707259953161592,
-      "f1-score": 0.9793266391021854,
-      "support": 854.0
-    },
-    "Informatique": {
-      "precision": 0.7375178316690443,
-      "recall": 0.3887218045112782,
-      "f1-score": 0.5091088133924175,
-      "support": 1330.0
-    },
-    "Jardinage": {
-      "precision": 0.3561893203883495,
-      "recall": 0.7141119221411192,
-      "f1-score": 0.47530364372469636,
-      "support": 822.0
-    },
-    "Portage repas": {
-      "precision": 0.9458303635067712,
-      "recall": 0.9215277777777777,
-      "f1-score": 0.9335209285965529,
-      "support": 1440.0
-    },
-    "Soins Infirmiers": {
-      "precision": 0.842057761732852,
-      "recall": 0.8735955056179775,
-      "f1-score": 0.8575367647058824,
-      "support": 1068.0
-    },
-    "Sport Senior": {
-      "precision": 0.7075306479859895,
-      "recall": 0.7984189723320159,
-      "f1-score": 0.7502321262766946,
-      "support": 1012.0
-    },
-    "Yoga": {
-      "precision": 0.443363446838082,
-      "recall": 0.5763324299909666,
-      "f1-score": 0.5011783189316575,
-      "support": 1107.0
-    },
-    "accuracy": 0.7057,
-    "macro avg": {
-      "precision": 0.7306236282049939,
-      "recall": 0.7303131201413089,
-      "f1-score": 0.712514343294038,
-      "support": 10000.0
-    },
-    "weighted avg": {
-      "precision": 0.7537044154813386,
-      "recall": 0.7057,
-      "f1-score": 0.7120797059490948,
-      "support": 10000.0
-    }
-  },
-  "trained_at": "15/04/2026 18:34"
+  "trained_at": "18/04/2026 18:00"
 }

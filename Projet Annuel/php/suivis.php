@@ -1,4 +1,4 @@
-<?php session_start(); include 'includes/api_config.php'; ?>
+<?php include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 
 <!DOCTYPE html>

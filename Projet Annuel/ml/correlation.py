@@ -26,6 +26,7 @@ COLONNE_CATEGORIE = [
     "type_abonnement",
 ]
 
+
 def main():
     if not DATASET_PATH.exists():
         raise FileNotFoundError("Le fichier dataset.csv est introuvable")
@@ -50,17 +51,19 @@ def main():
         data = df[[col, "target_service"]].dropna()
         non_empty = data[col].astype(str).str.strip() != ""
         data = data[non_empty]
-        
+
         if len(data) >= 2:
             try:
-                eta_sq = pg.eta(data["target_service"], data[col])[0]
-                eta_sq = float(eta_sq) if not np.isnan(eta_sq) else 0.0
+                eta_carre = pg.eta(data["target_service"], data[col])[0]
+                eta_carre = float(eta_carre)
+                if np.isnan(eta_carre):
+                    eta_carre = 0.0
             except Exception:
-                eta_sq = 0.0
+                eta_carre = 0.0
         else:
-            eta_sq = 0.0
-            
-        eta_scores.append({"feature": col, "score": round(eta_sq, 4)})
+            eta_carre = 0.0
+
+        eta_scores.append({"feature": col, "score": round(eta_carre, 4)})
     eta_scores.sort(key=lambda item: item["score"], reverse=True)
 
     cramers_scores = []
@@ -68,7 +71,7 @@ def main():
         data = df[[col, "target_service"]].dropna()
         non_empty = (data[col].astype(str).str.strip() != "") & (data["target_service"].astype(str).str.strip() != "")
         data = data[non_empty]
-        
+
         if not data.empty and data[col].nunique() >= 2 and data["target_service"].nunique() >= 2:
             try:
                 cramers_val = pg.cramers(data[col], data["target_service"])
@@ -77,7 +80,7 @@ def main():
                 cramers_val = 0.0
         else:
             cramers_val = 0.0
-            
+
         cramers_scores.append({"feature": col, "score": round(cramers_val, 4)})
     cramers_scores.sort(key=lambda item: item["score"], reverse=True)
 

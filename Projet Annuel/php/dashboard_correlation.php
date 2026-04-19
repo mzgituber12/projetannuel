@@ -52,11 +52,11 @@ foreach ($cramers_scores as $item) {
 </head>
 <body class="bg-light py-4">
 <main class="container">
-    <?php if ($error_message !== null): ?>
+    <?php if ($error_message != null): ?>
         <div class="alert alert-warning" role="alert">
             <strong data-i18n>Analyse non disponible.</strong>
             <span data-i18n><?php echo htmlspecialchars($error_message, ENT_QUOTES, "UTF-8"); ?></span>
-            <div class="mt-2">docker compose run --rm ml_trainer python /app/ml/build_dashboard_correlation_data.py</div>
+            <div class="mt-2">docker compose run --rm ml_trainer python /app/ml/correlation.py</div>
         </div>
     <?php endif; ?>
 

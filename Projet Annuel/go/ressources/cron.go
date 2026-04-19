@@ -29,7 +29,6 @@ func DemarrerCronFacturationMensuelle(database *sql.DB) {
 					ids = append(ids, id)
 				}
 			}
-			rows.Close()
 
 			for _, id := range ids {
 				created, monthKey, total, err := genererFactureMensuelle(database, id, tick, false)

@@ -1,4 +1,4 @@
-<?php session_start();
+<?php
 include 'includes/api_config.php';
 include 'includes/header.php'?>
 

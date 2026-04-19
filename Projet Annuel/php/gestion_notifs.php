@@ -1,4 +1,4 @@
-﻿<?php session_start(); include 'includes/api_config.php'; ?>
+<?php include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
 <script src="admin.js"></script>
 
@@ -260,15 +260,15 @@ async function chargerModeles() {
 
     const data = await response.json();
 
-    if (!Array.isArray(data.modele_notification) || data.modele_notification.length === 0) {
+    if (!Array.isArray(data.modele_notification) || data.modele_notification.length == 0) {
         zone.innerHTML = "<p>Aucun module trouvez (verifiez votre base de données).</p>";
         return;
     }
-    let html = "<table><tr><th>Clé</th><th>Titre actuel</th><th>Contenu actuel</th><th>Action</th></tr>";
+    let html = "<table><tr><th>ID</th><th>Titre actuel</th><th>Contenu actuel</th><th>Action</th></tr>";
     data.modele_notification.forEach(m => {
-        const hint = String(VARIABLES_MODELES[m.cle] || "");
+        const vmod = String(VARIABLES_MODELES[m.cle] || "");
         html += "<tr>";
-        html += "<td><strong>" + String(m.cle) + "</strong><br><small style='color:#6b7280'>" + hint + "</small></td>";
+        html += "<td><strong>" + String(m.cle) + "</strong><br><small style='color:#6b7280'>" + vmod + "</small></td>";
         html += "<td id='titre_modele_" + Number(m.id) + "'>" + String(m.titre) + "</td>";
         html += "<td id='contenu_modele_" + Number(m.id) + "' style='white-space:pre-wrap'>" + String(m.contenu) + "</td>";
         html += "<td><button class='btn-primary' onclick='editerModele(" + Number(m.id) + ", " + JSON.stringify(m.cle) + ")'>Modifier</button></td>";
@@ -277,13 +277,12 @@ async function chargerModeles() {
     html += "</table>";
     zone.innerHTML = html;
 }
-
 function editerModele(id, cle) {
     const titreEl = document.getElementById("titre_modele_" + id);
     const contenuEl = document.getElementById("contenu_modele_" + id);
     if (!titreEl || !contenuEl) return;
 
-    const hint = VARIABLES_MODELES[cle] || "";
+    const vmod = VARIABLES_MODELES[cle] || "";
     const zone = document.getElementById("resultat_modeles");
 
     const editDiv = document.createElement("div");
@@ -291,7 +290,7 @@ function editerModele(id, cle) {
     editDiv.style.marginTop = "10px";
     editDiv.innerHTML =
         "<h4>Modifier le modèle « " + String(cle) + " »</h4>" +
-        (hint ? "<p style='color:#6b7280;font-size:.9em;margin:0 0 8px'>" + String(hint) + "</p>" : "") +
+        (vmod ? "<p style='color:#6b7280;font-size:.9em;margin:0 0 8px'>" + String(vmod) + "</p>" : "") +
         "<label>Titre <small>(max 50 cars.)</small></label>" +
         "<input id='edit_titre_" + id + "' type='text' maxlength='50' value='" + String(titreEl.textContent) + "'>" +
         "<label style='margin-top:8px;display:block'>Contenu</label>" +

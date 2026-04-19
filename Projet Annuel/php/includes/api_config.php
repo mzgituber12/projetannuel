@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $api = getenv('API_URL') ?: 'http://localhost:9000';
 $oneSignalAppID = getenv('ONESIGNAL_APP_ID') ?: '';
 ?>
