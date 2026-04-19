@@ -131,7 +131,7 @@ function sanitizeLoupeText(rawText) {
     const text = String(rawText || '').replace(/\s+/g, ' ').trim();
     if (!text) return '';
     
-    return text.length > 400 ? text.slice(0, 400) + '…' : text;
+    return text.length > 100 ? text.slice(0, 100) + '…' : text;
 }
 
 function adaptLoupeSize(lens, element, text) {

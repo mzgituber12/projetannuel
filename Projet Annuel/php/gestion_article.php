@@ -145,7 +145,7 @@
             const actions = "<a href='modifier_article.php?id=" + article.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a> " +
                 "<a href='#' onclick=\"supprimer_article(" + article.id + ", '" + article.titre.replaceAll("'", "\\'") + "'); return false;\" class='btn btn-sm btn-danger' data-i18n>Supprimer</a>";
             const imageHtml = renderImageHtml(article.image, `Image de ${article.titre}`);
-            const desc = (article.description || '').length > 100 ? String(article.description).slice(0, 100) + "..." : String(article.description);
+            const desc = (article.description || '').length > 40 ? String(article.description).slice(0, 40) + "..." : String(article.description);
             html += "<tr><td>" + imageHtml + "</td><td>" + String(article.titre) + "</td><td>" + desc + "</td><td>" + String(article.prix) + "€</td><td>" + actions + "</td></tr>";
         });
         html += "</tbody></table></div>";

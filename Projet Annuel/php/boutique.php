@@ -56,8 +56,8 @@ async function listerArticles() {
 
     let html = '';
     data.article.forEach(a => {
-        const desc = (a.description || '').length > 120
-            ? (a.description || '').slice(0, 120) + '...'
+        const desc = (a.description || '').length > 40
+            ? (a.description || '').slice(0, 40) + '...'
             : (a.description || '');
 
         html += `

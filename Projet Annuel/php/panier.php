@@ -139,8 +139,8 @@ async function loadPanier() {
     let total = 0;
     data.article.forEach(a => {
         total += Number(a.prix) || 0;
-        const desc = (a.description || '').length > 100
-            ? (a.description || '').slice(0, 100) + '...'
+        const desc = (a.description || '').length > 40
+            ? (a.description || '').slice(0, 40) + '...'
             : (a.description || '');
 
         html += `

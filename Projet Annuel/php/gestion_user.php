@@ -139,12 +139,12 @@
         if (user_list.message){
             user.innerHTML = "<p>" + user_list.message + "</p>"
         } else {
-            let html = "<table><tr><th>Nom</th><th>Prénom</th><th>Email</th><th>Role</th><th>Actions</th></tr>";
+            let html = "<table class='table table-sm table-bordered'><tr><th>Nom</th><th>Prénom</th><th>Âge</th><th>Email</th><th>Role</th><th>Actions</th></tr>";
             user_list.utilisateur.forEach(usr => {
                 const actions = "<a href='modifier_user.php?id=" + usr.id + "' data-i18n>Modifier</a> | " +
                     "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Supprimer</a> | " +
                     "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Bannir</a>";
-                html += "<tr><td>" + String(usr.nom) + "</td><td>" + String(usr.prenom) + "</td><td>" + String(usr.email) + "</td><td>" + String(usr.role) + "</td><td>" + actions + "</td></tr>";
+                html += "<tr><td>" + String(usr.nom) + "</td><td>" + String(usr.prenom) + "</td><td>" + String(usr.age) + "</td><td>" + String(usr.email) + "</td><td>" + String(usr.role) + "</td><td>" + actions + "</td></tr>";
             });
             html += "</table>";
             user.innerHTML = html;

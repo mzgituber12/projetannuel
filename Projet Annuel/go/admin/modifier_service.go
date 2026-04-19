@@ -8,6 +8,21 @@ import (
 	"strconv"
 )
 
+func categorieFK(database *sql.DB, idCategorie int) (sql.NullInt64, error) {
+	if idCategorie <= 0 {
+		return sql.NullInt64{}, nil
+	}
+	var check int
+	err := database.QueryRow("SELECT id_categorie FROM categorie WHERE id_categorie = ?", idCategorie).Scan(&check)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return sql.NullInt64{}, err
+		}
+		return sql.NullInt64{}, err
+	}
+	return sql.NullInt64{Int64: int64(idCategorie), Valid: true}, nil
+}
+
 func Gestion_service_nom(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 
@@ -25,22 +40,27 @@ func Gestion_service_nom(database *sql.DB) http.HandlerFunc {
 
 		nom := request.PathValue("nom")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_service, nom, description, tarif, IFNULL(image, '') AS image FROM service WHERE nom = ?")
+		selectstatement, selecterr := database.Prepare(
+			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom " +
+				"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.nom = ?",
+		)
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations du service", http.StatusInternalServerError)
 			return
 		}
 		var serv structures.Service
-		selectstatement.QueryRow(nom).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image)
+		var idCat sql.NullInt64
+		var catNom sql.NullString
+		selectstatement.QueryRow(nom).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image, &idCat, &catNom)
+		if idCat.Valid {
+			serv.IdCategorie = int(idCat.Int64)
+		}
+		if catNom.Valid {
+			serv.Categorie = catNom.String
+		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(structures.Service{
-			ID:          serv.ID,
-			Nom:         serv.Nom,
-			Description: serv.Description,
-			Tarif:       serv.Tarif,
-			Image:       serv.Image,
-		})
+		json.NewEncoder(response).Encode(serv)
 	}
 }
 
@@ -61,22 +81,27 @@ func Gestion_service_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_service, nom, description, tarif, IFNULL(image, '') AS image FROM service WHERE id_service = ?")
+		selectstatement, selecterr := database.Prepare(
+			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom " +
+				"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.id_service = ?",
+		)
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations du service", http.StatusInternalServerError)
 			return
 		}
 		var serv structures.Service
-		selectstatement.QueryRow(id).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image)
+		var idCat sql.NullInt64
+		var catNom sql.NullString
+		selectstatement.QueryRow(id).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image, &idCat, &catNom)
+		if idCat.Valid {
+			serv.IdCategorie = int(idCat.Int64)
+		}
+		if catNom.Valid {
+			serv.Categorie = catNom.String
+		}
 
 		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(structures.Service{
-			ID:          serv.ID,
-			Nom:         serv.Nom,
-			Description: serv.Description,
-			Tarif:       serv.Tarif,
-			Image:       serv.Image,
-		})
+		json.NewEncoder(response).Encode(serv)
 	}
 }
 
@@ -108,12 +133,18 @@ func Modifier_service(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("UPDATE service SET nom = ?, description = ?, tarif = ? WHERE id_service = ?")
+		idCatFK, errFK := categorieFK(database, serv.IdCategorie)
+		if errFK != nil {
+			http.Error(response, "Catégorie invalide", http.StatusBadRequest)
+			return
+		}
+
+		updatestatement, updateerr := database.Prepare("UPDATE service SET nom = ?, description = ?, tarif = ?, id_categorie = ? WHERE id_service = ?")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de mise à jour", http.StatusInternalServerError)
 			return
 		}
-		_, updateexecerr := updatestatement.Exec(serv.Nom, serv.Description, serv.Tarif, id)
+		_, updateexecerr := updatestatement.Exec(serv.Nom, serv.Description, serv.Tarif, idCatFK, id)
 		if updateexecerr != nil {
 			http.Error(response, "Erreur lors de la mise à jour du service", http.StatusInternalServerError)
 			return
@@ -165,12 +196,18 @@ func Creer_service(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("INSERT INTO service (nom, description, tarif, image) VALUES (?, ?, ?, ?)")
+		idCatFK, errFK := categorieFK(database, service.IdCategorie)
+		if errFK != nil {
+			http.Error(response, "Catégorie invalide", http.StatusBadRequest)
+			return
+		}
+
+		updatestatement, updateerr := database.Prepare("INSERT INTO service (nom, description, tarif, image, id_categorie) VALUES (?, ?, ?, ?, ?)")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de creation", http.StatusInternalServerError)
 			return
 		}
-		_, updateexecerr := updatestatement.Exec(service.Nom, service.Description, service.Tarif, service.Image)
+		_, updateexecerr := updatestatement.Exec(service.Nom, service.Description, service.Tarif, service.Image, idCatFK)
 		if updateexecerr != nil {
 			http.Error(response, "Erreur lors de la creation du service", http.StatusInternalServerError)
 			return
@@ -237,7 +274,10 @@ func List_services(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_service, nom, description, tarif, IFNULL(image, '') AS image FROM service")
+		rows, err := database.Query(
+			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom " +
+				"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie",
+		)
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des services de la base de données", http.StatusInternalServerError)
 			return
@@ -247,11 +287,19 @@ func List_services(database *sql.DB) http.HandlerFunc {
 			for rows.Next() {
 				var s structures.Service
 				var id int
+				var idCat sql.NullInt64
+				var catNom sql.NullString
 
-				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image)
+				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des services : "+err.Error(), http.StatusInternalServerError)
 					return
+				}
+				if idCat.Valid {
+					s.IdCategorie = int(idCat.Int64)
+				}
+				if catNom.Valid {
+					s.Categorie = catNom.String
 				}
 				var rej string
 				var rej2 string

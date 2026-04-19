@@ -136,6 +136,7 @@ func main() {
 	http.HandleFunc("/gestion_service_id/{id}", admin.Gestion_service_id(db))
 	http.HandleFunc("/modifier_service/{id}", admin.Modifier_service(db))
 	http.HandleFunc("/supprimer_service/{id}", admin.Supprimer_service(db))
+	http.HandleFunc("/creer_categorie", admin.Creer_categorie(db))
 
 	http.HandleFunc("/list_articles", admin.List_articles(db))
 	http.HandleFunc("/creer_article", admin.Creer_article(db))

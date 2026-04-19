@@ -42,7 +42,10 @@ async function listconseils(token) {
             const imageHTML = conseils.image
                 ? `<img src="upload/${conseils.image}" alt="Image du conseil" class="card-img-top h-auto" style="height:150px;object-fit:cover;">`
                 : `<div class="card-img-top bg-light d-flex align-items-center justify-content-center text-muted" style="height:150px;" data-i18n>Pas d'image</div>`;
-            const excerpt = conseils.contenu ? conseils.contenu : "Contenu non disponible";
+            const rawContenu = conseils.contenu || "";
+            const excerpt = rawContenu
+                ? (rawContenu.length > 40 ? rawContenu.substring(0, 40) + "..." : rawContenu)
+                : "Contenu non disponible";
 
             html += `
                 <div class="col">

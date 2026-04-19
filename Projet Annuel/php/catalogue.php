@@ -182,6 +182,11 @@ function parsePrice(value) {
     return Number.isFinite(parsed) ? parsed : null;
 }
 
+function excerptDbText(value, maxLen = 40) {
+    const s = String(value ?? "");
+    return s.length > maxLen ? s.slice(0, maxLen) + "..." : s;
+}
+
 function renderEvenements(items) {
     let cards = [];
     items.forEach(e => {
@@ -200,7 +205,7 @@ function renderEvenements(items) {
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title">${String(e.nom)}</h6>
-                        <p class="card-text text-muted small flex-grow-1">${String(e.description)}</p>
+                        <p class="card-text text-muted small flex-grow-1">${excerptDbText(e.description)}</p>
                         <p class="card-text small text-secondary mb-2">${String(e.date)}</p>
                         ${action}
                     </div>
@@ -237,7 +242,7 @@ function renderServices(items) {
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title">${String(s.nom)}</h6>
-                        <p class="card-text text-muted small flex-grow-1">${String(s.description)}</p>
+                        <p class="card-text text-muted small flex-grow-1">${excerptDbText(s.description)}</p>
                         <p class="card-text small text-secondary mb-1"><strong>Catégorie:</strong> ${categorieText}</p>
                         <p class="card-text small text-secondary mb-1"><strong>Prestataire:</strong> ${prestataireText}</p>
                         <p class="card-text small text-primary fw-bold mb-2">${String(s.tarif)} €</p>
@@ -261,7 +266,7 @@ function renderArticles(items) {
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title">${String(a.titre)}</h6>
-                        <p class="card-text text-muted small flex-grow-1">${String(a.description)}</p>
+                        <p class="card-text text-muted small flex-grow-1">${excerptDbText(a.description)}</p>
                         <p class="card-text small text-primary fw-bold">${String(a.prix)} €</p>
                     </div>
                 </div>
