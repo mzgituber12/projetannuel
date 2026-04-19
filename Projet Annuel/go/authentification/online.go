@@ -58,3 +58,29 @@ func Enligne(database *sql.DB) http.HandlerFunc {
 		})
 	}
 }
+
+func Get_tuto(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		token := request.Header.Get("Token")
+		var tutoValue int
+
+		err := database.QueryRow("SELECT tutoriel FROM utilisateur WHERE token = ?", token).Scan(&tutoValue)
+
+		if err != nil {
+			http.Error(response, "Utilisateur non trouvé", http.StatusNotFound)
+			return
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(tutoValue)
+	}
+}

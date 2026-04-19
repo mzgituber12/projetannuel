@@ -1,4 +1,4 @@
-<?php include 'includes/api_config.php'; ?>
+<?php include 'includes/api_config.php';?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -24,7 +24,7 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 
 <div class="container mt-5 pb-5">
   <div class="row justify-content-center g-4">
-    <div class="col-md-4 d-flex justify-content-center">
+    <div id="popover1" class="col-md-4 d-flex justify-content-center" data-bs-toggle="popover" data-bs-title="Popover1" data-bs-content="Voici le tuto <br><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button>">
       <div class="card h-100 d-flex flex-column" style="width: 22rem;">
         <img src="https://yogalipette.com/wp-content/uploads/2020/05/yoga-plein-air.jpg" class="card-img-top" alt="Yoga en plein air">
         <div class="card-body d-flex flex-column">
@@ -41,7 +41,7 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
     </div>
 
     <div class="col-md-4 d-flex justify-content-center">
-      <div class="card h-100 d-flex flex-column" style="width: 22rem;">
+      <div id="popover2" class="card h-100 d-flex flex-column" style="width: 22rem;" data-bs-toggle="popover" data-bs-title="Popover2" data-bs-content="And here’s some amazing content. It’s very engaging. Right?">
         <img src="https://moncentreaquatique.com/images/1999238861.jpg" class="card-img-top" alt="Atelier mémoire">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title" data-i18n>Natation Synchroniser pour bien se reveiller ! </h5>
@@ -118,6 +118,7 @@ async function init(){
 
 init()
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="tuto.js"></script>
 </body>
 </html>
