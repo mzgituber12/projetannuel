@@ -67,10 +67,10 @@ include 'includes/header.php'?>
         </div>
 
         <div class="mb-3">
-            <label for="Age" class="form-label" data-i18n>Age</label>
+            <label for="Date" class="form-label" data-i18n>Date naissance</label>
             <div class="d-flex">
-                <input type="number" class="form-control" id="age" >
-                <button type="button" class="btn btn-danger" onclick="update_profil('age')" data-i18n>Modifier</button>
+                <input type="date" class="form-control" id="date_naissance" >
+                <button type="button" class="btn btn-danger" onclick="update_profil('date_naissance')" data-i18n>Modifier</button>
             </div>
         </div>
 
@@ -123,7 +123,7 @@ include 'includes/header.php'?>
          document.getElementById("email").placeholder = data.email
          document.getElementById("prenom").placeholder = data.prenom
          document.getElementById("nom").placeholder = data.nom
-         document.getElementById("age").placeholder = data.age
+         document.getElementById("date_naissance").placeholder = data.date_naissance
             document.getElementById("langue").value = data.langue || "fr"
 
          if (profil_state == 1){

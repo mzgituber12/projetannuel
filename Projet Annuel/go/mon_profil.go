@@ -26,13 +26,13 @@ func mon_profil(database *sql.DB) http.HandlerFunc {
 
 		var utilisateur structures.User
 
-		selectstatement, selecterr := database.Prepare("SELECT nom, prenom, age, email, langue FROM utilisateur WHERE token = ?")
+		selectstatement, selecterr := database.Prepare("SELECT nom, prenom, date_naissance, email, langue FROM utilisateur WHERE token = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 			return
 		}
 
-		err := selectstatement.QueryRow(token).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Age, &utilisateur.Email, &utilisateur.Langue)
+		err := selectstatement.QueryRow(token).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.DateNaissance, &utilisateur.Email, &utilisateur.Langue)
 
 		if err != nil {
 			http.Error(response, "Erreur lors du chargement du profil", http.StatusNotFound)
@@ -78,11 +78,11 @@ func update_profil(database *sql.DB) http.HandlerFunc {
 
 		if len(data.Value) < 3 && len(data.Value) > 0 && data.Champ != "age" {
 			if !(data.Champ == "langue" && len(data.Value) == 2) {
-			response.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(response).Encode(structures.Result{
-				Message: "Les champs sont trop cours, chaque champ nécéssite au moins 3 caractères",
-			})
-			return
+				response.Header().Set("Content-Type", "application/json")
+				json.NewEncoder(response).Encode(structures.Result{
+					Message: "Les champs sont trop cours, chaque champ nécéssite au moins 3 caractères",
+				})
+				return
 			}
 		}
 
@@ -126,8 +126,8 @@ func update_profil(database *sql.DB) http.HandlerFunc {
 			_, err = database.Exec("UPDATE utilisateur SET email = ? WHERE token = ?", data.Value, token)
 		case "password":
 			_, err = database.Exec("UPDATE utilisateur SET password = ? WHERE token = ?", data.Value, token)
-		case "age":
-			_, err = database.Exec("UPDATE utilisateur SET age = ? WHERE token = ?", data.Value, token)
+		case "date_naissance":
+			_, err = database.Exec("UPDATE utilisateur SET date_naissance = ? WHERE token = ?", data.Value, token)
 		case "prenom":
 			_, err = database.Exec("UPDATE utilisateur SET prenom = ? WHERE token = ?", data.Value, token)
 		case "nom":
