@@ -161,6 +161,7 @@ type Abonnement struct {
 	PrixAn           float64 `json:"prix_an"`
 	Statut           string  `json:"statut"`
 	TypePrestataire  int     `json:"type_prestataire"`
+	Nb_avantage      int     `json:"nb_avantage"`
 	Contenue1        string  `json:"contenue1"`
 	Contenue2        string  `json:"contenue2"`
 	Contenue3        string  `json:"contenue3"`
@@ -170,6 +171,21 @@ type Abonnement struct {
 	TrajetOffert     bool    `json:"trajet_offert"`
 	OffreRepas       bool    `json:"offre_repas"`
 	MisEnAvant       bool    `json:"mis_en_avant"`
+}
+
+type FichePresta struct {
+	Id             int         `json:"id"`
+	Nom            string      `json:"nom"`
+	Prenom         string      `json:"prenom"`
+	Photo_profil   string      `json:"photo_profil"`
+	Date_naissance string      `json:"date_naissance"`
+	Documents      []DocPresta `json:"documents"`
+	Categorie      string      `json:"categorie"`
+}
+
+type DocPresta struct {
+	Nom_fichier   string `json:"nom_fichier"`
+	Type_document string `json:"type_document"`
 }
 
 type Souscription struct {

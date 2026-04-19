@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
-
-	"projet/structures"
 )
 
 func demande_presta(database *sql.DB) http.HandlerFunc {
@@ -19,21 +17,64 @@ func demande_presta(database *sql.DB) http.HandlerFunc {
 		}
 
 		token := request.Header.Get("Token")
+		var data struct {
+			Photo_profil         string            `json:"photo_de_profil"`
+			Piece_identite_recto string            `json:"piece_identite_recto"`
+			Piece_identite_verso string            `json:"piece_identite_verso"`
+			Diplome              string            `json:"diplome"`
+			Type                 string            `json:"type"`
+			Autre                map[string]string `json:"autre"`
+		}
+		err := json.NewDecoder(request.Body).Decode(&data)
 
-		var utilisateur structures.User
-		selectStatement, err := database.Prepare("SELECT nom, prenom, age, email, langue FROM utilisateur WHERE token = ?")
 		if err != nil {
-			http.Error(response, "Erreur lors de la recuperation des informations de l'utilisateur", http.StatusInternalServerError)
+			http.Error(response, "JSON invalide", http.StatusBadRequest)
 			return
 		}
 
-		err = selectStatement.QueryRow(token).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Age, &utilisateur.Email, &utilisateur.Langue)
+		var id_user int
+		err = database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&id_user)
 		if err != nil {
-			http.Error(response, "Erreur lors du chargement du profil", http.StatusNotFound)
+			http.Error(response, "Token invalide", http.StatusUnauthorized)
 			return
 		}
 
-		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(utilisateur)
+		_, err = database.Exec("INSERT INTO prestataire(id_utilisateur, type, photo_profil) VALUES(?,?,?)", id_user, data.Type, data.Photo_profil)
+		if err != nil {
+			http.Error(response, "SQL Error: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		filesToInsert := []struct {
+			Name string
+			Type string
+		}{
+			{data.Photo_profil, "PF"},
+			{data.Piece_identite_recto, "CIR"},
+			{data.Piece_identite_verso, "CIV"},
+			{data.Diplome, "diplome"}}
+
+		for _, f := range filesToInsert {
+			if f.Name == "" || f.Name == "NULL" {
+				http.Error(response, "Veillez remplir tout les champs pour valider votre demande", http.StatusBadRequest)
+				return
+			}
+
+			_, err = database.Exec(
+				"INSERT INTO document (nom_fichier, id_utilisateur, type_document) VALUES (?, ?, ?)",
+				f.Name, id_user, f.Type,
+			)
+			if err != nil {
+				http.Error(response, "Erreur insertion document", http.StatusInternalServerError)
+				return
+			}
+		}
+
+		for _, valeur := range data.Autre {
+			_, err := database.Exec("INSERT INTO document(id_utilisateur, nom_fichier, type_document) VALUES(?,?,?)", id_user, valeur, "autre")
+			if err != nil {
+				http.Error(response, "Erreur Insert bdd", http.StatusInternalServerError)
+			}
+
+		}
 	}
 }

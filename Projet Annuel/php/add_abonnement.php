@@ -19,7 +19,7 @@ include 'includes/header.php'; ?>
     <div class="card p-4 shadow-sm w-100 mb-5 mt-5" style="max-width: 600px;">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h1 class="h3 mb-4" data-i18n>Créer un abonnement</h1>
+                <h1 class="h3 mb-4 text-center" data-i18n>Créer un abonnement</h1>
 
                 <div class="mb-3">
                     <label for="categorie" class="form-label" data-i18n>L'abonnement sera pour :</label>
@@ -62,35 +62,27 @@ include 'includes/header.php'; ?>
                     </select>
                 </div>
 
-                <div class="mb-3 position-relative">
-                    <label for="ai1" class="form-label" data-i18n>Ajouter Avantage/inconvénient</label>
-                    <div class="d-flex">
-                        <input type="text" class="form-control me-2" id="ai1">
-                    </div>
-                </div>
-                <div class="mb-3 position-relative">
-                    <label for="ai2" class="form-label" data-i18n>Ajouter Avantage/inconvénient</label>
-                    <div class="d-flex">
-                        <input type="text" class="form-control me-2" id="ai2">
-                    </div>
-                </div>
-                <div class="mb-3 position-relative">
-                    <label for="ai3" class="form-label" data-i18n>Ajouter Avantage/inconvénient</label>
-                    <div class="d-flex">
-                        <input type="text" class="form-control me-2" id="ai3">
-                    </div>
-                </div>
-                <div class="mb-3 position-relative">
-                    <label for="ai4" class="form-label" data-i18n>Ajouter Avantage/inconvénient</label>
-                    <div class="d-flex">
-                        <input type="text" class="form-control me-2" id="ai4">
-                    </div>
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="icon1"></span>
+                    <input type="text" class="form-control" id="ai1">
                 </div>
 
-                <div class="d-flex justify-content-md-end gap-2">
-                    <a href="liste_abonnement_admin.php" class="btn btn-outline-secondary" data-i18n>Retour</a>
-                    <button type="button" class="btn btn-danger" onclick="add_abonnement()" data-i18n>Ajouter</button>
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="icon2"></span>
+                    <input type="text" class="form-control" id="ai2">
                 </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="icon3"></span>
+                    <input type="text" class="form-control" id="ai3">
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="icon4"></span>
+                    <input type="text" class="form-control" id="ai4">
+                </div>
+
+                
             </div>
         </div>
     </div>
@@ -100,34 +92,16 @@ include 'includes/header.php'; ?>
 
 <script>
 function nombre_avantage() {
-    const valeur = document.getElementById("post").value;
+    const valeur = parseInt(document.getElementById("post").value);
 
-    if (valeur == "1") {
-        document.getElementById("ai1").value = "✅ ";
-        document.getElementById("ai2").value = "⛔ ";
-        document.getElementById("ai3").value = "⛔ ";
-        document.getElementById("ai4").value = "⛔ ";
-    }
+    for (let i = 1; i <= 4; i++) {
+        const icon = document.getElementById("icon" + i);
 
-    if (valeur == "2") {
-        document.getElementById("ai1").value = "✅ ";
-        document.getElementById("ai2").value = "✅ ";
-        document.getElementById("ai3").value = "⛔ ";
-        document.getElementById("ai4").value = "⛔ ";
-    }
-
-    if (valeur == "3") {
-        document.getElementById("ai1").value = "✅ ";
-        document.getElementById("ai2").value = "✅ ";
-        document.getElementById("ai3").value = "✅ ";
-        document.getElementById("ai4").value = "⛔ ";
-    }
-
-    if (valeur == "4") {
-        document.getElementById("ai1").value = "✅ ";
-        document.getElementById("ai2").value = "✅ ";
-        document.getElementById("ai3").value = "✅ ";
-        document.getElementById("ai4").value = "✅ ";
+        if (i <= valeur) {
+            icon.textContent = "✅";
+        } else {
+            icon.textContent = "⛔";
+        }
     }
 }
 
@@ -136,6 +110,7 @@ async function add_abonnement() {
     const name_abonnement = document.getElementById("name_abonnement").value.trim();
     const prix_mois_abonnement = document.getElementById("prix_mois_abonnement").value;
     const prix_an_abonnement = document.getElementById("prix_an_abonnement").value;
+    const nb_avantage = parseInt(document.getElementById("post").value);
     const ai1 = document.getElementById("ai1").value.trim();
     const ai2 = document.getElementById("ai2").value.trim();
     const ai3 = document.getElementById("ai3").value.trim();
@@ -153,6 +128,7 @@ async function add_abonnement() {
             name_abonnement: name_abonnement,
             prix_mois_abonnement: parseFloat(prix_mois_abonnement),
             prix_an_abonnement: parseFloat(prix_an_abonnement),
+            nb_avantage: nb_avantage,
             ai1: ai1,
             ai2: ai2,
             ai3: ai3,

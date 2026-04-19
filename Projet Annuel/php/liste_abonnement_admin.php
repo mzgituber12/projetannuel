@@ -16,7 +16,6 @@ include 'includes/header.php'; ?>
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0" data-i18n>Liste abonnements admin</h1>
         <a href="add_abonnement.php" class="btn btn-danger" data-i18n>Ajouter un abonnement</a>
     </div>
     <div id="liste_abonnements" class="d-flex gap-4 flex-wrap justify-content-center"></div>
@@ -25,6 +24,32 @@ include 'includes/header.php'; ?>
 <?php include 'includes/footer.php'; ?>
 
 <script>
+function count_avantage(a) {
+    const count = parseInt(a.nb_avantage);
+    let x ="";
+
+     const list = [
+        a.contenue1,
+        a.contenue2,
+        a.contenue3,
+        a.contenue4
+    ];
+    const nb = a.nb_avantage;
+
+
+    for (let i = 1; i <= 4; i++) {
+        const texteAvantage = a[`contenue${i}`];
+
+        if (texteAvantage && texteAvantage !== "") {
+            if(i <= count){ 
+                 x += `<p class="card-text">✅ ${texteAvantage}</p>`;
+            } else {
+                x += `<p class="card-text">⛔ ${texteAvantage}</p>`;
+            }
+        }
+    }
+    return x;
+}  
 async function charger_abonnements_admin() {
     const token = localStorage.getItem("token") || "";
     const base = (window.API_BASE || 'http://localhost:9000');
@@ -56,10 +81,7 @@ async function charger_abonnements_admin() {
                         <a href="edit_abonnement.php?id=${a.id}" class="btn btn-danger shadow rounded">Modifier</a>
                     </div>
                     <hr>
-                    <p class="card-text">${a.contenue1 || ''}</p>
-                    <p class="card-text">${a.contenue2 || ''}</p>
-                    <p class="card-text">${a.contenue3 || ''}</p>
-                    <p class="card-text">${a.contenue4 || ''}</p>
+                    ${count_avantage(a)}
                 </div>
             </div>
         `;
