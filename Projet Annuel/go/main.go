@@ -179,6 +179,7 @@ func main() {
 	http.HandleFunc("/modifier_conseil/{id}", admin.Modifier_conseil(db))
 	http.HandleFunc("/supprimer_conseil/{id}", admin.Supprimer_conseil(db))
 
+	http.HandleFunc("/get_tuto", authentification.Get_tuto(db))
 	fmt.Println("Ouverture du serveur sur le port 9000...")
 	listenError := http.ListenAndServe(":9000", nil)
 	if listenError != nil {

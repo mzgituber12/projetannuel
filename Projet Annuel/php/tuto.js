@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const data = await response.json();
 
-    if (data === 0) {
+    if (data == 1) {
         const firstElement = document.getElementById('popover1');
         const instance = bootstrap.Popover.getInstance(firstElement);
         if (instance) instance.show();
