@@ -25,13 +25,33 @@ func Gestion_intervention_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_intervention, id_service, id_prestataire, id_utilisateur, date, statut, montant FROM intervention WHERE id_intervention = ?")
+		selectstatement, selecterr := database.Prepare(`
+			SELECT i.id_intervention,
+			       i.id_service,
+			       i.id_prestataire,
+			       i.id_utilisateur,
+			       IFNULL(DATE_FORMAT(r.date_debut, '%Y-%m-%d %H:%i:%s'), '') AS date,
+			       i.statut,
+			       i.montant
+			FROM intervention i
+			LEFT JOIN rendez_vous r ON r.id_rdv = i.id_rdv
+			WHERE i.id_intervention = ?
+		`)
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'intervention", http.StatusInternalServerError)
 			return
 		}
 		var interv structures.Intervention
-		selectstatement.QueryRow(id).Scan(&interv.ID, &interv.IdService, &interv.IdPrestataire, &interv.IdUtilisateur, &interv.Date, &interv.Statut, &interv.Montant)
+		err := selectstatement.QueryRow(id).Scan(&interv.ID, &interv.IdService, &interv.IdPrestataire, &interv.IdUtilisateur, &interv.Date, &interv.Statut, &interv.Montant)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				response.Header().Set("Content-Type", "application/json")
+				json.NewEncoder(response).Encode(structures.Intervention{})
+				return
+			}
+			http.Error(response, "Erreur lors de la sélection de l'intervention", http.StatusInternalServerError)
+			return
+		}
 
 		response.WriteHeader(http.StatusOK)
 		response.Header().Set("Content-Type", "application/json")
@@ -44,6 +64,43 @@ func Gestion_intervention_id(database *sql.DB) http.HandlerFunc {
 			Statut:        interv.Statut,
 			Montant:       interv.Montant,
 		})
+	}
+}
+
+func List_interventions(database *sql.DB) http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		response.Header().Set("Access-Control-Allow-Origin", "*")
+		response.Header().Set("Access-Control-Allow-Headers", "Token")
+		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if request.Method == http.MethodOptions {
+			response.WriteHeader(http.StatusOK)
+			return
+		}
+
+		if request.Method != http.MethodGet {
+			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+			return
+		}
+
+		rows, err := database.Query("SELECT i.id_intervention, i.id_service, i.id_prestataire, i.id_utilisateur, IFNULL(DATE_FORMAT(r.date_debut, '%Y-%m-%d %H:%i:%s'), '') AS date, i.statut, i.montant FROM intervention i LEFT JOIN rendez_vous r ON r.id_rdv = i.id_rdv ORDER BY i.id_intervention DESC")
+		if err != nil {
+			http.Error(response, "Erreur lors de la lecture des interventions", http.StatusInternalServerError)
+			return
+		}
+		defer rows.Close()
+
+		interventions := make([]structures.Intervention, 0)
+		for rows.Next() {
+			var interv structures.Intervention
+			if err := rows.Scan(&interv.ID, &interv.IdService, &interv.IdPrestataire, &interv.IdUtilisateur, &interv.Date, &interv.Statut, &interv.Montant); err != nil {
+				http.Error(response, "Erreur lors du scan des interventions", http.StatusInternalServerError)
+				return
+			}
+			interventions = append(interventions, interv)
+		}
+
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(interventions)
 	}
 }
 

@@ -146,6 +146,7 @@ func main() {
 	http.HandleFunc("/supprimer_article/{id}", admin.Supprimer_article(db))
 
 	http.HandleFunc("/gestion_intervention/{id}", admin.Gestion_intervention_id(db))
+	http.HandleFunc("/list_interventions", admin.List_interventions(db))
 	http.HandleFunc("/modifier_intervention/{id}", admin.Modifier_intervention(db))
 
 	http.HandleFunc("/gestion_contact", admin.Gestion_contact(db))

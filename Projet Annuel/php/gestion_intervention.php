@@ -40,6 +40,9 @@
     </div>
 
     <div id="resultat"></div>
+
+    <h2 class="mt-5 mb-3" data-i18n>Liste des interventions</h2>
+    <div id="interventions"></div>
 </div>
 
 <?php include 'includes/footer.php'?>
@@ -78,13 +81,46 @@
             "<p><strong>Statut :</strong> " + data.statut + "</p>" +
             "<p><strong>Montant :</strong> " + data.montant + "€</p>" +
             "</div></div>" +
-            "<a href='modifier_intervention.php?id=" + data.id + "' class='btn btn-warning'>Modifier l'intervention</a>" +
             "</div></div>";
         }
     }
 
     async function listIntervention(token) {
-       //
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const response = await fetch(base + "/list_interventions", {
+            method: "GET",
+            headers: {"Token": token}
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
+        }
+
+        const intervention_list = await response.json();
+        const container = document.getElementById("interventions");
+
+        if (!Array.isArray(intervention_list) || intervention_list.length === 0) {
+            container.innerHTML = "<p>Aucune intervention pour le moment</p>";
+            return;
+        }
+
+        let html = "<table class='table table-sm table-bordered'><tr><th>ID</th><th>ID Service</th><th>ID Prestataire</th><th>ID Utilisateur</th><th>Date</th><th>Statut</th><th>Montant</th></tr>";
+        intervention_list.forEach(interv => {
+            html += "<tr>" +
+                "<td>" + String(interv.id) + "</td>" +
+                "<td>" + String(interv.id_service) + "</td>" +
+                "<td>" + String(interv.id_prestataire) + "</td>" +
+                "<td>" + String(interv.id_utilisateur) + "</td>" +
+                "<td>" + String(interv.date || "") + "</td>" +
+                "<td>" + String(interv.statut || "") + "</td>" +
+                "<td>" + String(interv.montant) + "€</td>" +
+                "</tr>";
+        });
+        html += "</table>";
+        container.innerHTML = html;
     }
 
     async function init() {

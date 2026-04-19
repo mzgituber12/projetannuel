@@ -82,6 +82,10 @@ include 'includes/header.php'; ?>
                     <input type="text" class="form-control" id="ai4">
                 </div>
 
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-danger" onclick="add_abonnement()">Creer</button>
+                </div>
+
                 
             </div>
         </div>

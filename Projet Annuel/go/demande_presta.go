@@ -33,9 +33,14 @@ func demande_presta(database *sql.DB) http.HandlerFunc {
 		}
 
 		var id_user int
-		err = database.QueryRow("SELECT id_utilisateur FROM utilisateur WHERE token = ?", token).Scan(&id_user)
+		var currentRole string
+		err = database.QueryRow("SELECT id_utilisateur, role FROM utilisateur WHERE token = ?", token).Scan(&id_user, &currentRole)
 		if err != nil {
 			http.Error(response, "Token invalide", http.StatusUnauthorized)
+			return
+		}
+		if currentRole == "prestataire" {
+			http.Error(response, "Vous etes deja prestataire", http.StatusBadRequest)
 			return
 		}
 
@@ -62,6 +67,7 @@ func demande_presta(database *sql.DB) http.HandlerFunc {
 
 		for _, f := range filesToInsert {
 			if f.Name == "" || f.Name == "NULL" {
+				tx.Rollback()
 				http.Error(response, "Veillez remplir tout les champs pour valider votre demande", http.StatusBadRequest)
 				return
 			}
@@ -85,13 +91,6 @@ func demande_presta(database *sql.DB) http.HandlerFunc {
 				return
 			}
 
-		}
-
-		_, err = tx.Exec("UPDATE utilisateur SET role = 'prestataire' WHERE id_utilisateur = ?", id_user)
-		if err != nil {
-			tx.Rollback()
-			http.Error(response, "Erreur mise a jour du role", http.StatusInternalServerError)
-			return
 		}
 
 		if err = tx.Commit(); err != nil {

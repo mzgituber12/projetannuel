@@ -42,6 +42,15 @@ async function charger_abonnements_admin() {
     const container = document.getElementById("liste_demande_presta");
     container.innerHTML = "";
 
+    if (!Array.isArray(data) || data.length == 0) {
+        container.innerHTML = `
+            <div class="alert alert-info text-center w-100" role="alert">
+                Aucune demande en attente pour le moment.
+            </div>
+        `;
+        return;
+    }
+
     data.forEach(a => {
 
     container.innerHTML += `

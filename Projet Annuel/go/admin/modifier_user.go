@@ -26,7 +26,7 @@ func Gestion_user_email(database *sql.DB) http.HandlerFunc {
 
 		email := request.PathValue("email")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur WHERE email = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_utilisateur, nom, prenom, IFNULL(TIMESTAMPDIFF(YEAR, date_naissance, CURDATE()), 0) AS age, email, role, langue FROM utilisateur WHERE email = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 			return
@@ -64,7 +64,7 @@ func Gestion_user_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur WHERE id_utilisateur = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_utilisateur, nom, prenom, IFNULL(TIMESTAMPDIFF(YEAR, date_naissance, CURDATE()), 0) AS age, email, role, langue FROM utilisateur WHERE id_utilisateur = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 			return
@@ -138,7 +138,7 @@ func Modifier_user(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("UPDATE utilisateur SET nom = ?, prenom = ?, age = ?, email = ?, role = ?, langue = ? WHERE id_utilisateur = ?")
+		updatestatement, updateerr := database.Prepare("UPDATE utilisateur SET nom = ?, prenom = ?, date_naissance = DATE_SUB(CURDATE(), INTERVAL ? YEAR), email = ?, role = ?, langue = ? WHERE id_utilisateur = ?")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de mise à jour", http.StatusInternalServerError)
 			return
@@ -209,7 +209,7 @@ func List_users(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_utilisateur, nom, prenom, age, email, role, langue FROM utilisateur")
+		rows, err := database.Query("SELECT id_utilisateur, nom, prenom, IFNULL(TIMESTAMPDIFF(YEAR, date_naissance, CURDATE()), 0) AS age, email, role, langue FROM utilisateur")
 
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des utilisateurs de la base de données", http.StatusInternalServerError)

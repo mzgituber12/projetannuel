@@ -52,16 +52,50 @@ func valider_presta(database *sql.DB) http.HandlerFunc {
 		}
 
 		id := request.URL.Query().Get("id")
-
-		selectstatement, err := database.Prepare("UPDATE prestataire SET valider = 1 WHERE id_utilisateur = ?")
-		if err != nil {
-			http.Error(response, "Erreur preparation requete"+err.Error(), http.StatusInternalServerError)
+		if id == "" {
+			http.Error(response, "ID utilisateur manquant", http.StatusBadRequest)
+			return
 		}
 
-		_, err = selectstatement.Exec(id)
-
+		tx, err := database.Begin()
 		if err != nil {
+			http.Error(response, "Erreur preparation requete"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		updatePrestaStmt, err := tx.Prepare("UPDATE prestataire SET valider = 1 WHERE id_utilisateur = ?")
+		if err != nil {
+			tx.Rollback()
+			http.Error(response, "Erreur preparation requete"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer updatePrestaStmt.Close()
+
+		_, err = updatePrestaStmt.Exec(id)
+		if err != nil {
+			tx.Rollback()
 			http.Error(response, "Erreur de l'update"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		updateRoleStmt, err := tx.Prepare("UPDATE utilisateur SET role = 'prestataire' WHERE id_utilisateur = ?")
+		if err != nil {
+			tx.Rollback()
+			http.Error(response, "Erreur preparation update role"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer updateRoleStmt.Close()
+
+		_, err = updateRoleStmt.Exec(id)
+		if err != nil {
+			tx.Rollback()
+			http.Error(response, "Erreur update role utilisateur"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		if err = tx.Commit(); err != nil {
+			http.Error(response, "Erreur validation transaction", http.StatusInternalServerError)
+			return
 		}
 
 		response.Header().Set("Content-Type", "application/json")
