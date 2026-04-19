@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : mar. 07 avr. 2026 à 10:29
+-- Généré le : dim. 19 avr. 2026 à 20:29
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -43,18 +43,20 @@ CREATE TABLE `abonnement` (
   `contenue1` varchar(30) NOT NULL DEFAULT '',
   `contenue2` varchar(30) NOT NULL DEFAULT '',
   `contenue3` varchar(30) NOT NULL DEFAULT '',
-  `contenue4` varchar(30) NOT NULL DEFAULT ''
+  `contenue4` varchar(30) NOT NULL DEFAULT '',
+  `nb_avantage` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `abonnement`
 --
 
-INSERT INTO `abonnement` (`id_abonnement`, `id_prestataire`, `categorie`, `type_prestataire`, `type`, `prix_mois`, `statut`, `prix_an`, `Locaux_prestation`, `Trajet_offert`, `offre_repas`, `mis_en_avant`, `contenue1`, `contenue2`, `contenue3`, `contenue4`) VALUES
-(1, NULL, 'senior', 1, 'Basic', 4.00, 'actif', 40, 1, 1, 0, 0, '', '', '', ''),
-(2, NULL, 'senior', 1, 'Standard', 5.00, 'actif', 55, 1, 1, 1, 0, '', '', '', ''),
-(3, NULL, 'senior', 1, 'Premium', 6.00, 'actif', 72, 1, 1, 1, 1, '', '', '', ''),
-(5, NULL, 'senior', 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1, '', '', '', '');
+INSERT INTO `abonnement` (`id_abonnement`, `id_prestataire`, `categorie`, `type_prestataire`, `type`, `prix_mois`, `statut`, `prix_an`, `Locaux_prestation`, `Trajet_offert`, `offre_repas`, `mis_en_avant`, `contenue1`, `contenue2`, `contenue3`, `contenue4`, `nb_avantage`) VALUES
+(1, NULL, 'senior', 1, 'Basic', 4.00, 'actif', 40, 1, 1, 0, 0, '', '', '', '', 0),
+(2, NULL, 'senior', 1, 'Standard', 5.00, 'actif', 55, 1, 1, 1, 0, '', '', '', '', 0),
+(3, NULL, 'senior', 1, 'Premium', 6.00, 'actif', 72, 1, 1, 1, 1, 'avantage 1', 'avantage 2', 'avantage 3', 'avantage 4', 1),
+(5, NULL, 'senior', 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1, '', '', '', '', 0),
+(6, NULL, 'prestataire', 0, 'test', 1.00, 'actif', 12, NULL, NULL, NULL, NULL, 'avantage 1', 'avantage 2', 'avantage 3', 'avantage 4', 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +78,7 @@ CREATE TABLE `abonnement_push` (
 
 INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
 (68, 5, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-31 14:12:16'),
-(392, 6, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-07 09:47:03');
+(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-19 16:27:38');
 
 -- --------------------------------------------------------
 
@@ -147,6 +149,8 @@ CREATE TABLE `categorie` (
 --
 
 INSERT INTO `categorie` (`id_categorie`, `nom`) VALUES
+(4, 'categorie de test 2'),
+(3, 'categorie_test'),
 (2, 'consultation medical'),
 (1, 'jardinage');
 
@@ -238,7 +242,8 @@ INSERT INTO `contrat` (`id_contrat`, `id_devis`, `id_utilisateur`, `id_prestatai
 (2, NULL, 1, NULL, NULL, NULL, 'contrat2', NULL, 'presta'),
 (3, NULL, 1, NULL, '2026-03-28', '2026-04-28', 'Contrat abonnement Premium', 'mois', 'site'),
 (6, NULL, 5, NULL, '2026-04-03', '2026-05-03', 'Contrat abonnement Premium', 'mois', 'site'),
-(7, NULL, 5, NULL, '2026-04-05', '2026-05-05', 'Contrat abonnement Premium', 'mois', 'site');
+(7, NULL, 5, NULL, '2026-04-05', '2026-05-05', 'Contrat abonnement Premium', 'mois', 'site'),
+(8, NULL, 5, NULL, '2026-04-19', '2026-05-19', 'Contrat abonnement Premium', 'mois', 'site');
 
 -- --------------------------------------------------------
 
@@ -261,7 +266,7 @@ CREATE TABLE `devis` (
 
 INSERT INTO `devis` (`id_devis`, `id_utilisateur`, `id_prestataire`, `id_intervention`, `tarif_personalise`, `status`) VALUES
 (18, 5, 1, 19, 4.00, 'refusé'),
-(19, 5, 1, 20, 4.00, 'refusé'),
+(19, 5, 1, 20, 3.00, 'en_attente'),
 (20, 5, 1, 21, 4.00, 'accepté');
 
 -- --------------------------------------------------------
@@ -352,7 +357,7 @@ INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heur
 CREATE TABLE `document` (
   `id_document` int(11) NOT NULL,
   `id_utilisateur` int(11) NOT NULL,
-  `type_document` enum('CIR','CIV','habilitation','diplome','autre') DEFAULT 'autre',
+  `type_document` enum('PF','CIR','CIV','habilitation','diplome','autre') DEFAULT 'autre',
   `nom_fichier` varchar(255) NOT NULL,
   `chemin_fichier` varchar(500) DEFAULT NULL,
   `date_upload` datetime DEFAULT current_timestamp(),
@@ -364,7 +369,13 @@ CREATE TABLE `document` (
 --
 
 INSERT INTO `document` (`id_document`, `id_utilisateur`, `type_document`, `nom_fichier`, `chemin_fichier`, `date_upload`, `valide`) VALUES
-(1, 5, 'autre', 'recto_1776004115.png', NULL, '2026-04-12 14:28:35', 0);
+(1, 5, 'autre', 'recto_1776004115.png', NULL, '2026-04-12 14:28:35', 0),
+(20, 7, 'PF', 'pf_1776615656.png', NULL, '2026-04-19 16:20:57', 0),
+(21, 7, 'CIR', 'cir_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
+(22, 7, 'CIV', 'civ_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
+(23, 7, 'diplome', 'diplome_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
+(24, 7, 'autre', 'permis_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
+(25, 7, 'autre', 'assurance_1776615657.png', NULL, '2026-04-19 16:20:57', 0);
 
 -- --------------------------------------------------------
 
@@ -458,7 +469,7 @@ CREATE TABLE `intervention` (
 
 INSERT INTO `intervention` (`id_intervention`, `id_service`, `id_prestataire`, `id_utilisateur`, `id_rdv`, `statut`, `montant`) VALUES
 (19, 1, 1, 5, 80, 'annulé', 4.00),
-(20, 1, 1, 5, 83, 'annulé', 4.00),
+(20, 1, 1, 5, 83, 'devis', 3.00),
 (21, 1, 1, 5, 85, 'confirmé', 4.00),
 (22, 1, 2, 5, 84, 'terminé', 4.00);
 
@@ -682,6 +693,7 @@ CREATE TABLE `prestataire` (
   `id_prestataire` int(11) NOT NULL,
   `id_utilisateur` int(11) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
+  `photo_profil` varchar(255) DEFAULT NULL,
   `telephone` varchar(20) DEFAULT NULL,
   `valider` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
@@ -690,9 +702,10 @@ CREATE TABLE `prestataire` (
 -- Déchargement des données de la table `prestataire`
 --
 
-INSERT INTO `prestataire` (`id_prestataire`, `id_utilisateur`, `type`, `telephone`, `valider`) VALUES
-(1, 4, 'coordonnier', '32', 1),
-(2, 5, 'sportif', '34', 1);
+INSERT INTO `prestataire` (`id_prestataire`, `id_utilisateur`, `type`, `photo_profil`, `telephone`, `valider`) VALUES
+(1, 4, 'coordonnier', NULL, '32', 1),
+(2, 5, 'sportif', NULL, '34', 1),
+(12, 7, 'Transport', 'pf_1776615656.png', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -822,7 +835,8 @@ CREATE TABLE `service` (
 INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id_prestataire`, `id_categorie`) VALUES
 (1, 'Faire chier Laurent', '', 'Laurent ta mere a été concue pour manger du porc et suer du jus d orangeuh', 4.00, 1, 1),
 (2, 'Cirage de cheveux', '', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, 2, 2),
-(3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL);
+(3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL),
+(4, 'service de test', '', 'un super service inutile', 19.00, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -926,8 +940,9 @@ INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_nai
 (2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
 (3, 'bb', 'bb', 'cc@cc', '0000-00-00', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
 (4, 'cc', 'ac', 'cc@ccc', '0000-00-00', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', NULL, 'admin', '', 'fr', '1', 1, 0, 0),
-(6, 'edodolf', 'hitlan', 'hittalan@gmail.com', '1950-02-23', '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0);
+(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'HAWFuReF5NZW5DJYcmDdMS-AHlIWHJnMNQaeQ4yTl_c', 'prestataire', '', 'fr', '1', 0, 0, 0),
+(6, 'edodolf', 'hilan', 'hittalan@gmail.com', '1950-02-23', '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0),
+(7, 'azertyio', 'ma', 'ss@ss', '2008-04-10', '$2a$10$n3//8dPCjL8ZEr9cDRyovORKCnRGUWA2N6vV4lU9Y.SRjOyjVh86S', 'Jq3T4eTFAbzXd-vFe6SeonzcYpofcz-AXtBcSiVhGcQ', 'adherant', NULL, 'fr', '1', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1212,13 +1227,13 @@ ALTER TABLE `virement`
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_abonnement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=680;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=863;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -1236,7 +1251,7 @@ ALTER TABLE `article`
 -- AUTO_INCREMENT pour la table `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `id_categorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_categorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `conseil`
@@ -1254,7 +1269,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT pour la table `contrat`
 --
 ALTER TABLE `contrat`
-  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `devis`
@@ -1272,7 +1287,7 @@ ALTER TABLE `disponibilite`
 -- AUTO_INCREMENT pour la table `document`
 --
 ALTER TABLE `document`
-  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT pour la table `evaluation`
@@ -1344,7 +1359,7 @@ ALTER TABLE `panier`
 -- AUTO_INCREMENT pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
-  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `reference_article`
@@ -1374,7 +1389,7 @@ ALTER TABLE `rendez_vous`
 -- AUTO_INCREMENT pour la table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id_service` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_service` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `souscris_abonnement`
@@ -1392,7 +1407,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
@@ -1582,3 +1597,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

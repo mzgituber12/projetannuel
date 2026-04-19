@@ -61,8 +61,9 @@ type Service struct {
 }
 
 type Categorie struct {
-	ID  int    `json:"id"`
-	Nom string `json:"nom"`
+	ID            int  `json:"id"`
+	Nom           string `json:"nom"`
+	IdPrestataire *int `json:"id_prestataire,omitempty"`
 }
 
 type Prestataire struct {
