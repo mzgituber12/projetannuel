@@ -7,7 +7,7 @@ if (file_exists($csv_path) && ($handle = fopen($csv_path, "r")) != FALSE) {
     $headers = fgetcsv($handle, 1000, ",");
 
     while (($data = fgetcsv($handle, 1000, ",")) != FALSE) {
-        if (count($headers) !== count($data)) continue;
+        if (count($headers) != count($data)) continue;
 
         $row = array_combine($headers, $data);
         $service = $row['target_service'];
@@ -29,9 +29,17 @@ if (file_exists($csv_path) && ($handle = fopen($csv_path, "r")) != FALSE) {
     fclose($handle);
 }
 
-uasort($stats_services, function($a, $b) {
-    return $b['inscriptions'] <=> $a['inscriptions'];
-});
+$effectifs_par_service = [];
+foreach ($stats_services as $nom_service => $ligne) {
+    $effectifs_par_service[$nom_service] = $ligne['inscriptions'];
+}
+arsort($effectifs_par_service, SORT_NUMERIC);
+
+$stats_services_tries = [];
+foreach (array_keys($effectifs_par_service) as $nom_service) {
+    $stats_services_tries[$nom_service] = $stats_services[$nom_service];
+}
+$stats_services = $stats_services_tries;
 
 $labels = [];
 $popularite = [];
