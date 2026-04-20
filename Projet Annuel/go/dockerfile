@@ -1,12 +1,17 @@
 FROM golang:1.25.6-alpine AS base
+#Utilise une version légère de Go basée sur Alpine Linux.
 
 WORKDIR /app
+#Définit le dossier de travail dans le conteneur.
 
 
 COPY go.mod go.sum ./
+#Les fichiers liés aux dependances go sont copiés via l'éxécution de ces commandes
 RUN go mod download
+#Les bibliotheques go sont installés apres avoir copié les dépendances
 
 FROM base AS development
+#Cree une image isolée
 
 
 COPY . .
@@ -15,14 +20,23 @@ EXPOSE 9000
 CMD ["/usr/local/bin/projet-api"]
 
 FROM base AS builder
+#Cree une autre image isolée
 
 COPY . .
+#Copie du code dans le container
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /main .
+#Compile le code en un fichier main, le code source n'est plus nécéssaire pour fonctionner
 
 FROM alpine:3.21 AS production
+#Utilise une version légère de linux sans Go
 
 RUN apk add --no-cache ca-certificates
+#Installation des certificats https
 WORKDIR /app
+#Deplacement dans https
 COPY --from=builder /main ./main
+#Copie de l'éxécutable main compilé
 EXPOSE 9000
+#Ouverture du port 9000
 CMD ["./main"]
+#Execution de main
