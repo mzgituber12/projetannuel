@@ -137,7 +137,7 @@ services:
         # Cela définit la condition de dépendance basée sur l'état started
         condition: service_started
 
-  # Cela declare le service d'administration de base phpMyAdmin
+  # Cela declare le service de phpMyAdmin
   phpmyadmin:
     # Cela utilise l'image officielle phpMyAdmin
     image: phpmyadmin:latest
