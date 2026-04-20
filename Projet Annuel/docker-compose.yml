@@ -1,112 +1,217 @@
+# Cela donne intrduit l'ensemble des services Docker du projet
 services:
+  # Cela declare le service de base de données MariaDB
   mariadb:
+    # Cela utilise l'image officielle MariaDB version 11
     image: mariadb:11
+    # Cela donne un nom fixe au conteneur MariaDB
     container_name: projetannuel_mariadb
+    # Cela redémarre automatiquement le service sauf en cas d'arrêt manuel
     restart: unless-stopped
+    # Cela définit les variables d'environnement nécessaires à MariaDB
     environment:
+      # Cela définit le mot de passe root 
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      # Cela définit le nom de la base initiale (valeur .env)
       MYSQL_DATABASE: ${MYSQL_DATABASE:-projet}
+      # Cela définit l'utilisateur applicatif MySQL (valeur .env)
       MYSQL_USER: ${MYSQL_USER:-projet_user}
+      # Cela définit le mot de passe de l'utilisateur applicatif (valeur .env)
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-projet_password}
+    # Cela expose le port MariaDB vers l'hôte
     ports:
+      # Cela mappe le port hôte configurable vers le port 3306 du conteneur
       - "${DB_EXPOSE_PORT:-3306}:3306"
+    # Cela monte les volumes nécessaires au service MariaDB
     volumes:
+      # Cela monte le script SQL d'initialisation en lecture seule
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # Cela stocke les données MariaDB dans un volume nommé persistant
       - mariadb_data:/var/lib/mysql
+    # Cela vérifie que MariaDB répond avant de considérer le service prêt
     healthcheck:
+      # Cela exécute une commande ping MariaDB avec le compte root
       test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent || exit 1"]
+      # Cela lance le test de santé toutes les 10 secondes
       interval: 10s
+      # Cela limite chaque tentative de test à 5 secondes
       timeout: 5s
+      # Cela autorise jusqu'à 10 échecs avant état unhealthy
       retries: 10
+      # Cela attend 20 secondes avant de commencer les tests
       start_period: 20s
 
+  # Cela declare le service API Go
   go:
+    # Cela configure la construction de l'image du service go
     build:
+      # Cela définit le contexte de build sur le dossier go
       context: ./go
+      # Cela utilise le Dockerfile nommé dockerfile dans ce dossier
       dockerfile: dockerfile
+      # Cela cible explicitement le stage development du Dockerfile
       target: development
+    # Cela donne un nom fixe au conteneur go
     container_name: projetannuel_go
+    # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
+    # Cela définit les variables d'environnement de l'API Go
     environment:
+      # Cela indique l'hôte de la base de données (service Docker interne)
       DB_HOST: mariadb
+      # Cela indique le port interne de la base de données
       DB_PORT: 3306
+      # Cela passe le nom de base à l'API Go
       DB_NAME: ${MYSQL_DATABASE:-projet}
+      # Cela passe l'utilisateur de base à l'API Go
       DB_USER: ${MYSQL_USER:-projet_user}
+      # Cela passe le mot de passe de base à l'API Go
       DB_PASSWORD: ${MYSQL_PASSWORD:-projet_password}
+      # Cela passe la clé secrète Stripe 
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      # Cela passe le secret webhook Stripe 
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      # Cela passe l'identifiant du prix Stripe mensuel 
       STRIPE_PRICE_ID_MOIS: ${STRIPE_PRICE_ID_MOIS:-}
+      # Cela passe l'identifiant du prix Stripe annuel 
       STRIPE_PRICE_ID_AN: ${STRIPE_PRICE_ID_AN:-}
+      # Cela définit l'URL de base de l'application
       APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
+      # Cela passe l'App ID de OneSignal 
       ONESIGNAL_APP_ID: ${ONESIGNAL_APP_ID:-}
+      # Cela passe la clé REST API de OneSignal 
       ONESIGNAL_REST_API_KEY: ${ONESIGNAL_REST_API_KEY:-}
+    # Cela expose le port de l'API Go vers l'hôte
     ports:
+      # Cela mappe le port API hôte configurable vers 9000 dans le conteneur
       - "${API_PORT:-9000}:9000"
+    # Cela monte le code Go local dans le conteneur
     volumes:
+      # Cela permet le développement en direct sur le dossier /app pour le go
       - ./go:/app
+    # Cela définit les dépendances de démarrage du service Go
     depends_on:
+      # Cela attend que MariaDB soit en état healthy
       mariadb:
+        # Cela définit la condition de dépendance basée sur le healthcheck
         condition: service_healthy
 
+  # Cela declare le service web PHP
   php:
+    # Cela configure la construction de l'image PHP
     build:
+      # Cela définit le contexte de build sur le dossier php
       context: ./php
+      # Cela utilise le Dockerfile nommé dockerfile dans ce dossier
       dockerfile: dockerfile
+      # Cela cible explicitement le stage development du Dockerfile
       target: development
+    # Cela donne un nom fixe au conteneur PHP
     container_name: projetannuel_php
+    # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
+    # Cela définit les variables d'environnement côté PHP
     environment:
+      # Cela définit l'URL publique utilisée pour joindre l'API Go
       API_URL: ${PUBLIC_API_URL:-http://localhost:9000}
+      # Cela passe l'App ID OneSignal côté front PHP (optionnel)
       ONESIGNAL_APP_ID: ${ONESIGNAL_APP_ID:-}
+    # Cela expose le port web PHP/Apache vers l'hôte
     ports:
+      # Cela mappe le port web hôte configurable vers le port 80 du conteneur
       - "${WEB_PORT:-80}:80"
+    # Cela monte les dossiers du projet nécessaires au service PHP
     volumes:
+      # Cela monte le code PHP local dans le répertoire web du conteneur
       - ./php:/var/www/html
+      # Cela monte le dossier d'uploads pour persister les fichiers
       - ./upload:/var/www/html/upload
+    # Cela définit les dépendances de démarrage du service PHP
     depends_on:
+      # Cela attend que MariaDB soit en état healthy
       mariadb:
+        # Cela définit la condition de dépendance basée sur le healthcheck
         condition: service_healthy
+      # Cela attend que le service Go soit lancé
       go:
+        # Cela définit la condition de dépendance basée sur l'état started
         condition: service_started
 
+  # Cela declare le service d'administration de base phpMyAdmin
   phpmyadmin:
+    # Cela utilise l'image officielle phpMyAdmin
     image: phpmyadmin:latest
+    # Cela donne un nom fixe au conteneur phpMyAdmin
     container_name: projetannuel_phpmyadmin
+    # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
+    # Cela définit les variables d'environnement de connexion phpMyAdmin
     environment:
+      # Cela indique l'hôte MariaDB à joindre
       PMA_HOST: mariadb
+      # Cela définit l'utilisateur de connexion par défaut
       PMA_USER: root
+      # Cela définit le mot de passe de l'utilisateur phpMyAdmin
       PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      # Cela définit la base ciblée par défaut
       PMA_DATABASE: ${MYSQL_DATABASE:-projet}
+    # Cela expose l'interface phpMyAdmin vers l'hôte
     ports:
+      # Cela mappe le port hôte configurable vers le port 80 du conteneur
       - "${PHPMYADMIN_PORT:-8081}:80"
+    # Cela définit les dépendances de démarrage de phpMyAdmin
     depends_on:
+      # Cela attend que MariaDB soit en état healthy
       mariadb:
+        # Cela définit la condition de dépendance basée sur le healthcheck
         condition: service_healthy
 
+  # Cela declare le service de traduction LibreTranslate
   libretranslate:
+    # Cela utilise l'image officielle LibreTranslate
     image: libretranslate/libretranslate:latest
+    # Cela donne un nom fixe au conteneur LibreTranslate
     container_name: projetannuel_libretranslate
+    # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
+    # Cela définit les variables d'environnement du service de traduction
     environment:
+      # Cela limite les langues chargées au démarrage (configurable via .env)
       LT_LOAD_ONLY: ${LT_LOAD_ONLY:-en,fr,ru,es,de,it,pt,nl,pl,uk}
+    # Cela expose l'API LibreTranslate vers l'hôte
     ports:
+      # Cela mappe le port hôte configurable vers le port 5000 du conteneur
       - "${LIBRETRANSLATE_PORT:-5000}:5000"
 
+  # Cela declare le service d'entraînement machine learning
   ml_trainer:
+    # Cela configure la construction de l'image ML
     build:
+      # Cela définit le contexte de build sur le dossier ml
       context: ./ml
+      # Cela utilise le Dockerfile ML
       dockerfile: Dockerfile
+      # Cela cible explicitement le stage development du Dockerfile ML
       target: development
+    # Cela donne un nom fixe au conteneur d'entraînement ML
     container_name: projetannuel_ml_trainer
+    # Cela désactive le redémarrage automatique après exécution
     restart: "no"
+    # Cela monte les dossiers nécessaires à l'entraînement
     volumes:
+      # Cela monte les ressources PHP requises par le process ML
       - ./php:/app/php
+      # Cela monte le code ML local dans le conteneur
       - ./ml:/app/ml
+    # Cela définit les dépendances de démarrage du service ML
     depends_on:
+      # Cela attend que MariaDB soit en état healthy
       mariadb:
+        # Cela définit la condition de dépendance basée sur le healthcheck
         condition: service_healthy
 
+# Cela declare les volumes nommés utilisés par les services
 volumes:
+  # Cela crée le volume persistant de données MariaDB
   mariadb_data:
 

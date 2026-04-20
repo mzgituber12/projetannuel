@@ -1,18 +1,29 @@
-﻿FROM php:8.2-apache AS base
+﻿# Cela utilise l'image officielle PHP 8.2 avec Apache comme base
+FROM php:8.2-apache AS base
 
+# Cela définit le dossier de travail par défaut dans le conteneur
 WORKDIR /var/www/html
 
 
+# Cela installe les extensions PHP nécessaires pour MySQL comme mysqli, PDO et pilote pdo_mysql
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+# Cela commence une étape pour l'environnement de développement
 FROM base AS development
 
+# Cela ouvre le port HTTP 80 pour le serveur Apache
 EXPOSE 80
+# Cela lance Apache au premier plan dans l'image de development
 CMD ["apache2-foreground"]
 
+# Cela commence une étape pour l'environnement de production
 FROM base AS production
 
+# Cela copie le code du projet dans le dossier web du conteneur
 COPY . /var/www/html/
+# Cela donne les droits de propriété des fichiers à (www-data)
 RUN chown -R www-data:www-data /var/www/html
+# Cela ouvre le port HTTP 80 en production
 EXPOSE 80
+# Cela lance Apache au premier plan dans l'image de production
 CMD ["apache2-foreground"]
