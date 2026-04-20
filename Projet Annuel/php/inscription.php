@@ -16,7 +16,7 @@
 <h2 class="text-center mb-4">Inscription</h2>
 <h2 id="incorrect"></h2>
 
-<form onsubmit="signupUser(document.getElementById('prenom').value, document.getElementById('nom').value, document.getElementById('date_naissance').value, document.getElementById('email').value, document.getElementById('password').value)">
+<form onsubmit="signupUser(event, document.getElementById('prenom').value, document.getElementById('nom').value, document.getElementById('date_naissance').value, document.getElementById('email').value, document.getElementById('password').value)">
     <div class="mb-3">  
         <label for="email" class="form-label">Prénom</label>
         <input type="text" class="form-control" id="prenom" placeholder="Prenom" required>
@@ -52,7 +52,7 @@
 <?php include 'includes/footer.php';?>
 
 <script>
-    async function signupUser(prenom, nom, date_naissance, email, password) {
+    async function signupUser(event, prenom, nom, date_naissance, email, password) {
         event.preventDefault();
 
 

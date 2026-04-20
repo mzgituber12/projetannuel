@@ -16,7 +16,7 @@
     <div class="card p-4 shadow-sm w-100" style="max-width: 400px;">
         <h2 class="text-center mb-4" data-i18n>Connexion</h2>
         <h3 class='text-center text-danger mb-3' id = "incorrect"></h3>
-            <form onsubmit="signinUser(document.getElementById('email').value, document.getElementById('password').value)">
+            <form onsubmit="signinUser(event, document.getElementById('email').value, document.getElementById('password').value)">
                 <div class="mb-3">
                     <label for="email" class="form-label" data-i18n>Adresse Email</label>
                     <input type="email" class="form-control" id="email" placeholder="Email" required>
@@ -36,7 +36,7 @@
 <?php include('includes/footer.php') ?>
 
 <script>
-async function signinUser(email, password) {
+async function signinUser(event, email, password) {
     event.preventDefault();
 
     const base = (window.API_BASE || 'http://localhost:9000');
