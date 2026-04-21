@@ -15,10 +15,13 @@ FROM base AS development
 
 
 COPY . .
+#Copie du code dans le container
 RUN go build -o /usr/local/bin/projet-api .
+#Compilation du code go
 EXPOSE 9000
+#Ouverture du port 9000
 CMD ["/usr/local/bin/projet-api"]
-
+#Execution du code du programme "projet-api"
 FROM base AS builder
 #Cree une autre image isolée
 

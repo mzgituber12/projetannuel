@@ -178,9 +178,13 @@ func Services_patch(database *sql.DB) http.HandlerFunc {
 
 		var idPrestataire int
 		var serviceName string
-		err := database.QueryRow("SELECT id_prestataire, nom FROM service WHERE id_service = ?", id).Scan(&idPrestataire, &serviceName)
+		err := database.QueryRow("SELECT IFNULL(id_prestataire, 0), nom FROM service WHERE id_service = ?", id).Scan(&idPrestataire, &serviceName)
 		if err != nil {
 			http.Error(response, "Service introuvable", http.StatusNotFound)
+			return
+		}
+		if idPrestataire <= 0 {
+			http.Error(response, "Aucun prestataire assigné à ce service", http.StatusBadRequest)
 			return
 		}
 
@@ -359,9 +363,13 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 		}
 
 		var idPrestataire int
-		err = database.QueryRow("SELECT id_prestataire FROM service WHERE id_service = ?", id).Scan(&idPrestataire)
+		err = database.QueryRow("SELECT IFNULL(id_prestataire, 0) FROM service WHERE id_service = ?", id).Scan(&idPrestataire)
 		if err != nil {
 			http.Error(response, "Service introuvable", http.StatusNotFound)
+			return
+		}
+		if idPrestataire <= 0 {
+			http.Error(response, "Aucun prestataire assigné à ce service", http.StatusBadRequest)
 			return
 		}
 
@@ -422,7 +430,6 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 	}
 }
 
-
 type serviceReservationPrecheck struct {
 	ServiceName          string
 	FinalTarif           float64
@@ -436,8 +443,11 @@ func precheckServiceReservation(database *sql.DB, idUser int, idService int, sta
 	var idPrestataire int
 	var serviceName string
 	var serviceTarif float64
-	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
+	if err := database.QueryRow("SELECT nom, IFNULL(id_prestataire, 0), IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
 		return nil, http.StatusNotFound, errors.New("service introuvable")
+	}
+	if idPrestataire <= 0 {
+		return nil, http.StatusBadRequest, errors.New("aucun prestataire assigné à ce service")
 	}
 
 	finalTarif := serviceTarif
@@ -1103,7 +1113,7 @@ func PatchDevisTarif(database *sql.DB) http.HandlerFunc {
 		if ownerID > 0 {
 			var serviceName string
 			if interventionID > 0 {
-				_ = database.QueryRow("SELECT IFNULL(s.nom, '') FROM intervention i LEFT JOIN service s ON s.id_service = i.id_service WHERE i.id_intervention = ?",interventionID).Scan(&serviceName)
+				_ = database.QueryRow("SELECT IFNULL(s.nom, '') FROM intervention i LEFT JOIN service s ON s.id_service = i.id_service WHERE i.id_intervention = ?", interventionID).Scan(&serviceName)
 			}
 			var prestataireNom string
 			_ = database.QueryRow("SELECT IFNULL(CONCAT(prenom, ' ', nom), '') FROM utilisateur WHERE id_utilisateur = ?", idUser).Scan(&prestataireNom)
@@ -1143,7 +1153,6 @@ func finalizePaidServiceReservation(database *sql.DB, idUser int, idService int,
 	}
 	return reserveServiceSlot(database, idUser, idService, startCanonical)
 }
-
 
 func ReservationServicePay(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
@@ -1271,13 +1280,13 @@ func ReservationServicePay(database *sql.DB) http.HandlerFunc {
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(map[string]any{
-			"message":         "Redirection vers le paiement",
-			"payment_method":  "stripe",
-			"url":             checkoutSession.URL,
-			"session_id":      checkoutSession.ID,
-			"montant":         pc.FinalTarif,
-			"service":         pc.ServiceName,
-			"start":           startCanonical,
+			"message":        "Redirection vers le paiement",
+			"payment_method": "stripe",
+			"url":            checkoutSession.URL,
+			"session_id":     checkoutSession.ID,
+			"montant":        pc.FinalTarif,
+			"service":        pc.ServiceName,
+			"start":          startCanonical,
 		})
 	}
 }

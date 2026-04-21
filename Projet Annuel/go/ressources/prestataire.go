@@ -27,9 +27,17 @@ func Prestataires(database *sql.DB) http.HandlerFunc {
 		var prestataires []structures.Prestataire
 		for rows.Next() {
 			var p structures.Prestataire
-			if err := rows.Scan(&p.ID, &p.Nom, &p.Prenom, &p.Type, &p.Telephone); err != nil {
+			var typeNullable sql.NullString
+			var telephoneNullable sql.NullString
+			if err := rows.Scan(&p.ID, &p.Nom, &p.Prenom, &typeNullable, &telephoneNullable); err != nil {
 				http.Error(response, "Erreur lors de la lecture des prestataires", http.StatusInternalServerError)
 				return
+			}
+			if typeNullable.Valid {
+				p.Type = typeNullable.String
+			}
+			if telephoneNullable.Valid {
+				p.Telephone = telephoneNullable.String
 			}
 			prestataires = append(prestataires, p)
 		}
