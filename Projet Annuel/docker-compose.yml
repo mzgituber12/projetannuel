@@ -168,8 +168,11 @@ services:
 
   # Cela declare le service de traduction LibreTranslate
   libretranslate:
-    # Cela utilise l'image officielle LibreTranslate
-    image: libretranslate/libretranslate:latest
+    # Cela construit une image locale avec les modèles requis déjà préinstallés
+    build:
+      context: ./libretranslate
+      dockerfile: Dockerfile
+    image: projetannuel/libretranslate:${LIBRETRANSLATE_IMAGE_TAG:-v1.9.5-eu}
     # Cela donne un nom fixe au conteneur LibreTranslate
     container_name: projetannuel_libretranslate
     # Cela redémarre automatiquement le service sauf arrêt manuel explicite
@@ -178,10 +181,24 @@ services:
     environment:
       # Cela limite les langues chargées au démarrage (configurable via .env)
       LT_LOAD_ONLY: ${LT_LOAD_ONLY:-en,fr,ru,es,de,it,pt,nl,pl,uk}
+      # Cela évite la mise à jour des modèles à chaque démarrage
+      LT_UPDATE_MODELS: ${LT_UPDATE_MODELS:-false}
     # Cela expose l'API LibreTranslate vers l'hôte
     ports:
       # Cela mappe le port hôte configurable vers le port 5000 du conteneur
       - "${LIBRETRANSLATE_PORT:-5000}:5000"
+    # Cela vérifie que l'API de traduction répond avant de marquer le service healthy
+    healthcheck:
+      # Cela teste l'endpoint /languages via Python embarqué
+      test: ["CMD", "/app/venv/bin/python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/languages', timeout=5)"]
+      # Cela lance le test toutes les 10 secondes
+      interval: 10s
+      # Cela limite chaque tentative de test à 6 secondes
+      timeout: 6s
+      # Cela autorise jusqu'à 10 échecs avant état unhealthy
+      retries: 10
+      # Cela laisse un délai de boot large avant les échecs de santé
+      start_period: 180s
 
   # Cela declare le service d'entraînement machine learning
   ml_trainer:

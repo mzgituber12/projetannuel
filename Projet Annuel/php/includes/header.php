@@ -54,6 +54,7 @@
 
 <script>
 const _i18nCache = {};
+let _i18nLangSupportPromise = null;
 let zoomPage = Number(localStorage.getItem('zoom_page')) || 100;
 let loupeActive = localStorage.getItem('loupe_active') === '1';
 let loupeTarget = null;
@@ -250,34 +251,93 @@ function zoomOut() {
 
 document.addEventListener('DOMContentLoaded', appliquerZoomPage);
 
+function normaliserCodeLangue(lang) {
+    const brut = String(lang || '').trim().toLowerCase();
+    if (!brut) return 'fr';
+    if (brut.includes('-')) return brut.split('-')[0];
+    if (brut.includes('_')) return brut.split('_')[0];
+    return brut;
+}
+
+async function getI18nLanguageSupport() {
+    if (_i18nLangSupportPromise) return _i18nLangSupportPromise;
+
+    _i18nLangSupportPromise = (async () => {
+        const proxyLanguages = '/translate_proxy.php?mode=languages';
+        const reponse = await fetch(proxyLanguages);
+        if (!reponse.ok) throw new Error('languages endpoint unavailable');
+        const languages = await reponse.json();
+        const map = {};
+        if (Array.isArray(languages)) {
+            languages.forEach(item => {
+                if (!item || !item.code) return;
+                const source = normaliserCodeLangue(item.code);
+                const targets = new Set();
+                if (Array.isArray(item.targets)) {
+                    item.targets.forEach(t => targets.add(normaliserCodeLangue(t)));
+                }
+                map[source] = targets;
+            });
+        }
+        return map;
+    })().catch(err => {
+        _i18nLangSupportPromise = null;
+        throw err;
+    });
+
+    return _i18nLangSupportPromise;
+}
+
+function canTranslate(map, source, target) {
+    const sourceCode = normaliserCodeLangue(source);
+    const targetCode = normaliserCodeLangue(target);
+    if (!map[sourceCode]) return false;
+    return map[sourceCode].has(targetCode);
+}
+
+async function callTranslateApi(text, source, target) {
+    const proxyTraduction = '/translate_proxy.php';
+    const resultat = await fetch(proxyTraduction, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            q: text,
+            source: normaliserCodeLangue(source),
+            target: normaliserCodeLangue(target),
+            format: 'text'
+        })
+    });
+
+    if (!resultat.ok) {
+        throw new Error('translate request failed');
+    }
+
+    const tradFinal = await resultat.json();
+    if (tradFinal && tradFinal.translatedText) return tradFinal.translatedText;
+    throw new Error('invalid translate response');
+}
+
 async function traduireText(text, lang) {
-    if (!text || lang === 'fr') return text;
-    const cleeCache = lang + '|' + text;
+    if (!text) return text;
+    const cible = normaliserCodeLangue(lang);
+    if (cible === 'fr') return text;
+
+    const cleeCache = cible + '|' + text;
     if (_i18nCache[cleeCache] !== undefined) return _i18nCache[cleeCache];
+
     try {
-        const baseTraduction = (window.LIBRETRANSLATE_URL || 'http://localhost:5000').replace(/\/$/, '');
-        const resultat = await fetch(baseTraduction + '/translate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                q: text,
-                source: 'fr',
-                target: lang,
-                format: 'text'
-            })
-        });
-
-        if (!resultat.ok) {
-            return text;
-        }
-
-        const tradFinal = await resultat.json();
+        const support = await getI18nLanguageSupport();
         let traduction = text;
-        if (tradFinal && tradFinal.translatedText) {
-            traduction = tradFinal.translatedText;
-        } else {
-            traduction = text;
+
+        if (canTranslate(support, 'fr', cible)) {
+            traduction = await callTranslateApi(text, 'fr', cible);
+        } else if (canTranslate(support, 'fr', 'en') && canTranslate(support, 'en', cible)) {
+            const intermediaire = await callTranslateApi(text, 'fr', 'en');
+            traduction = await callTranslateApi(intermediaire, 'en', cible);
+        } else if (canTranslate(support, 'fr', 'en')) {
+            traduction = await callTranslateApi(text, 'fr', 'en');
         }
+
         _i18nCache[cleeCache] = traduction;
         return traduction;
     } catch (_) {
@@ -286,13 +346,14 @@ async function traduireText(text, lang) {
 }
 
 async function TraductionI18n(lang) {
-    if (lang == 'fr') return;
+    const cible = normaliserCodeLangue(lang);
+    if (cible === 'fr') return;
     const elements = document.querySelectorAll('[data-i18n]');
     const tache = [];
     elements.forEach(elem => {
         tache.push((async () => {
             elem.dataset.i18nSrc ??= elem.textContent.trim();
-            elem.textContent = await traduireText(elem.dataset.i18nSrc, lang);
+            elem.textContent = await traduireText(elem.dataset.i18nSrc, cible);
         })());
     });
     await Promise.all(tache);

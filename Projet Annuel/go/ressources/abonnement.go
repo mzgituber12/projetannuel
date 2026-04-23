@@ -27,7 +27,6 @@ func creerContratAdherent(database *sql.DB, idUser int, idAbonnement int, typePa
 		return err
 	}
 
-	// type_prestataire = 0 corresponds to adhérent/site subscriptions.
 	if typePrestataire != 0 {
 		return nil
 	}

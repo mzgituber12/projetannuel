@@ -443,7 +443,7 @@ func precheckServiceReservation(database *sql.DB, idUser int, idService int, sta
 	var idPrestataire int
 	var serviceName string
 	var serviceTarif float64
-	if err := database.QueryRow("SELECT nom, IFNULL(id_prestataire, 0), IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
+	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
 		return nil, http.StatusNotFound, errors.New("service introuvable")
 	}
 	if idPrestataire <= 0 {
