@@ -22,7 +22,7 @@ FROM base AS production
 # Cela copie le code du projet dans le dossier web du conteneur
 COPY . /var/www/html/
 # Cela donne les droits de propriété des fichiers à (www-data)
-RUN chown -R www- :www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 # Cela ouvre le port HTTP 80 en production
 EXPOSE 80
 # Cela lance Apache au premier plan dans l'image de production

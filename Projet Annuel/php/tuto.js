@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const myDefaultAllowList = bootstrap.Tooltip.Default.allowList;
-    myDefaultAllowList.button = ['onclick', 'class'];
     const base = (window.API_BASE || 'http://localhost:9000');
     
     
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     const popoverList = [...popoverTriggerList].map(el => new bootstrap.Popover(el, {
         trigger: 'manual',
         html: true,
-        allowList: myDefaultAllowList
     }));
 
     let count = 1;
@@ -25,9 +23,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const prochain_element = document.getElementById(`popover${count}`);
             if (prochain_element) {
                 const instance = bootstrap.Popover.getInstance(prochain_element);
-                if (instance){
-                    instance.show();
-                }
+                if (instance) instance.show();
             }
         }
     };
@@ -48,17 +44,3 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (instance) instance.show();
     }
 });
-
-
-async function fin_tuto(){
-        const base = (window.API_BASE || 'http://localhost:9000');
-        const response = await fetch(base + "/fin_tuto", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Token": localStorage.getItem("token")
-        },
-    });
-
-
-} 

@@ -43,7 +43,15 @@ services:
 
   # Cela declare le service API Go
   go:
-    image: registry.gitlab.com/esgi-group9540217/esgi-docker-project:latest
+    # Cela configure la construction de l'image du service go
+    build:
+      # Cela définit le contexte de build sur le dossier go
+      context: ./go
+      # Cela utilise le Dockerfile nommé dockerfile dans ce dossier
+      dockerfile: dockerfile
+      # Cela cible explicitement le stage development du Dockerfile
+      target: development
+    # Cela donne un nom fixe au conteneur go
     container_name: projetannuel_go
     # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
@@ -90,7 +98,15 @@ services:
 
   # Cela declare le service web PHP
   php:
-    image: registry.gitlab.com/esgi-group9540217/esgi-docker-project/php-app:latest
+    # Cela configure la construction de l'image PHP
+    build:
+      # Cela définit le contexte de build sur le dossier php
+      context: ./php
+      # Cela utilise le Dockerfile nommé dockerfile dans ce dossier
+      dockerfile: dockerfile
+      # Cela cible explicitement le stage development du Dockerfile
+      target: development
+    # Cela donne un nom fixe au conteneur PHP
     container_name: projetannuel_php
     # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
@@ -186,7 +202,15 @@ services:
 
   # Cela declare le service d'entraînement machine learning
   ml_trainer:
-    image: registry.gitlab.com/esgi-group9540217/esgi-docker-project/ml-trainer:latest
+    # Cela configure la construction de l'image ML
+    build:
+      # Cela définit le contexte de build sur le dossier ml
+      context: ./ml
+      # Cela utilise le Dockerfile ML
+      dockerfile: Dockerfile
+      # Cela cible explicitement le stage development du Dockerfile ML
+      target: development
+    # Cela donne un nom fixe au conteneur d'entraînement ML
     container_name: projetannuel_ml_trainer
     # Cela désactive le redémarrage automatique après exécution
     restart: "no"

@@ -84,32 +84,3 @@ func Get_tuto(database *sql.DB) http.HandlerFunc {
 		json.NewEncoder(response).Encode(tutoValue)
 	}
 }
-
-func Fin_tuto(database *sql.DB) http.HandlerFunc {
-	return func(response http.ResponseWriter, request *http.Request) {
-
-		response.Header().Set("Access-Control-Allow-Origin", "*")
-		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
-		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-		if request.Method == http.MethodOptions {
-			response.WriteHeader(http.StatusOK)
-			return
-		}
-
-		token := request.Header.Get("Token")
-
-		slect, err := database.Prepare("UPDATE utilisateur SET tutoriel = 0 WHERE token = ?")
-		if err != nil {
-			http.Error(response, "Utilisateur non trouvé", http.StatusNotFound)
-			return
-		}
-		_, err = slect.Exec(token)
-
-		if err != nil {
-			http.Error(response, "Utilisateur non trouvé"+err.Error(), http.StatusNotFound)
-			return
-		}
-
-		response.Header().Set("Content-Type", "application/json")
-	}
-}
