@@ -75,6 +75,14 @@ include 'includes/header.php'?>
         </div>
 
         <div class="mb-3">
+            <label for="phoneExample" class="form-label">n°téléphone</label>
+            <div class="d-flex">
+            <input type="tel" class="form-control" id="telephone" pattern="^06+[0-6]{8}$">
+            <button type="button" class="btn btn-danger" onclick="update_profil('telephone')" data-i18n>Modifier</button>
+        </div>
+    </div>
+
+        <div class="mb-3">
             <label for="langue" class="form-label" data-i18n>Langue</label>
             <div class="d-flex">
                 <select class="form-select" id="langue">
@@ -124,6 +132,7 @@ include 'includes/header.php'?>
          document.getElementById("prenom").placeholder = data.prenom
          document.getElementById("nom").placeholder = data.nom
          document.getElementById("date_naissance").placeholder = data.date_naissance
+         document.getElementById("telephone").placeholder = data.telephone
             document.getElementById("langue").value = data.langue || "fr"
 
          if (profil_state == 1){
@@ -135,6 +144,7 @@ include 'includes/header.php'?>
 async function update_profil(update) {
 
     if (!document.getElementById(update).checkValidity()) {
+
         document.getElementById("status").innerHTML = "Veuillez entrer un email valide";
         return;
     }

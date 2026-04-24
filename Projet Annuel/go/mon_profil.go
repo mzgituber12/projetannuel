@@ -26,13 +26,13 @@ func mon_profil(database *sql.DB) http.HandlerFunc {
 
 		var utilisateur structures.User
 
-		selectstatement, selecterr := database.Prepare("SELECT nom, prenom, date_naissance, email, langue FROM utilisateur WHERE token = ?")
+		selectstatement, selecterr := database.Prepare("SELECT nom, prenom, date_naissance, telephone, email, langue FROM utilisateur WHERE token = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 			return
 		}
 
-		err := selectstatement.QueryRow(token).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.DateNaissance, &utilisateur.Email, &utilisateur.Langue)
+		err := selectstatement.QueryRow(token).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.DateNaissance, &utilisateur.Telephone, &utilisateur.Email, &utilisateur.Langue)
 
 		if err != nil {
 			http.Error(response, "Erreur lors du chargement du profil", http.StatusNotFound)
@@ -128,6 +128,8 @@ func update_profil(database *sql.DB) http.HandlerFunc {
 			_, err = database.Exec("UPDATE utilisateur SET password = ? WHERE token = ?", data.Value, token)
 		case "date_naissance":
 			_, err = database.Exec("UPDATE utilisateur SET date_naissance = ? WHERE token = ?", data.Value, token)
+		case "telephone":
+			_, err = database.Exec("UPDATE utilisateur SET telephone = ? WHERE token = ?", data.Value, token)
 		case "prenom":
 			_, err = database.Exec("UPDATE utilisateur SET prenom = ? WHERE token = ?", data.Value, token)
 		case "nom":

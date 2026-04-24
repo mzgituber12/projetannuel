@@ -6,6 +6,7 @@ type User struct {
 	Prenom        string `json:"prenom"`
 	Age           int    `json:"age"`
 	DateNaissance string `json:"date_naissance"`
+	Telephone     string `json:"telephone"`
 	Email         string `json:"email"`
 	Password      string `json:"password"`
 	Role          string `json:"role"`
@@ -61,9 +62,9 @@ type Service struct {
 }
 
 type Categorie struct {
-	ID            int  `json:"id"`
+	ID            int    `json:"id"`
 	Nom           string `json:"nom"`
-	IdPrestataire *int `json:"id_prestataire,omitempty"`
+	IdPrestataire *int   `json:"id_prestataire,omitempty"`
 }
 
 type Prestataire struct {
