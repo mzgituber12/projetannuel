@@ -141,18 +141,19 @@ INSERT INTO `article` (`id_article`, `titre`, `image`, `description`, `prix`) VA
 
 CREATE TABLE `categorie` (
   `id_categorie` int(11) NOT NULL,
-  `nom` varchar(100) NOT NULL
+  `nom` varchar(100) NOT NULL,
+  `valide_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `categorie`
 --
 
-INSERT INTO `categorie` (`id_categorie`, `nom`) VALUES
-(4, 'categorie de test 2'),
-(3, 'categorie_test'),
-(2, 'consultation medical'),
-(1, 'jardinage');
+INSERT INTO `categorie` (`id_categorie`, `nom`, `valide_admin`) VALUES
+(4, 'categorie de test 2', 1),
+(3, 'categorie_test', 1),
+(2, 'consultation medical', 1),
+(1, 'jardinage', 1);
 
 -- --------------------------------------------------------
 
@@ -825,18 +826,19 @@ CREATE TABLE `service` (
   `description` text DEFAULT NULL,
   `tarif` decimal(10,2) DEFAULT NULL,
   `id_prestataire` int(11) DEFAULT NULL,
-  `id_categorie` int(11) DEFAULT NULL
+  `id_categorie` int(11) DEFAULT NULL,
+  `valide_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `service`
 --
 
-INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id_prestataire`, `id_categorie`) VALUES
-(1, 'Faire chier Laurent', '', 'Laurent ta mere a été concue pour manger du porc et suer du jus d orangeuh', 4.00, 1, 1),
-(2, 'Cirage de cheveux', '', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, 2, 2),
-(3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL),
-(4, 'service de test', '', 'un super service inutile', 19.00, 2, 3);
+INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id_prestataire`, `id_categorie`, `valide_admin`) VALUES
+(1, 'Faire chier Laurent', '', 'Laurent ta mere a été concue pour manger du porc et suer du jus d orangeuh', 4.00, 1, 1, 1),
+(2, 'Cirage de cheveux', '', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, 2, 2, 1),
+(3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL, 1),
+(4, 'service de test', '', 'un super service inutile', 19.00, 2, 3, 1);
 
 -- --------------------------------------------------------
 

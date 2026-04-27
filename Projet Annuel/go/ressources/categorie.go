@@ -9,7 +9,6 @@ import (
 	"projet/structures"
 )
 
-// isMissingCategoriePrestataireColumn détecte l’absence de la colonne id_prestataire (schéma non migré).
 func isMissingCategoriePrestataireColumn(err error) bool {
 	if err == nil {
 		return false
@@ -31,12 +30,50 @@ func loadAllCategoriesLegacy(database *sql.DB) ([]structures.Categorie, error) {
 		if err := rows.Scan(&c.ID, &c.Nom); err != nil {
 			return nil, err
 		}
+		c.ValideAdmin = 1
 		categories = append(categories, c)
 	}
 	return categories, rows.Err()
 }
 
+func isMissingValideAdminCategorieColumn(err error) bool {
+	if err == nil {
+		return false
+	}
+	s := err.Error()
+	return strings.Contains(s, "valide_admin") &&
+		(strings.Contains(s, "Unknown column") || strings.Contains(s, "no such column"))
+}
+
 func loadAllCategories(database *sql.DB) ([]structures.Categorie, error) {
+	categories := make([]structures.Categorie, 0)
+	rows, err := database.Query("SELECT id_categorie, nom, id_prestataire, IFNULL(valide_admin,0) FROM categorie")
+	if err != nil {
+		if isMissingCategoriePrestataireColumn(err) {
+			return loadAllCategoriesLegacy(database)
+		}
+		if isMissingValideAdminCategorieColumn(err) {
+			return loadAllCategoriesSansValidation(database)
+		}
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var c structures.Categorie
+		var idP sql.NullInt64
+		if err := rows.Scan(&c.ID, &c.Nom, &idP, &c.ValideAdmin); err != nil {
+			return nil, err
+		}
+		if idP.Valid {
+			v := int(idP.Int64)
+			c.IdPrestataire = &v
+		}
+		categories = append(categories, c)
+	}
+	return categories, rows.Err()
+}
+
+func loadAllCategoriesSansValidation(database *sql.DB) ([]structures.Categorie, error) {
 	categories := make([]structures.Categorie, 0)
 	rows, err := database.Query("SELECT id_categorie, nom, id_prestataire FROM categorie")
 	if err != nil {
@@ -52,6 +89,7 @@ func loadAllCategories(database *sql.DB) ([]structures.Categorie, error) {
 		if err := rows.Scan(&c.ID, &c.Nom, &idP); err != nil {
 			return nil, err
 		}
+		c.ValideAdmin = 1
 		if idP.Valid {
 			v := int(idP.Int64)
 			c.IdPrestataire = &v
@@ -61,15 +99,11 @@ func loadAllCategories(database *sql.DB) ([]structures.Categorie, error) {
 	return categories, rows.Err()
 }
 
-func corsCategories(w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
-}
-
 func Categories(database *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		corsCategories(w)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -83,14 +117,22 @@ func Categories(database *sql.DB) http.HandlerFunc {
 			http.Error(w, "Erreur lors de la selection des categories de la base de donnees", http.StatusInternalServerError)
 			return
 		}
+		public := make([]structures.Categorie, 0, len(categories))
+		for _, c := range categories {
+			if c.ValideAdmin != 0 {
+				public = append(public, c)
+			}
+		}
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		_ = json.NewEncoder(w).Encode(map[string]any{"categorie": categories})
+		_ = json.NewEncoder(w).Encode(map[string]any{"categorie": public})
 	}
 }
 
 func Prestataire_categories(database *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		corsCategories(w)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return

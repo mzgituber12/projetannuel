@@ -58,6 +58,22 @@ func creerNotification(database *sql.DB, idDestinataire int, titre string, conte
 	return nil
 }
 
+func NotifierTousLesAdmins(database *sql.DB, titre string, contenu string) {
+	rows, err := database.Query("SELECT id_utilisateur FROM utilisateur WHERE role = 'admin'")
+	if err != nil {
+		log.Printf("[notification] liste admins: %v", err)
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		if err := rows.Scan(&id); err != nil {
+			continue
+		}
+		_ = creerNotification(database, id, titre, contenu)
+	}
+}
+
 func LireTemplate(db *sql.DB, cle string, vars map[string]string) (string, string) {
 	var titre, contenu string
 	err := db.QueryRow("SELECT titre, contenu FROM modele_notification WHERE cle = ?", cle).Scan(&titre, &contenu)

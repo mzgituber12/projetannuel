@@ -58,12 +58,14 @@ type Service struct {
 	Categorie   string  `json:"categorie"`
 	Prestataire string  `json:"prestataire"`
 	Rejoindre   string  `json:"rejoindre"`
+	ValideAdmin int     `json:"valide_admin"`
 }
 
 type Categorie struct {
-	ID            int  `json:"id"`
+	ID            int    `json:"id"`
 	Nom           string `json:"nom"`
-	IdPrestataire *int `json:"id_prestataire,omitempty"`
+	IdPrestataire *int   `json:"id_prestataire,omitempty"`
+	ValideAdmin   int    `json:"valide_admin"`
 }
 
 type Prestataire struct {
