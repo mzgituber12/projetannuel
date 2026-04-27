@@ -41,7 +41,7 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
     </div>
 
     <div class="col-md-4 d-flex justify-content-center">
-      <div id="popover2" class="card h-100 d-flex flex-column" style="width: 22rem;" data-bs-toggle="popover" data-bs-title="Popover2" data-bs-content="And here’s some amazing content. It’s very engaging. Right?">
+      <div id="popover2" class="card h-100 d-flex flex-column" style="width: 22rem;" data-bs-toggle="popover" data-bs-title="Popover2" data-bs-content="Voici le+a fin du tuto <br><button class='btn btn-sm btn-primary mt-2' onclick='fin_tuto()'>Terminer</button>">
         <img src="https://moncentreaquatique.com/images/1999238861.jpg" class="card-img-top" alt="Atelier mémoire">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title" data-i18n>Natation Synchroniser pour bien se reveiller ! </h5>

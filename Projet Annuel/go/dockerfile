@@ -22,6 +22,7 @@ EXPOSE 9000
 #Ouverture du port 9000
 CMD ["/usr/local/bin/projet-api"]
 #Execution du code du programme "projet-api"
+
 FROM base AS builder
 #Cree une autre image isolée
 
