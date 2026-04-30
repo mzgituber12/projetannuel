@@ -11,15 +11,21 @@ type User struct {
 	Password      string `json:"password"`
 	Role          string `json:"role"`
 	Langue        string `json:"langue"`
+	StatutUser    string `json:"statut_user"`
+	FinSusp       string `json:"fin_susp"`
 }
 
 type Result struct {
-	Message  string `json:"message"`
-	Value    int    `json:"value"`
-	Role     string `json:"role"`
-	Token    string `json:"token"`
-	Tutoriel int    `json:"tutoriel"`
-	Langue   string `json:"langue"`
+	Message      string `json:"message"`
+	Value        int    `json:"value"`
+	Role         string `json:"role"`
+	Token        string `json:"token"`
+	Tutoriel     int    `json:"tutoriel"`
+	Langue       string `json:"langue"`
+	StatutUser   string `json:"statut_user"`
+	FinSusp      string `json:"fin_susp"`
+	MotifSanction string `json:"motif_sanction"`
+	TypeSanction string `json:"type_sanction"`
 }
 
 type Contrat struct {

@@ -440,6 +440,20 @@ function headerFallbackConnexion(nonConnecter, langueBadge) {
     }
 }
 
+function buildBanQuery(data) {
+    const params = new URLSearchParams();
+    params.set("statut", data.statut_user || "banni");
+    params.set("motif", data.motif_sanction || "Aucun motif renseigné");
+    if (data.type_sanction) params.set("type", data.type_sanction);
+    if (data.fin_susp) params.set("fin", data.fin_susp);
+    return params.toString();
+}
+
+function canStayOnCurrentPageWhenBlocked() {
+    const page = (window.location.pathname.split('/').pop() || '').toLowerCase();
+    return page === "banni.php" || page === "deconnexion.php" || page === "connexion.php" || page === "erreur.php";
+}
+
 async function headerUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
     const nonConnecter = document.getElementById("non_connecter");
@@ -480,6 +494,10 @@ async function headerUser(token) {
 
     if (data.message == "Pas identifié") {
         headerFallbackConnexion(nonConnecter, langueBadge);
+        return;
+    }
+    if (!canStayOnCurrentPageWhenBlocked() && (data.statut_user === "banni" || data.statut_user === "suspendu")) {
+        window.location.href = "banni.php?" + buildBanQuery(data);
         return;
     }
 

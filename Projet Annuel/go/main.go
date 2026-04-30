@@ -31,7 +31,7 @@ func main() {
 	dbHost := variableEnv("DB_HOST", "mariadb")
 	dbPort := variableEnv("DB_PORT", "3306")
 	dbName := variableEnv("DB_NAME", "projet")
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?ch	arset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local", dbUser, dbPassword, dbHost, dbPort, dbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local", dbUser, dbPassword, dbHost, dbPort, dbName)
 
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
@@ -126,6 +126,8 @@ func main() {
 	http.HandleFunc("/gestion_user_id/{id}", admin.Gestion_user_id(db))
 	http.HandleFunc("/modifier_user/{id}", admin.Modifier_user(db))
 	http.HandleFunc("/supprimer_user/{id}", admin.Supprimer_user(db))
+	http.HandleFunc("/bannir_user/{id}", admin.Bannir_user(db))
+	http.HandleFunc("/debannir_user/{id}", admin.Debannir_user(db))
 
 	http.HandleFunc("/list_evenements", admin.List_evenements(db))
 	http.HandleFunc("/creer_evenement", admin.Creer_evenement(db))

@@ -43,7 +43,10 @@ services:
 
   # Cela declare le service API Go
   go:
-    image: registry.gitlab.com/esgi-group9540217/esgi-docker-project:latest
+    build:
+      context: ./go
+      dockerfile: dockerfile
+      target: development
     container_name: projetannuel_go
     # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
@@ -90,7 +93,10 @@ services:
 
   # Cela declare le service web PHP
   php:
-    image: registry.gitlab.com/esgi-group9540217/esgi-docker-project/php-app:latest
+    build:
+      context: ./php
+      dockerfile: dockerfile
+      target: development
     container_name: projetannuel_php
     # Cela redémarre automatiquement le service sauf arrêt manuel explicite
     restart: unless-stopped
@@ -186,7 +192,10 @@ services:
 
   # Cela declare le service d'entraînement machine learning
   ml_trainer:
-    image: registry.gitlab.com/esgi-group9540217/esgi-docker-project/ml-trainer:latest
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+      target: development
     container_name: projetannuel_ml_trainer
     # Cela désactive le redémarrage automatique après exécution
     restart: "no"
