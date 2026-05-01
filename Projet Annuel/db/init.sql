@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : mar. 28 avr. 2026 à 19:30
+-- Généré le : ven. 01 mai 2026 à 21:14
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -76,7 +76,7 @@ CREATE TABLE `abonnement_push` (
 --
 
 INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
-(68, 5, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-31 14:12:16'),
+(68, 11, '907f7548-a91e-4908-918b-42c9e7166215', 0, '2026-04-29 19:03:36'),
 (392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-21 15:21:53');
 
 -- --------------------------------------------------------
@@ -244,7 +244,8 @@ INSERT INTO `contrat` (`id_contrat`, `id_devis`, `id_utilisateur`, `id_prestatai
 (6, NULL, 5, NULL, '2026-04-03', '2026-05-03', 'Contrat abonnement Premium', 'mois', 'site'),
 (7, NULL, 5, NULL, '2026-04-05', '2026-05-05', 'Contrat abonnement Premium', 'mois', 'site'),
 (8, NULL, 5, NULL, '2026-04-19', '2026-05-19', 'Contrat abonnement Premium', 'mois', 'site'),
-(9, NULL, 5, NULL, '2026-04-21', '2026-05-21', 'Contrat abonnement Premium', 'mois', 'site');
+(9, NULL, 5, NULL, '2026-04-21', '2026-05-21', 'Contrat abonnement Premium', 'mois', 'site'),
+(10, NULL, 5, NULL, '2026-05-01', '2026-06-01', 'Contrat abonnement Premium', 'mois', 'site');
 
 -- --------------------------------------------------------
 
@@ -830,6 +831,32 @@ INSERT INTO `rendez_vous` (`id_rdv`, `id_utilisateur`, `id_prestataire`, `date_d
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `sanction`
+--
+
+CREATE TABLE `sanction` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `type` enum('warn','temp','perm') NOT NULL,
+  `motif` varchar(255) NOT NULL,
+  `date_crea` datetime NOT NULL DEFAULT current_timestamp(),
+  `date_fin` datetime DEFAULT NULL,
+  `date_levee` datetime DEFAULT NULL,
+  `par_admin` int(11) DEFAULT NULL,
+  `levee_par` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `sanction`
+--
+
+INSERT INTO `sanction` (`id`, `id_user`, `type`, `motif`, `date_crea`, `date_fin`, `date_levee`, `par_admin`, `levee_par`, `active`) VALUES
+(1, 11, 'perm', 'est juste un nuisible a a societe', '2026-04-29 19:04:52', NULL, '2026-04-30 18:23:40', 5, 5, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `service`
 --
 
@@ -936,6 +963,7 @@ CREATE TABLE `utilisateur` (
   `prenom` varchar(100) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `date_naissance` date NOT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
   `password` varchar(1000) DEFAULT NULL,
   `token` varchar(1000) DEFAULT NULL,
   `role` enum('adherant','prestataire','admin') DEFAULT 'adherant',
@@ -944,24 +972,27 @@ CREATE TABLE `utilisateur` (
   `taille_police` varchar(20) DEFAULT '1',
   `tutoriel` int(11) DEFAULT 1,
   `verifier` tinyint(4) NOT NULL DEFAULT 0,
-  `abonnée` tinyint(4) NOT NULL DEFAULT 0
+  `abonnée` tinyint(4) NOT NULL DEFAULT 0,
+  `statut_user` enum('actif','suspendu','banni') NOT NULL DEFAULT 'actif',
+  `fin_susp` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_naissance`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`) VALUES
-(1, 'Laurent', 'Voillot', 'test@example.com', '0000-00-00', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0),
-(2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
-(3, 'bb', 'bb', 'cc@cc', '0000-00-00', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(4, 'cc', 'ac', 'cc@ccc', '0000-00-00', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', '60B5ASI-JoEbPwLCpxHB8kP8yZt20BOHR4KaiQkHPXg', 'admin', '', 'fr', '1', 0, 0, 0),
-(6, 'edodolf', 'hilan', 'hittalan@gmail.com', '1950-02-23', '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0),
-(7, 'azertyio', 'ma', 'ss@ss', '2008-04-10', '$2a$10$n3//8dPCjL8ZEr9cDRyovORKCnRGUWA2N6vV4lU9Y.SRjOyjVh86S', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0),
-(8, 'm', 'm', 'aaa@aaa', '2008-04-02', '$2a$10$aPoWGhEkVFqpYHUjfjxVDe3ONXUFGnA3TjG1JywXArSBNqZTnuzEa', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0),
-(9, 's', 'monsieur', 'aaaa@aaaa', '2008-04-09', '$2a$10$lfcnGlVXDgPcU5yUVU5PTO98ylE7KEzan4mEIVu.6QCopyVLs79Ve', NULL, 'prestataire', NULL, 'fr', '1', 0, 0, 0),
-(10, 'a', 'a', 'aaaaa@aaaaa', '2008-04-03', '$2a$10$ijmloKyAy06JDLhB31ls0eiTZYt1m/Zpxx6UsWgY2gIRzGSF5M9Li', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0);
+INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_naissance`, `telephone`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`, `statut_user`, `fin_susp`) VALUES
+(1, 'Laurent', 'Voillot', 'test@example.com', '0000-00-00', NULL, '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', NULL, '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0, 'actif', NULL),
+(3, 'bb', 'bb', 'cc@cc', '0000-00-00', NULL, '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(4, 'cc', 'ac', 'cc@ccc', '0000-00-00', NULL, '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', NULL, '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', '60B5ASI-JoEbPwLCpxHB8kP8yZt20BOHR4KaiQkHPXg', 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(6, 'edodolf', 'hilan', 'hittalan@gmail.com', '1950-02-23', NULL, '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0, 'actif', NULL),
+(7, 'azertyio', 'ma', 'ss@ss', '2008-04-10', NULL, '$2a$10$n3//8dPCjL8ZEr9cDRyovORKCnRGUWA2N6vV4lU9Y.SRjOyjVh86S', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(8, 'm', 'm', 'aaa@aaa', '2008-04-02', NULL, '$2a$10$aPoWGhEkVFqpYHUjfjxVDe3ONXUFGnA3TjG1JywXArSBNqZTnuzEa', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(9, 's', 'monsieur', 'aaaa@aaaa', '2008-04-09', NULL, '$2a$10$lfcnGlVXDgPcU5yUVU5PTO98ylE7KEzan4mEIVu.6QCopyVLs79Ve', NULL, 'prestataire', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(10, 'a', 'a', 'aaaaa@aaaaa', '2008-04-03', NULL, '$2a$10$ijmloKyAy06JDLhB31ls0eiTZYt1m/Zpxx6UsWgY2gIRzGSF5M9Li', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(11, 'test', 'test', 'aa@aat', '2008-04-03', NULL, '$2a$10$YsE3dd7sQvcM1K2liGeVHeI5NKb9fhyIejSji3w6SAoic3YbfVIH2', 'Ad_DPrQ7-l5EBf-Az2dw4j2XUDdIhrRAjsmJ32xverU', 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL);
 
 -- --------------------------------------------------------
 
@@ -1195,6 +1226,16 @@ ALTER TABLE `rendez_vous`
   ADD KEY `id_prestataire` (`id_prestataire`);
 
 --
+-- Index pour la table `sanction`
+--
+ALTER TABLE `sanction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_sanc_user_date` (`id_user`,`date_crea`),
+  ADD KEY `idx_sanc_active_fin` (`active`,`date_fin`),
+  ADD KEY `idx_sanc_admin` (`par_admin`),
+  ADD KEY `fk_sanc_levee` (`levee_par`);
+
+--
 -- Index pour la table `service`
 --
 ALTER TABLE `service`
@@ -1252,7 +1293,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1088;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1150;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -1288,7 +1329,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT pour la table `contrat`
 --
 ALTER TABLE `contrat`
-  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `devis`
@@ -1405,6 +1446,12 @@ ALTER TABLE `rendez_vous`
   MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
+-- AUTO_INCREMENT pour la table `sanction`
+--
+ALTER TABLE `sanction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `service`
 --
 ALTER TABLE `service`
@@ -1426,7 +1473,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
@@ -1578,6 +1625,14 @@ ALTER TABLE `reference_service`
 ALTER TABLE `rendez_vous`
   ADD CONSTRAINT `rendez_vous_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
   ADD CONSTRAINT `rendez_vous_ibfk_2` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `sanction`
+--
+ALTER TABLE `sanction`
+  ADD CONSTRAINT `fk_sanc_admin` FOREIGN KEY (`par_admin`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_sanc_levee` FOREIGN KEY (`levee_par`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_sanc_user` FOREIGN KEY (`id_user`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `service`
