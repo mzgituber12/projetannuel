@@ -84,6 +84,10 @@ services:
     volumes:
       # Cela permet le développement en direct sur le dossier /app pour le go
       - ./go:/app
+      # Cela monte les scripts ML Python appelés par l'API Go
+      - ./ml:/app/ml
+      # Cela monte les artefacts modèle (.pkl) utilisés en prédiction
+      - ./php:/app/php
     # Cela définit les dépendances de démarrage du service Go
     depends_on:
       # Cela attend que MariaDB soit en état healthy
@@ -125,6 +129,9 @@ services:
       # Cela attend que le service Go soit lancé
       go:
         # Cela définit la condition de dépendance basée sur l'état started
+        condition: service_started
+      # Cela attend que le service ML d'inférence soit lancé
+      ml_trainer:
         condition: service_started
 
   # Cela declare le service de phpMyAdmin
@@ -199,12 +206,19 @@ services:
     container_name: projetannuel_ml_trainer
     # Cela désactive le redémarrage automatique après exécution
     restart: "no"
+    environment:
+      # Cela définit l'hôte et le port du serveur d'inférence ML
+      ML_HOST: 0.0.0.0
+      ML_PORT: 8001
     # Cela monte les dossiers nécessaires à l'entraînement
     volumes:
       # Cela monte les ressources PHP requises par le process ML
       - ./php:/app/php
       # Cela monte le code ML local dans le conteneur
       - ./ml:/app/ml
+    ports:
+      # Cela expose l'API d'inférence ML
+      - "${ML_PORT:-8001}:8001"
     # Cela définit les dépendances de démarrage du service ML
     depends_on:
       # Cela attend que MariaDB soit en état healthy

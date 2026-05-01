@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 from datetime import datetime
+from model_config import FEATURES_BASE, NUMERIC_COLUMNS
 
 BASE_DIR = Path("/app/php")
 DATASET_PATH = BASE_DIR / "dataset.csv"
@@ -25,11 +26,7 @@ def main():
     X_brut = df_clean.drop(columns=["target_service"])
     y = df_clean["target_service"]
 
-    features_base = ["age", "sexe", "type_abonnement", "langue", "anciennete_mois", 
-                     "score_satisfaction", "taux_annulation", "nb_interventions_totales", 
-                     "depense_totale_estimee", "est_abonne"]
-    
-    X_brut = X_brut.filter(items=features_base).copy()
+    X_brut = X_brut.filter(items=FEATURES_BASE).copy()
 
     colonnes_num = X_brut.columns.intersection(["age", "anciennete_mois", "score_satisfaction", "taux_annulation", "nb_interventions_totales", "depense_totale_estimee", "est_abonne"])
     X_brut[colonnes_num] = X_brut[colonnes_num].apply(pd.to_numeric, errors="coerce").fillna(0)

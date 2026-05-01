@@ -357,3 +357,26 @@ type AdminFacturePrestataire struct {
 	StatutVirement string                `json:"statut_virement"`
 	DateVirement   string                `json:"date_virement"`
 }
+
+type MLPredictPayload struct {
+	Age                    float64 `json:"age"`
+	Sexe                   string  `json:"sexe"`
+	TypeAbonnement         string  `json:"type_abonnement"`
+	Langue                 string  `json:"langue"`
+	AncienneteMois         float64 `json:"anciennete_mois"`
+	ScoreSatisfaction      float64 `json:"score_satisfaction"`
+	TauxAnnulation         float64 `json:"taux_annulation"`
+	NbInterventionsTotales float64 `json:"nb_interventions_totales"`
+	DepenseTotaleEstimee   float64 `json:"depense_totale_estimee"`
+	EstAbonne              float64 `json:"est_abonne"`
+}
+
+type MLCandidate struct {
+	ServiceTrouver string  `json:"service_trouver"`
+	Score          float64 `json:"score"`
+}
+
+type MLPredictResponse struct {
+	Principal    MLCandidate   `json:"principal"`
+	Alternatives []MLCandidate `json:"alternatives"`
+}

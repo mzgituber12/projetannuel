@@ -21,6 +21,19 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 ?>
 <h2 data-i18n>Bienvenue sur notre site</h2>
 <div id="content" data-i18n></div>
+<div id="reco_wrapper" class="container mt-4" style="display:none;">
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
+            <strong data-i18n>Service recommandé pour vous</strong>
+        </div>
+        <div class="card-body">
+            <div id="reco_main"></div>
+            <hr>
+            <h6 class="mb-2" data-i18n>Alternatives</h6>
+            <div id="reco_alternatives" class="row g-3"></div>
+        </div>
+    </div>
+</div>
 
 <div class="container mt-5 pb-5">
   <div class="row justify-content-center g-4">
@@ -80,6 +93,43 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
 <?php include 'includes/footer.php'?>
 
 <script>
+function predictionCard(prediction, large) {
+    const colClass = large ? "col-12" : "col-md-4";
+    const label = String(prediction.service_trouver || "Inconnu");
+    const score = Number(prediction.score || 0);
+    const scoreText = score > 0 ? Math.round(score * 100) + "%" : "n/a";
+    return "<div class='" + colClass + "'><div class='card h-100'><div class='card-body'>" +
+        "<h5 class='card-title'>Prédiction: " + label + "</h5>" +
+        "<div class='small text-muted'>Confiance: " + scoreText + "</div>" +
+        "</div></div></div>";
+}
+
+async function chargerRecommandation(token) {
+    if (!token) return;
+    const base = (window.API_BASE || 'http://localhost:9000');
+    try {
+        const response = await fetch(base + "/services_recommandes", {
+            method: "GET",
+            headers: {"Token": token}
+        });
+        if (!response.ok) return;
+        const data = await response.json();
+        if (!data || !data.principal || !data.principal.service_trouver) return;
+
+        document.getElementById("reco_wrapper").style.display = "block";
+        document.getElementById("reco_main").innerHTML = "<div class='row g-3'>" + predictionCard(data.principal, true) + "</div>";
+
+        const alternatives = Array.isArray(data.alternatives) ? data.alternatives : [];
+        let htmlAlt = "";
+        alternatives.forEach(prediction => {
+            htmlAlt += predictionCard(prediction, false);
+        });
+        document.getElementById("reco_alternatives").innerHTML = htmlAlt || "<p class='text-muted'>Aucune alternative disponible.</p>";
+    } catch (_) {
+        
+    }
+}
+
 async function onlineUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(base + "/enligne", {
@@ -105,9 +155,11 @@ async function onlineUser(token) {
       } else {
         document.getElementById("content").innerHTML = msgConnecte;
       }
+      await chargerRecommandation(token);
     } else if (data.message == "Pas identifié") {
       const msgPasConnecte = await traduireText("Veuillez vous connecter pour poursuivre", langue);
       document.getElementById("content").innerHTML = msgPasConnecte;
+      document.getElementById("reco_wrapper").style.display = "none";
     }
 }
 

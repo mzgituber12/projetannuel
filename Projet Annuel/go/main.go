@@ -72,6 +72,7 @@ func main() {
 	http.HandleFunc("/evenements", ressources.Evenements(db))
 	http.HandleFunc("/evenements/{id}", ressources.Evenements_patch(db))
 	http.HandleFunc("/services", ressources.Services(db))
+	http.HandleFunc("/services_recommandes", ressources.ServicesRecommandes(db))
 	http.HandleFunc("/services/{id}", ressources.Services_patch(db))
 	http.HandleFunc("/categories", ressources.Categories(db))
 	http.HandleFunc("/prestataire/categories", ressources.Prestataire_categories(db))
