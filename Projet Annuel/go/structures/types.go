@@ -176,18 +176,24 @@ type Abonnement struct {
 }
 
 type FichePresta struct {
-	Id             int         `json:"id"`
-	Nom            string      `json:"nom"`
-	Prenom         string      `json:"prenom"`
-	Photo_profil   string      `json:"photo_profil"`
-	Date_naissance string      `json:"date_naissance"`
-	Documents      []DocPresta `json:"documents"`
-	Categorie      string      `json:"categorie"`
+	Id             int             `json:"id"`
+	Nom            string          `json:"nom"`
+	Prenom         string          `json:"prenom"`
+	Photo_profil   string          `json:"photo_profil"`
+	Date_naissance string          `json:"date_naissance"`
+	Documents      []DocPresta     `json:"documents"`
+	Documents_txt  []DocPresta_txt `json:"documents_txt"`
+	Categorie      string          `json:"categorie"`
 }
 
 type DocPresta struct {
 	Nom_fichier   string `json:"nom_fichier"`
 	Type_document string `json:"type_document"`
+}
+
+type DocPresta_txt struct {
+	Categorie_text string `json:"categorie_text"`
+	Contenu        string `json:"contenu"`
 }
 
 type Souscription struct {

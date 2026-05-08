@@ -31,7 +31,7 @@ func main() {
 	dbHost := variableEnv("DB_HOST", "mariadb")
 	dbPort := variableEnv("DB_PORT", "3306")
 	dbName := variableEnv("DB_NAME", "projet")
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?ch	arset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local", dbUser, dbPassword, dbHost, dbPort, dbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&loc=Local", dbUser, dbPassword, dbHost, dbPort, dbName)
 
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
@@ -162,7 +162,6 @@ func main() {
 	http.HandleFunc("/modifier_abonnement", admin.Modifier_abonnement(db))
 	http.HandleFunc("/update_abonnement", admin.Update_abonnement(db))
 	http.HandleFunc("/liste_attente_validation", liste_attente_validation(db))
-	http.HandleFunc("/fin_tuto", authentification.Fin_tuto(db))
 	http.HandleFunc("/validation", validation(db))
 	http.HandleFunc("/valider_presta", valider_presta(db))
 	http.HandleFunc("/refuser_presta", refuser_presta(db))
@@ -172,15 +171,17 @@ func main() {
 	http.HandleFunc("/supprimer_notification/{id}", admin.Supprimer_notification(db))
 	http.HandleFunc("/modeles_notifications", admin.Gestion_modeles(db))
 	http.HandleFunc("/modifier_modele/{id}", admin.Modifier_modele(db))
-
 	http.HandleFunc("/gestion_conseils", admin.Gestion_conseils(db))
 	http.HandleFunc("/gestion_conseil/{titre}", admin.Gestion_conseil_nom(db))
 	http.HandleFunc("/gestion_conseil_id/{id}", admin.Gestion_conseil_id(db))
 	http.HandleFunc("/creer_conseil", admin.Creer_conseil(db))
 	http.HandleFunc("/modifier_conseil/{id}", admin.Modifier_conseil(db))
 	http.HandleFunc("/supprimer_conseil/{id}", admin.Supprimer_conseil(db))
-
+	http.HandleFunc("/get_champs_postuler", get_champs_postuler(db))
+	http.HandleFunc("/new_champs_postuler", new_champs_postuler(db))
 	http.HandleFunc("/get_tuto", authentification.Get_tuto(db))
+	http.HandleFunc("/fin_tuto", authentification.Fin_tuto(db))
+	http.HandleFunc("/reco_tuto", authentification.Reco_tuto(db))
 	fmt.Println("Ouverture du serveur sur le port 9000...")
 	listenError := http.ListenAndServe(":9000", nil)
 	if listenError != nil {
