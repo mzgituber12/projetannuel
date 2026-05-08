@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title id ="page_title"></title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 

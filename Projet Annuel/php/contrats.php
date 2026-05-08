@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Contrats</title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 

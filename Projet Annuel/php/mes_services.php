@@ -11,6 +11,7 @@
         #dialog_edit_service { padding: 0; border: none; border-radius: 0.375rem; max-width: min(560px, 96vw); width: 100%; }
         #dialog_edit_service::backdrop { background: rgba(33, 37, 41, 0.45); }
     </style>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body class="bg-light">
 <?php include 'includes/header.php'; ?>

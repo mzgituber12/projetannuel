@@ -35,6 +35,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 

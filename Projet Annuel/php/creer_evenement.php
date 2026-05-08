@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Creer un evenement</title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
