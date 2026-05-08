@@ -38,7 +38,7 @@ func Creer_categorie(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		res, err := database.Exec("INSERT INTO categorie (nom) VALUES (?)", nom)
+		res, err := database.Exec("INSERT INTO categorie (nom, valide_admin) VALUES (?, 1)", nom)
 		if err != nil {
 			http.Error(response, "Erreur lors de la création de la catégorie (nom peut-être déjà utilisé)", http.StatusInternalServerError)
 			return
@@ -52,8 +52,9 @@ func Creer_categorie(database *sql.DB) http.HandlerFunc {
 		response.Header().Set("Content-Type", "application/json")
 		response.WriteHeader(http.StatusCreated)
 		json.NewEncoder(response).Encode(structures.Categorie{
-			ID:  int(id),
-			Nom: nom,
+			ID:          int(id),
+			Nom:         nom,
+			ValideAdmin: 1,
 		})
 	}
 }

@@ -41,7 +41,7 @@ func Gestion_service_nom(database *sql.DB) http.HandlerFunc {
 		nom := request.PathValue("nom")
 
 		selectstatement, selecterr := database.Prepare(
-			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom " +
+			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom, IFNULL(s.valide_admin, 0) " +
 				"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.nom = ?",
 		)
 		if selecterr != nil {
@@ -51,7 +51,7 @@ func Gestion_service_nom(database *sql.DB) http.HandlerFunc {
 		var serv structures.Service
 		var idCat sql.NullInt64
 		var catNom sql.NullString
-		selectstatement.QueryRow(nom).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image, &idCat, &catNom)
+		selectstatement.QueryRow(nom).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image, &idCat, &catNom, &serv.ValideAdmin)
 		if idCat.Valid {
 			serv.IdCategorie = int(idCat.Int64)
 		}
@@ -82,7 +82,7 @@ func Gestion_service_id(database *sql.DB) http.HandlerFunc {
 		id := request.PathValue("id")
 
 		selectstatement, selecterr := database.Prepare(
-			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom " +
+			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom, IFNULL(s.valide_admin, 0) " +
 				"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.id_service = ?",
 		)
 		if selecterr != nil {
@@ -92,7 +92,7 @@ func Gestion_service_id(database *sql.DB) http.HandlerFunc {
 		var serv structures.Service
 		var idCat sql.NullInt64
 		var catNom sql.NullString
-		selectstatement.QueryRow(id).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image, &idCat, &catNom)
+		selectstatement.QueryRow(id).Scan(&serv.ID, &serv.Nom, &serv.Description, &serv.Tarif, &serv.Image, &idCat, &catNom, &serv.ValideAdmin)
 		if idCat.Valid {
 			serv.IdCategorie = int(idCat.Int64)
 		}
@@ -108,7 +108,7 @@ func Gestion_service_id(database *sql.DB) http.HandlerFunc {
 func Modifier_service(database *sql.DB) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		response.Header().Set("Access-Control-Allow-Origin", "*")
-		response.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
 		response.Header().Set("Access-Control-Allow-Methods", "PATCH, OPTIONS")
 		if request.Method == http.MethodOptions {
 			response.WriteHeader(http.StatusOK)
@@ -139,12 +139,16 @@ func Modifier_service(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("UPDATE service SET nom = ?, description = ?, tarif = ?, id_categorie = ? WHERE id_service = ?")
+		va := 0
+		if serv.ValideAdmin != 0 {
+			va = 1
+		}
+		updatestatement, updateerr := database.Prepare("UPDATE service SET nom = ?, description = ?, tarif = ?, id_categorie = ?, valide_admin = ? WHERE id_service = ?")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de mise à jour", http.StatusInternalServerError)
 			return
 		}
-		_, updateexecerr := updatestatement.Exec(serv.Nom, serv.Description, serv.Tarif, idCatFK, id)
+		_, updateexecerr := updatestatement.Exec(serv.Nom, serv.Description, serv.Tarif, idCatFK, va, id)
 		if updateexecerr != nil {
 			http.Error(response, "Erreur lors de la mise à jour du service", http.StatusInternalServerError)
 			return
@@ -202,7 +206,7 @@ func Creer_service(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("INSERT INTO service (nom, description, tarif, image, id_categorie) VALUES (?, ?, ?, ?, ?)")
+		updatestatement, updateerr := database.Prepare("INSERT INTO service (nom, description, tarif, image, id_categorie, valide_admin) VALUES (?, ?, ?, ?, ?, 1)")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de creation", http.StatusInternalServerError)
 			return
@@ -275,7 +279,7 @@ func List_services(database *sql.DB) http.HandlerFunc {
 		}
 
 		rows, err := database.Query(
-			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom " +
+			"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom, IFNULL(s.valide_admin, 0) " +
 				"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie",
 		)
 		if err != nil {
@@ -290,7 +294,7 @@ func List_services(database *sql.DB) http.HandlerFunc {
 				var idCat sql.NullInt64
 				var catNom sql.NullString
 
-				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom)
+				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom, &s.ValideAdmin)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des services : "+err.Error(), http.StatusInternalServerError)
 					return

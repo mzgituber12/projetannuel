@@ -68,18 +68,58 @@
             }
     }
 
+    function libelleStatut(statut) {
+        if (statut === "banni") return "Banni";
+        if (statut === "suspendu") return "Suspendu";
+        return "Actif";
+    }
+
     async function bannir_user(id, email){
-        const confirmation = confirm("Êtes-vous sûr de vouloir bannir l'utilisateur " + email + " ?");
+        const confirmation = confirm("Êtes-vous sûr de vouloir sanctionner l'utilisateur " + email + " ?");
         if (!confirmation){
             return;
         } else {
+            const motif = prompt("Motif du bannissement/suspension :", "Non respect des règles");
+            if (motif === null) return;
+            const type = prompt("Type de sanction (temp ou perm) :", "temp");
+            const typeSanction = (type || "temp").toLowerCase() === "perm" ? "perm" : "temp";
+            const token = localStorage.getItem('token');
             const base = (window.API_BASE || 'http://localhost:9000');
-            //const response = await fetch(base + "/bannir_user/" + id, {
-            //    method: "PATCH",
-            //});
-            await fetch("ajouter_session_state.php", {method: "POST"});
-            window.location.href = window.location.pathname + "?message=Utilisateur " + email + " banni avec succes" ;
+            const response = await fetch(base + "/bannir_user/" + id, {
+                method: "PATCH",
+                headers: {"Content-Type": "application/json", "Token": token},
+                body: JSON.stringify({type: typeSanction, motif: motif || "Non précisé"}),
+            });
+            if (!response.ok){
+                const text = await response.text();
+                alert(text);
+                window.location.href = "erreur.php?code=" + response.status;
+                return;
             }
+            await fetch("ajouter_session_state.php", {method: "POST"});
+            window.location.href = window.location.pathname + "?message=Utilisateur " + email + " sanctionné avec succès" ;
+            }
+    }
+
+    async function debannir_user(id, email){
+        const confirmation = confirm("Êtes-vous sûr de vouloir débannir l'utilisateur " + email + " ?");
+        if (!confirmation){
+            return;
+        }
+        const token = localStorage.getItem('token');
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const response = await fetch(base + "/debannir_user/" + id, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json", "Token": token},
+        });
+        if (!response.ok){
+            const text = await response.text();
+            alert(text);
+            window.location.href = "erreur.php?code=" + response.status;
+            return;
+        }
+        await fetch("ajouter_session_state.php", {method: "POST"});
+        window.location.href = window.location.pathname + "?message=Utilisateur " + email + " débanni avec succès";
     }
 
     async function search_user(event) {
@@ -112,48 +152,61 @@
             "<label><strong>Email :</strong> " + String(data.email) + "</label><br>" +
             "<label><strong>Role :</strong> " + String(data.role) + "</label><br>" +
             "<label><strong>Langue :</strong> " + String(data.langue) + "</label><br>" +
+            "<label><strong>Statut :</strong> " + libelleStatut(String(data.statut_user || "actif")) + "</label><br>" +
             "<a href='modifier_user.php?id=" + data.id + "'>Modifier l'utilisateur</a> | " +
             "<a href='#' onclick='supprimer_user(" + data.id + ", \"" + data.email + "\"); return false;'>Supprimer</a> | " +
-            "<a href='#' onclick='bannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Bannir</a>" +
+            (String(data.statut_user || "actif") === "banni" || String(data.statut_user || "actif") === "suspendu"
+                ? "<a href='#' onclick='debannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Débannir</a>"
+                : "<a href='#' onclick='bannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Bannir</a>") +
             "</div>";
         }
     }
 
     async function listUsers(token) {
         const base = (window.API_BASE || 'http://localhost:9000');
-
-        const response = await fetch(base + "/list_users", {
-            method: "GET",
-            headers: {"Token": token}
-        });
-
-        if (!response.ok) {
-            const text = await response.text();
-            alert(text)
-            window.location.href = "erreur.php?code=" + response.status
-            return
-        }
-        const user_list = await response.json();
-        const user = document.getElementById("users")
-
-        if (user_list.message){
-            user.innerHTML = "<p>" + user_list.message + "</p>"
-        } else {
-            let html = "<table class='table table-sm table-bordered'><tr><th>Nom</th><th>Prénom</th><th>Âge</th><th>Email</th><th>Role</th><th>Actions</th></tr>";
-            user_list.utilisateur.forEach(usr => {
-                const actions = "<a href='modifier_user.php?id=" + usr.id + "' data-i18n>Modifier</a> | " +
-                    "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Supprimer</a> | " +
-                    "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + usr.email.replaceAll("'", "\\'") + "'); return false;\" data-i18n>Bannir</a>";
-                html += "<tr><td>" + String(usr.nom) + "</td><td>" + String(usr.prenom) + "</td><td>" + String(usr.age) + "</td><td>" + String(usr.email) + "</td><td>" + String(usr.role) + "</td><td>" + actions + "</td></tr>";
+        const user = document.getElementById("users");
+        try {
+            const response = await fetch(base + "/list_users", {
+                method: "GET",
+                headers: {"Token": token}
             });
-            html += "</table>";
-            user.innerHTML = html;
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error("API list_users (" + response.status + ") : " + text);
+            }
+            const user_list = await response.json();
+
+            if (user_list.message){
+                user.innerHTML = "<p>" + user_list.message + "</p>";
+            } else {
+                let html = "<table class='table table-sm table-bordered'><tr><th>Nom</th><th>Prénom</th><th>Âge</th><th>Email</th><th>Role</th><th>Statut</th><th>Actions</th></tr>";
+                (user_list.utilisateur || []).forEach(usr => {
+                    const email = String(usr.email || "");
+                    const safeEmail = email.replace(/'/g, "\\'");
+                    const isBlocked = String(usr.statut_user || "actif") === "banni" || String(usr.statut_user || "actif") === "suspendu";
+                    const actions = "<a href='modifier_user.php?id=" + usr.id + "' data-i18n>Modifier</a> | " +
+                        "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + safeEmail + "'); return false;\" data-i18n>Supprimer</a> | " +
+                        (isBlocked
+                            ? "<a href='#' onclick=\"debannir_user(" + usr.id + ", '" + safeEmail + "'); return false;\" data-i18n>Débannir</a>"
+                            : "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + safeEmail + "'); return false;\" data-i18n>Bannir</a>");
+                    html += "<tr><td>" + String(usr.nom || "") + "</td><td>" + String(usr.prenom || "") + "</td><td>" + String(usr.age || 0) + "</td><td>" + email + "</td><td>" + String(usr.role || "") + "</td><td>" + libelleStatut(String(usr.statut_user || "actif")) + "</td><td>" + actions + "</td></tr>";
+                });
+                html += "</table>";
+                user.innerHTML = html;
+            }
+        } catch (e) {
+            user.innerHTML = "<div class='alert alert-danger'>Erreur chargement utilisateurs : " + String(e.message || e) + "</div>";
+            console.error("Erreur listUsers:", e);
         }
     }
 
     async function init() {
         const token = localStorage.getItem('token')
         if (!await loginUser("online", token)) return
+        if (typeof verifierBannissement === "function") {
+            if (!await verifierBannissement(token)) return
+        }
         if (!await adminUser(token)) return
         listUsers(token);
     }

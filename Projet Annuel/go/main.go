@@ -72,6 +72,7 @@ func main() {
 	http.HandleFunc("/evenements", ressources.Evenements(db))
 	http.HandleFunc("/evenements/{id}", ressources.Evenements_patch(db))
 	http.HandleFunc("/services", ressources.Services(db))
+	http.HandleFunc("/services_recommandes", ressources.ServicesRecommandes(db))
 	http.HandleFunc("/services/{id}", ressources.Services_patch(db))
 	http.HandleFunc("/categories", ressources.Categories(db))
 	http.HandleFunc("/prestataire/categories", ressources.Prestataire_categories(db))
@@ -126,6 +127,8 @@ func main() {
 	http.HandleFunc("/gestion_user_id/{id}", admin.Gestion_user_id(db))
 	http.HandleFunc("/modifier_user/{id}", admin.Modifier_user(db))
 	http.HandleFunc("/supprimer_user/{id}", admin.Supprimer_user(db))
+	http.HandleFunc("/bannir_user/{id}", admin.Bannir_user(db))
+	http.HandleFunc("/debannir_user/{id}", admin.Debannir_user(db))
 
 	http.HandleFunc("/list_evenements", admin.List_evenements(db))
 	http.HandleFunc("/creer_evenement", admin.Creer_evenement(db))
@@ -141,6 +144,8 @@ func main() {
 	http.HandleFunc("/modifier_service/{id}", admin.Modifier_service(db))
 	http.HandleFunc("/supprimer_service/{id}", admin.Supprimer_service(db))
 	http.HandleFunc("/creer_categorie", admin.Creer_categorie(db))
+	http.HandleFunc("/list_categories", admin.List_categories(db))
+	http.HandleFunc("/modifier_categorie/{id}", admin.Modifier_categorie(db))
 
 	http.HandleFunc("/list_articles", admin.List_articles(db))
 	http.HandleFunc("/creer_article", admin.Creer_article(db))

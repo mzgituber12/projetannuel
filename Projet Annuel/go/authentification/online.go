@@ -28,7 +28,30 @@ func Enligne(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		catStmt, catError := database.Prepare("SELECT role, tutoriel, IFNULL(langue, 'fr') FROM utilisateur WHERE token = ?")
+		catStmt, catError := database.Prepare(`
+			SELECT 
+				u.role, 
+				u.tutoriel, 
+				IFNULL(u.langue, 'fr'),
+				IFNULL(u.statut_user, 'actif'),
+				IFNULL(DATE_FORMAT(u.fin_susp, '%Y-%m-%d %H:%i:%s'), ''),
+				IFNULL((
+					SELECT s.motif
+					FROM sanction s
+					WHERE s.id_user = u.id_utilisateur AND s.active = 1
+					ORDER BY s.date_crea DESC
+					LIMIT 1
+				), ''),
+				IFNULL((
+					SELECT s.type
+					FROM sanction s
+					WHERE s.id_user = u.id_utilisateur AND s.active = 1
+					ORDER BY s.date_crea DESC
+					LIMIT 1
+				), '')
+			FROM utilisateur u 
+			WHERE u.token = ?
+		`)
 		if catError != nil {
 			http.Error(response, "Impossible d'acceder a la base de donnée, veuillez reessayer plus tard", http.StatusInternalServerError)
 			return
@@ -36,7 +59,11 @@ func Enligne(database *sql.DB) http.HandlerFunc {
 		var role string
 		var tutoriel int
 		var langue string
-		err := catStmt.QueryRow(token).Scan(&role, &tutoriel, &langue)
+		var statutUser string
+		var finSusp string
+		var motifSanction string
+		var typeSanction string
+		err := catStmt.QueryRow(token).Scan(&role, &tutoriel, &langue, &statutUser, &finSusp, &motifSanction, &typeSanction)
 		if err != nil {
 			if err == sql.ErrNoRows {
 				response.Header().Set("Content-Type", "application/json")
@@ -51,10 +78,14 @@ func Enligne(database *sql.DB) http.HandlerFunc {
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Result{
-			Role:     role,
-			Tutoriel: tutoriel,
-			Langue:   langue,
-			Message:  "Identifié",
+			Role:          role,
+			Tutoriel:      tutoriel,
+			Langue:        langue,
+			StatutUser:    statutUser,
+			FinSusp:       finSusp,
+			MotifSanction: motifSanction,
+			TypeSanction:  typeSanction,
+			Message:       "Identifié",
 		})
 	}
 }

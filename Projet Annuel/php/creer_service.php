@@ -56,9 +56,12 @@
         }
     }
 
-    async function loadCategoriesIntoSelect() {
+    async function loadCategoriesIntoSelect(token) {
         const base = (window.API_BASE || "http://localhost:9000");
-        const response = await fetch(base + "/categories", { method: "GET" });
+        const response = await fetch(base + "/list_categories", {
+            method: "GET",
+            headers: { Token: token || "" },
+        });
         if (!response.ok) return;
         const payload = await response.json();
         const list = payload.categorie || [];
@@ -68,7 +71,8 @@
         list.forEach((c) => {
             const opt = document.createElement("option");
             opt.value = String(c.id);
-            opt.textContent = c.nom;
+            const pend = (c.valide_admin === 0 || c.valide_admin === false) ? " (en attente validation)" : "";
+            opt.textContent = (c.nom || "") + pend;
             sel.appendChild(opt);
         });
         if (prev && [...sel.options].some((o) => o.value === prev)) {
@@ -158,8 +162,8 @@
     async function init(){
         const token = localStorage.getItem("token")
         if (!await loginUser("online", token)) return
-        await adminUser(token)
-        await loadCategoriesIntoSelect()
+        if (!await adminUser(token)) return
+        await loadCategoriesIntoSelect(token)
     }
 
 window.addEventListener('pageshow', function(event) {

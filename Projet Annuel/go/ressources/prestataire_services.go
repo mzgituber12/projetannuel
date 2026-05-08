@@ -3,6 +3,7 @@ package ressources
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"projet/structures"
 	"strconv"
@@ -24,16 +25,11 @@ func prestataireCategorieFK(database *sql.DB, idCategorie int) (sql.NullInt64, e
 	return sql.NullInt64{Int64: int64(idCategorie), Valid: true}, nil
 }
 
-func corsPrestataireService(w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
-}
-
-
 func Prestataire_mes_services_collection(database *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		corsPrestataireService(w)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -46,7 +42,7 @@ func Prestataire_mes_services_collection(database *sql.DB) http.HandlerFunc {
 		switch r.Method {
 		case http.MethodGet:
 			rows, err := database.Query(
-				"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom "+
+				"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom, IFNULL(s.valide_admin, 0) "+
 					"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.id_prestataire = ? ORDER BY s.id_service DESC",
 				idPresta,
 			)
@@ -61,7 +57,7 @@ func Prestataire_mes_services_collection(database *sql.DB) http.HandlerFunc {
 				var id int
 				var idCat sql.NullInt64
 				var catNom sql.NullString
-				if err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom); err != nil {
+				if err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom, &s.ValideAdmin); err != nil {
 					http.Error(w, "Erreur lors du scan des services", http.StatusInternalServerError)
 					return
 				}
@@ -106,14 +102,16 @@ func Prestataire_mes_services_collection(database *sql.DB) http.HandlerFunc {
 				return
 			}
 			res, err := database.Exec(
-				"INSERT INTO service (nom, description, tarif, image, id_categorie, id_prestataire) VALUES (?, ?, ?, ?, ?, ?)",
+				"INSERT INTO service (nom, description, tarif, image, id_categorie, id_prestataire, valide_admin) VALUES (?, ?, ?, ?, ?, ?, 0)",
 				service.Nom, service.Description, service.Tarif, service.Image, idCatFK, idPresta,
 			)
 			if err != nil {
 				http.Error(w, "Erreur lors de la création du service", http.StatusInternalServerError)
 				return
 			}
-			_, _ = res.LastInsertId()
+			newID, _ := res.LastInsertId()
+			NotifierTousLesAdmins(database, "Service en attente de validation",
+				fmt.Sprintf("Le service « %s » (n°%d) est en attente de validation dans la gestion des services.", service.Nom, newID))
 			w.WriteHeader(http.StatusCreated)
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(structures.Result{Message: "Service créé avec succès", Value: 1})
@@ -127,7 +125,9 @@ func Prestataire_mes_services_collection(database *sql.DB) http.HandlerFunc {
 
 func Prestataire_mes_services_item(database *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		corsPrestataireService(w)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -148,10 +148,10 @@ func Prestataire_mes_services_item(database *sql.DB) http.HandlerFunc {
 			var idCat sql.NullInt64
 			var catNom sql.NullString
 			err = database.QueryRow(
-				"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom "+
+				"SELECT s.id_service, s.nom, s.description, s.tarif, IFNULL(s.image, '') AS image, s.id_categorie, c.nom AS categorie_nom, IFNULL(s.valide_admin, 0) "+
 					"FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.id_service = ? AND s.id_prestataire = ?",
 				id, idPresta,
-			).Scan(&s.ID, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom)
+			).Scan(&s.ID, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCat, &catNom, &s.ValideAdmin)
 			if err == sql.ErrNoRows {
 				http.Error(w, "Service introuvable", http.StatusNotFound)
 				return
@@ -201,7 +201,7 @@ func Prestataire_mes_services_item(database *sql.DB) http.HandlerFunc {
 				return
 			}
 			res, err := database.Exec(
-				"UPDATE service SET nom = ?, description = ?, tarif = ?, image = ?, id_categorie = ? WHERE id_service = ? AND id_prestataire = ?",
+				"UPDATE service SET nom = ?, description = ?, tarif = ?, image = ?, id_categorie = ?, valide_admin = 0 WHERE id_service = ? AND id_prestataire = ?",
 				serv.Nom, serv.Description, serv.Tarif, serv.Image, idCatFK, id, idPresta,
 			)
 			if err != nil {
@@ -237,7 +237,9 @@ func Prestataire_mes_services_item(database *sql.DB) http.HandlerFunc {
 
 func Creer_categorie_prestataire(database *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		corsPrestataireService(w)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -263,7 +265,7 @@ func Creer_categorie_prestataire(database *sql.DB) http.HandlerFunc {
 			http.Error(w, "Le nom de la catégorie est requis", http.StatusBadRequest)
 			return
 		}
-		res, err := database.Exec("INSERT INTO categorie (nom, id_prestataire) VALUES (?, ?)", nom, idPresta)
+		res, err := database.Exec("INSERT INTO categorie (nom, id_prestataire, valide_admin) VALUES (?, ?, 0)", nom, idPresta)
 		var avecProprietaire bool
 		if err != nil && isMissingCategoriePrestataireColumn(err) {
 			res, err = database.Exec("INSERT INTO categorie (nom) VALUES (?)", nom)
@@ -280,10 +282,16 @@ func Creer_categorie_prestataire(database *sql.DB) http.HandlerFunc {
 			http.Error(w, "Erreur lors de la récupération de l'identifiant", http.StatusInternalServerError)
 			return
 		}
-		out := structures.Categorie{ID: int(newID), Nom: nom}
+		out := structures.Categorie{ID: int(newID), Nom: nom, ValideAdmin: 0}
 		if avecProprietaire {
 			idPtr := idPresta
 			out.IdPrestataire = &idPtr
+		} else {
+			out.ValideAdmin = 1
+		}
+		if avecProprietaire {
+			NotifierTousLesAdmins(database, "Catégorie en attente de validation",
+				fmt.Sprintf("La catégorie « %s » (n°%d) est en attente de validation par un administrateur.", nom, newID))
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)

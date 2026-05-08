@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : dim. 19 avr. 2026 à 20:29
+-- Généré le : ven. 01 mai 2026 à 21:14
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -55,8 +55,7 @@ INSERT INTO `abonnement` (`id_abonnement`, `id_prestataire`, `categorie`, `type_
 (1, NULL, 'senior', 1, 'Basic', 4.00, 'actif', 40, 1, 1, 0, 0, '', '', '', '', 0),
 (2, NULL, 'senior', 1, 'Standard', 5.00, 'actif', 55, 1, 1, 1, 0, '', '', '', '', 0),
 (3, NULL, 'senior', 1, 'Premium', 6.00, 'actif', 72, 1, 1, 1, 1, 'avantage 1', 'avantage 2', 'avantage 3', 'avantage 4', 1),
-(5, NULL, 'senior', 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1, '', '', '', '', 0),
-(6, NULL, 'prestataire', 0, 'test', 1.00, 'actif', 12, NULL, NULL, NULL, NULL, 'avantage 1', 'avantage 2', 'avantage 3', 'avantage 4', 1);
+(5, NULL, 'senior', 0, 'Premium', 30.00, 'actif', 300, 1, 1, 1, 1, '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -77,8 +76,8 @@ CREATE TABLE `abonnement_push` (
 --
 
 INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
-(68, 5, '907f7548-a91e-4908-918b-42c9e7166215', 1, '2026-03-31 14:12:16'),
-(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-19 16:27:38');
+(68, 11, '907f7548-a91e-4908-918b-42c9e7166215', 0, '2026-04-29 19:03:36'),
+(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-21 15:21:53');
 
 -- --------------------------------------------------------
 
@@ -141,18 +140,19 @@ INSERT INTO `article` (`id_article`, `titre`, `image`, `description`, `prix`) VA
 
 CREATE TABLE `categorie` (
   `id_categorie` int(11) NOT NULL,
-  `nom` varchar(100) NOT NULL
+  `nom` varchar(100) NOT NULL,
+  `valide_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `categorie`
 --
 
-INSERT INTO `categorie` (`id_categorie`, `nom`) VALUES
-(4, 'categorie de test 2'),
-(3, 'categorie_test'),
-(2, 'consultation medical'),
-(1, 'jardinage');
+INSERT INTO `categorie` (`id_categorie`, `nom`, `valide_admin`) VALUES
+(1, 'jardinage', 1),
+(2, 'consultation medical', 1),
+(3, 'categorie_test', 1),
+(4, 'categorie de test 2', 1);
 
 -- --------------------------------------------------------
 
@@ -175,11 +175,11 @@ CREATE TABLE `conseil` (
 
 INSERT INTO `conseil` (`id_conseil`, `id_utilisateur`, `titre`, `image`, `contenu`, `date_publication`) VALUES
 (1, 1, 'Lave toi les mains', '', 'Mets du savon papi', '2026-02-27 00:00:00'),
-(2, 1, 'Marche', '', 'Faut marcher pour tes jambes papi', '2026-02-19 00:00:00'),
-(3, 1, 'la viande est benefique', 'conseil_1773920213220_AlexendreleGrand.png', 'eeeeeeeeeeeeee', '2026-03-19 11:36:53'),
-(4, 1, 'la viande est benefique2', 'conseil_1773920483573_Cloptre.png', 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', '2026-03-19 11:41:23'),
-(5, 1, 'la viande est benefique3', 'conseil_1773921332.png', 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', '2026-03-19 11:55:32'),
-(6, 1, 'la viande est benefique 4', '', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', '2026-03-21 20:23:19');
+(2, 1, 'Marche', '', 'Il faut de l\'exercice pour sa santé', '2026-02-19 00:00:00'),
+(3, 1, 'la salade est benefique', 'conseil_1773920213220_AlexendreleGrand.png', 'eeeeeeeeeeeeee', '2026-03-19 11:36:53'),
+(4, 1, 'la salade est benefique2', 'conseil_1773920483573_Cloptre.png', 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', '2026-03-19 11:41:23'),
+(5, 1, 'la salade est benefique3', 'conseil_1773921332.png', 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', '2026-03-19 11:55:32'),
+(6, 1, 'la salade est benefique 4', '', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', '2026-03-21 20:23:19');
 
 -- --------------------------------------------------------
 
@@ -243,7 +243,9 @@ INSERT INTO `contrat` (`id_contrat`, `id_devis`, `id_utilisateur`, `id_prestatai
 (3, NULL, 1, NULL, '2026-03-28', '2026-04-28', 'Contrat abonnement Premium', 'mois', 'site'),
 (6, NULL, 5, NULL, '2026-04-03', '2026-05-03', 'Contrat abonnement Premium', 'mois', 'site'),
 (7, NULL, 5, NULL, '2026-04-05', '2026-05-05', 'Contrat abonnement Premium', 'mois', 'site'),
-(8, NULL, 5, NULL, '2026-04-19', '2026-05-19', 'Contrat abonnement Premium', 'mois', 'site');
+(8, NULL, 5, NULL, '2026-04-19', '2026-05-19', 'Contrat abonnement Premium', 'mois', 'site'),
+(9, NULL, 5, NULL, '2026-04-21', '2026-05-21', 'Contrat abonnement Premium', 'mois', 'site'),
+(10, NULL, 5, NULL, '2026-05-01', '2026-06-01', 'Contrat abonnement Premium', 'mois', 'site');
 
 -- --------------------------------------------------------
 
@@ -295,7 +297,7 @@ CREATE TABLE `disponibilite` (
 INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heure_debut`, `heure_fin`, `statut`, `jour_semaine`, `type_regle`, `recurrence`, `date_fin_regle`) VALUES
 (1, 1, '2026-03-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
 (2, 1, '2026-03-20', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
-(3, 1, '2026-04-15', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
+(3, 1, '2026-05-16', '10:00:00', '19:00:00', NULL, NULL, 'disponible', 'unique', NULL),
 (46, 1, '2026-04-15', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
 (47, 1, '2026-04-15', '11:00:00', '12:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
 (48, 1, '2026-04-15', '12:00:00', '13:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
@@ -346,7 +348,10 @@ INSERT INTO `disponibilite` (`id_disponibilite`, `id_prestataire`, `date`, `heur
 (99, 2, '2026-04-13', '08:00:00', '17:00:00', 'disponible', 'lundi', 'disponible', 'hebdomadaire', '2026-05-13'),
 (100, 2, '2026-04-13', '06:00:00', '08:00:00', 'indisponible', NULL, 'indisponible', 'hebdomadaire', '2027-05-05'),
 (101, 2, '2026-04-13', '17:00:00', '23:30:00', 'indisponible', NULL, 'indisponible', 'hebdomadaire', '2027-05-05'),
-(103, 2, '2026-04-14', '09:00:00', '10:00:00', 'indisponible', 'mardi', 'indisponible', 'hebdomadaire', '2026-05-05');
+(103, 2, '2026-04-14', '09:00:00', '10:00:00', 'indisponible', 'mardi', 'indisponible', 'hebdomadaire', '2026-05-05'),
+(104, 1, '2026-05-16', '10:00:00', '11:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(107, 2, '2026-04-24', '14:00:00', '17:00:00', 'indisponible', NULL, 'indisponible', 'unique', NULL),
+(108, 2, '2026-04-22', '13:00:00', '14:30:00', 'indisponible', NULL, 'indisponible', 'hebdomadaire', '2028-08-21');
 
 -- --------------------------------------------------------
 
@@ -375,7 +380,13 @@ INSERT INTO `document` (`id_document`, `id_utilisateur`, `type_document`, `nom_f
 (22, 7, 'CIV', 'civ_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
 (23, 7, 'diplome', 'diplome_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
 (24, 7, 'autre', 'permis_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
-(25, 7, 'autre', 'assurance_1776615657.png', NULL, '2026-04-19 16:20:57', 0);
+(25, 7, 'autre', 'assurance_1776615657.png', NULL, '2026-04-19 16:20:57', 0),
+(26, 9, 'PF', 'pf_1776782996.png', NULL, '2026-04-21 14:49:56', 0),
+(27, 9, 'CIR', 'cir_1776782996.png', NULL, '2026-04-21 14:49:56', 0),
+(28, 9, 'CIV', 'civ_1776782996.png', NULL, '2026-04-21 14:49:56', 0),
+(29, 9, 'diplome', 'diplome_1776782996.png', NULL, '2026-04-21 14:49:56', 0),
+(30, 9, 'autre', 'permis_1776782996.png', NULL, '2026-04-21 14:49:56', 0),
+(31, 9, 'autre', 'assurance_1776782996.png', NULL, '2026-04-21 14:49:56', 0);
 
 -- --------------------------------------------------------
 
@@ -421,7 +432,7 @@ CREATE TABLE `evenement` (
 --
 
 INSERT INTO `evenement` (`id_evenement`, `nom`, `image`, `date`, `description`, `tarif`) VALUES
-(1, 'Manger', '', '2026-03-06 14:09:00', 'Allez manger des nems avec Maitre Kung et son ami Fu', 10.00),
+(1, 'Manger', '', '2026-03-06 14:09:00', 'Allez manger un déjeuné équilibré pour votre santé', 10.00),
 (2, 'Machine a laver 2', '', '2026-07-27 23:43:00', 'Allez courir sur une machine a laver géante : age conseillé : moins de 66 ans sinon crise cardiaque assurée', 15.00),
 (3, 'eeee', 'evenement_1774126024.png', '2026-03-29 07:00:00', 'zzzzz', 20.00),
 (4, 'test', '', '2026-03-31 19:30:00', 'un evenement test', 0.00);
@@ -471,7 +482,8 @@ INSERT INTO `intervention` (`id_intervention`, `id_service`, `id_prestataire`, `
 (19, 1, 1, 5, 80, 'annulé', 4.00),
 (20, 1, 1, 5, 83, 'devis', 3.00),
 (21, 1, 1, 5, 85, 'confirmé', 4.00),
-(22, 1, 2, 5, 84, 'terminé', 4.00);
+(22, 1, 2, 5, 84, 'terminé', 4.00),
+(23, 1, 1, 8, 86, 'confirmé', 4.00);
 
 -- --------------------------------------------------------
 
@@ -585,7 +597,8 @@ INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire
 (36, NULL, 5, 'Réservation confirmée', 'Votre réservation pour l\'événement \"eeee\" est confirmée.', '2026-04-02 20:53:41', 1),
 (37, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 11:00.', '2026-04-02 21:24:29', 1),
 (38, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 12:00.', '2026-04-02 21:37:03', 1),
-(39, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 13:00.', '2026-04-02 21:41:51', 1);
+(39, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 13:00.', '2026-04-02 21:41:51', 1),
+(40, NULL, 8, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 16/05/2026 à 10:00.', '2026-04-21 07:53:09', 1);
 
 -- --------------------------------------------------------
 
@@ -705,7 +718,8 @@ CREATE TABLE `prestataire` (
 INSERT INTO `prestataire` (`id_prestataire`, `id_utilisateur`, `type`, `photo_profil`, `telephone`, `valider`) VALUES
 (1, 4, 'coordonnier', NULL, '32', 1),
 (2, 5, 'sportif', NULL, '34', 1),
-(12, 7, 'Transport', 'pf_1776615656.png', NULL, 1);
+(12, 7, 'Transport', 'pf_1776615656.png', NULL, 1),
+(13, 9, 'Transport', 'pf_1776782996.png', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -778,7 +792,8 @@ CREATE TABLE `reference_service` (
 --
 
 INSERT INTO `reference_service` (`id`, `id_utilisateur`, `id_service`) VALUES
-(48, 5, 1);
+(48, 5, 1),
+(51, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -810,7 +825,34 @@ INSERT INTO `rendez_vous` (`id_rdv`, `id_utilisateur`, `id_prestataire`, `date_d
 (82, 5, NULL, '2026-03-29 07:00:00', '2026-03-29 08:00:00', 'eeee', 'confirmé'),
 (83, 5, 1, '2026-04-15 11:00:00', '2026-04-15 12:00:00', 'Faire chier Laurent', 'annulé'),
 (84, 5, 1, '2026-04-15 12:00:00', '2026-04-15 13:00:00', 'Faire chier Laurent', 'confirmé'),
-(85, 5, 2, '2026-04-15 13:00:00', '2026-04-15 14:00:00', 'Faire chier Laurent', 'confirmé');
+(85, 5, 2, '2026-04-15 13:00:00', '2026-04-15 14:00:00', 'Faire chier Laurent', 'confirmé'),
+(86, 8, 1, '2026-05-16 10:00:00', '2026-05-16 11:00:00', 'Faire chier Laurent', 'confirmé');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `sanction`
+--
+
+CREATE TABLE `sanction` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `type` enum('warn','temp','perm') NOT NULL,
+  `motif` varchar(255) NOT NULL,
+  `date_crea` datetime NOT NULL DEFAULT current_timestamp(),
+  `date_fin` datetime DEFAULT NULL,
+  `date_levee` datetime DEFAULT NULL,
+  `par_admin` int(11) DEFAULT NULL,
+  `levee_par` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `sanction`
+--
+
+INSERT INTO `sanction` (`id`, `id_user`, `type`, `motif`, `date_crea`, `date_fin`, `date_levee`, `par_admin`, `levee_par`, `active`) VALUES
+(1, 11, 'perm', 'est juste un nuisible a a societe', '2026-04-29 19:04:52', NULL, '2026-04-30 18:23:40', 5, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -825,18 +867,19 @@ CREATE TABLE `service` (
   `description` text DEFAULT NULL,
   `tarif` decimal(10,2) DEFAULT NULL,
   `id_prestataire` int(11) DEFAULT NULL,
-  `id_categorie` int(11) DEFAULT NULL
+  `id_categorie` int(11) DEFAULT NULL,
+  `valide_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `service`
 --
 
-INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id_prestataire`, `id_categorie`) VALUES
-(1, 'Faire chier Laurent', '', 'Laurent ta mere a été concue pour manger du porc et suer du jus d orangeuh', 4.00, 1, 1),
-(2, 'Cirage de cheveux', '', 'Vous voulez devenir aussi chauve que the rock ? appelez moi', 44.40, 2, 2),
-(3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL),
-(4, 'service de test', '', 'un super service inutile', 19.00, 2, 3);
+INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id_prestataire`, `id_categorie`, `valide_admin`) VALUES
+(1, 'rencontrez Laurent', '', 'venez profitez de cette super expérience en sa compagnie', 4.00, 1, 1, 1),
+(2, 'Cirage de cheveux', '', 'vous voulez que l\'on prennent soin de vos cheveux venez profitez de cette super expérience', 44.40, 2, 2, 1),
+(3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL, 1),
+(4, 'service de test', 'service_1776782283.png', 'un super service inutile', 19.00, 2, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -920,6 +963,7 @@ CREATE TABLE `utilisateur` (
   `prenom` varchar(100) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `date_naissance` date NOT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
   `password` varchar(1000) DEFAULT NULL,
   `token` varchar(1000) DEFAULT NULL,
   `role` enum('adherant','prestataire','admin') DEFAULT 'adherant',
@@ -928,21 +972,27 @@ CREATE TABLE `utilisateur` (
   `taille_police` varchar(20) DEFAULT '1',
   `tutoriel` int(11) DEFAULT 1,
   `verifier` tinyint(4) NOT NULL DEFAULT 0,
-  `abonnée` tinyint(4) NOT NULL DEFAULT 0
+  `abonnée` tinyint(4) NOT NULL DEFAULT 0,
+  `statut_user` enum('actif','suspendu','banni') NOT NULL DEFAULT 'actif',
+  `fin_susp` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_naissance`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`) VALUES
-(1, 'Laurent', 'Voillot', 'test@example.com', '0000-00-00', '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0),
-(2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0),
-(3, 'bb', 'bb', 'cc@cc', '0000-00-00', '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(4, 'cc', 'ac', 'cc@ccc', '0000-00-00', '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0),
-(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'HAWFuReF5NZW5DJYcmDdMS-AHlIWHJnMNQaeQ4yTl_c', 'prestataire', '', 'fr', '1', 0, 0, 0),
-(6, 'edodolf', 'hilan', 'hittalan@gmail.com', '1950-02-23', '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0),
-(7, 'azertyio', 'ma', 'ss@ss', '2008-04-10', '$2a$10$n3//8dPCjL8ZEr9cDRyovORKCnRGUWA2N6vV4lU9Y.SRjOyjVh86S', 'Jq3T4eTFAbzXd-vFe6SeonzcYpofcz-AXtBcSiVhGcQ', 'adherant', NULL, 'fr', '1', 0, 0, 0);
+INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_naissance`, `telephone`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`, `statut_user`, `fin_susp`) VALUES
+(1, 'Laurent', 'Voillot', 'test@example.com', '0000-00-00', NULL, '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', NULL, '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0, 'actif', NULL),
+(3, 'bb', 'bb', 'cc@cc', '0000-00-00', NULL, '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(4, 'cc', 'ac', 'cc@ccc', '0000-00-00', NULL, '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', NULL, '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', '60B5ASI-JoEbPwLCpxHB8kP8yZt20BOHR4KaiQkHPXg', 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(6, 'edodolf', 'hilan', 'hittalan@gmail.com', '1950-02-23', NULL, '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0, 'actif', NULL),
+(7, 'azertyio', 'ma', 'ss@ss', '2008-04-10', NULL, '$2a$10$n3//8dPCjL8ZEr9cDRyovORKCnRGUWA2N6vV4lU9Y.SRjOyjVh86S', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(8, 'm', 'm', 'aaa@aaa', '2008-04-02', NULL, '$2a$10$aPoWGhEkVFqpYHUjfjxVDe3ONXUFGnA3TjG1JywXArSBNqZTnuzEa', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(9, 's', 'monsieur', 'aaaa@aaaa', '2008-04-09', NULL, '$2a$10$lfcnGlVXDgPcU5yUVU5PTO98ylE7KEzan4mEIVu.6QCopyVLs79Ve', NULL, 'prestataire', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(10, 'a', 'a', 'aaaaa@aaaaa', '2008-04-03', NULL, '$2a$10$ijmloKyAy06JDLhB31ls0eiTZYt1m/Zpxx6UsWgY2gIRzGSF5M9Li', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(11, 'test', 'test', 'aa@aat', '2008-04-03', NULL, '$2a$10$YsE3dd7sQvcM1K2liGeVHeI5NKb9fhyIejSji3w6SAoic3YbfVIH2', 'Ad_DPrQ7-l5EBf-Az2dw4j2XUDdIhrRAjsmJ32xverU', 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL);
 
 -- --------------------------------------------------------
 
@@ -1176,6 +1226,16 @@ ALTER TABLE `rendez_vous`
   ADD KEY `id_prestataire` (`id_prestataire`);
 
 --
+-- Index pour la table `sanction`
+--
+ALTER TABLE `sanction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_sanc_user_date` (`id_user`,`date_crea`),
+  ADD KEY `idx_sanc_active_fin` (`active`,`date_fin`),
+  ADD KEY `idx_sanc_admin` (`par_admin`),
+  ADD KEY `fk_sanc_levee` (`levee_par`);
+
+--
 -- Index pour la table `service`
 --
 ALTER TABLE `service`
@@ -1233,7 +1293,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=863;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1150;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -1269,7 +1329,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT pour la table `contrat`
 --
 ALTER TABLE `contrat`
-  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_contrat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `devis`
@@ -1281,13 +1341,13 @@ ALTER TABLE `devis`
 -- AUTO_INCREMENT pour la table `disponibilite`
 --
 ALTER TABLE `disponibilite`
-  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id_disponibilite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT pour la table `document`
 --
 ALTER TABLE `document`
-  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `evaluation`
@@ -1311,7 +1371,7 @@ ALTER TABLE `facture_prestataire`
 -- AUTO_INCREMENT pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_intervention` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT pour la table `lien_contact`
@@ -1335,7 +1395,7 @@ ALTER TABLE `modele_notification`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
@@ -1359,7 +1419,7 @@ ALTER TABLE `panier`
 -- AUTO_INCREMENT pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
-  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_prestataire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `reference_article`
@@ -1377,13 +1437,19 @@ ALTER TABLE `reference_evenement`
 -- AUTO_INCREMENT pour la table `reference_service`
 --
 ALTER TABLE `reference_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
-  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+
+--
+-- AUTO_INCREMENT pour la table `sanction`
+--
+ALTER TABLE `sanction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `service`
@@ -1407,7 +1473,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
@@ -1561,6 +1627,14 @@ ALTER TABLE `rendez_vous`
   ADD CONSTRAINT `rendez_vous_ibfk_2` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE SET NULL;
 
 --
+-- Contraintes pour la table `sanction`
+--
+ALTER TABLE `sanction`
+  ADD CONSTRAINT `fk_sanc_admin` FOREIGN KEY (`par_admin`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_sanc_levee` FOREIGN KEY (`levee_par`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_sanc_user` FOREIGN KEY (`id_user`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
+
+--
 -- Contraintes pour la table `service`
 --
 ALTER TABLE `service`
@@ -1597,4 +1671,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-

@@ -244,14 +244,15 @@
     }
 
     async function chargerCategoriesDansLeFormulaire() {
+        var token = localStorage.getItem('token') || '';
         var sel = document.getElementById('inp_cat');
         var garde = sel ? sel.value : '';
         if (sel) sel.innerHTML = '<option value="">Aucune</option>';
         afficherDiagCat('');
-        var url = apiBase() + '/categories';
+        var url = apiBase() + '/prestataire/categories';
         var r;
         try {
-            r = await fetch(url, { method: 'GET', cache: 'no-store' });
+            r = await fetch(url, { method: 'GET', headers: { Token: token }, cache: 'no-store' });
         } catch (e) {
             afficherDiagCat('Reseau : impossible de joindre ' + url + ' (' + (e && e.message ? e.message : 'erreur') + '). Verifiez API_BASE / Docker / port 9000.');
             return;
@@ -295,13 +296,14 @@
             zone.innerHTML = '<p class="text-muted">Aucun service pour le moment.</p>';
             return;
         }
-        var html = '<div class="table-responsive"><table class="table table-sm table-bordered bg-white"><thead><tr><th>Nom</th><th>Catégorie</th><th>Tarif</th><th>Description</th><th></th></tr></thead><tbody>';
+        var html = '<div class="table-responsive"><table class="table table-sm table-bordered bg-white"><thead><tr><th>Nom</th><th>Catégorie</th><th>Tarif</th><th>Validation</th><th>Description</th><th></th></tr></thead><tbody>';
         services.forEach(function (s) {
             var sid = (s.id !== undefined && s.id !== null) ? s.id : s.id_service;
             var cat = s.categorie ? String(s.categorie) : '—';
             var desc = (s.description || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             if (desc.length > 80) desc = desc.slice(0, 80) + '…';
-            html += '<tr><td>' + String(s.nom || '').replace(/</g, '&lt;') + '</td><td>' + cat.replace(/</g, '&lt;') + '</td><td>' + Number(s.tarif).toFixed(2) + ' €</td><td>' + desc + '</td><td><button type="button" class="btn btn-outline-primary btn-sm js-modifier-service" data-id="' + String(sid) + '">Modifier</button></td></tr>';
+            var va = (s.valide_admin === 1 || s.valide_admin === true) ? '<span class="badge text-bg-success">Validé</span>' : '<span class="badge text-bg-warning text-dark">En attente admin</span>';
+            html += '<tr><td>' + String(s.nom || '').replace(/</g, '&lt;') + '</td><td>' + cat.replace(/</g, '&lt;') + '</td><td>' + Number(s.tarif).toFixed(2) + ' €</td><td>' + va + '</td><td>' + desc + '</td><td><button type="button" class="btn btn-outline-primary btn-sm js-modifier-service" data-id="' + String(sid) + '">Modifier</button></td></tr>';
         });
         html += '</tbody></table></div>';
         zone.innerHTML = html;

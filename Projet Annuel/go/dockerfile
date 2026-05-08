@@ -4,6 +4,8 @@ FROM golang:1.25.6-alpine AS base
 WORKDIR /app
 #Définit le dossier de travail dans le conteneur.
 
+RUN apk add --no-cache python3 py3-pandas py3-scikit-learn py3-joblib
+
 
 COPY go.mod go.sum ./
 #Les fichiers liés aux dependances go sont copiés via l'éxécution de ces commandes

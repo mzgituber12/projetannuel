@@ -43,12 +43,14 @@ func Services(database *sql.DB) http.HandlerFunc {
 			"IFNULL(s.image, '') AS image, " +
 			"s.id_categorie, " +
 			"c.nom AS categorie_nom, " +
-			"CONCAT(u.prenom, ' ', u.nom) AS prestataire_nom " +
+			"CONCAT(u.prenom, ' ', u.nom) AS prestataire_nom, " +
+			"IFNULL(s.valide_admin, 0) AS valide_admin " +
 			"FROM service s " +
 			"LEFT JOIN categorie c ON c.id_categorie = s.id_categorie " +
 			"LEFT JOIN prestataire p ON p.id_prestataire = s.id_prestataire " +
 			"LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur " +
-			"WHERE 1 = 1"
+			"WHERE IFNULL(s.valide_admin, 0) = 1 " +
+			"AND (s.id_categorie IS NULL OR IFNULL(c.valide_admin, 0) = 1)"
 
 		args := make([]any, 0)
 
@@ -95,7 +97,7 @@ func Services(database *sql.DB) http.HandlerFunc {
 				var categorieNom sql.NullString
 				var prestataireNom sql.NullString
 
-				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCategorie, &categorieNom, &prestataireNom)
+				err := rows.Scan(&id, &s.Nom, &s.Description, &s.Tarif, &s.Image, &idCategorie, &categorieNom, &prestataireNom, &s.ValideAdmin)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des services : "+err.Error(), http.StatusInternalServerError)
 					return
@@ -178,8 +180,17 @@ func Services_patch(database *sql.DB) http.HandlerFunc {
 
 		var idPrestataire int
 		var serviceName string
-		err := database.QueryRow("SELECT IFNULL(id_prestataire, 0), nom FROM service WHERE id_service = ?", id).Scan(&idPrestataire, &serviceName)
+		var valideS, valideC int
+		err := database.QueryRow(`
+			SELECT IFNULL(s.id_prestataire, 0), s.nom, IFNULL(s.valide_admin, 0), IFNULL(c.valide_admin, 1)
+			FROM service s
+			LEFT JOIN categorie c ON c.id_categorie = s.id_categorie
+			WHERE s.id_service = ?`, id).Scan(&idPrestataire, &serviceName, &valideS, &valideC)
 		if err != nil {
+			http.Error(response, "Service introuvable", http.StatusNotFound)
+			return
+		}
+		if valideS == 0 || valideC == 0 {
 			http.Error(response, "Service introuvable", http.StatusNotFound)
 			return
 		}
@@ -363,8 +374,13 @@ func Service_disponible(database *sql.DB) http.HandlerFunc {
 		}
 
 		var idPrestataire int
-		err = database.QueryRow("SELECT IFNULL(id_prestataire, 0) FROM service WHERE id_service = ?", id).Scan(&idPrestataire)
+		var valideS, valideC int
+		err = database.QueryRow(`SELECT IFNULL(s.id_prestataire, 0), IFNULL(s.valide_admin, 0), IFNULL(c.valide_admin, 1) FROM service s LEFT JOIN categorie c ON c.id_categorie = s.id_categorie WHERE s.id_service = ?`, id).Scan(&idPrestataire, &valideS, &valideC)
 		if err != nil {
+			http.Error(response, "Service introuvable", http.StatusNotFound)
+			return
+		}
+		if valideS == 0 || valideC == 0 {
 			http.Error(response, "Service introuvable", http.StatusNotFound)
 			return
 		}
@@ -443,7 +459,15 @@ func precheckServiceReservation(database *sql.DB, idUser int, idService int, sta
 	var idPrestataire int
 	var serviceName string
 	var serviceTarif float64
-	if err := database.QueryRow("SELECT nom, id_prestataire, IFNULL(tarif, 0) FROM service WHERE id_service = ?", idService).Scan(&serviceName, &idPrestataire, &serviceTarif); err != nil {
+	var valideS, valideC int
+	if err := database.QueryRow(`
+		SELECT s.nom, s.id_prestataire, IFNULL(s.tarif, 0), IFNULL(s.valide_admin, 0), IFNULL(c.valide_admin, 1)
+		FROM service s
+		LEFT JOIN categorie c ON c.id_categorie = s.id_categorie
+		WHERE s.id_service = ?`, idService).Scan(&serviceName, &idPrestataire, &serviceTarif, &valideS, &valideC); err != nil {
+		return nil, http.StatusNotFound, errors.New("service introuvable")
+	}
+	if valideS == 0 || valideC == 0 {
 		return nil, http.StatusNotFound, errors.New("service introuvable")
 	}
 	if idPrestataire <= 0 {
@@ -675,8 +699,18 @@ func CreerDevis(database *sql.DB) http.HandlerFunc {
 		var serviceName string
 		var idPrestataire int
 		var tarif float64
-		err = database.QueryRow("SELECT nom, IFNULL(id_prestataire, 0), IFNULL(tarif, 0) FROM service WHERE id_service = ?", body.IDService).Scan(&serviceName, &idPrestataire, &tarif)
+		var valideS, valideC int
+		err = database.QueryRow(`
+			SELECT s.nom, IFNULL(s.id_prestataire, 0), IFNULL(s.tarif, 0), IFNULL(s.valide_admin, 0), IFNULL(c.valide_admin, 1)
+			FROM service s
+			LEFT JOIN categorie c ON c.id_categorie = s.id_categorie
+			WHERE s.id_service = ?`, body.IDService).Scan(&serviceName, &idPrestataire, &tarif, &valideS, &valideC)
 		if err != nil {
+			response.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Service introuvable"})
+			return
+		}
+		if valideS == 0 || valideC == 0 {
 			response.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(response).Encode(map[string]string{"message": "Service introuvable"})
 			return

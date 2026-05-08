@@ -11,15 +11,21 @@ type User struct {
 	Password      string `json:"password"`
 	Role          string `json:"role"`
 	Langue        string `json:"langue"`
+	StatutUser    string `json:"statut_user"`
+	FinSusp       string `json:"fin_susp"`
 }
 
 type Result struct {
-	Message  string `json:"message"`
-	Value    int    `json:"value"`
-	Role     string `json:"role"`
-	Token    string `json:"token"`
-	Tutoriel int    `json:"tutoriel"`
-	Langue   string `json:"langue"`
+	Message      string `json:"message"`
+	Value        int    `json:"value"`
+	Role         string `json:"role"`
+	Token        string `json:"token"`
+	Tutoriel     int    `json:"tutoriel"`
+	Langue       string `json:"langue"`
+	StatutUser   string `json:"statut_user"`
+	FinSusp      string `json:"fin_susp"`
+	MotifSanction string `json:"motif_sanction"`
+	TypeSanction string `json:"type_sanction"`
 }
 
 type Contrat struct {
@@ -59,12 +65,14 @@ type Service struct {
 	Categorie   string  `json:"categorie"`
 	Prestataire string  `json:"prestataire"`
 	Rejoindre   string  `json:"rejoindre"`
+	ValideAdmin int     `json:"valide_admin"`
 }
 
 type Categorie struct {
 	ID            int    `json:"id"`
 	Nom           string `json:"nom"`
 	IdPrestataire *int   `json:"id_prestataire,omitempty"`
+	ValideAdmin   int    `json:"valide_admin"`
 }
 
 type Prestataire struct {
@@ -354,4 +362,27 @@ type AdminFacturePrestataire struct {
 	IDVirement     int                   `json:"id_virement"`
 	StatutVirement string                `json:"statut_virement"`
 	DateVirement   string                `json:"date_virement"`
+}
+
+type MLPredictPayload struct {
+	Age                    float64 `json:"age"`
+	Sexe                   string  `json:"sexe"`
+	TypeAbonnement         string  `json:"type_abonnement"`
+	Langue                 string  `json:"langue"`
+	AncienneteMois         float64 `json:"anciennete_mois"`
+	ScoreSatisfaction      float64 `json:"score_satisfaction"`
+	TauxAnnulation         float64 `json:"taux_annulation"`
+	NbInterventionsTotales float64 `json:"nb_interventions_totales"`
+	DepenseTotaleEstimee   float64 `json:"depense_totale_estimee"`
+	EstAbonne              float64 `json:"est_abonne"`
+}
+
+type MLCandidate struct {
+	ServiceTrouver string  `json:"service_trouver"`
+	Score          float64 `json:"score"`
+}
+
+type MLPredictResponse struct {
+	Principal    MLCandidate   `json:"principal"`
+	Alternatives []MLCandidate `json:"alternatives"`
 }

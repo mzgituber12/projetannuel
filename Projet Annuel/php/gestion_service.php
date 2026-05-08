@@ -21,8 +21,14 @@
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
     }?>
-    <div class="mb-4">
+    <div class="mb-4 d-flex flex-wrap gap-2 align-items-center">
         <a href='creer_service.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouveau service</span></a>
+    </div>
+
+    <div class="card p-3 shadow-sm mb-4">
+        <h5 class="mb-2" data-i18n>Validation des catégories</h5>
+        <p class="small text-muted mb-2" data-i18n>Les catégories créées par un prestataire restent masquées du catalogue public tant qu’elles ne sont pas validées.</p>
+        <div id="categories_admin_zone"><span class="text-muted small">Chargement…</span></div>
     </div>
 
     <div class="card p-3 shadow-sm mb-4">
@@ -126,7 +132,7 @@
             container.innerHTML = "<div class='alert alert-warning' data-i18n>Aucun service ne correspond aux filtres.</div>";
             return;
         }
-        let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th data-i18n>Image</th><th data-i18n>Nom du service</th><th data-i18n>Catégorie</th><th data-i18n>Description</th><th data-i18n>Tarif</th><th data-i18n>Actions</th></tr></thead><tbody>";
+        let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th data-i18n>Image</th><th data-i18n>Nom du service</th><th data-i18n>Catégorie</th><th data-i18n>Description</th><th data-i18n>Tarif</th><th data-i18n>Validation</th><th data-i18n>Actions</th></tr></thead><tbody>";
         list.forEach((serv) => {
             const actions = "<div class='d-flex flex-wrap gap-2 align-items-center'>" +
                 "<a href='modifier_service.php?id=" + serv.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a>" +
@@ -134,17 +140,21 @@
             const imageHtml = renderImageHtml(serv.image, `Image de ${serv.nom}`);
             const desc = (serv.description || '').length > 40 ? String(serv.description).slice(0, 40) + "..." : String(serv.description);
             const catLabel = serv.categorie ? String(serv.categorie) : "<span class='text-muted'>—</span>";
-            html += "<tr><td>" + imageHtml + "</td><td>" + String(serv.nom) + "</td><td>" + catLabel + "</td><td>" + desc + "</td><td>" + String(serv.tarif) + " €</td><td>" + actions + "</td></tr>";
+            const va = (serv.valide_admin === 1 || serv.valide_admin === true) ? "<span class='badge text-bg-success'>Validé</span>" : "<span class='badge text-bg-warning text-dark'>En attente</span>";
+            html += "<tr><td>" + imageHtml + "</td><td>" + String(serv.nom) + "</td><td>" + catLabel + "</td><td>" + desc + "</td><td>" + String(serv.tarif) + " €</td><td>" + va + "</td><td>" + actions + "</td></tr>";
         });
         html += "</tbody></table></div>";
         container.innerHTML = html;
     }
 
-    async function loadCategoriesForFilters() {
+    async function loadCategoriesForFilters(token) {
         const base = (window.API_BASE || 'http://localhost:9000');
         const categorySelect = document.getElementById("categoryFilter");
         try {
-            const response = await fetch(base + "/categories", { method: "GET" });
+            const response = await fetch(base + "/list_categories", {
+                method: "GET",
+                headers: { Token: token || "" },
+            });
             if (!response.ok) return;
             const payload = await response.json();
             if (!payload.categorie || !Array.isArray(payload.categorie)) return;
@@ -154,10 +164,67 @@
             payload.categorie.forEach((c) => {
                 const option = document.createElement("option");
                 option.value = String(c.id);
-                option.textContent = c.nom;
+                const pend = (c.valide_admin === 0 || c.valide_admin === false) ? " (en attente)" : "";
+                option.textContent = (c.nom || "") + pend;
                 categorySelect.appendChild(option);
             });
         } catch (e) {}
+    }
+
+    async function chargerCategoriesAdmin(token) {
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const zone = document.getElementById("categories_admin_zone");
+        if (!zone) return;
+        try {
+            const response = await fetch(base + "/list_categories", {
+                method: "GET",
+                headers: { Token: token || "" },
+            });
+            if (!response.ok) {
+                zone.innerHTML = "<span class='text-danger small'>Impossible de charger les catégories.</span>";
+                return;
+            }
+            const payload = await response.json();
+            const list = payload.categorie || [];
+            if (!list.length) {
+                zone.innerHTML = "<span class='text-muted small'>Aucune catégorie.</span>";
+                return;
+            }
+            let html = "<div class='table-responsive'><table class='table table-sm table-bordered mb-0'><thead><tr><th>Nom</th><th>État</th><th>Action</th></tr></thead><tbody>";
+            list.forEach((c) => {
+                const ok = (c.valide_admin === 1 || c.valide_admin === true);
+                const badge = ok ? "<span class='badge text-bg-success'>Validée</span>" : "<span class='badge text-bg-warning text-dark'>En attente</span>";
+                const btn = ok
+                    ? "<button type='button' class='btn btn-sm btn-outline-secondary' data-cat-invalidate='" + c.id + "'>Retirer validation</button>"
+                    : "<button type='button' class='btn btn-sm btn-primary' data-cat-validate='" + c.id + "'>Valider</button>";
+                html += "<tr><td>" + String(c.nom || "").replace(/</g, "&lt;") + "</td><td>" + badge + "</td><td>" + btn + "</td></tr>";
+            });
+            html += "</tbody></table></div>";
+            zone.innerHTML = html;
+            zone.querySelectorAll("[data-cat-validate]").forEach((btn) => {
+                btn.addEventListener("click", () => patchCategorieAdmin(token, btn.getAttribute("data-cat-validate"), 1));
+            });
+            zone.querySelectorAll("[data-cat-invalidate]").forEach((btn) => {
+                btn.addEventListener("click", () => patchCategorieAdmin(token, btn.getAttribute("data-cat-invalidate"), 0));
+            });
+        } catch (e) {
+            zone.innerHTML = "<span class='text-danger small'>Erreur réseau.</span>";
+        }
+    }
+
+    async function patchCategorieAdmin(token, id, valide) {
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const response = await fetch(base + "/modifier_categorie/" + encodeURIComponent(id), {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", Token: token || "" },
+            body: JSON.stringify({ valide_admin: valide }),
+        });
+        if (!response.ok) {
+            alert(await response.text() || "Erreur");
+            return;
+        }
+        await chargerCategoriesAdmin(token);
+        await loadCategoriesForFilters(token);
     }
 
     function setupServiceFilterListeners() {
@@ -210,7 +277,8 @@
         if (!await loginUser("online", token)) return
         if (!await adminUser(token)) return
         setupServiceFilterListeners();
-        await loadCategoriesForFilters();
+        await loadCategoriesForFilters(token);
+        await chargerCategoriesAdmin(token);
         await listService(token);
     }
 

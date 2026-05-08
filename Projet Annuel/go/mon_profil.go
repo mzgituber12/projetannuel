@@ -26,7 +26,7 @@ func mon_profil(database *sql.DB) http.HandlerFunc {
 
 		var utilisateur structures.User
 
-		selectstatement, selecterr := database.Prepare("SELECT nom, prenom, date_naissance, telephone, email, langue FROM utilisateur WHERE token = ?")
+		selectstatement, selecterr := database.Prepare("SELECT nom, prenom, IFNULL(DATE_FORMAT(date_naissance, '%Y-%m-%d'), ''), IFNULL(telephone, ''), email, langue FROM utilisateur WHERE token = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 			return
