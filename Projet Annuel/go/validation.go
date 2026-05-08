@@ -35,6 +35,21 @@ func validation(database *sql.DB) http.HandlerFunc {
 
 		}
 
+		rowss, err := database.Query("SELECT categorie_text, contenu FROM document_txt where id_utilisateur = ?", id)
+		if err != nil {
+			http.Error(response, "Erreur lors de la recuperation des données", http.StatusInternalServerError)
+		}
+
+		for rowss.Next() {
+			var a structures.DocPresta_txt
+			err := rowss.Scan(&a.Categorie_text, &a.Contenu)
+			if err != nil {
+				http.Error(response, "Erreur lors de la recuperation des données texte", http.StatusInternalServerError)
+			}
+			f.Documents_txt = append(f.Documents_txt, a)
+
+		}
+
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(f)
 
@@ -93,7 +108,8 @@ func valider_presta(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		if err = tx.Commit(); err != nil {
+		err = tx.Commit()
+		if err != nil {
 			http.Error(response, "Erreur validation transaction", http.StatusInternalServerError)
 			return
 		}
@@ -113,7 +129,25 @@ func refuser_presta(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		//id := request.URL.Query().Get("id")
+		id := request.URL.Query().Get("id")
+
+		_, err := database.Exec("DELETE FROM document WHERE id_utilisateur = ?", id)
+		if err != nil {
+			http.Error(response, "Erreur lors de la suppression"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		_, err = database.Exec("DELETE FROM document_txt WHERE id_utilisateur = ?", id)
+		if err != nil {
+			http.Error(response, "Erreur lors de la suppression"+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		_, err = database.Exec("DELETE FROM prestataire WHERE id_utilisateur = ?", id)
+		if err != nil {
+			http.Error(response, "Erreur lors de la suppression"+err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 	}
 }
