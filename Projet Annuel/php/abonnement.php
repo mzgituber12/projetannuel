@@ -10,12 +10,13 @@ include 'includes/header.php'?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title data-i18n>Nos Abonnements</title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4" data-i18n>Nos Plans d'Abonnement</h1>
-
+    <div class="d-flex align-items-center justify-content-center mb-4">
+    <h1 class="mb-0 me-3" data-i18n id="popover8" data-bs-toggle="popover" data-bs-title="Nos Abonnements" data-bs-content="Choisissez l'abonnement qui vous convient le mieux et profitez de l'ensemble des fonctionnalités proposées par Silver Happy !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">Nos Plans d'Abonnement</h1>    </div>
     <div id="error-msg" class="alert alert-danger d-none"></div>
     <div id="success-msg" class="alert alert-success d-none"></div>
     <div id="already-subscribed" class="alert alert-info d-none text-center">

@@ -12,6 +12,7 @@ include 'includes/header.php'; ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title data-i18n>Ajouter Abonnement</title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
@@ -125,7 +126,7 @@ async function add_abonnement() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Token": localStorage.getItem("token") || ""
+            "Token": localStorage.getItem("token")
         },
         body: JSON.stringify({
             categorie: categorie,

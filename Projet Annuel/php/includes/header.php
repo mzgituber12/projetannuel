@@ -6,7 +6,7 @@
 <header>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php"><i class="bi bi-house fs-2"></i></a>
+        <a class="navbar-brand" data-i18n id="popover6" data-bs-toggle="popover" data-bs-title="Postuler Pour Silver Happy" data-bs-content="Pour revenir à l'accueil rapidement cliquer sur la Maison juste ici<br>Une fois revenue a l'accueil continuez le tuto<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>" href="index.php"><i class="bi bi-house fs-2"></i></a>
         <div id="controle_zoom" class="d-flex align-items-center gap-1 me-2">
             <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomOut()" aria-label="Reduire le zoom">-</button>
             <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomIn()" aria-label="Augmenter le zoom">+</button>
@@ -506,13 +506,17 @@ async function headerUser(token) {
     deconnexionBouton.innerHTML = "<li class='nav-item'><a class='nav-link text-danger' href='deconnexion.php'><i class='bi bi-box-arrow-right'></i> Deconnexion</a></li>";
 
     if (data.role == "adherant") {
-        boutonAbonnement.innerHTML = "<li class='nav-item'><a class='nav-link active' href='abonnement.php'>S'abonner</a></li>";
-        boutonPlanning.innerHTML = "<li class='nav-item'><a class='nav-link active' href='planning.php'>Planning</a></li>";
-        boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='messagerie.php'><i class='bi bi-chat-dots'></i> Messagerie</a></li>";
-        boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";
-        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='contrats.php'>Contrats</a></li><li class='nav-item'><a class='nav-link active' href='conseils.php'>Conseils</a></li><li class='nav-item'><a class='nav-link active' href='catalogue.php'>Catalogue</a></li><li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='demande_presta.php'>Postuler</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
-        return;
-    }
+    boutonAbonnement.innerHTML = `<li class='nav-item'><a id="popover7" class="nav-link active" href="abonnement.php" data-bs-toggle="popover" data-bs-title="Les Abonnements Silver happy" data-bs-content="Ici consulter nos abonnement<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">S'abonner</a></li>`;
+    initPopovers();
+    boutonPlanning.innerHTML = `<li class="nav-item"><a id="popover2" class="nav-link active" href="planning.php" data-bs-toggle="popover" data-bs-title="Planning" data-bs-content="Consultez votre planning ici ! Cliquer sur 'Planning'<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">Planning</a></li>`;
+    initPopovers();
+    boutonMessagerie.innerHTML = `<li class="nav-item"><a id="popover9" class="nav-link active" href="messagerie.php" data-bs-toggle="popover" data-bs-title="Messagerie" data-bs-content="Cliquez ici pour accéder à votre messagerie, ajouter et gerer vos contact !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><i class="bi bi-chat-dots"></i> Messagerie</a></li>`;
+    initPopovers();
+    boutonBoutique.innerHTML = `<li class="nav-item"><a id="popover10" class="nav-link active" href="boutique.php" data-bs-toggle="popover" data-bs-title="Boutique" data-bs-content="Envie de vous faire plaisir, cliquez ici pour accéder à la boutique, découvrez nos produits adaptés spécialement pour vous !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='fin_tutoriel()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><i class="bi bi-bag"></i> Boutique</a></li>`;
+    initPopovers();
+    autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='contrats.php'>Contrats</a></li><li class='nav-item'><a class='nav-link active' href='conseils.php'>Conseils</a></li><li class='nav-item'><a class='nav-link active' href='catalogue.php'>Catalogue</a></li><li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='demande_presta.php'>Postuler</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
+    return;
+}
 
     if (data.role == "prestataire") {
         boutonAbonnement.innerHTML = "<li class='nav-item'><a class='nav-link active' href='abonnement.php'>Nos abonnements</a></li>";
@@ -527,8 +531,12 @@ async function headerUser(token) {
         boutonPlanning.innerHTML = "<li class='nav-item'><a class='nav-link active' href='notifications.php'><i class='bi bi-bell'></i> Notifications</a></li>";
         boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='messagerie.php'><i class='bi bi-chat-dots'></i> Messagerie</a></li>";
         boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";
-        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='gestion_user.php'>Gestion des Utilisateur</a></li><li class='nav-item'><a class='nav-link active' href='gestion_evenement.php'>Gestion des Evenements</a></li><li class='nav-item'><a class='nav-link active' href='gestion_service.php'>Gestion des Services</a></li><li class='nav-item'><a class='nav-link active' href='gestion_intervention.php'>Gestion des Interventions</a></li><li class='nav-item'><a class='nav-link active' href='gestion_article.php'>Gestion des Articles</a></li><li class='nav-item'><a class='nav-link active' href='gestion_conseil.php'>Gestion des Conseils</a></li><li class='nav-item'><a class='nav-link active' href='gestion_notifs.php'>Gestion des Notifications</a></li><li class='nav-item'><a class='nav-link active' href='gestion_financier.php'>Gestion financier</a></li><li class='nav-item'><a class='nav-link active' href='gestion_contact.php'>Gestion des contacts</a></li><li class='nav-item'><a class='nav-link active' href='index_module_ml.php'><i class='bi bi-cpu'></i> Module ML</a></li><li class='nav-item'><a class='nav-link active' href='liste_abonnement_admin.php'>Liste des abonnements</a></li><li class='nav-item'><a class='nav-link active' href='add_abonnement.php'>Creer un abonnement</a></li><li class='nav-item'><a class='nav-link active' href='attente_validation.php'>Liste demande Prestataire</a></li>";
+        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='gestion_user.php'>Gestion des Utilisateur</a></li><li class='nav-item'><a class='nav-link active' href='gestion_evenement.php'>Gestion des Evenements</a></li><li class='nav-item'><a class='nav-link active' href='gestion_service.php'>Gestion des Services</a></li><li class='nav-item'><a class='nav-link active' href='gestion_intervention.php'>Gestion des Interventions</a></li><li class='nav-item'><a class='nav-link active' href='gestion_article.php'>Gestion des Articles</a></li><li class='nav-item'><a class='nav-link active' href='gestion_conseil.php'>Gestion des Conseils</a></li><li class='nav-item'><a class='nav-link active' href='gestion_notifs.php'>Gestion des Notifications</a></li><li class='nav-item'><a class='nav-link active' href='gestion_financier.php'>Gestion financier</a></li><li class='nav-item'><a class='nav-link active' href='gestion_contact.php'>Gestion des contacts</a></li><li class='nav-item'><a class='nav-link active' href='index_module_ml.php'><i class='bi bi-cpu'></i> Module ML</a></li><li class='nav-item'><a class='nav-link active' href='liste_abonnement_admin.php'>Liste des abonnements</a></li><li class='nav-item'><a class='nav-link active' href='add_abonnement.php'>Creer un abonnement</a></li><li class='nav-item'><a class='nav-link active' href='attente_validation.php'>Liste demande Prestataire</a></li><li class='nav-item'><a class='nav-link active' href='creer_categ_postuler.php'>Creer une Catégorie</a></li>";
     }
 }
 headerUser(localStorage.getItem('token'));
+
 </script>
+<script src="tuto.js"></script>
+
+

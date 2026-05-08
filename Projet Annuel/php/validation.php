@@ -11,6 +11,7 @@ include 'includes/header.php'; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title data-i18n>valider le Préstataire</title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
@@ -54,11 +55,12 @@ async function charger_ficher_presta() {
 
                     <label class="small text-muted mb-1">Date de Naissance</label>
                     <div class="form-control mb-4 bg-white border-0 shadow-sm">${new Date(f.date_naissance).toLocaleDateString()}</div>
+                    <div id="donnee_text"></div>
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
                     <button class="btn btn-success py-2 fw-bold" onclick=valider_le_presta()>Valider le Préstataire</button>
-                    <button class="btn btn-danger py-2 fw-bold">Refuser le Préstataire</button>
+                    <button class="btn btn-danger py-2 fw-bold"onclick=refuser_le_presta()>Refuser le Préstataire</button>
                 </div>
             </div>
         </div>
@@ -75,6 +77,15 @@ async function charger_ficher_presta() {
                         <img src="upload/${doc.nom_fichier}" class="img-fluid rounded border shadow-sm w-100">
                     </div>
                 </div>
+            `;
+        }
+    });
+
+    f.documents_txt.forEach(doc_txt => {
+        if (doc_txt.type_document !== "PF") {
+            donnee_text.innerHTML += `
+                <label class="small text-muted mb-1">${doc_txt.categorie_text}</label>
+                <div class="form-control mb-3 bg-white border-0 shadow-sm">${doc_txt.contenu}</div>
             `;
         }
     });
@@ -96,6 +107,22 @@ async function charger_ficher_presta() {
         window.location.href = "attente_validation.php"
 
 
+    }
+
+    async function refuser_le_presta(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const idPresta = urlParams.get('id');
+        const base = (window.API_BASE || 'http://localhost:9000');
+
+        const response = await fetch(base + "/refuser_presta?id=" + idPresta);
+         if (!response.ok) {
+            const text = await response.text();
+            alert(text);
+            window.location.href = "attente_validation.php?code=" + response.status;
+            return;
+        }
+
+        window.location.href = "attente_validation.php"
     }
 
 window.addEventListener("load", charger_ficher_presta);

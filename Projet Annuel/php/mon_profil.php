@@ -9,18 +9,20 @@ include 'includes/header.php'?>
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Mon Profil</title>
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
-<h2 data-i18n>Votre profil </h2>
+<h2 data-i18n></h2>
 
 <h2 id="status"></h2>
+<div class="m-4">
+    <button type="button" class="btn btn-warning" onclick="recommencer_tuto()" data-i18n>Recommencer le tutoriel</button>
+</div>
 
 <div class="row justify-content-center">
-    <div class="col-md-6">
-
-        <div class="mb-3 position-relative">
-            <label for="Email" class="form-label" data-i18n>Email</label>
+    <div class="col-md-6 mb-5">
+        <div class="mb-3 position-relative" data-i18n id="popover4" data-bs-toggle="popover" data-bs-title="Modifier mon profil" data-bs-content="Sur cette page vous pourrez consultez votre profil et le modifier !<br> Maintenant cliquer à nouveau sur le menu, puis 'Postuler'<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">            <label for="Email" class="form-label" data-i18n>Email</label>
             <div class="d-flex">
                 <input type="email" class="form-control me-2" id="email">
                 <button type="button" class="btn btn-danger" onclick="update_profil('email')" data-i18n>Modifier</button>
@@ -108,6 +110,22 @@ include 'includes/header.php'?>
 
 <script>
 
+    async function recommencer_tuto() {
+        const base = (window.API_BASE || 'http://localhost:9000');
+        const response = await fetch(base + "/reco_tuto", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Token": localStorage.getItem("token")
+            },
+        });
+
+         if (response.ok){
+            window.location.href = "index.php"
+        }
+    }
+
+
     let profil_state = 0
 
     async function afficher_profil() {
@@ -185,3 +203,4 @@ async function init(){
 init()
 
 </script>
+<script src="tuto.js"></script>

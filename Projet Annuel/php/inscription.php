@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Inscription</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
@@ -42,6 +43,20 @@
         <label for="password" class="for-label">Mot de passe</label>
         <input type="password" class="form-control bg-white" id="password" placeholder="Password" required>
     </div>
+    <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="checkmdp">
+            <label class="form-check-label" for="checkmdp" data-i18n>Voir</label>
+        </div>
+        <script> 
+        const champs = document.getElementById("password")
+        const check = document.getElementById("checkmdp")
+        
+        check.addEventListener("change", function() {
+            if (this.checked)
+                champs.type = "text"
+            else champs.type = "password"
+        });
+        </script>
     <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
 </form>
 <p class="mt-3 text-center">Vous avez déjà un compte ? <a href="connexion.php">Connectez-vous</a></p>
