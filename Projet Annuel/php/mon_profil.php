@@ -219,4 +219,3 @@ async function init(){
 init()
 
 </script>
-<script src="tuto.js"></script>

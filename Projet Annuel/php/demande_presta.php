@@ -215,6 +215,5 @@ include 'includes/header.php';
         }
     }
 </script>
-<script src="tuto.js"></script>
 </body>
 </html>

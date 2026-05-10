@@ -1,9 +1,6 @@
-<?php include 'includes/api_config.php';?>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
+<?php include 'includes/api_config.php'; ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Accueil</title>
@@ -23,6 +20,7 @@
 include 'includes/header.php';
 ?>
 <div class='container mt-5'>
+<div id="content" class="mb-3" aria-live="polite"></div>
 <div style='font-size:50px' data-i18n data-i18n id="popover1" class="mb-custom mt-2 text-center ms-3" data-bs-toggle="popover" data-bs-title="Tutoriel" data-bs-content="Bienvenue sur le tutoriel proposé par Silver Happy, laissez nous vous guider pour découvrir notre site web. Sur la page d'accueil vous retrouvrez nos recommandation, l'actualité et divers produit du moment.<br> <br>Pour poursuivre le tutoriel cliquer sur le bouton Suivant juste en dessous<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Accueil</h1></div>
 
 <h3 class='mb-custom mt-2 text-center' data-i18n>Silver Happy, les seniors sont encore jeunes</h3>
@@ -32,9 +30,9 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
     unset($_SESSION['state']);
 } ?>
 <p data-i18n>
-Silver Happy permet aux seniors de s’épanouir dans leur vie active grâce à diverses activités organisées par le personnel de notre entreprise.  
+Silver Happy permet aux seniors de s'épanouir dans leur vie active grâce à diverses activités organisées par le personnel de notre entreprise.  
 <br>Nous proposons des événements organisés par nos collaborateurs ainsi que des services proposés par des prestataires partenaires de notre site.  
-<br>Une boutique en ligne permet également d’acheter différents produits mis en ventes par nos collaborateurs.
+<br>Une boutique en ligne permet également d'acheter différents produits mis en ventes par nos collaborateurs.
 </p>
 
 <div class="container mt-5">
@@ -199,6 +197,13 @@ async function chargerRecommandation(token) {
     }
 }
 
+function setBandeauConnexion(html) {
+    const zone = document.getElementById("content");
+    if (zone) {
+        zone.innerHTML = html;
+    }
+}
+
 async function onlineUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(base + "/enligne", {
@@ -220,14 +225,14 @@ async function onlineUser(token) {
       const msgConnecte = await traduireText("Vous êtes connecté", langue);
       if (data.tutoriel == "1") {
         const msgTutoriel = await traduireText("C'est votre 1ere experience sur le site ? Voici le tutoriel pour vous aider", langue);
-        document.getElementById("content").innerHTML = msgConnecte + "<br>" + msgTutoriel;
+        setBandeauConnexion(msgConnecte + "<br>" + msgTutoriel);
       } else {
-        document.getElementById("content").innerHTML = msgConnecte;
+        setBandeauConnexion(msgConnecte);
       }
       await chargerRecommandation(token);
     } else if (data.message == "Pas identifié") {
       const msgPasConnecte = await traduireText("Veuillez vous connecter pour poursuivre", langue);
-      document.getElementById("content").innerHTML = msgPasConnecte;
+      setBandeauConnexion(msgPasConnecte);
       document.getElementById("reco_wrapper").style.display = "none";
     }
 }
@@ -240,6 +245,5 @@ async function init(){
 
 init()
 </script>
-<script src="tuto.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-const TUTO_PAGES = {
-};
+// Évite l'erreur "redeclaration of const" si tuto.js est inclus plusieurs fois (ex. header + page).
+window.TUTO_PAGES = window.TUTO_PAGES || {};
 
 window.initPopovers = function() {
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]:not([data-popover-init])')
@@ -15,6 +15,11 @@ window.initPopovers = function() {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+    if (window.__tutoJsDomPret) {
+        return;
+    }
+    window.__tutoJsDomPret = true;
+
     initPopovers();
 
     const base = (window.API_BASE || 'http://localhost:9000');
