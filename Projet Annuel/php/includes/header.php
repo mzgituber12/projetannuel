@@ -1,27 +1,47 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <header>
+    <style>
+.navbar {
+    min-height: 80px;
+    padding: 15px 0;
+}
+.ms-custom{
+    margin-left:0.7rem;
+    margin-right:2rem;
+}
+</style>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" data-i18n id="popover6" data-bs-toggle="popover" data-bs-title="Postuler Pour Silver Happy" data-bs-content="Pour revenir à l'accueil rapidement cliquer sur la Maison juste ici<br>Une fois revenue a l'accueil continuez le tuto<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>" href="index.php"><i class="bi bi-house fs-2"></i></a>
-        <div id="controle_zoom" class="d-flex align-items-center gap-1 me-2">
-            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomOut()" aria-label="Reduire le zoom">-</button>
-            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomIn()" aria-label="Augmenter le zoom">+</button>
-        </div>
-        <div id="langue_index_badge" class="me-2"></div>
-        <div id="non_connecter"></div>
+            <a class="navbar-brand ms-3"
+            data-i18n
+            id="popover6"
+            data-bs-toggle="popover"
+            data-bs-title="Postuler Pour Silver Happy"
+            data-bs-content="..."
+            href="index.php">
+            <i class="bi bi-house" style="font-size: 2.5rem;"></i>
+            </a>
+            <div class="d-flex align-items-center gap-3 ms-custom">
+                <div id="controle_zoom" class="d-flex align-items-center gap-1 me-2">
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomOut()" aria-label="Reduire le zoom">-</button>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomIn()" aria-label="Augmenter le zoom">+</button>
+                </div>
+                <div id="langue_index_badge"></div>
+                <div id="non_connecter"></div>
+            </div>
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             <div id="bouton_des_abonnement"></div>
-            <li class="nav-item px-2">|</li>
+            <li id="enlever_admin" class="nav-item px-2">|</li>
             <div id="bouton_planning"></div>
-            <li class="nav-item px-2">|</li>
+            <li id="enlever_deco" class="nav-item px-2">|</li>
             <div id="bouton_messagerie"></div>
-            <li class="nav-item px-2">|</li>
+            <li id="enlever_deco2" class="nav-item px-2">|</li>
             <div id="bouton_boutique"></div>
-            <li class="nav-item px-2">|</li>
+            <li class="nav-item px-2"></li>
             <li class="nav-item">
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHeader" aria-controls="offcanvasHeader" aria-label="Ouvrir le menu">
                     <span class="navbar-toggler-icon"></span>
@@ -436,6 +456,9 @@ function initOneSignalPush(token) {
 function headerFallbackConnexion(nonConnecter, langueBadge) {
     if (langueBadge) langueBadge.innerHTML = "";
     if (nonConnecter) {
+        document.getElementById("enlever_admin").innerHTML = ""
+        document.getElementById("enlever_deco").innerHTML = ""
+        document.getElementById("enlever_deco2").innerHTML = ""
         nonConnecter.innerHTML = "<ul class='navbar-nav ms-auto d-flex flex-row gap-2 align-items-center'><li class='nav-item'><a class='nav-link active' href='inscription.php'>Inscription</a></li><li class='nav-item'><a class='nav-link active' href='connexion.php'>Connexion</a></li></ul>";
     }
 }
@@ -524,7 +547,7 @@ async function headerUser(token) {
     deconnexionBouton.innerHTML = "<li class='nav-item'><a class='nav-link text-danger' href='deconnexion.php'><i class='bi bi-box-arrow-right'></i> Deconnexion</a></li>";
 
     if (data.role == "adherant") {
-    boutonAbonnement.innerHTML = `<li class='nav-item'><a id="popover7" class="nav-link active" href="abonnement.php" data-bs-toggle="popover" data-bs-title="Les Abonnements Silver happy" data-bs-content="Ici consulter nos abonnement<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">S'abonner</a></li>`;
+    boutonAbonnement.innerHTML = `<li class='nav-item'><a id="popover7" class="nav-link active" href="abonnement.php" data-bs-toggle="popover" data-bs-title="Les Abonnements Silver happy" data-bs-content="Ici consulter nos abonnement<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">Nos abonnements</a></li>`;
     initPopovers();
     boutonPlanning.innerHTML = `<li class="nav-item"><a id="popover2" class="nav-link active" href="planning.php" data-bs-toggle="popover" data-bs-title="Planning" data-bs-content="Consultez votre planning ici ! Cliquer sur 'Planning'<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">Planning</a></li>`;
     initPopovers();
@@ -532,8 +555,15 @@ async function headerUser(token) {
     initPopovers();
     boutonBoutique.innerHTML = `<li class="nav-item"><a id="popover10" class="nav-link active" href="boutique.php" data-bs-toggle="popover" data-bs-title="Boutique" data-bs-content="Envie de vous faire plaisir, cliquez ici pour accéder à la boutique, découvrez nos produits adaptés spécialement pour vous !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='fin_tutoriel()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><i class="bi bi-bag"></i> Boutique</a></li>`;
     initPopovers();
-    autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='contrats.php'>Contrats</a></li><li class='nav-item'><a class='nav-link active' href='conseils.php'>Conseils</a></li><li class='nav-item'><a class='nav-link active' href='catalogue.php'>Catalogue</a></li><li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='demande_presta.php'>Postuler</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
-    return;
+    autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='contrats.php'>Contrats</a></li>" + 
+        "<li class='nav-item'><a class='nav-link active' href='conseils.php'>Conseils</a></li>" + 
+        "<li class='nav-item'><a class='nav-link active' href='catalogue.php'>Catalogue</a></li>" + 
+        "<li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li>" + 
+        "<li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li>" + 
+        "<li class='nav-item'><a class='nav-link active' href='demande_presta.php'>Postuler</a></li>" + 
+        "<li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>" +
+        "<li class='nav-item'><a class='nav-link active' href='maison.php'>Découverte Maison en 3D</a></li>";
+        return
 }
 
     if (data.role == "prestataire") {
@@ -541,11 +571,12 @@ async function headerUser(token) {
         boutonPlanning.innerHTML = "<li class='nav-item'><a class='nav-link active' href='avis_prestataire.php'><i class='bi bi-star'></i> Mes avis</a></li>";
         boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='messagerie.php'><i class='bi bi-chat-dots'></i> Messagerie</a></li>";
         boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";
-        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='mes_services.php'><i class='bi bi-briefcase'></i> Mes services</a></li><li class='nav-item'><a class='nav-link active' href='suivis.php'>Suivi des prestations</a></li><li class='nav-item'><a class='nav-link active' href='avis_prestataire.php'><i class='bi bi-star'></i> Mes avis</a></li><li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li><li class='nav-item'><a class='nav-link active' href='validations.php'>Validations</a></li><li class='nav-item'><a class='nav-link active' href='calendrier.php'>Calendrier</a></li><li class='nav-item'><a class='nav-link active' href='factures.php'>Factures</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
+        autreBouton.innerHTML = "<li class='nav-item'><a class='nav-link active' href='mes_services.php'><i class='bi bi-briefcase'></i> Mes services</a></li><li class='nav-item'><a class='nav-link active' href='suivis.php'>Suivi des prestations</a></li><li class='nav-item'><a class='nav-link active' href='devis.php'>Devis</a></li><li class='nav-item'><a class='nav-link active' href='validation.php'>Validations</a></li><li class='nav-item'><a class='nav-link active' href='calendrier.php'>Calendrier</a></li><li class='nav-item'><a class='nav-link active' href='factures.php'>Factures</a></li><li class='nav-item'><a class='nav-link active' href='rendez_vous.php'>Rendez Vous</a></li><li class='nav-item'><a class='nav-link active' href='notifications.php'>Notifications</a></li>";
         return;
     }
 
     if (data.role == "admin") {
+        document.getElementById("enlever_admin").innerHTML = ""
         boutonPlanning.innerHTML = "<li class='nav-item'><a class='nav-link active' href='notifications.php'><i class='bi bi-bell'></i> Notifications</a></li>";
         boutonMessagerie.innerHTML = "<li class='nav-item'><a class='nav-link active' href='messagerie.php'><i class='bi bi-chat-dots'></i> Messagerie</a></li>";
         boutonBoutique.innerHTML = "<li class='nav-item'><a class='nav-link active' href='boutique.php'><i class='bi bi-bag'></i> Boutique</a></li>";

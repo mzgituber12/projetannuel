@@ -15,17 +15,24 @@ type User struct {
 	FinSusp       string `json:"fin_susp"`
 }
 
+type Note struct {
+	ID_conseil int     `json:"id_conseil"`
+	Note       int     `json:"note"`
+	Message    string  `json:"message"`
+	Moyenne    float64 `json:"moyenne"`
+}
+
 type Result struct {
-	Message      string `json:"message"`
-	Value        int    `json:"value"`
-	Role         string `json:"role"`
-	Token        string `json:"token"`
-	Tutoriel     int    `json:"tutoriel"`
-	Langue       string `json:"langue"`
-	StatutUser   string `json:"statut_user"`
-	FinSusp      string `json:"fin_susp"`
+	Message       string `json:"message"`
+	Value         int    `json:"value"`
+	Role          string `json:"role"`
+	Token         string `json:"token"`
+	Tutoriel      int    `json:"tutoriel"`
+	Langue        string `json:"langue"`
+	StatutUser    string `json:"statut_user"`
+	FinSusp       string `json:"fin_susp"`
 	MotifSanction string `json:"motif_sanction"`
-	TypeSanction string `json:"type_sanction"`
+	TypeSanction  string `json:"type_sanction"`
 }
 
 type Contrat struct {
@@ -53,6 +60,7 @@ type Evenement struct {
 	Tarif       float64 `json:"tarif"`
 	Image       string  `json:"image"`
 	Rejoindre   string  `json:"rejoindre"`
+	Lieu        string  `json:"lieu"`
 }
 
 type Service struct {

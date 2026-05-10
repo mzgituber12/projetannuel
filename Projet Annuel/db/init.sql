@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : ven. 01 mai 2026 à 21:14
+-- Généré le : dim. 10 mai 2026 à 14:23
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
 -- Version de PHP : 8.3.30
 
@@ -77,7 +77,9 @@ CREATE TABLE `abonnement_push` (
 
 INSERT INTO `abonnement_push` (`id_subscription`, `id_utilisateur`, `subscription_id`, `actif`, `updated_at`) VALUES
 (68, 11, '907f7548-a91e-4908-918b-42c9e7166215', 0, '2026-04-29 19:03:36'),
-(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-21 15:21:53');
+(392, 5, '786b489a-25e1-4865-b604-45f530489fb8', 1, '2026-04-21 15:21:53'),
+(1150, 12, 'ac90ee92-a6a1-4bc1-8a07-4ce33fef9463', 1, '2026-05-08 00:46:16'),
+(1166, 2, '623b0473-9a60-40b2-bd5b-d5aba16a24f3', 1, '2026-05-06 00:04:47');
 
 -- --------------------------------------------------------
 
@@ -157,6 +159,62 @@ INSERT INTO `categorie` (`id_categorie`, `nom`, `valide_admin`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `categories`
+--
+
+INSERT INTO `categories` (`id`, `nom`) VALUES
+(1, 'Transport'),
+(2, 'Soin et bien-etre'),
+(3, 'Tourisme / Hebergement'),
+(4, 'Service a domicile'),
+(5, 'Loisirs & Sortie'),
+(6, 'Shoping');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `champs_supplementaires`
+--
+
+CREATE TABLE `champs_supplementaires` (
+  `id` int(11) NOT NULL,
+  `categorie_id` int(11) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `input_id` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `champs_supplementaires`
+--
+
+INSERT INTO `champs_supplementaires` (`id`, `categorie_id`, `label`, `type`, `input_id`) VALUES
+(1, 1, 'Permis de conduire', 'file', 'permis_de_conduire'),
+(2, 1, 'Assurance véhicule', 'file', 'assurance_vehicule'),
+(3, 2, 'Certification', 'file', 'certification'),
+(4, 2, 'Spécialité', 'text', 'specialite'),
+(5, 3, 'Type de logement', 'select', 'type_logement'),
+(6, 3, 'Adresse', 'text', 'adresse'),
+(7, 3, 'Photos', 'file', 'photos_logement'),
+(8, 4, 'Permis de conduire', 'file', 'permis_service'),
+(9, 4, 'Expérience', 'text', 'experience'),
+(10, 5, 'Type d\'activité', 'text', 'type_activite'),
+(11, 5, 'Description', 'text', 'description'),
+(12, 5, 'Permis de conduire', 'file', 'permis_loisir'),
+(13, 6, 'Preuve de livraison', 'file', 'livraison');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `conseil`
 --
 
@@ -180,6 +238,31 @@ INSERT INTO `conseil` (`id_conseil`, `id_utilisateur`, `titre`, `image`, `conten
 (4, 1, 'la salade est benefique2', 'conseil_1773920483573_Cloptre.png', 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', '2026-03-19 11:41:23'),
 (5, 1, 'la salade est benefique3', 'conseil_1773921332.png', 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', '2026-03-19 11:55:32'),
 (6, 1, 'la salade est benefique 4', '', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', '2026-03-21 20:23:19');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `conseil_note`
+--
+
+CREATE TABLE `conseil_note` (
+  `id_utilisateur` int(11) DEFAULT NULL,
+  `id_conseil` int(11) DEFAULT NULL,
+  `note` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `conseil_note`
+--
+
+INSERT INTO `conseil_note` (`id_utilisateur`, `id_conseil`, `note`, `id`) VALUES
+(4, 3, 5, 20),
+(8, 3, 1, 21),
+(5, 3, 4, 22),
+(1, 3, 1, 23),
+(7, 3, 3, 24),
+(12, 3, 5, 25);
 
 -- --------------------------------------------------------
 
@@ -213,7 +296,13 @@ INSERT INTO `contact` (`id_contact`, `id_utilisateur`, `contenu`) VALUES
 (7, 1, 'lucas est un petit peu autiste'),
 (8, 1, 'lucas est un petit peu autiste'),
 (9, 1, 'lucas est un petit peu autiste'),
-(10, 1, 'lucas est un petit peu autiste');
+(10, 1, 'lucas est un petit peu autiste'),
+(11, 12, 'teest'),
+(12, 12, 'rfdzs'),
+(13, 12, 'fdddd'),
+(14, 12, 'eedddd'),
+(15, 12, 'ffffff'),
+(16, 12, 'ffffff');
 
 -- --------------------------------------------------------
 
@@ -391,6 +480,20 @@ INSERT INTO `document` (`id_document`, `id_utilisateur`, `type_document`, `nom_f
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `document_txt`
+--
+
+CREATE TABLE `document_txt` (
+  `id_document_txt` int(11) NOT NULL,
+  `id_utilisateur` int(11) NOT NULL,
+  `categorie_text` varchar(50) NOT NULL,
+  `contenu` text NOT NULL,
+  `date_creation` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `evaluation`
 --
 
@@ -424,18 +527,21 @@ CREATE TABLE `evenement` (
   `image` varchar(30) DEFAULT NULL,
   `date` datetime DEFAULT current_timestamp(),
   `description` text DEFAULT NULL,
-  `tarif` decimal(10,2) DEFAULT NULL
+  `tarif` decimal(10,2) DEFAULT NULL,
+  `lieu` varchar(255) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `evenement`
 --
 
-INSERT INTO `evenement` (`id_evenement`, `nom`, `image`, `date`, `description`, `tarif`) VALUES
-(1, 'Manger', '', '2026-03-06 14:09:00', 'Allez manger un déjeuné équilibré pour votre santé', 10.00),
-(2, 'Machine a laver 2', '', '2026-07-27 23:43:00', 'Allez courir sur une machine a laver géante : age conseillé : moins de 66 ans sinon crise cardiaque assurée', 15.00),
-(3, 'eeee', 'evenement_1774126024.png', '2026-03-29 07:00:00', 'zzzzz', 20.00),
-(4, 'test', '', '2026-03-31 19:30:00', 'un evenement test', 0.00);
+INSERT INTO `evenement` (`id_evenement`, `nom`, `image`, `date`, `description`, `tarif`, `lieu`) VALUES
+(1, 'Manger', '', '2026-07-10 14:09:00', 'Allez manger un déjeuné équilibré pour votre santé', 10.00, 'A Bangkok'),
+(2, 'Machine a laver 2', '', '2026-07-27 23:43:00', 'Allez courir sur une machine a laver géante : age conseillé : moins de 66 ans sinon crise cardiaque assurée', 15.00, 'Chez M. Delon'),
+(3, 'eeee', 'evenement_1774126024.png', '2026-08-18 07:00:00', 'zzzzz', 20.00, 'Dans la caverne aux mysteres'),
+(4, 'test', '', '2026-10-10 19:30:00', 'un evenement test', 0.00, 'Bientot'),
+(5, 'testtt', '', '2026-05-16 00:13:00', 'test', 7.00, 'JSP wola'),
+(6, 'moché', '', '2026-05-29 00:13:00', 'léone', 74.00, 'Dans la tour BigBen');
 
 -- --------------------------------------------------------
 
@@ -497,14 +603,18 @@ CREATE TABLE `lien_contact` (
   `id_user2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
+-- --------------------------------------------------------
+
 --
--- Déchargement des données de la table `lien_contact`
+-- Structure de la table `lien_contact_state`
 --
 
-INSERT INTO `lien_contact` (`id_lien`, `id_user1`, `id_user2`) VALUES
-(1, 5, 3),
-(3, 5, 4),
-(4, 5, 1);
+CREATE TABLE `lien_contact_state` (
+  `id` int(11) NOT NULL,
+  `id_user1` int(11) DEFAULT NULL,
+  `id_user2` int(11) DEFAULT NULL,
+  `state` enum('bloquer','demande_ami') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -526,8 +636,33 @@ CREATE TABLE `message` (
 
 INSERT INTO `message` (`id_message`, `id_expediteur`, `id_destinataire`, `contenu`, `date_envoie`) VALUES
 (1, 1, 5, 'salut', '2026-03-29 20:28:29'),
-(2, 1, 5, 'ca va', '2026-03-29 20:29:03'),
-(3, 1, 5, 'test', '2026-03-31 09:34:03');
+(2, 1, 12, 'ca va', '2026-03-29 20:29:03'),
+(3, 12, 5, 'test', '2026-03-31 09:34:03'),
+(4, 12, 3, 'f', '2026-05-05 11:11:43'),
+(5, 12, 3, 'ff', '2026-05-05 11:11:45'),
+(7, 3, 12, 'nigga', '2026-05-05 11:42:47'),
+(12, 12, 3, 'ee', '2026-05-05 11:34:11'),
+(13, 3, 12, 'bb', '2026-05-05 12:04:29'),
+(14, 12, 3, 'ff', '2026-05-05 12:05:35'),
+(15, 3, 12, 'tt', '2026-05-05 17:03:55'),
+(16, 12, 3, 'tg', '2026-05-05 17:08:04'),
+(17, 12, 3, 'nigga', '2026-05-05 17:08:15'),
+(18, 12, 3, 'ff', '2026-05-05 23:50:04'),
+(19, 2, 12, 'CC', '2026-05-06 00:05:52'),
+(20, 12, 2, 'KK', '2026-05-06 00:06:04'),
+(21, 12, 2, 'dd', '2026-05-06 19:49:51'),
+(22, 12, 4, 'yo', '2026-05-06 20:07:32'),
+(23, 12, 4, 'cc', '2026-05-06 20:07:36'),
+(24, 12, 2, 'jsp', '2026-05-06 20:07:41'),
+(25, 12, 4, 'cc', '2026-05-06 20:18:56'),
+(26, 12, 2, 'oo', '2026-05-06 20:19:01'),
+(27, 12, 2, 'oo', '2026-05-06 20:19:03'),
+(28, 12, 1, 'nigga', '2026-05-06 22:17:49'),
+(29, 12, 1, 'tg', '2026-05-06 22:35:55'),
+(30, 2, 12, 'hhhhhhhhhhhh', '2026-05-08 00:45:25'),
+(31, 2, 12, 'frrrrrrrrrrrrrrrrrr', '2026-05-08 00:45:30'),
+(32, 2, 12, 'tg', '2026-05-08 00:45:42'),
+(33, 12, 2, 'kk', '2026-05-08 00:47:39');
 
 -- --------------------------------------------------------
 
@@ -598,7 +733,9 @@ INSERT INTO `notification` (`id_notification`, `id_expediteur`, `id_destinataire
 (37, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 11:00.', '2026-04-02 21:24:29', 1),
 (38, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 12:00.', '2026-04-02 21:37:03', 1),
 (39, NULL, 5, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 15/04/2026 à 13:00.', '2026-04-02 21:41:51', 1),
-(40, NULL, 8, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 16/05/2026 à 10:00.', '2026-04-21 07:53:09', 1);
+(40, NULL, 8, 'Réservation confirmée', 'Votre réservation pour le service \"Faire chier Laurent\" est confirmée le 16/05/2026 à 10:00.', '2026-04-21 07:53:09', 1),
+(41, NULL, 12, 'Réservation confirmée', 'Votre réservation pour l\'événement \"moché\" est confirmée.', '2026-05-09 22:20:35', 1),
+(42, NULL, 12, 'Réservation confirmée', 'Votre réservation pour l\'événement \"Machine a laver 2\" est confirmée.', '2026-05-09 22:50:08', 1);
 
 -- --------------------------------------------------------
 
@@ -852,7 +989,9 @@ CREATE TABLE `sanction` (
 --
 
 INSERT INTO `sanction` (`id`, `id_user`, `type`, `motif`, `date_crea`, `date_fin`, `date_levee`, `par_admin`, `levee_par`, `active`) VALUES
-(1, 11, 'perm', 'est juste un nuisible a a societe', '2026-04-29 19:04:52', NULL, '2026-04-30 18:23:40', 5, 5, 0);
+(1, 11, 'perm', 'est juste un nuisible a a societe', '2026-04-29 19:04:52', NULL, '2026-04-30 18:23:40', 5, 5, 0),
+(2, 1, 'temp', 'Non respect des règles', '2026-05-10 13:54:59', '2026-05-17 13:54:59', '2026-05-10 13:55:02', 12, 12, 0),
+(3, 1, 'temp', 'Non respect des règles', '2026-05-10 13:56:24', '2026-05-17 13:56:24', '2026-05-10 13:56:26', 12, 12, 0);
 
 -- --------------------------------------------------------
 
@@ -879,7 +1018,7 @@ INSERT INTO `service` (`id_service`, `nom`, `image`, `description`, `tarif`, `id
 (1, 'rencontrez Laurent', '', 'venez profitez de cette super expérience en sa compagnie', 4.00, 1, 1, 1),
 (2, 'Cirage de cheveux', '', 'vous voulez que l\'on prennent soin de vos cheveux venez profitez de cette super expérience', 44.40, 2, 2, 1),
 (3, 'test_service3', 'service_1774126058.png', 'zzzzzzzzzz', 23.00, NULL, NULL, 1),
-(4, 'service de test', 'service_1776782283.png', 'un super service inutile', 19.00, 2, 3, 1);
+(4, 'service de test', 'service_1776782283.png', 'un super service inutile', 19.00, 2, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -982,7 +1121,7 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_naissance`, `telephone`, `password`, `token`, `role`, `image`, `langue`, `taille_police`, `tutoriel`, `verifier`, `abonnée`, `statut_user`, `fin_susp`) VALUES
-(1, 'Laurent', 'Voillot', 'test@example.com', '0000-00-00', NULL, '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(1, 'Laurent', 'Voillot', 'test@example.com', '2026-05-10', NULL, '$2a$10$FQ8LUXWRx6HEtCNmzTYeQ.RVaSE8qTp06AYWJdFogUWJQLILGEi6y', NULL, 'prestataire', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
 (2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', NULL, '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0, 'actif', NULL),
 (3, 'bb', 'bb', 'cc@cc', '0000-00-00', NULL, '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
 (4, 'cc', 'ac', 'cc@ccc', '0000-00-00', NULL, '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
@@ -992,7 +1131,8 @@ INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_nai
 (8, 'm', 'm', 'aaa@aaa', '2008-04-02', NULL, '$2a$10$aPoWGhEkVFqpYHUjfjxVDe3ONXUFGnA3TjG1JywXArSBNqZTnuzEa', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
 (9, 's', 'monsieur', 'aaaa@aaaa', '2008-04-09', NULL, '$2a$10$lfcnGlVXDgPcU5yUVU5PTO98ylE7KEzan4mEIVu.6QCopyVLs79Ve', NULL, 'prestataire', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
 (10, 'a', 'a', 'aaaaa@aaaaa', '2008-04-03', NULL, '$2a$10$ijmloKyAy06JDLhB31ls0eiTZYt1m/Zpxx6UsWgY2gIRzGSF5M9Li', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
-(11, 'test', 'test', 'aa@aat', '2008-04-03', NULL, '$2a$10$YsE3dd7sQvcM1K2liGeVHeI5NKb9fhyIejSji3w6SAoic3YbfVIH2', 'Ad_DPrQ7-l5EBf-Az2dw4j2XUDdIhrRAjsmJ32xverU', 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL);
+(11, 'test', 'test', 'aa@aat', '2008-04-03', NULL, '$2a$10$YsE3dd7sQvcM1K2liGeVHeI5NKb9fhyIejSji3w6SAoic3YbfVIH2', 'Ad_DPrQ7-l5EBf-Az2dw4j2XUDdIhrRAjsmJ32xverU', 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
+(12, 'Benayoun', 'Lucas', 'aa@aa', '2006-04-25', NULL, '$2a$10$AcNiNZkUh1kuGjdnp2lvPuF8.v2jokVmMkdv3I5t8mUVCoSExexDG', 'iGysaoZ6liSjIsDjYchH9CZCibeZW40xKFEmQwdY5Sg', 'admin', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL);
 
 -- --------------------------------------------------------
 
@@ -1050,10 +1190,31 @@ ALTER TABLE `categorie`
   ADD UNIQUE KEY `nom` (`nom`);
 
 --
+-- Index pour la table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `champs_supplementaires`
+--
+ALTER TABLE `champs_supplementaires`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `categorie_id` (`categorie_id`);
+
+--
 -- Index pour la table `conseil`
 --
 ALTER TABLE `conseil`
   ADD PRIMARY KEY (`id_conseil`),
+  ADD KEY `id_utilisateur` (`id_utilisateur`);
+
+--
+-- Index pour la table `conseil_note`
+--
+ALTER TABLE `conseil_note`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_conseil` (`id_conseil`),
   ADD KEY `id_utilisateur` (`id_utilisateur`);
 
 --
@@ -1103,6 +1264,13 @@ ALTER TABLE `document`
   ADD KEY `fk_document_user` (`id_utilisateur`);
 
 --
+-- Index pour la table `document_txt`
+--
+ALTER TABLE `document_txt`
+  ADD PRIMARY KEY (`id_document_txt`),
+  ADD KEY `fk_utilisateur_txt` (`id_utilisateur`);
+
+--
 -- Index pour la table `evaluation`
 --
 ALTER TABLE `evaluation`
@@ -1138,6 +1306,14 @@ ALTER TABLE `intervention`
 --
 ALTER TABLE `lien_contact`
   ADD PRIMARY KEY (`id_lien`),
+  ADD KEY `id_user1` (`id_user1`),
+  ADD KEY `id_user2` (`id_user2`);
+
+--
+-- Index pour la table `lien_contact_state`
+--
+ALTER TABLE `lien_contact_state`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_user1` (`id_user1`),
   ADD KEY `id_user2` (`id_user2`);
 
@@ -1293,7 +1469,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1150;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3042;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
@@ -1314,16 +1490,34 @@ ALTER TABLE `categorie`
   MODIFY `id_categorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT pour la table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT pour la table `champs_supplementaires`
+--
+ALTER TABLE `champs_supplementaires`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT pour la table `conseil`
 --
 ALTER TABLE `conseil`
   MODIFY `id_conseil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT pour la table `conseil_note`
+--
+ALTER TABLE `conseil_note`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
 -- AUTO_INCREMENT pour la table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `contrat`
@@ -1350,6 +1544,12 @@ ALTER TABLE `document`
   MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT pour la table `document_txt`
+--
+ALTER TABLE `document_txt`
+  MODIFY `id_document_txt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT pour la table `evaluation`
 --
 ALTER TABLE `evaluation`
@@ -1359,7 +1559,7 @@ ALTER TABLE `evaluation`
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `id_evenement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_evenement` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `facture_prestataire`
@@ -1377,13 +1577,19 @@ ALTER TABLE `intervention`
 -- AUTO_INCREMENT pour la table `lien_contact`
 --
 ALTER TABLE `lien_contact`
-  MODIFY `id_lien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_lien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT pour la table `lien_contact_state`
+--
+ALTER TABLE `lien_contact_state`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT pour la table `modele_notification`
@@ -1395,7 +1601,7 @@ ALTER TABLE `modele_notification`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT pour la table `paiement`
@@ -1431,7 +1637,7 @@ ALTER TABLE `reference_article`
 -- AUTO_INCREMENT pour la table `reference_evenement`
 --
 ALTER TABLE `reference_evenement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT pour la table `reference_service`
@@ -1443,13 +1649,13 @@ ALTER TABLE `reference_service`
 -- AUTO_INCREMENT pour la table `rendez_vous`
 --
 ALTER TABLE `rendez_vous`
-  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id_rdv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT pour la table `sanction`
 --
 ALTER TABLE `sanction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `service`
@@ -1473,7 +1679,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `virement`
@@ -1499,10 +1705,23 @@ ALTER TABLE `achat`
   ADD CONSTRAINT `achat_ibfk_2` FOREIGN KEY (`id_panier`) REFERENCES `panier` (`id_panier`) ON DELETE SET NULL;
 
 --
+-- Contraintes pour la table `champs_supplementaires`
+--
+ALTER TABLE `champs_supplementaires`
+  ADD CONSTRAINT `champs_supplementaires_ibfk_1` FOREIGN KEY (`categorie_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
+
+--
 -- Contraintes pour la table `conseil`
 --
 ALTER TABLE `conseil`
   ADD CONSTRAINT `conseil_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `conseil_note`
+--
+ALTER TABLE `conseil_note`
+  ADD CONSTRAINT `conseil_note_ibfk_1` FOREIGN KEY (`id_conseil`) REFERENCES `conseil` (`id_conseil`) ON DELETE CASCADE,
+  ADD CONSTRAINT `conseil_note_ibfk_2` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
 
 --
 -- Contraintes pour la table `consultation_conseil`
@@ -1546,6 +1765,12 @@ ALTER TABLE `document`
   ADD CONSTRAINT `fk_document_user` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
+-- Contraintes pour la table `document_txt`
+--
+ALTER TABLE `document_txt`
+  ADD CONSTRAINT `fk_utilisateur_txt` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
+
+--
 -- Contraintes pour la table `evaluation`
 --
 ALTER TABLE `evaluation`
@@ -1566,6 +1791,20 @@ ALTER TABLE `intervention`
   ADD CONSTRAINT `intervention_ibfk_2` FOREIGN KEY (`id_prestataire`) REFERENCES `prestataire` (`id_prestataire`) ON DELETE SET NULL,
   ADD CONSTRAINT `intervention_ibfk_3` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
   ADD CONSTRAINT `intervention_ibfk_4` FOREIGN KEY (`id_rdv`) REFERENCES `rendez_vous` (`id_rdv`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lien_contact`
+--
+ALTER TABLE `lien_contact`
+  ADD CONSTRAINT `lien_contact_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `utilisateur` (`id_utilisateur`),
+  ADD CONSTRAINT `lien_contact_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `utilisateur` (`id_utilisateur`);
+
+--
+-- Contraintes pour la table `lien_contact_state`
+--
+ALTER TABLE `lien_contact_state`
+  ADD CONSTRAINT `lien_contact_state_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lien_contact_state_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `message`

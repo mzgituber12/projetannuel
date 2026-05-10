@@ -15,13 +15,15 @@
 
 <?php include 'includes/header.php'?>
 
-<div class="container-fluid mt-4">
-    <h1 class="mb-4" data-i18n>Gestion des services</h1>
+<div class='container mt-5'>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Gestion des services</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
     }?>
+
+<div class="container-fluid mt-4">
     <div class="mb-4 d-flex flex-wrap gap-2 align-items-center">
         <a href='creer_service.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouveau service</span></a>
     </div>
@@ -60,9 +62,12 @@
     <h2 class="mt-5 mb-3" data-i18n>Liste des services</h2>
     <div id="services"></div>
 </div>
-<?php include("includes/footer.php") ?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<div class="mb-4"></div>
+
+</div>
+
+<?php include("includes/footer.php") ?>
 
 <script>
     let servicesData = [];

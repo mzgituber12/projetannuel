@@ -12,10 +12,15 @@
 <body>
 
 <?php include 'includes/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id ="admin_err"></h2>
 
-<div id="resultat"></div>
+<div class='container mt-5'>
+<h1 id="admin_title" data-i18n class='mb-custom text-center ms-4' style='font-size:50px'></h1>
+<h2 id ="admin_err" class="mt-4"></h2>
+
+<div id="resultat" class="mt-custom p-3 pb-1 border rounded bg-light"></div>
+</div>
+
+<div class="mt-4"></div>
 <?php include 'includes/footer.php'?>
 
 <script>
@@ -30,6 +35,7 @@
                 nom: document.getElementById('event_nom').value,
                 date: document.getElementById('event_date').value,
                 description: document.getElementById('event_description').value,
+                lieu: document.getElementById('event_lieu').value,
                 tarif: parseInt(document.getElementById('event_tarif').value, 10),
             })
         });
@@ -77,8 +83,12 @@
             <input type="text" name="nom" id="event_nom" value="${data.nom}" required><br><br>
             <label data-i18n>Date :</label>
             <input type="datetime-local" step="60" name="date" id="event_date" value="${data.date}"><br><br>
-            <label data-i18n>Description :</label>
-            <textarea name="description" id="event_description" required>${data.description}</textarea><br><br>
+            <div class="mb-3">
+            <label for="event_description" class="form-label">Description</label>
+            <textarea class="form-control" id="event_description" rows="4" required>${data.description}</textarea>
+            </div>
+            <label data-i18n>Lieu :</label>
+            <input type="text" name="lieu" id="event_lieu" value="${data.lieu}" required><br><br>
             <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="event_tarif" value="${data.tarif}" required><br><br>
             <button type = "submit" data-i18n>Confirmer les modifications</button>

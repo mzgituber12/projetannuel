@@ -10,13 +10,26 @@ include 'includes/header.php';
 <html>
 <head>
     <meta charset="UTF-8">
-    <title data-i18n>Demande Prestataire</title>
+    <title data-i18n>Postuler</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
+<div class="container mt-5">
+    <h1 class='mb-custom text-center ms-4' style='font-size:50px'>Postuler</h1>
+    <p class="text-center">
+        Vous pouvez soumettre une demande pour devenir prestataire. Votre candidature sera étudiée et validée par les experts de Silver Happy.  
+        <br>Vous devrez d’abord fournir plusieurs documents afin de permettre votre certification.
+    </p>
+</div>
+
 <div class="d-flex justify-content-center">
-    <div class="card p-4 shadow-sm w-100 mb-5 mt-5" style="max-width: 700px;">
+    <div class="card p-4 shadow-sm w-100 mb-5 mt-4" style="max-width: 700px;">
         <div class="row justify-content-center" data-i18n id="popover5" class="col-md-4 d-flex justify-content-center" data-bs-toggle="popover" data-bs-title="Postuler Pour Silver Happy" data-bs-content="Vous souhaitez faire partie de notre équipe et vous souhaitez faire part de vos prestations, envoyez votre candidature ici !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">
             <div class="col-md-10">
                 <div class="mb-3">
@@ -92,7 +105,7 @@ include 'includes/header.php';
         } else {
             const text = await response.text();
             alert(text);
-            window.location.href = "index.php?code=" + response.status;
+            window.location.href = "erreur.php?code=" + response.status;
         }
     }
 
@@ -110,8 +123,8 @@ include 'includes/header.php';
             });
             const uploadData = await uploadResponse.json();
             if (!uploadResponse.ok || !uploadData.success) {
-                document.getElementById("admin_err").innerHTML = uploadData.message || "Erreur lors de l'upload de l'image.";
-                return "";
+                alert("Erreur lors de l'upload de l'image.");
+                window.location.href = "erreur.php?code=500";
             }
             imageValue = uploadData.fileName;
         }
@@ -159,7 +172,8 @@ include 'includes/header.php';
         if (!response.ok) {
             const text = await response.text();
             alert(text);
-            window.location.href = "demande_presta.php?code=" + response.status;
+            window.location.href = "erreur.php?code=" + response.status;
+            return;
         }
         alert("Votre demande a bien été prise en compte !")
         window.location.href = "index.php";

@@ -7,15 +7,21 @@
     <meta charset="UTF-8">
     <title data-i18n>Mes avis clients</title>
     <link rel="stylesheet" href="police.css">
+    <style>
+    .mb-custom{
+    margin-bottom: 2rem
+    }</style>
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 
-<div class="container mt-4 mb-5">
+<div class="container mt-5">
+
+    <h1 class='text-center ms-4 mb-custom' style='font-size:50px' data-i18n>Mes avis clients</h1>
+    <p class="text-center mb-custom">Consultez ici les avis laissés par tous vos clients</p>
 
     <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
-        <h1 class="mb-0" data-i18n>Mes avis clients</h1>
         <a href="suivis.php" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left me-1"></i><span data-i18n>Retour aux prestations</span>
         </a>

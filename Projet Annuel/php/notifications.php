@@ -6,6 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Mes notifications</title>
+    <style>.mb-custom{
+        margin-bottom: 2.3rem
+      }</style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="police.css">
@@ -13,9 +16,12 @@
 <body>
 <?php include 'includes/header.php'; ?>
 
-<div class="container-fluid mt-4">
-    <h1 class="mb-4">Mes notifications</h1>
-    
+<div class="container mt-5">
+    <h1 class="mb-4 text-center" style="font-size:50px">Mes notifications</h1>
+    <p class="mb-custom text-center">
+        Vos notifications apparaîtront ici. 
+        <br>N’hésitez pas à les consulter régulièrement afin de rester informé des dernières mises à jour, messages et actions importantes concernant votre compte.
+    </p>
     <div class="mb-4 d-flex gap-2">
         <button class="btn btn-primary" onclick="marquerToutesLues()"><i class="bi bi-check-all"></i> Tout marquer comme lu</button>
         <button class="btn btn-secondary" onclick="chargerNotifications()"><i class="bi bi-arrow-clockwise"></i> Actualiser</button>
@@ -25,10 +31,9 @@
         <div class="alert alert-info"><i class="bi bi-hourglass-split"></i> Chargement...</div>
     </div>
 </div>
+</div>
 
 <?php include 'includes/footer.php'; ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
 async function chargerNotifications() {

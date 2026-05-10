@@ -9,19 +9,37 @@ include 'includes/header.php'?>
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Mon Profil</title>
+    <style>
+    .mb-custom{
+        margin-bottom: 2.3rem
+    }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
-<h2 data-i18n></h2>
+<div class="container mt-5">
 
-<h2 id="status"></h2>
-<div class="m-4">
-    <button type="button" class="btn btn-warning" onclick="recommencer_tuto()" data-i18n>Recommencer le tutoriel</button>
+    <h1 class="mb-custom text-center" style="font-size:50px">
+        Mon profil
+    </h1>
+
+    <h2 data-i18n></h2>
+    <h2 id="status"></h2>
+
+    <div class="d-flex justify-content-center m-4">
+        <button type="button"
+                class="btn btn-warning"
+                onclick="recommencer_tuto()"
+                data-i18n>
+            Recommencer le tutoriel
+        </button>
+    </div>
+
 </div>
 
 <div class="row justify-content-center">
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-5 mt-2">
         <div class="mb-3 position-relative" data-i18n id="popover4" data-bs-toggle="popover" data-bs-title="Modifier mon profil" data-bs-content="Sur cette page vous pourrez consultez votre profil et le modifier !<br> Maintenant cliquer à nouveau sur le menu, puis 'Postuler'<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">            <label for="Email" class="form-label" data-i18n>Email</label>
             <div class="d-flex">
                 <input type="email" class="form-control me-2" id="email">
@@ -103,8 +121,6 @@ include 'includes/header.php'?>
         </div>
     </div>
 </div>
-
-
 
 <?php include 'includes/footer.php'?>
 

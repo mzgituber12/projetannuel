@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Réservation</title>
+    <style>
+        .mb-custom{
+        margin-bottom: 2.3rem
+      }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="police.css">
 </head>
@@ -14,7 +19,7 @@
 <?php include 'includes/header.php' ?>
 
 <div class="container mt-5 mb-5">
-    <h1 class="mb-4" data-i18n>Réservation</h1>
+    <h1 class="mb-custom text-center ms-4" data-i18n style='font-size:50px'>Réservation</h1>
 
     <?php if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo '<div class="alert alert-success">' . htmlspecialchars($_GET['message']) . '</div>';
@@ -26,7 +31,65 @@
 $type = isset($_GET['type']) ? $_GET['type'] : '';
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $nom = isset($_GET['nom']) ? htmlspecialchars($_GET['nom']) : '';
+
 $date = isset($_GET['date']) ? htmlspecialchars($_GET['date']) : '';
+$parts = explode("||", $date);
+$parts2 = explode("/", $parts[0]);
+$day = $parts2[0];
+$month = $parts2[1];
+$year = $parts2[2];
+switch ($month) {
+    case "01":
+        $month = "Janvier";
+        break;
+
+    case "02":
+        $month = "Février";
+        break;
+
+    case "03":
+        $month = "Mars";
+        break;
+
+    case "04":
+        $month = "Avril";
+        break;
+
+    case "05":
+        $month = "Mai";
+        break;
+
+    case "06":
+        $month = "Juin";
+        break;
+
+    case "07":
+        $month = "Juillet";
+        break;
+
+    case "08":
+        $month = "Août";
+        break;
+
+    case "09":
+        $month = "Septembre";
+        break;
+
+    case "10":
+        $month = "Octobre";
+        break;
+
+    case "11":
+        $month = "Novembre";
+        break;
+
+    case "12":
+        $month = "Décembre";
+        break;
+}
+$date = $day . " " . $month . " " . $year . " à " . $parts[1];
+
+$lieu = isset($_GET['lieu']) ? htmlspecialchars($_GET['lieu']) : '';
 $tarif = isset($_GET['tarif']) ? htmlspecialchars($_GET['tarif']) : '';
 $description = isset($_GET['description']) ? htmlspecialchars($_GET['description']) : '';
 $prestataire = isset($_GET['prestataire']) ? htmlspecialchars($_GET['prestataire']) : '';
@@ -51,8 +114,10 @@ if ($image !== '') {
                         <img src="<?= $imageUrl ?>" alt="Image de l'événement" class="img-fluid rounded mb-3" style="max-width: 100%; max-height: 350px; object-fit: cover;">
                     <?php endif; ?>
                     <p class="card-text"><strong data-i18n>Date :</strong> <?= $date ?></p>
-                    <p class="card-text"><strong data-i18n>Description :</strong></p>
-                    <p class="card-text"><?= $description ?></p>
+                    <p class="card-text"><strong data-i18n>Description :</strong><div class="p-3 bg-light border rounded small">
+                    <?= $description ?>
+                    </div></p>
+                    <p class="card-text"><strong data-i18n>Lieu :</strong> <?= $lieu ?></p>
                     <p class="card-text"><strong data-i18n>Tarif sur place :</strong> <span class="text-primary fw-bold"><?= $tarif ?> €</span></p>
 
                     <button id="joinEvent" class="btn btn-primary btn-lg" data-i18n>Rejoindre cet événement</button>

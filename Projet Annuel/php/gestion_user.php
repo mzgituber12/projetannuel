@@ -7,6 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Gestion des utilisateurs</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="police.css">
@@ -15,13 +20,15 @@
 
 <?php include 'includes/header.php'?>
 
-<div class="container-fluid mt-4">
-    <h1 class="mb-4" data-i18n>Gestion des utilisateurs</h1>
+<div class='container mt-5'>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Gestion des utilisateurs</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
     }?>
+
+<div class="container-fluid mt-4">
     
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
@@ -44,9 +51,11 @@
     <div id="users"></div>
 </div>
 
-<?php include 'includes/footer.php'?>
+<div class="mb-4"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</div>
+
+<?php include 'includes/footer.php'?>
 
 <script>
     async function supprimer_user(id, email){

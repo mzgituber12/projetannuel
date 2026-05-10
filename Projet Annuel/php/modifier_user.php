@@ -7,15 +7,28 @@
 <head>
     <meta charset="UTF-8">
     <title id ="page_title"></title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+        .mt-custom{
+            margin-top: 2rem
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
 <?php include 'includes/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id ="admin_err"></h2>
 
-<div id="resultat"></div>
+<div class='container mt-5'>
+<h1 id="admin_title" data-i18n class='mb-custom text-center ms-4' style='font-size:50px'></h1>
+<h2 id ="admin_err" class="mt-4"></h2>
+
+<div id="resultat" class="mt-custom p-3 pb-1 border rounded bg-light"></div>
+</div>
+
+<div class="mt-4"></div>
 <?php include 'includes/footer.php'?>
 
 <script>
@@ -73,22 +86,32 @@
             document.getElementById("resultat").innerHTML = "Aucun utilisateur trouvé";
         } else {
             document.getElementById("resultat").innerHTML = `
-            <form onsubmit="updateUser(event)">
-            <label data-i18n>ID :</label>
-            <input type="number" name="id" id="user_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
-            <label data-i18n>Nom :</label>
-            <input type="text" name="nom" id="user_nom" value="${data.nom}" required><br><br>
-            <label data-i18n>Prénom :</label>
-            <input type="text" name="prenom" id="user_prenom" value="${data.prenom}" required><br><br>
-            <label data-i18n>Âge :</label>
-            <input type="number" name="age" id="user_age" value="${data.age}" required><br><br>
-            <label data-i18n>Email :</label>
-            <input type="email" name="email" id="user_email" value="${data.email}" required><br><br>
-            <label data-i18n>Role :</label>
-            <input type="text" name="role" id="user_role" value="${data.role}" required><br><br>
-            <label data-i18n>Langue :</label>
-            <input type="text" name="langue" id="user_langue" value="${data.langue}" required><br><br>
-            <button type = "submit" data-i18n>Confirmer les modifications</button>
+            <form onsubmit="updateUser(event)" class="text-start">
+
+            <label>ID :</label>
+            <input class="form-control mb-2" type="number" value="${data.id}" readonly>
+
+            <label>Nom :</label>
+            <input class="form-control mb-2" type="text" id="user_nom" value="${data.nom}" required>
+
+            <label>Prénom :</label>
+            <input class="form-control mb-2" type="text" id="user_prenom" value="${data.prenom}" required>
+
+            <label>Âge :</label>
+            <input class="form-control mb-2" type="number" id="user_age" value="${data.age}" required>
+
+            <label>Email :</label>
+            <input class="form-control mb-2" type="email" id="user_email" value="${data.email}" required>
+
+            <label>Role :</label>
+            <input class="form-control mb-2" type="text" id="user_role" value="${data.role}" required>
+
+            <label>Langue :</label>
+            <input class="form-control mb-4" type="text" id="user_langue" value="${data.langue}" required>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Confirmer les modifications
+            </button>
             </form>
             `;
             }

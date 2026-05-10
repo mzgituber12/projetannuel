@@ -6,6 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Calendrier prestataire</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+        .mt-custom{
+            margin-top: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <link rel="stylesheet" href="police.css">
@@ -14,10 +22,11 @@
 
 <?php include 'includes/header.php' ?>
 
+
 <div class="container mt-4 mb-5">
     <div class="mb-3">
-        <h1 class="h3 fw-bold mb-1" data-i18n>Calendrier prestataire</h1>
-        <p class="text-muted mb-0" data-i18n>Consultez vos rendez-vous et gérez vos créneaux de disponibilité/indisponibilité.</p>
+        <h1 data-i18n class='mb-custom text-center ms-4 mt-4' style='font-size:50px'> Calendrier Prestataire </h1>
+        <p class="text-center mt-custom" data-i18n>Consultez vos rendez-vous et gérez vos créneaux de disponibilité/indisponibilité.</p>
     </div>
 
     <div id="pageError" class="alert alert-danger d-none" role="alert"></div>

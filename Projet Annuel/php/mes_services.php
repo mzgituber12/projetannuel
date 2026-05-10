@@ -10,14 +10,16 @@
     <style>
         #dialog_edit_service { padding: 0; border: none; border-radius: 0.375rem; max-width: min(560px, 96vw); width: 100%; }
         #dialog_edit_service::backdrop { background: rgba(33, 37, 41, 0.45); }
+        .mb-custom{
+            margin-bottom: 2rem
+        }
     </style>
     <link rel="stylesheet" href="police.css">
 </head>
-<body class="bg-light">
 <?php include 'includes/header.php'; ?>
 
-<main class="container py-4">
-    <h1 class="h3 mb-3">Mes services</h1>
+<div class="container mt-5">
+    <h1 class='mb-custom text-center ms-4' style='font-size:50px'>Mes services</h1>
 
     <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -68,8 +70,7 @@
 
     <h2 class="h5 mb-2">Mes prestations</h2>
     <div id="liste_services"></div>
-</main>
-
+</div>
 <dialog id="dialog_edit_service">
     <div class="modal-content border-0">
         <div class="modal-header border-bottom py-2">
@@ -108,7 +109,6 @@
 </dialog>
 
 <?php include 'includes/footer.php'; ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script>
 (function () {
     function apiBase() {

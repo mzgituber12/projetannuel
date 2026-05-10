@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Mes factures</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -16,9 +21,11 @@
 
 <?php include 'includes/header.php'; ?>
 
+<div class='container mt-5'>
+<h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Mes factures prestataire</h1>
+
 <div class="container-fluid mt-4 mb-5">
     <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
-        <h1 class="mb-0" data-i18n>Mes factures prestataire</h1>
         <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-outline-primary" onclick="chargerFactures()"><i class="bi bi-arrow-repeat"></i> <span data-i18n>Actualiser</span></button>
             <button class="btn btn-warning" onclick="simulerDebutMois()"><i class="bi bi-lightning-charge"></i> <span data-i18n>Simulation debut mois (temporaire)</span></button>
@@ -69,6 +76,7 @@
     </div>
 </div>
 
+</div>
 <?php include 'includes/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
