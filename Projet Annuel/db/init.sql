@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mariadb
--- Généré le : dim. 10 mai 2026 à 14:23
+-- Généré le : dim. 10 mai 2026 à 17:03
 -- Version du serveur : 11.8.6-MariaDB-ubu2404
--- Version de PHP : 8.3.30
+-- Version de PHP : 8.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -562,8 +562,8 @@ CREATE TABLE `facture_prestataire` (
 -- Déchargement des données de la table `facture_prestataire`
 --
 
-INSERT INTO `facture_prestataire` (`id_facture`, `id_prestataire`, `mois`, `montant_total`, `date_generation`) VALUES
-(1, 2, '2026-04', 4.00, '2026-04-06');
+INSERT INTO `facture_prestataire` (`id_facture`, `id_prestataire`, `mois`, `montant_total`, `date_generation`, `fichier_pdf`) VALUES
+(1, 2, '2026-04', 4.00, '2026-04-06', NULL);
 
 -- --------------------------------------------------------
 
@@ -1126,7 +1126,7 @@ INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `date_nai
 (2, 'Marc', 'Claude', 'bb@bb', '0000-00-00', NULL, '$2a$10$ComWff4hrpcLJ96fFXH/e.DGMX5mFGi8Gc1l5f/f3rvp6ZRT.hJwS', NULL, 'adherant', '', 'en', '1', 0, 0, 0, 'actif', NULL),
 (3, 'bb', 'bb', 'cc@cc', '0000-00-00', NULL, '$2a$10$5A2yFwC/TmJeJfEbutmqi.tM.3KmGBrGtKZ54C5Dy9lQFeFNsjBAy', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
 (4, 'cc', 'ac', 'cc@ccc', '0000-00-00', NULL, '$2a$10$fX.X2TUOz0xBn23ZFsOvkOBVVbTkgiMpAyro6aBVakEUjLzLvTp/y', NULL, 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
-(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', NULL, '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', '60B5ASI-JoEbPwLCpxHB8kP8yZt20BOHR4KaiQkHPXg', 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
+(5, 'admin', 'admin (le mdp est admin123)', 'aa@aa.com', '0000-00-00', NULL, '$2a$10$C0KrezVhxOcjsqJWx.74kOpBhL4.ajZEJvhohCR5gEBFcJb5KL8ry', 'yJP6-1Wyl3vfhsex1KrxZzYcuTHABFmxmEiFgwy28t4', 'adherant', '', 'fr', '1', 0, 0, 0, 'actif', NULL),
 (6, 'edodolf', 'hilan', 'hittalan@gmail.com', '1950-02-23', NULL, '$2a$10$qJONOgnpXpCNY.bjSMBbVOjCg18V2KcaEiSABb6Aik43z8fSZCR06', 'MJcizSUF0XWcnD7I13_Au5a_vpF2tIHhZ_CgxeW9OKc', 'adherant', NULL, 'fr', '1', 1, 0, 0, 'actif', NULL),
 (7, 'azertyio', 'ma', 'ss@ss', '2008-04-10', NULL, '$2a$10$n3//8dPCjL8ZEr9cDRyovORKCnRGUWA2N6vV4lU9Y.SRjOyjVh86S', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
 (8, 'm', 'm', 'aaa@aaa', '2008-04-02', NULL, '$2a$10$aPoWGhEkVFqpYHUjfjxVDe3ONXUFGnA3TjG1JywXArSBNqZTnuzEa', NULL, 'adherant', NULL, 'fr', '1', 0, 0, 0, 'actif', NULL),
@@ -1470,7 +1470,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `abonnement_push`
 --
 ALTER TABLE `abonnement_push`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3042;
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3054;
 
 --
 -- AUTO_INCREMENT pour la table `achat`
