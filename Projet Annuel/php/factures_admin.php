@@ -178,7 +178,10 @@ function renderFactures() {
         html += '</div>';
         html += '<div class="d-flex gap-2">';
         html += confirmBtn;
-        html += '<button class="btn btn-sm btn-danger" onclick="telechargerPDF(' + Number(f.id_facture || 0) + ')"><i class="bi bi-file-earmark-pdf"></i> PDF</button>';
+        html += '<button type="button" class="btn btn-sm btn-danger" onclick="telechargerPDF(' + Number(f.id_facture || 0) + ')"><i class="bi bi-file-earmark-pdf"></i> PDF</button>';
+        if (String(f.fichier_pdf || '').trim()) {
+            html += '<button type="button" class="btn btn-sm btn-outline-primary" onclick="telechargerPDFArchiveAdmin(' + Number(f.id_facture || 0) + ')"><i class="bi bi-hdd-stack"></i> PDF archive serveur</button>';
+        }
         html += '</div>';
         html += '</div>';
         html += '<div class="table-responsive"><table class="table table-sm table-striped align-middle">';
@@ -256,6 +259,43 @@ function telechargerPDF(idFacture) {
     });
 
     doc.save('facture_prestataire_' + String(facture.id_facture || 'x') + '_' + String(facture.mois || 'mois') + '.pdf');
+}
+
+async function telechargerPDFArchiveAdmin(idFacture) {
+    const urlBaseApiGo = window.API_BASE || 'http://localhost:9000';
+    const jetonSessionAdmin = localStorage.getItem('token') || '';
+    const idFactureAChercher = Number(idFacture || 0);
+
+    if (!idFactureAChercher || !jetonSessionAdmin) {
+        afficherAlerte('Session ou facture invalide.', 'danger');
+        return;
+    }
+
+    try {
+        const urlEndpointArchivePdf = urlBaseApiGo + '/admin/facture_prestataire/' + idFactureAChercher + '/pdf_archive';
+        const reponseHttpArchive = await fetch(urlEndpointArchivePdf, {
+            method: 'GET',
+            headers: { Token: jetonSessionAdmin }
+        });
+
+        if (!reponseHttpArchive.ok) {
+            afficherAlerte('Archive PDF serveur introuvable.', 'warning');
+            return;
+        }
+
+        const fichierPdfArchive = await reponseHttpArchive.blob();
+        const urlTemporaireObjetPdf = URL.createObjectURL(fichierPdfArchive);
+        const lienTelechargementInvisible = document.createElement('a');
+
+        lienTelechargementInvisible.href = urlTemporaireObjetPdf;
+        lienTelechargementInvisible.download = 'facture_archive_admin_' + idFactureAChercher + '.pdf';
+        document.body.appendChild(lienTelechargementInvisible);
+        lienTelechargementInvisible.click();
+        lienTelechargementInvisible.remove();
+        URL.revokeObjectURL(urlTemporaireObjetPdf);
+    } catch (erreurReseauOuParse) {
+        afficherAlerte('Erreur téléchargement archive PDF.', 'danger');
+    }
 }
 
 async function chargerFactures() {

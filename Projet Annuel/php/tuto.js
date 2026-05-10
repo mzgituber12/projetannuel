@@ -1,4 +1,4 @@
-// Évite l'erreur "redeclaration of const" si tuto.js est inclus plusieurs fois (ex. header + page).
+
 window.TUTO_PAGES = window.TUTO_PAGES || {};
 
 window.initPopovers = function() {

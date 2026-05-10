@@ -156,3 +156,5 @@ docker compose -f docker-compose.dev.yml run --rm ml_trainer
 
 - Si le navigateur conserve un ancien JavaScript : `Ctrl + F5`.
 - Si vous voulez repartir d'une base vide, supprimer le volume MariaDB concerné puis relancer Compose.
+
+

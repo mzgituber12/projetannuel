@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"projet/structures"
 	"time"
@@ -109,11 +110,15 @@ func genererFactureMensuelle(bdd *sql.DB, idPrestataire int, dateReference time.
 	}
 
 	_, _ = bdd.Exec("INSERT INTO virement (id_facture, date, montant, statut) VALUES (?, CURDATE(), ?, 'pending')", idFactureInseree, montantTotal)
+
+	if erreurArch := ArchiverFacturePrestatairePDF(bdd, idFactureInseree, idPrestataire); erreurArch != nil {
+		log.Printf("[facture_prestataire] archive PDF facture %d: %v", idFactureInseree, erreurArch)
+	}
 	return true, cleMois, montantTotal, nil
 }
 
 func listFacturesPrestataire(bdd *sql.DB, idPrestataire int) ([]structures.FacturePrestataire, error) {
-	lignes, erreur := bdd.Query(`SELECT fp.id_facture, IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), '')
+	lignes, erreur := bdd.Query(`SELECT fp.id_facture, IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), ''), IFNULL(fp.fichier_pdf, '')
 		FROM facture_prestataire fp LEFT JOIN virement v ON v.id_facture = fp.id_facture WHERE fp.id_prestataire = ? ORDER BY fp.mois DESC, fp.id_facture DESC`, idPrestataire)
 	if erreur != nil {
 		return nil, erreur
@@ -123,7 +128,7 @@ func listFacturesPrestataire(bdd *sql.DB, idPrestataire int) ([]structures.Factu
 	listeFactures := make([]structures.FacturePrestataire, 0)
 	for lignes.Next() {
 		var entreeFacture structures.FacturePrestataire
-		if erreurScan := lignes.Scan(&entreeFacture.IDFacture, &entreeFacture.Mois, &entreeFacture.MontantTotal, &entreeFacture.DateGeneration, &entreeFacture.IDVirement, &entreeFacture.StatutVirement, &entreeFacture.DateVirement); erreurScan != nil {
+		if erreurScan := lignes.Scan(&entreeFacture.IDFacture, &entreeFacture.Mois, &entreeFacture.MontantTotal, &entreeFacture.DateGeneration, &entreeFacture.IDVirement, &entreeFacture.StatutVirement, &entreeFacture.DateVirement, &entreeFacture.FichierPDF); erreurScan != nil {
 			return nil, erreurScan
 		}
 

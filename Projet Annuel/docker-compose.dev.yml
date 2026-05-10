@@ -40,10 +40,12 @@ services:
       APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
       ONESIGNAL_APP_ID: ${ONESIGNAL_APP_ID:-}
       ONESIGNAL_REST_API_KEY: ${ONESIGNAL_REST_API_KEY:-}
+      FACTURE_ARCHIVE_DIR: ${FACTURE_ARCHIVE_DIR:-/app/archives/factures_prestataire}
     ports:
       - "${API_PORT:-9000}:9000"
     volumes:
       - ./go:/app
+      - facture_archives:/app/archives/factures_prestataire
     depends_on:
       mariadb:
         condition: service_healthy
@@ -118,4 +120,5 @@ services:
         condition: service_healthy
 
 volumes:
+  facture_archives:
   mariadb_data_dev:

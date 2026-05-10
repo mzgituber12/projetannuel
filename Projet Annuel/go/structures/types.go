@@ -353,6 +353,7 @@ type FacturePrestataire struct {
 	Mois           string                `json:"mois"`
 	MontantTotal   float64               `json:"montant_total"`
 	DateGeneration string                `json:"date_generation"`
+	FichierPDF     string                `json:"fichier_pdf"`
 	Interventions  []FactureIntervention `json:"interventions"`
 	IDVirement     int                   `json:"id_virement"`
 	StatutVirement string                `json:"statut_virement"`
@@ -366,6 +367,7 @@ type AdminFacturePrestataire struct {
 	Mois           string                `json:"mois"`
 	MontantTotal   float64               `json:"montant_total"`
 	DateGeneration string                `json:"date_generation"`
+	FichierPDF     string                `json:"fichier_pdf"`
 	Interventions  []FactureIntervention `json:"interventions"`
 	IDVirement     int                   `json:"id_virement"`
 	StatutVirement string                `json:"statut_virement"`

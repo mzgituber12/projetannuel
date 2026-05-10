@@ -175,8 +175,12 @@ function renderFactures() {
 
         html += '<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">';
         html += '<div><span class="badge text-bg-light me-2">Generation: ' + esc(f.date_generation || '-') + '</span><span class="badge text-bg-secondary">Prestations: ' + interventions.length + '</span>' + virementBadge + '</div>';
-        html += '<button class="btn btn-sm btn-danger" onclick="telechargerPDF(' + Number(f.id_facture || 0) + ')"><i class="bi bi-file-earmark-pdf"></i> PDF</button>';
-        html += '</div>';
+        html += '<div class="d-flex flex-wrap gap-2">';
+        html += '<button type="button" class="btn btn-sm btn-danger" onclick="telechargerPDF(' + Number(f.id_facture || 0) + ')"><i class="bi bi-file-earmark-pdf"></i> PDF</button>';
+        if (String(f.fichier_pdf || '').trim()) {
+            html += '<button type="button" class="btn btn-sm btn-outline-primary" onclick="telechargerPDFArchiveServeur(' + Number(f.id_facture || 0) + ')"><i class="bi bi-hdd-stack"></i> PDF archive serveur</button>';
+        }
+        html += '</div></div>';
         html += '<div class="table-responsive"><table class="table table-sm table-striped align-middle">';
         html += '<thead class="table-light"><tr><th>ID</th><th>Service</th><th>Client</th><th>Date</th><th>Statut</th><th class="text-end">Montant</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
         html += '</div></div></div>';
@@ -231,6 +235,44 @@ function telechargerPDF(idFacture) {
     });
 
     doc.save('facture_prestataire_' + String(facture.id_facture || 'x') + '_' + String(facture.mois || 'mois') + '.pdf');
+}
+
+async function telechargerPDFArchiveServeur(idFacture) {
+    const urlBaseApiGo = window.API_BASE || 'http://localhost:9000';
+    const jetonSessionPrestataire = localStorage.getItem('token') || '';
+    const idFactureAChercher = Number(idFacture || 0);
+
+    if (!idFactureAChercher || !jetonSessionPrestataire) {
+        afficherAlerte('Session ou facture invalide.', 'danger');
+        return;
+    }
+
+    try {
+        const urlEndpointArchivePdf =
+            urlBaseApiGo + '/prestataire/factures/' + idFactureAChercher + '/pdf_archive';
+        const reponseHttpArchive = await fetch(urlEndpointArchivePdf, {
+            method: 'GET',
+            headers: { Token: jetonSessionPrestataire }
+        });
+
+        if (!reponseHttpArchive.ok) {
+            afficherAlerte('Archive PDF serveur introuvable ou non encore generee.', 'warning');
+            return;
+        }
+
+        const fichierPdfArchive = await reponseHttpArchive.blob();
+        const urlTemporaireObjetPdf = URL.createObjectURL(fichierPdfArchive);
+        const lienTelechargementInvisible = document.createElement('a');
+
+        lienTelechargementInvisible.href = urlTemporaireObjetPdf;
+        lienTelechargementInvisible.download = 'facture_archive_' + idFactureAChercher + '.pdf';
+        document.body.appendChild(lienTelechargementInvisible);
+        lienTelechargementInvisible.click();
+        lienTelechargementInvisible.remove();
+        URL.revokeObjectURL(urlTemporaireObjetPdf);
+    } catch (erreurReseauOuParse) {
+        afficherAlerte('Erreur telechargement archive PDF.', 'danger');
+    }
 }
 
 async function chargerFactures() {

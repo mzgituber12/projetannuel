@@ -554,7 +554,8 @@ CREATE TABLE `facture_prestataire` (
   `id_prestataire` int(11) DEFAULT NULL,
   `mois` varchar(20) DEFAULT NULL,
   `montant_total` decimal(10,2) DEFAULT NULL,
-  `date_generation` date DEFAULT NULL
+  `date_generation` date DEFAULT NULL,
+  `fichier_pdf` varchar(512) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
