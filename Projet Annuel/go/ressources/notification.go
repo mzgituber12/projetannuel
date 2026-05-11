@@ -74,17 +74,21 @@ func NotifierTousLesAdmins(database *sql.DB, titre string, contenu string) {
 	}
 }
 
+func subst(s, nom, val string) string {
+	s = strings.ReplaceAll(s, "{"+nom+"}", val)
+	s = strings.ReplaceAll(s, "__"+nom+"__", val)
+	return s
+}
+
 func LireTemplate(db *sql.DB, cle string, vars map[string]string) (string, string) {
 	var titre, contenu string
 	err := db.QueryRow("SELECT titre, contenu FROM modele_notification WHERE cle = ?", cle).Scan(&titre, &contenu)
 	if err != nil {
 		return cle, ""
 	}
-	for k, v := range vars {
-		brace := "{" + k + "}"
-		underscore := "__" + k + "__"
-		titre = strings.ReplaceAll(strings.ReplaceAll(titre, brace, v), underscore, v)
-		contenu = strings.ReplaceAll(strings.ReplaceAll(contenu, brace, v), underscore, v)
+	for nom, val := range vars {
+		titre = subst(titre, nom, val)
+		contenu = subst(contenu, nom, val)
 	}
 	return titre, contenu
 }
@@ -112,22 +116,7 @@ func NotificationsUtilisateur(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query(`
-			SELECT n.id_notification,
-			       IFNULL(n.id_expediteur, 0),
-			       IFNULL(n.id_destinataire, 0),
-			       IFNULL(n.Titre, ''),
-			       IFNULL(n.contenu, ''),
-			       IFNULL(n.date_envoie, NOW()),
-			       IFNULL(n.lu, 0),
-			       IFNULL(CONCAT(ue.prenom, ' ', ue.nom), 'Système') AS expediteur,
-			       IFNULL(CONCAT(ud.prenom, ' ', ud.nom), '') AS destinataire
-			FROM notification n
-			LEFT JOIN utilisateur ue ON ue.id_utilisateur = n.id_expediteur
-			LEFT JOIN utilisateur ud ON ud.id_utilisateur = n.id_destinataire
-			WHERE n.id_destinataire = ?
-			ORDER BY n.date_envoie DESC, n.id_notification DESC
-		`, idUser)
+		rows, err := database.Query(`SELECT n.id_notification, IFNULL(n.id_expediteur, 0), IFNULL(n.id_destinataire, 0), IFNULL(n.Titre, ''), IFNULL(n.contenu, ''), IFNULL(n.date_envoie, NOW()), IFNULL(n.lu, 0), IFNULL(CONCAT(ue.prenom, ' ', ue.nom), 'Système') AS expediteur, IFNULL(CONCAT(ud.prenom, ' ', ud.nom), '') AS destinataire FROM notification n LEFT JOIN utilisateur ue ON ue.id_utilisateur = n.id_expediteur LEFT JOIN utilisateur ud ON ud.id_utilisateur = n.id_destinataire WHERE n.id_destinataire = ? ORDER BY n.date_envoie DESC, n.id_notification DESC`, idUser)
 		if err != nil {
 			http.Error(response, "Erreur lors de la récupération des notifications", http.StatusInternalServerError)
 			return
