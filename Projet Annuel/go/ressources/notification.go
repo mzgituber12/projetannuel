@@ -25,20 +25,9 @@ func creerNotification(database *sql.DB, idDestinataire int, titre string, conte
 
 	var execErr error
 	if err == nil {
-		_, execErr = database.Exec(
-			"INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (?, ?, ?, ?, NOW(), 0)",
-			idExpediteur,
-			idDestinataire,
-			titre,
-			contenu,
-		)
+		_, execErr = database.Exec("INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (?, ?, ?, ?, NOW(), 0)",idExpediteur,idDestinataire,titre,contenu)
 	} else {
-		_, execErr = database.Exec(
-			"INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (NULL, ?, ?, ?, NOW(), 0)",
-			idDestinataire,
-			titre,
-			contenu,
-		)
+		_, execErr = database.Exec("INSERT INTO notification (id_expediteur, id_destinataire, Titre, contenu, date_envoie, lu) VALUES (NULL, ?, ?, ?, NOW(), 0)", idDestinataire, titre, contenu)
 	}
 
 	if execErr != nil {

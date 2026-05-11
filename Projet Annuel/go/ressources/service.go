@@ -828,7 +828,10 @@ func MesDevis(database *sql.DB) http.HandlerFunc {
 		}
 
 		baseQuery := `
-			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, '') FROM devis d
+			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''),
+			IFNULL(COALESCE(DATE_FORMAT(rdv.date_debut, '%Y-%m-%d %H:%i:%s'), (SELECT DATE_FORMAT(rdv2.date_debut, '%Y-%m-%d %H:%i:%s') FROM intervention i2 INNER JOIN rendez_vous rdv2 ON rdv2.id_rdv = i2.id_rdv WHERE i2.id_utilisateur = d.id_utilisateur AND i2.id_service = i.id_service ORDER BY rdv2.date_debut DESC LIMIT 1)), ''),
+			IFNULL(COALESCE(DATE_FORMAT(COALESCE(rdv.date_fin, DATE_ADD(rdv.date_debut, INTERVAL 1 HOUR)), '%Y-%m-%d %H:%i:%s'), (SELECT IFNULL(DATE_FORMAT(COALESCE(rdv2.date_fin, DATE_ADD(rdv2.date_debut, INTERVAL 1 HOUR)), '%Y-%m-%d %H:%i:%s'), '') FROM intervention i2 INNER JOIN rendez_vous rdv2 ON rdv2.id_rdv = i2.id_rdv WHERE i2.id_utilisateur = d.id_utilisateur AND i2.id_service = i.id_service ORDER BY rdv2.date_debut DESC LIMIT 1)), '')
+			FROM devis d
 			JOIN intervention i ON i.id_intervention = d.id_intervention
 			LEFT JOIN service s ON s.id_service = i.id_service
 			LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire
@@ -902,7 +905,10 @@ func DevisDetail(database *sql.DB) http.HandlerFunc {
 
 		var d structures.Devis
 		err = database.QueryRow(`
-			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''), IFNULL(rdv.date_debut, ''), IFNULL(rdv.date_fin, '') FROM devis d
+			SELECT d.id_devis, IFNULL(i.id_service, 0), IFNULL(s.nom, ''), IFNULL(CONCAT(u.prenom, ' ', u.nom), ''), IFNULL(d.tarif_personalise, 0), IFNULL(d.status, ''),
+			IFNULL(COALESCE(DATE_FORMAT(rdv.date_debut, '%Y-%m-%d %H:%i:%s'), (SELECT DATE_FORMAT(rdv2.date_debut, '%Y-%m-%d %H:%i:%s') FROM intervention i2 INNER JOIN rendez_vous rdv2 ON rdv2.id_rdv = i2.id_rdv WHERE i2.id_utilisateur = d.id_utilisateur AND i2.id_service = i.id_service ORDER BY rdv2.date_debut DESC LIMIT 1)), ''),
+			IFNULL(COALESCE(DATE_FORMAT(COALESCE(rdv.date_fin, DATE_ADD(rdv.date_debut, INTERVAL 1 HOUR)), '%Y-%m-%d %H:%i:%s'), (SELECT IFNULL(DATE_FORMAT(COALESCE(rdv2.date_fin, DATE_ADD(rdv2.date_debut, INTERVAL 1 HOUR)), '%Y-%m-%d %H:%i:%s'), '') FROM intervention i2 INNER JOIN rendez_vous rdv2 ON rdv2.id_rdv = i2.id_rdv WHERE i2.id_utilisateur = d.id_utilisateur AND i2.id_service = i.id_service ORDER BY rdv2.date_debut DESC LIMIT 1)), '')
+			FROM devis d
 			JOIN intervention i ON i.id_intervention = d.id_intervention LEFT JOIN service s ON s.id_service = i.id_service LEFT JOIN prestataire p ON p.id_prestataire = d.id_prestataire LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE d.id_devis = ?`, id).Scan(
 			&d.ID, &d.IDService, &d.NomService, &d.NomPrestataire, &d.Tarif, &d.Status, &d.DateDebut, &d.DateFin,
 		)
