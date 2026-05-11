@@ -81,8 +81,10 @@ func LireTemplate(db *sql.DB, cle string, vars map[string]string) (string, strin
 		return cle, ""
 	}
 	for k, v := range vars {
-		titre = strings.ReplaceAll(titre, "{"+k+"}", v)
-		contenu = strings.ReplaceAll(contenu, "{"+k+"}", v)
+		brace := "{" + k + "}"
+		underscore := "__" + k + "__"
+		titre = strings.ReplaceAll(strings.ReplaceAll(titre, brace, v), underscore, v)
+		contenu = strings.ReplaceAll(strings.ReplaceAll(contenu, brace, v), underscore, v)
 	}
 	return titre, contenu
 }
