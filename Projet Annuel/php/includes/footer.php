@@ -21,13 +21,13 @@
       </div>
 
       <div class="col-lg-5 col-md-12 text-center text-lg-end">
-        <a href="https://instagram.com" class="me-3 fs-4 text-white">
+        <a href="https://instagram.com" class="me-3 fs-4 text-white text-decoration-none">
           <i class="bi bi-instagram"></i>
         </a>
-        <a href="https://twitter.com" class="me-3 fs-4 text-white">
+        <a href="https://twitter.com" class="me-3 fs-4 text-white text-decoration-none">
           <i class="bi bi-twitter"></i>
         </a>
-        <a href="https://facebook.com" class="fs-4 text-white">
+        <a href="https://facebook.com" class="fs-4 text-white text-decoration-none">
           <i class="bi bi-facebook"></i>
         </a>
       </div>
