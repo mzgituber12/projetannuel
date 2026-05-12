@@ -16,9 +16,10 @@ include 'includes/header.php'?>
 
 <div class="container mt-5">
     <div class="d-flex align-items-center justify-content-center mb-4">
-    <h1 class="mb-0 me-3" data-i18n id="popover8" data-bs-toggle="popover" data-bs-title="Nos Abonnements" data-bs-content="Choisissez l'abonnement qui vous convient le mieux et profitez de l'ensemble des fonctionnalités proposées par Silver Happy !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">Nos Plans d'Abonnement</h1>    </div>
+    <h1 class='mb-custom text-center ms-4' style='font-size:50px' data-i18n id="popover8" data-bs-toggle="popover" data-bs-title="Nos Abonnements" data-bs-content="Choisissez l'abonnement qui vous convient le mieux et profitez de l'ensemble des fonctionnalités proposées par Silver Happy !<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>">Nos Plans d'Abonnement</h1></div>
     <div id="error-msg" class="alert alert-danger d-none"></div>
     <div id="success-msg" class="alert alert-success d-none"></div>
+    <p class="text-center mb-5" data-i18n>Les abonnements permettent aux particuliers de bénéficier d'avantages concernant l'organisation d'évenement Silver Happy<br>D'autres abonnements peuvent être crées prochainement</p>
     <div id="already-subscribed" class="alert alert-info d-none text-center">
         <span data-i18n>Vous avez deja un abonnement actif.</span> <a href="mon_abonnement.php" class="alert-link" data-i18n>Voir mon abonnement</a>
     </div>
@@ -36,6 +37,7 @@ include 'includes/header.php'?>
     </div>
 </div>
 
+<div class='mb-4'></div>
 
 <?php include 'includes/footer.php'?>
 

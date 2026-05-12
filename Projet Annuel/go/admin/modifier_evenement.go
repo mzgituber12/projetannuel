@@ -27,13 +27,13 @@ func Gestion_evenement_nom(database *sql.DB) http.HandlerFunc {
 
 		nom := request.PathValue("nom")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%d %H:%i') AS date_sans_secondes, description, tarif, IFNULL(image, '') AS image FROM evenement WHERE nom = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%d %H:%i') AS date_sans_secondes, description, tarif, lieu, IFNULL(image, '') AS image FROM evenement WHERE nom = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'événement", http.StatusInternalServerError)
 			return
 		}
 		var event structures.Evenement
-		selectstatement.QueryRow(nom).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif, &event.Image)
+		selectstatement.QueryRow(nom).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif, &event.Lieu, &event.Image)
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Evenement{
@@ -42,6 +42,7 @@ func Gestion_evenement_nom(database *sql.DB) http.HandlerFunc {
 			Date:        event.Date,
 			Description: event.Description,
 			Tarif:       event.Tarif,
+			Lieu:        event.Lieu,
 			Image:       event.Image,
 		})
 	}
@@ -64,13 +65,13 @@ func Gestion_evenement_id(database *sql.DB) http.HandlerFunc {
 
 		id := request.PathValue("id")
 
-		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%dT%H:%i') AS date_sans_secondes, description, tarif, IFNULL(image, '') AS image FROM evenement WHERE id_evenement = ?")
+		selectstatement, selecterr := database.Prepare("SELECT id_evenement, nom, DATE_FORMAT(date, '%Y-%m-%dT%H:%i') AS date_sans_secondes, description, tarif, lieu, IFNULL(image, '') AS image FROM evenement WHERE id_evenement = ?")
 		if selecterr != nil {
 			http.Error(response, "Erreur lors de la récupération des informations de l'événement", http.StatusInternalServerError)
 			return
 		}
 		var event structures.Evenement
-		selectstatement.QueryRow(id).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif, &event.Image)
+		selectstatement.QueryRow(id).Scan(&event.ID, &event.Nom, &event.Date, &event.Description, &event.Tarif, &event.Lieu, &event.Image)
 
 		response.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(response).Encode(structures.Evenement{
@@ -79,6 +80,7 @@ func Gestion_evenement_id(database *sql.DB) http.HandlerFunc {
 			Date:        event.Date,
 			Description: event.Description,
 			Tarif:       event.Tarif,
+			Lieu:        event.Lieu,
 			Image:       event.Image,
 		})
 	}
@@ -158,12 +160,12 @@ func Modifier_evenement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("UPDATE evenement SET nom = ?, date = ?, description = ?, tarif = ? WHERE id_evenement = ?")
+		updatestatement, updateerr := database.Prepare("UPDATE evenement SET nom = ?, date = ?, description = ?, lieu = ?, tarif = ? WHERE id_evenement = ?")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de mise à jour", http.StatusInternalServerError)
 			return
 		}
-		_, updateexecerr := updatestatement.Exec(event.Nom, eventDate.Format("2006-01-02 15:04:05"), event.Description, event.Tarif, id)
+		_, updateexecerr := updatestatement.Exec(event.Nom, eventDate.Format("2006-01-02 15:04:05"), event.Description, event.Lieu, event.Tarif, id)
 		if updateexecerr != nil {
 			http.Error(response, "Erreur lors de la mise à jour de l'événement : "+updateexecerr.Error(), http.StatusInternalServerError)
 			return
@@ -245,12 +247,12 @@ func Creer_evenement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		updatestatement, updateerr := database.Prepare("INSERT INTO evenement (nom, date, description, tarif, image) VALUES (?, ?, ?, ?, ?)")
+		updatestatement, updateerr := database.Prepare("INSERT INTO evenement (nom, date, description, tarif, lieu, image) VALUES (?, ?, ?, ?, ?, ?)")
 		if updateerr != nil {
 			http.Error(response, "Erreur lors de la préparation de la requête de creation", http.StatusInternalServerError)
 			return
 		}
-		_, updateexecerr := updatestatement.Exec(event.Nom, eventDate.Format("2006-01-02 15:04:05"), event.Description, event.Tarif, event.Image)
+		_, updateexecerr := updatestatement.Exec(event.Nom, eventDate.Format("2006-01-02 15:04:05"), event.Description, event.Tarif, event.Lieu, event.Image)
 		if updateexecerr != nil {
 			http.Error(response, "Erreur lors de la creation de l'événement : "+updateexecerr.Error(), http.StatusInternalServerError)
 			return
@@ -317,7 +319,7 @@ func List_evenements(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif, IFNULL(image, '') AS image FROM evenement order by date")
+		rows, err := database.Query("SELECT id_evenement, nom, date, description, tarif, lieu, IFNULL(image, '') AS image FROM evenement order by date")
 
 		if err != nil {
 			http.Error(response, "Erreur lors de la selection des evenements de la base de données", http.StatusInternalServerError)
@@ -330,7 +332,7 @@ func List_evenements(database *sql.DB) http.HandlerFunc {
 				var dateSQL string
 				var id int
 
-				err := rows.Scan(&id, &e.Nom, &dateSQL, &e.Description, &e.Tarif, &e.Image)
+				err := rows.Scan(&id, &e.Nom, &dateSQL, &e.Description, &e.Tarif, &e.Lieu, &e.Image)
 				if err != nil {
 					http.Error(response, "Erreur lors de la selection des evenements : "+err.Error(), http.StatusInternalServerError)
 					return

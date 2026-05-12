@@ -13,13 +13,16 @@
 <body>
 
 <?php include 'includes/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id ="admin_err"></h2>
+<div class='container mt-5'>
+<h1 id="admin_title" data-i18n class='mb-custom text-center ms-4' style='font-size:50px'></h1>
+<h2 id ="admin_err" class="mt-4"></h2>
 
-<div id="resultat"></div>
+<div id="resultat" class="mt-custom p-3 pb-1 border rounded bg-light"></div>
+</div>
+
+<div class="mt-4"></div>
 <?php include 'includes/footer.php'?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
     let categoriesCache = [];
@@ -55,7 +58,7 @@
             const resultat_validation = (c.valide_admin == 0 || c.valide_admin == false) ? " (en attente validation)" : "";
             opts += "<option value=\"" + String(c.id) + "\"" + sel + ">" + escapeHtml(c.nom) + resultat_validation + "</option>";
         });
-        return "<label data-i18n>Catégorie :</label><select id=\"service_id_categorie\" class=\"form-select\" style=\"max-width:420px;\">" + opts + "</select><br><br>";
+        return "<label data-i18n>Catégorie :</label><select id=\"service_id_categorie\" class=\"form-select\" style=\"max-width:420px;\">" + opts + "</select><br>";
     }
 
     async function creerNouvelleCategorieModifier() {
@@ -143,8 +146,11 @@
             <input type="number" name="id" id="service_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
             <label data-i18n>Nom :</label>
             <input type="text" name="nom" id="service_nom" value="${escapeHtml(data.nom)}" required><br><br>
-            <label data-i18n>Description :</label>
-            <textarea name="description" id="service_description" required></textarea><br><br>${catBlock}
+            <div class="mb-3">
+            <label for="event_description" class="form-label">Description</label>
+            <textarea class="form-control" name="description" id="service_description" rows="4" required>${data.description}</textarea>
+            </div>
+            ${catBlock}
             <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="service_tarif" value="${data.tarif}" step="0.01" required><br><br>
             <div class="form-check mb-3">

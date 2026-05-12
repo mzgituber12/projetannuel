@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Boutique</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="police.css">
 </head>
@@ -13,9 +18,15 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1 data-i18n>Boutique</h1>
+<div class='container mt-5 mb-4'>
+<h1 data-i18n class='text-center mb-custom' style="font-size:50px">Boutique</h1>
+<p class="text-center mb-custom" data-i18n>
+Explorez les articles proposés à la vente par les collaborateurs de Silver Happy.  
+<br>Une grande variété d’objets peut être disponible, alors gardez l’œil ouvert pour ne rien manquer.
+</p>
 <div class="container-lg">
-    <div id="articles" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
+    <div id="articles" class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3"></div>
+</div>
 </div>
 
 <?php include 'includes/footer.php';?>
@@ -32,8 +43,7 @@ function modifImageUrl(image) {
 
 function renduBoutiqueImage(image, altText) {
     const imageUrl = modifImageUrl(image);
-    if (!imageUrl) return "Article";
-    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<img src="${imageUrl || "noimage.avif"}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
 async function listerArticles() {
@@ -64,7 +74,7 @@ async function listerArticles() {
         html += `
             <div class="col">
                 <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:150px;">
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:230px;">
                         ${renduBoutiqueImage(a.image, `Image de ${a.titre || "cet article"}`)}
                     </div>
                     <div class="card-body d-flex flex-column">

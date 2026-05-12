@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Contrats</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
@@ -13,8 +18,8 @@
 <?php include 'includes/header.php' ?>
 
 <div class="container mt-4">
-    <h1 data-i18n>Mes contrats</h1>
-    <p class="text-muted" data-i18n>Retrouvez ici vos contrats lies aux abonnements et prestations.</p>
+    <h1 data-i18n class="mb-custom mt-4 text-center ms-3" style="font-size:50px">Mes contrats</h1>
+    <p data-i18n>Retrouvez ici vos contrats lies aux abonnements et prestations.</p>
 
     <div id="contrat">
         <p data-i18n>Chargement en cours...</p>

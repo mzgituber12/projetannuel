@@ -7,6 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Gestion des evenements</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="police.css">
@@ -15,13 +20,15 @@
 
 <?php include 'includes/header.php'?>
 
-<div class="container-fluid mt-4">
-    <h1 class="mb-4" data-i18n>Gestion des evenements</h1>
+<div class='container mt-5'>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Gestion des evenements</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
     }?>
+
+<div class="container-fluid mt-4">
     <div class="mb-4">
         <a href='creer_evenement.php' class='btn btn-primary'><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouvel evenement</span></a>
     </div>
@@ -46,9 +53,11 @@
     <h2 class="mt-5 mb-3" data-i18n>Liste des evenements</h2>
     <div id="evenements"></div>
 </div>
-<?php include("includes/footer.php") ?>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<div class="mb-4"></div>
+
+<?php include("includes/footer.php") ?>
 
 <script>
     function renderImageHtml(image, text) {
@@ -107,6 +116,7 @@
             "<label><strong>Nom :</strong> " + String(data.nom) + "</label><br>" +
             "<label><strong>Date :</strong> " + String(data.date) + "</label><br>" +
             "<label><strong>Description :</strong> " + String(data.description) + "</label><br>" +
+            "<label><strong>Lieu :</strong> " + String(data.lieu) + "</label><br>" +
             "<label><strong>Tarif :</strong> " + String(data.tarif) + " €</label><br>" +
             "</div><div class='col-md-4'>" +
             "<label><strong>Image :</strong></label><br>" + imageHtml +
@@ -139,14 +149,15 @@ async function listEvenements(token) {
     if (evenement_list.message){
         evenement.innerHTML = "<div class='alert alert-info'>" + evenement_list.message + "</div>"
     } else {
-        let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th data-i18n>Image</th><th data-i18n>Nom de l'événement</th><th data-i18n>Description</th><th data-i18n>Date</th><th data-i18n>Actions</th></tr></thead><tbody>";
+        let html = "<div class='table-responsive'><table class='table table-hover'><thead class='table-success'><tr><th data-i18n>Image</th><th data-i18n>Nom de l'événement</th><th data-i18n>Description</th><th data-i18n>Date</th><th data-i18n>Lieu</th><th data-i18n>Actions</th></tr></thead><tbody>";
         evenement_list.evenement.forEach(evenement => {
+            console.log(evenement)
             const actions = "<div class='btn-group' role='group' aria-label='Actions'>" +
                 "<a href='modifier_evenement.php?id=" + evenement.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a>" +
                 "<a href='#' onclick='supprimer_evenement(" + evenement.id + ", " + JSON.stringify(evenement.nom) + "); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a></div>";
             const imageHtml = renderImageHtml(evenement.image, `Image de ${evenement.nom}`);
             const desc = (evenement.description || '').length > 40 ? String(evenement.description).slice(0, 40) + "..." : String(evenement.description);
-            html += "<tr><td>" + imageHtml + "</td><td>" + String(evenement.nom) + "</td><td>" + desc + "</td><td>" + String(evenement.date) + "</td><td class='text-nowrap'>" + actions + "</td></tr>";
+            html += "<tr><td>" + imageHtml + "</td><td>" + String(evenement.nom).slice(0, 40) + "</td><td>" + desc + "</td><td>" + String(evenement.date) + "</td><td>" + String(evenement.lieu).slice(0, 40) + "</td><td class='text-nowrap'>" + actions + "</td></tr>";
         });
         html += "</tbody></table></div>";
         evenement.innerHTML = html;

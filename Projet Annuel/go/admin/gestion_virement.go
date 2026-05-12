@@ -40,7 +40,7 @@ func Factures_prestataires_admin(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		rows, err := database.Query("SELECT fp.id_facture, IFNULL(fp.id_prestataire, 0), CONCAT(IFNULL(u.prenom, ''), ' ', IFNULL(u.nom, '')), IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), '') FROM facture_prestataire fp LEFT JOIN prestataire p ON p.id_prestataire = fp.id_prestataire LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur LEFT JOIN virement v ON v.id_facture = fp.id_facture ORDER BY fp.mois DESC, fp.id_facture DESC")
+		rows, err := database.Query("SELECT fp.id_facture, IFNULL(fp.id_prestataire, 0), CONCAT(IFNULL(u.prenom, ''), ' ', IFNULL(u.nom, '')), IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), ''), IFNULL(fp.fichier_pdf, '') FROM facture_prestataire fp LEFT JOIN prestataire p ON p.id_prestataire = fp.id_prestataire LEFT JOIN utilisateur u ON u.id_utilisateur = p.id_utilisateur LEFT JOIN virement v ON v.id_facture = fp.id_facture ORDER BY fp.mois DESC, fp.id_facture DESC")
 		if err != nil {
 			http.Error(response, "Erreur lecture factures", http.StatusInternalServerError)
 			return
@@ -60,6 +60,7 @@ func Factures_prestataires_admin(database *sql.DB) http.HandlerFunc {
 				&f.IDVirement,
 				&f.StatutVirement,
 				&f.DateVirement,
+				&f.FichierPDF,
 			); scanErr != nil {
 				http.Error(response, "Erreur lecture facture", http.StatusInternalServerError)
 				return

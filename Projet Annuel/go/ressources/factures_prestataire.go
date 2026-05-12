@@ -4,44 +4,45 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"projet/structures"
 	"time"
 )
 
-func monthBounds(year int, month time.Month, location *time.Location) (time.Time, time.Time) {
-	start := time.Date(year, month, 1, 0, 0, 0, 0, location)
-	end := start.AddDate(0, 1, 0)
-	return start, end
+func bornesMois(annee int, mois time.Month, fuseau *time.Location) (time.Time, time.Time) {
+	debut := time.Date(annee, mois, 1, 0, 0, 0, 0, fuseau)
+	fin := debut.AddDate(0, 1, 0)
+	return debut, fin
 }
 
-func genererFactureMensuelle(database *sql.DB, idPrestataire int, referenceDate time.Time, force bool) (bool, string, float64, error) {
-	if !force && referenceDate.Day() != 1 {
+func genererFactureMensuelle(bdd *sql.DB, idPrestataire int, dateReference time.Time, forcer bool) (bool, string, float64, error) {
+	if !forcer && dateReference.Day() != 1 {
 		return false, "", 0, nil
 	}
 
-	location := referenceDate.Location()
-	currentMonthStart, _ := monthBounds(referenceDate.Year(), referenceDate.Month(), location)
-	targetStart := currentMonthStart.AddDate(0, -1, 0)
-	targetEnd := currentMonthStart
-	monthKey := targetStart.Format("2006-01")
+	fuseau := dateReference.Location()
+	debutMoisCourant, _ := bornesMois(dateReference.Year(), dateReference.Month(), fuseau)
+	debutPeriode := debutMoisCourant.AddDate(0, -1, 0)
+	finPeriode := debutMoisCourant
+	cleMois := debutPeriode.Format("2006-01")
 
-	var factureID int
-	err := database.QueryRow(
+	var idFacture int
+	erreur := bdd.QueryRow(
 		"SELECT id_facture FROM facture_prestataire WHERE id_prestataire = ? AND mois = ? LIMIT 1",
 		idPrestataire,
-		monthKey,
-	).Scan(&factureID)
-	if err == nil {
-		var existingTotal float64
-		_ = database.QueryRow("SELECT IFNULL(montant_total, 0) FROM facture_prestataire WHERE id_facture = ?", factureID).Scan(&existingTotal)
-		return false, monthKey, existingTotal, nil
+		cleMois,
+	).Scan(&idFacture)
+	if erreur == nil {
+		var totalExistant float64
+		_ = bdd.QueryRow("SELECT IFNULL(montant_total, 0) FROM facture_prestataire WHERE id_facture = ?", idFacture).Scan(&totalExistant)
+		return false, cleMois, totalExistant, nil
 	}
-	if err != nil && !errors.Is(err, sql.ErrNoRows) {
-		return false, "", 0, err
+	if erreur != nil && !errors.Is(erreur, sql.ErrNoRows) {
+		return false, "", 0, erreur
 	}
 
-	rows, err := database.Query(`
+	lignes, erreur := bdd.Query(`
 		SELECT i.id_intervention, IFNULL(i.montant, 0)
 		FROM intervention i
 		JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv
@@ -50,195 +51,199 @@ func genererFactureMensuelle(database *sql.DB, idPrestataire int, referenceDate 
 		  AND rdv.date_debut >= ?
 		  AND rdv.date_debut < ?
 		ORDER BY rdv.date_debut ASC
-	`, idPrestataire, targetStart.Format("2006-01-02 15:04:05"), targetEnd.Format("2006-01-02 15:04:05"))
-	if err != nil {
-		return false, "", 0, err
+	`, idPrestataire, debutPeriode.Format("2006-01-02 15:04:05"), finPeriode.Format("2006-01-02 15:04:05"))
+	if erreur != nil {
+		return false, "", 0, erreur
 	}
-	defer rows.Close()
+	defer lignes.Close()
 
-	interventionIDs := make([]int, 0)
-	total := 0.0
-	for rows.Next() {
-		var interventionID int
+	idsInterventions := make([]int, 0)
+	montantTotal := 0.0
+	for lignes.Next() {
+		var idIntervention int
 		var montant float64
-		if scanErr := rows.Scan(&interventionID, &montant); scanErr != nil {
-			return false, "", 0, scanErr
+		if erreurScan := lignes.Scan(&idIntervention, &montant); erreurScan != nil {
+			return false, "", 0, erreurScan
 		}
-		interventionIDs = append(interventionIDs, interventionID)
-		total += montant
+		idsInterventions = append(idsInterventions, idIntervention)
+		montantTotal += montant
 	}
 
-	if len(interventionIDs) == 0 {
-		return false, monthKey, 0, nil
+	if len(idsInterventions) == 0 {
+		return false, cleMois, 0, nil
 	}
 
-	tx, err := database.Begin()
-	if err != nil {
-		return false, "", 0, err
+	transaction, erreur := bdd.Begin()
+	if erreur != nil {
+		return false, "", 0, erreur
 	}
-	defer func() { _ = tx.Rollback() }()
+	defer func() { _ = transaction.Rollback() }()
 
-	insertFactureResult, err := tx.Exec(
+	resInsertionFacture, erreur := transaction.Exec(
 		"INSERT INTO facture_prestataire (id_prestataire, mois, montant_total, date_generation) VALUES (?, ?, ?, CURDATE())",
 		idPrestataire,
-		monthKey,
-		total,
+		cleMois,
+		montantTotal,
 	)
-	if err != nil {
-		return false, "", 0, err
+	if erreur != nil {
+		return false, "", 0, erreur
 	}
 
-	factureID64, err := insertFactureResult.LastInsertId()
-	if err != nil {
-		return false, "", 0, err
+	idFactureInseree, erreur := resInsertionFacture.LastInsertId()
+	if erreur != nil {
+		return false, "", 0, erreur
 	}
 
-	for _, interventionID := range interventionIDs {
-		_, err = tx.Exec(
+	for _, idIntervention := range idsInterventions {
+		_, erreur = transaction.Exec(
 			"INSERT INTO synthese_facture (id_facture, id_intervention) VALUES (?, ?)",
-			factureID64,
-			interventionID,
+			idFactureInseree,
+			idIntervention,
 		)
-		if err != nil {
-			return false, "", 0, err
+		if erreur != nil {
+			return false, "", 0, erreur
 		}
 	}
 
-	if err = tx.Commit(); err != nil {
-		return false, "", 0, err
+	if erreur = transaction.Commit(); erreur != nil {
+		return false, "", 0, erreur
 	}
 
-	_, _ = database.Exec("INSERT INTO virement (id_facture, date, montant, statut) VALUES (?, CURDATE(), ?, 'pending')", factureID64, total)
-	return true, monthKey, total, nil
+	_, _ = bdd.Exec("INSERT INTO virement (id_facture, date, montant, statut) VALUES (?, CURDATE(), ?, 'pending')", idFactureInseree, montantTotal)
+
+	if erreurArch := ArchiverFacturePrestatairePDF(bdd, idFactureInseree, idPrestataire); erreurArch != nil {
+		log.Printf("[facture_prestataire] archive PDF facture %d: %v", idFactureInseree, erreurArch)
+	}
+	return true, cleMois, montantTotal, nil
 }
 
-func listFacturesPrestataire(database *sql.DB, idPrestataire int) ([]structures.FacturePrestataire, error) {
-	rows, err := database.Query(`SELECT fp.id_facture, IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), '')
+func listFacturesPrestataire(bdd *sql.DB, idPrestataire int) ([]structures.FacturePrestataire, error) {
+	lignes, erreur := bdd.Query(`SELECT fp.id_facture, IFNULL(fp.mois, ''), IFNULL(fp.montant_total, 0), IFNULL(DATE_FORMAT(fp.date_generation, '%Y-%m-%d'), ''), IFNULL(v.id_virement, 0), IFNULL(v.statut, ''), IFNULL(DATE_FORMAT(v.date, '%Y-%m-%d'), ''), IFNULL(fp.fichier_pdf, '')
 		FROM facture_prestataire fp LEFT JOIN virement v ON v.id_facture = fp.id_facture WHERE fp.id_prestataire = ? ORDER BY fp.mois DESC, fp.id_facture DESC`, idPrestataire)
-	if err != nil {
-		return nil, err
+	if erreur != nil {
+		return nil, erreur
 	}
-	defer rows.Close()
+	defer lignes.Close()
 
-	factures := make([]structures.FacturePrestataire, 0)
-	for rows.Next() {
-		var f structures.FacturePrestataire
-		if scanErr := rows.Scan(&f.IDFacture, &f.Mois, &f.MontantTotal, &f.DateGeneration, &f.IDVirement, &f.StatutVirement, &f.DateVirement); scanErr != nil {
-			return nil, scanErr
+	listeFactures := make([]structures.FacturePrestataire, 0)
+	for lignes.Next() {
+		var entreeFacture structures.FacturePrestataire
+		if erreurScan := lignes.Scan(&entreeFacture.IDFacture, &entreeFacture.Mois, &entreeFacture.MontantTotal, &entreeFacture.DateGeneration, &entreeFacture.IDVirement, &entreeFacture.StatutVirement, &entreeFacture.DateVirement, &entreeFacture.FichierPDF); erreurScan != nil {
+			return nil, erreurScan
 		}
 
-		interventionRows, qErr := database.Query(`SELECT i.id_intervention, IFNULL(s.nom, ''),CONCAT(IFNULL(u.prenom, ''), ' ', IFNULL(u.nom, '')), IFNULL(DATE_FORMAT(rdv.date_debut, '%Y-%m-%d %H:%i:%s'), ''), IFNULL(i.statut, ''), IFNULL(i.montant, 0) 
-			FROM synthese_facture sf JOIN intervention i ON i.id_intervention = sf.id_intervention LEFT JOIN service s ON s.id_service = i.id_service LEFT JOIN utilisateur u ON u.id_utilisateur = i.id_utilisateur LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE sf.id_facture = ? ORDER BY rdv.date_debut ASC, i.id_intervention ASC`, f.IDFacture)
-		if qErr != nil {
-			return nil, qErr
+		lignesDetails, erreurRequete := bdd.Query(`SELECT i.id_intervention, IFNULL(s.nom, ''),CONCAT(IFNULL(u.prenom, ''), ' ', IFNULL(u.nom, '')), IFNULL(DATE_FORMAT(rdv.date_debut, '%Y-%m-%d %H:%i:%s'), ''), IFNULL(i.statut, ''), IFNULL(i.montant, 0) 
+			FROM synthese_facture sf JOIN intervention i ON i.id_intervention = sf.id_intervention LEFT JOIN service s ON s.id_service = i.id_service LEFT JOIN utilisateur u ON u.id_utilisateur = i.id_utilisateur LEFT JOIN rendez_vous rdv ON rdv.id_rdv = i.id_rdv WHERE sf.id_facture = ? ORDER BY rdv.date_debut ASC, i.id_intervention ASC`, entreeFacture.IDFacture)
+		if erreurRequete != nil {
+			return nil, erreurRequete
 		}
 
-		lines := make([]structures.FactureIntervention, 0)
-		for interventionRows.Next() {
-			var line structures.FactureIntervention
-			if scanLineErr := interventionRows.Scan(&line.IDIntervention, &line.Service, &line.Client, &line.DateRdv, &line.Statut, &line.Montant); scanLineErr != nil {
-				interventionRows.Close()
-				return nil, scanLineErr
+		detailsInterventions := make([]structures.FactureIntervention, 0)
+		for lignesDetails.Next() {
+			var ligneDetail structures.FactureIntervention
+			if erreurScanLigne := lignesDetails.Scan(&ligneDetail.IDIntervention, &ligneDetail.Service, &ligneDetail.Client, &ligneDetail.DateRdv, &ligneDetail.Statut, &ligneDetail.Montant); erreurScanLigne != nil {
+				lignesDetails.Close()
+				return nil, erreurScanLigne
 			}
-			lines = append(lines, line)
+			detailsInterventions = append(detailsInterventions, ligneDetail)
 		}
-		interventionRows.Close()
+		lignesDetails.Close()
 
-		f.Interventions = lines
-		factures = append(factures, f)
+		entreeFacture.Interventions = detailsInterventions
+		listeFactures = append(listeFactures, entreeFacture)
 	}
 
-	return factures, nil
+	return listeFactures, nil
 }
 
-func Factures_prestataire(database *sql.DB) http.HandlerFunc {
-	return func(response http.ResponseWriter, request *http.Request) {
-		response.Header().Set("Access-Control-Allow-Origin", "*")
-		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
-		response.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-		if request.Method == http.MethodOptions {
-			response.WriteHeader(http.StatusOK)
+func Factures_prestataire(bdd *sql.DB) http.HandlerFunc {
+	return func(reponse http.ResponseWriter, requete *http.Request) {
+		reponse.Header().Set("Access-Control-Allow-Origin", "*")
+		reponse.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		reponse.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if requete.Method == http.MethodOptions {
+			reponse.WriteHeader(http.StatusOK)
 			return
 		}
 
-		if request.Method != http.MethodGet {
-			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+		if requete.Method != http.MethodGet {
+			http.Error(reponse, "Méthode non autorisée", http.StatusMethodNotAllowed)
 			return
 		}
 
-		token := request.Header.Get("Token")
-		idPrestataire, err := prestataireIDFromToken(database, token)
-		if err != nil {
-			http.Error(response, "Authentification requise", http.StatusUnauthorized)
+		jeton := requete.Header.Get("Token")
+		idPrestataire, erreur := prestataireIDFromToken(bdd, jeton)
+		if erreur != nil {
+			http.Error(reponse, "Authentification requise", http.StatusUnauthorized)
 			return
 		}
 
-		created, monthKey, totalGenerated, err := genererFactureMensuelle(database, idPrestataire, time.Now(), false)
-		if err != nil {
-			http.Error(response, "Erreur génération facture mensuelle", http.StatusInternalServerError)
+		factureGeneree, cleMois, montantGenere, erreur := genererFactureMensuelle(bdd, idPrestataire, time.Now(), false)
+		if erreur != nil {
+			http.Error(reponse, "Erreur génération facture mensuelle", http.StatusInternalServerError)
 			return
 		}
 
-		factures, err := listFacturesPrestataire(database, idPrestataire)
-		if err != nil {
-			http.Error(response, "Erreur récupération factures", http.StatusInternalServerError)
+		listeFactures, erreur := listFacturesPrestataire(bdd, idPrestataire)
+		if erreur != nil {
+			http.Error(reponse, "Erreur récupération factures", http.StatusInternalServerError)
 			return
 		}
 
-		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]any{
-			"factures": factures,
+		reponse.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(reponse).Encode(map[string]any{
+			"factures": listeFactures,
 			"generation_auto": map[string]any{
-				"created": created,
-				"month":   monthKey,
-				"total":   totalGenerated,
+				"created": factureGeneree,
+				"month":   cleMois,
+				"total":   montantGenere,
 			},
 		})
 	}
 }
 
-func Simuler_generation_facture_prestataire(database *sql.DB) http.HandlerFunc {
-	return func(response http.ResponseWriter, request *http.Request) {
-		response.Header().Set("Access-Control-Allow-Origin", "*")
-		response.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
-		response.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-		if request.Method == http.MethodOptions {
-			response.WriteHeader(http.StatusOK)
+func Simuler_generation_facture_prestataire(bdd *sql.DB) http.HandlerFunc {
+	return func(reponse http.ResponseWriter, requete *http.Request) {
+		reponse.Header().Set("Access-Control-Allow-Origin", "*")
+		reponse.Header().Set("Access-Control-Allow-Headers", "Content-Type, Token")
+		reponse.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		if requete.Method == http.MethodOptions {
+			reponse.WriteHeader(http.StatusOK)
 			return
 		}
 
-		if request.Method != http.MethodPost {
-			http.Error(response, "Méthode non autorisée", http.StatusMethodNotAllowed)
+		if requete.Method != http.MethodPost {
+			http.Error(reponse, "Méthode non autorisée", http.StatusMethodNotAllowed)
 			return
 		}
 
-		token := request.Header.Get("Token")
-		idPrestataire, err := prestataireIDFromToken(database, token)
-		if err != nil {
-			http.Error(response, "Authentification requise", http.StatusUnauthorized)
+		jeton := requete.Header.Get("Token")
+		idPrestataire, erreur := prestataireIDFromToken(bdd, jeton)
+		if erreur != nil {
+			http.Error(reponse, "Authentification requise", http.StatusUnauthorized)
 			return
 		}
 
-		now := time.Now()
-		simulatedReference := time.Date(now.Year(), now.Month()+1, 1, 0, 0, 0, 0, now.Location())
+		instantPresent := time.Now()
+		dateReferenceSimulee := time.Date(instantPresent.Year(), instantPresent.Month()+1, 1, 0, 0, 0, 0, instantPresent.Location())
 
-		created, monthKey, totalGenerated, err := genererFactureMensuelle(database, idPrestataire, simulatedReference, true)
-		if err != nil {
-			http.Error(response, "Erreur simulation génération facture", http.StatusInternalServerError)
+		factureGeneree, cleMois, montantGenere, erreur := genererFactureMensuelle(bdd, idPrestataire, dateReferenceSimulee, true)
+		if erreur != nil {
+			http.Error(reponse, "Erreur simulation génération facture", http.StatusInternalServerError)
 			return
 		}
 
 		message := "Aucune nouvelle facture créée (déjà générée ou aucune prestation terminée)"
-		if created {
+		if factureGeneree {
 			message = "Facture mensuelle générée avec succès"
 		}
 
-		response.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(response).Encode(map[string]any{
+		reponse.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(reponse).Encode(map[string]any{
 			"message": message,
-			"created": created,
-			"month":   monthKey,
-			"total":   totalGenerated,
+			"created": factureGeneree,
+			"month":   cleMois,
+			"total":   montantGenere,
 		})
 	}
 }

@@ -23,6 +23,8 @@
             <input type="datetime-local" step="60" name="date" id="event_date" required><br><br>
             <label data-i18n>Description :</label>
             <input type="text" name="description" id="event_description" placeholder="Description" required><br><br>
+            <label data-i18n>Lieu :</label>
+            <input type="text" name="lieu" id="event_lieu" placeholder="Lieu" required><br><br>
             <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="event_tarif" placeholder="Tarif" step="0.01" required><br><br>
             <label data-i18n>Image (optionnel) :</label>
@@ -76,6 +78,7 @@
                 nom: document.getElementById('event_nom').value,
                 date: document.getElementById('event_date').value,
                 description: document.getElementById('event_description').value,
+                lieu: document.getElementById('event_lieu').value,
                 tarif: parseFloat(document.getElementById('event_tarif').value),
                 image: imageValue,
             })

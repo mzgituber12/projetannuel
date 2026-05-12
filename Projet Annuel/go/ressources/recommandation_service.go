@@ -120,7 +120,7 @@ func appelerPredictionML(payload structures.MLPredictPayload) (*structures.MLPre
 
 	contextePrediction, cancel := context.WithTimeout(context.Background(), 12*time.Second)
 	defer cancel()
-	cmd := exec.CommandContext(contextePrediction, "python3", "/app/ml/predict_cli.py")
+	cmd := exec.CommandContext(contextePrediction, "python3", "/app/ml/prediction_client.py")
 	cmd.Stdin = bytes.NewReader(body)
 	sortiePython, err := cmd.Output()
 	if err != nil {

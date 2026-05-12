@@ -8,6 +8,9 @@
     <title data-i18n>Catalogue</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
         .catalogue-carousel .carousel-item {
             padding: 1rem 3rem;
         }
@@ -41,13 +44,20 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1 data-i18n> Catalogue </h1>
+<div class='container mt-5'>
+<h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'> Catalogue </h1>
 
-<?php if (isset($_SESSION['state']) && isset($_GET['message'])) { 
-    echo "<h2>" . htmlspecialchars($_GET['message']) . "</h2>";
-    unset($_SESSION['state']);
-}
-?>
+<?php
+if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+}?>
+
+<p class="mb-custom text-center" data-i18n>
+Retrouvez tous nos événements et services dans le catalogue.  
+<br>Vous pouvez également découvrir l’ensemble de nos articles disponibles à l’achat directement sur la <a href="boutique.php">boutique</a>.  
+<br>Enfin, trouvez un prestataire qui vous correspond et ajoutez-le en ami via la <a href="messagerie.php">messagerie</a>.
+</p>
 <div class="card p-3 shadow-sm">
     <h5 class="mb-3" data-i18n>Recherche rapide dans le catalogue</h5>
     <div class="d-flex gap-2 flex-wrap align-items-end">
@@ -82,26 +92,25 @@
         <button id="resetFiltersButton" class="btn btn-sm btn-dark" data-i18n>Réinitialiser</button>
     </div>
 </div>
-<h2 class="h4 mt-5 mb-3" data-i18n>Événements</h2>
+<h2 class="h4 mt-5 mb-3 text-center" data-i18n>Événements</h2>
 <div class="card border-0 mb-4">
     <div id="evenements" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
-<h2 class="h4 mt-5 mb-3" data-i18n>Services</h2>
+<h2 class="h4 mt-5 mb-3 text-center" data-i18n>Services</h2>
 <div class="card border-0 mb-4">
     <div id="services" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
-<h2 class="h4 mt-5 mb-3" data-i18n>Articles</h2>
+<h2 class="h4 mt-5 mb-3 text-center" data-i18n>Articles</h2>
 <div class="card border-0 mb-4">
     <div id="articles" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
-<h2 class="h4 mt-5 mb-3" data-i18n>Prestataires</h2>
+<h2 class="h4 mt-5 mb-3 text-center" data-i18n>Prestataires</h2>
 <div class="card border-0 mb-4">
     <div id="prestataires" class="carousel slide catalogue-carousel" data-bs-interval="false"></div>
 </div>
+</div>
 
 <?php include 'includes/footer.php'; ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 <script>
 let evenementsData = [];
@@ -172,8 +181,7 @@ function resolveImageUrl(image) {
 }
 
 function renderCardImage(image, altText) {
-    const imageUrl = resolveImageUrl(image);
-    if (!imageUrl) return "Image";
+    const imageUrl = resolveImageUrl(image) || "noimage.avif";
     return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
 }
 
@@ -191,8 +199,50 @@ function excerptDbText(value, maxLen = 40) {
 function renderEvenements(items) {
     let cards = [];
     items.forEach(e => {
+
+        date = e.date
+        const datePart = date.split("||")[0].trim();
+        const [day, month, year] = datePart.split("/");
+        switch (month){
+        case "01":
+            month_str = "Janvier"
+            break;
+        case "02":
+            month_str = "Février"
+            break;
+        case "03":
+            month_str = "Mars"
+            break;
+        case "04":
+            month_str = "Avril"
+            break;
+        case "05":
+            month_str = "Mai"
+            break;
+        case "06":
+            month_str = "Juin"
+            break;
+        case "07":
+            month_str = "Juillet"
+            break;
+        case "08":
+            month_str = "Aout"
+            break
+        case "09":
+            month_str = "Septembre"
+            break;
+        case "10":
+            month_str = "Octobre"
+            break;
+        case "11":
+            month_str = "Novembre"
+            break;
+        default:
+            month_str = "Décembre"
+        }
+
         const actionLabel = e.rejoindre == "Rejoindre" ? "Rejoindre" : "Quitter";
-        const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&tarif=${encodeURIComponent(e.tarif)}&image=${encodeURIComponent(e.image || "")}`;
+        const joinLink = `${window.location.origin}/reservation.php?type=evenement&id=${encodeURIComponent(e.id)}&nom=${encodeURIComponent(e.nom)}&date=${encodeURIComponent(e.date)}&description=${encodeURIComponent(e.description)}&lieu=${encodeURIComponent(e.lieu)}&tarif=${encodeURIComponent(e.tarif)}&image=${encodeURIComponent(e.image || "")}`;
         const btnClass = e.rejoindre == "Quitter" ? "btn-outline-danger" : "btn-primary";
         const action = e.rejoindre == "Rejoindre" ?
             `<a class="btn btn-primary w-100" href="${joinLink}">${actionLabel}</a>` :
@@ -201,13 +251,15 @@ function renderEvenements(items) {
         cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="max-height:300px;">
                         ${renderCardImage(e.image, `Image de ${e.nom || "cet evenement"}`)}
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <h6 class="card-title">${String(e.nom)}</h6>
-                        <p class="card-text text-muted small flex-grow-1">${excerptDbText(e.description)}</p>
-                        <p class="card-text small text-secondary mb-2">${String(e.date)}</p>
+                        <h6 class="card-title"><strong>Nom</strong> : ${String(e.nom)}</h6>
+                        <p class="card-text text-muted small flex-grow-1"><strong>Description</strong> : ${excerptDbText(e.description)}</p>
+                        <p class="card-text small text-secondary mb-2">
+                            📅 ${day} ${month_str} ${year}
+                        </p>
                         ${action}
                     </div>
                 </div>
@@ -238,7 +290,7 @@ function renderServices(items) {
         cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="max-height:300px;">
                         ${renderCardImage(s.image, `Image de ${s.nom || "ce service"}`)}
                     </div>
                     <div class="card-body d-flex flex-column">
@@ -262,7 +314,7 @@ function renderArticles(items) {
         cards.push(`
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
-                    <div class="bg-light d-flex align-items-center justify-content-center" style="height:140px;">
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="max-height:300px;">
                         ${renderCardImage(a.image, `Image de ${a.titre || "cet article"}`)}
                     </div>
                     <div class="card-body d-flex flex-column">

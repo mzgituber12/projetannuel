@@ -4,6 +4,7 @@ go 1.25.6
 
 require (
 	github.com/go-sql-driver/mysql v1.9.3
+	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/stripe/stripe-go/v83 v83.2.1
 	golang.org/x/crypto v0.47.0
 	modernc.org/sqlite v1.44.3

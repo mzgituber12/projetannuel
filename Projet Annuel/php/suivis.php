@@ -6,16 +6,23 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Suivi de mes prestations</title>
+    <style>
+    .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 
-<div class="container mt-4 mb-5">
-
-    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
-        <h1 class="mb-0" data-i18n>Suivi de mes prestations</h1>
+<div class="container mt-5">
+    <h1 class='text-center ms-4 mb-custom' style='font-size:50px' data-i18n>Suivi de mes prestations</h1>
+   <p class="text-center" data-i18n>
+    Retrouvez ici l’ensemble de vos prestations, ainsi que leur état d’avancement et les informations liées à leur déroulement.
+    </p>
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-1">
         <a href="calendrier.php" class="btn btn-outline-primary btn-sm">
             <i class="bi bi-calendar3 me-1"></i><span data-i18n>Mon calendrier</span>
         </a>
@@ -120,6 +127,8 @@
         </div>
     </div>
 </div>
+
+<div class="mb-4"></div>
 
 <?php include 'includes/footer.php'; ?>
 

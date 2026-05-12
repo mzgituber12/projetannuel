@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Mes rendez-vous services</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
@@ -13,7 +18,7 @@
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-4">
-    <h1 data-i18n>Mes rendez-vous (services)</h1>
+    <h1 data-i18n class="mb-custom mt-4 text-center ms-3" style="font-size:50px">Mes rendez-vous</h1>
     <p class="text-muted" data-i18n>Retrouvez ici tous vos rendez-vous lies a vos inscriptions de service.</p>
 
     <div id="rdvContainer">

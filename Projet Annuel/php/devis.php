@@ -7,17 +7,24 @@
     <meta charset="UTF-8">
     <title data-i18n>Mes devis</title>
     <link rel="stylesheet" href="police.css">
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
 </head>
 <body>
 
 <?php include 'includes/header.php' ?>
 
-<div class="container mt-4">
-    <h1 data-i18n>Mes devis</h1>
+<div class="container mt-5">
+    <h1 class='mb-custom text-center ms-4' style='font-size:50px'>Mes devis</h1>
 
     <?php if (isset($_GET['message'])) : ?>
         <div class="alert alert-success"><?= htmlspecialchars($_GET['message']) ?></div>
     <?php endif; ?>
+
+    <p data-i18n>Retrouvez ici vos devis</p>
 
     <div id="devisContainer">
         <p data-i18n>Chargement en cours…</p>
@@ -51,7 +58,7 @@ async function chargerDevis() {
     const liste = data.devis;
 
     if (!liste || liste.length === 0) {
-        container.innerHTML = '<p class="text-muted">Vous n\'avez aucun devis pour le moment.</p>';
+        container.innerHTML = "<div class='alert alert-info'>Aucun devis pour le moment</div>";
         return;
     }
 

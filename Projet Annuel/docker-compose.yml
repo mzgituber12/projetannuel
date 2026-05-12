@@ -76,6 +76,8 @@ services:
       ONESIGNAL_APP_ID: ${ONESIGNAL_APP_ID:-}
       # Cela passe la clé REST API de OneSignal 
       ONESIGNAL_REST_API_KEY: ${ONESIGNAL_REST_API_KEY:-}
+      # Répertoire d'archivage des PDF factures prestataires (double conservé côté serveur)
+      FACTURE_ARCHIVE_DIR: ${FACTURE_ARCHIVE_DIR:-/app/archives/factures_prestataire}
     # Cela expose le port de l'API Go vers l'hôte
     ports:
       # Cela mappe le port API hôte configurable vers 9000 dans le conteneur
@@ -88,6 +90,8 @@ services:
       - ./ml:/app/ml
       # Cela monte les artefacts modèle (.pkl) utilisés en prédiction
       - ./php:/app/php
+      # Archives PDF factures prestataires (persistance hors conteneur)
+      - facture_archives:/app/archives/factures_prestataire
     # Cela définit les dépendances de démarrage du service Go
     depends_on:
       # Cela attend que MariaDB soit en état healthy
@@ -228,6 +232,8 @@ services:
 
 # Cela declare les volumes nommés utilisés par les services
 volumes:
+  # Archives PDF automatiques factures prestataires
+  facture_archives:
   # Cela crée le volume persistant de données MariaDB
   mariadb_data:
 

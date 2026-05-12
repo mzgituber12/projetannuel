@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Mes factures</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -16,9 +21,11 @@
 
 <?php include 'includes/header.php'; ?>
 
+<div class='container mt-5'>
+<h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Mes factures prestataire</h1>
+
 <div class="container-fluid mt-4 mb-5">
     <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
-        <h1 class="mb-0" data-i18n>Mes factures prestataire</h1>
         <div class="d-flex gap-2 flex-wrap">
             <button class="btn btn-outline-primary" onclick="chargerFactures()"><i class="bi bi-arrow-repeat"></i> <span data-i18n>Actualiser</span></button>
             <button class="btn btn-warning" onclick="simulerDebutMois()"><i class="bi bi-lightning-charge"></i> <span data-i18n>Simulation debut mois (temporaire)</span></button>
@@ -69,6 +76,7 @@
     </div>
 </div>
 
+</div>
 <?php include 'includes/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -167,8 +175,12 @@ function renderFactures() {
 
         html += '<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">';
         html += '<div><span class="badge text-bg-light me-2">Generation: ' + esc(f.date_generation || '-') + '</span><span class="badge text-bg-secondary">Prestations: ' + interventions.length + '</span>' + virementBadge + '</div>';
-        html += '<button class="btn btn-sm btn-danger" onclick="telechargerPDF(' + Number(f.id_facture || 0) + ')"><i class="bi bi-file-earmark-pdf"></i> PDF</button>';
-        html += '</div>';
+        html += '<div class="d-flex flex-wrap gap-2">';
+        html += '<button type="button" class="btn btn-sm btn-danger" onclick="telechargerPDF(' + Number(f.id_facture || 0) + ')"><i class="bi bi-file-earmark-pdf"></i> PDF</button>';
+        if (String(f.fichier_pdf || '').trim()) {
+            html += '<button type="button" class="btn btn-sm btn-outline-primary" onclick="telechargerPDFArchiveServeur(' + Number(f.id_facture || 0) + ')"><i class="bi bi-hdd-stack"></i> PDF archive serveur</button>';
+        }
+        html += '</div></div>';
         html += '<div class="table-responsive"><table class="table table-sm table-striped align-middle">';
         html += '<thead class="table-light"><tr><th>ID</th><th>Service</th><th>Client</th><th>Date</th><th>Statut</th><th class="text-end">Montant</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
         html += '</div></div></div>';
@@ -223,6 +235,44 @@ function telechargerPDF(idFacture) {
     });
 
     doc.save('facture_prestataire_' + String(facture.id_facture || 'x') + '_' + String(facture.mois || 'mois') + '.pdf');
+}
+
+async function telechargerPDFArchiveServeur(idFacture) {
+    const urlBaseApiGo = window.API_BASE || 'http://localhost:9000';
+    const jetonSessionPrestataire = localStorage.getItem('token') || '';
+    const idFactureAChercher = Number(idFacture || 0);
+
+    if (!idFactureAChercher || !jetonSessionPrestataire) {
+        afficherAlerte('Session ou facture invalide.', 'danger');
+        return;
+    }
+
+    try {
+        const urlEndpointArchivePdf =
+            urlBaseApiGo + '/prestataire/factures/' + idFactureAChercher + '/pdf_archive';
+        const reponseHttpArchive = await fetch(urlEndpointArchivePdf, {
+            method: 'GET',
+            headers: { Token: jetonSessionPrestataire }
+        });
+
+        if (!reponseHttpArchive.ok) {
+            afficherAlerte('Archive PDF serveur introuvable ou non encore generee.', 'warning');
+            return;
+        }
+
+        const fichierPdfArchive = await reponseHttpArchive.blob();
+        const urlTemporaireObjetPdf = URL.createObjectURL(fichierPdfArchive);
+        const lienTelechargementInvisible = document.createElement('a');
+
+        lienTelechargementInvisible.href = urlTemporaireObjetPdf;
+        lienTelechargementInvisible.download = 'facture_archive_' + idFactureAChercher + '.pdf';
+        document.body.appendChild(lienTelechargementInvisible);
+        lienTelechargementInvisible.click();
+        lienTelechargementInvisible.remove();
+        URL.revokeObjectURL(urlTemporaireObjetPdf);
+    } catch (erreurReseauOuParse) {
+        afficherAlerte('Erreur telechargement archive PDF.', 'danger');
+    }
 }
 
 async function chargerFactures() {

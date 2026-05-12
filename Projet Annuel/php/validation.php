@@ -10,15 +10,26 @@ include 'includes/header.php'; ?>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title data-i18n>valider le Préstataire</title>
+    <title data-i18n>Valider le prestataire</title>
+    <style>
+        .mb-custom {
+            margin-bottom: 2rem;
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
 
-<div class="container mt-5 mb-5">
-    <div id="page_validation" class="row g-4">
-        </div>
+<div class="container mt-4">
+    <h1 data-i18n class="mb-custom mt-4 text-center ms-3" style="font-size:50px">Validation</h1>
+    <p class="text-center mb-custom" data-i18n>
+    Retrouvez ici vos informations de prestataire ainsi que l’état de validation de votre dossier.
+    </p>
+    <div id="page_validation" class="row g-4 mt-2">
+    </div>
 </div>
+
+<?php include 'includes/footer.php' ?>
 
 <script>
 async function charger_ficher_presta() {

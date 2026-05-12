@@ -1,9 +1,6 @@
-<?php include 'includes/api_config.php';?>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
+<?php include 'includes/api_config.php'; ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Accueil</title>
@@ -13,7 +10,7 @@
         margin-bottom: 2.3rem
       }
       .mt-custom{
-        margin-top: 2.3rem
+        margin-top: 2rem
       }
     </style>
 </head>
@@ -22,19 +19,23 @@
 <?php
 include 'includes/header.php';
 ?>
-<div class="mb-custom mt-4 text-center ms-4" style='font-size:50px' data-i18n data-i18n id="popover1" class="col-md-4 d-flex justify-content-center" data-bs-toggle="popover" data-bs-title="Tutoriel" data-bs-content="Bienvenue sur le tutoriel proposé par Silver Happy, laissez nous vous guider pour découvrir notre site web. Sur la page d'accueil vous retrouvrez nos recommandation, l'actualité et divers produit du moment.<br> <br>Pour poursuivre le tutoriel cliquer sur le bouton Suivant juste en dessous<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><h1 data-i18n>Accueil</h1></div>
+<div class='container mt-5'>
+<div id="content" class="mb-3" aria-live="polite"></div>
+<div style='font-size:50px' data-i18n data-i18n id="popover1" class="mb-custom mt-2 text-center ms-3" data-bs-toggle="popover" data-bs-title="Tutoriel" data-bs-content="Bienvenue sur le tutoriel proposé par Silver Happy, laissez nous vous guider pour découvrir notre site web. Sur la page d'accueil vous retrouvrez nos recommandation, l'actualité et divers produit du moment.<br> <br>Pour poursuivre le tutoriel cliquer sur le bouton Suivant juste en dessous<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Accueil</h1></div>
 
+<h3 class='mb-custom mt-2 text-center' data-i18n>Silver Happy, les seniors sont encore jeunes</h3>
 <?php
-echo "<div class='container mt-5'>";
 if (isset($_SESSION['state']) && isset($_GET['message'])) { 
-    echo "<h3 data-i18n>" . htmlspecialchars($_GET['message']) . "</h3>";
+    echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     unset($_SESSION['state']);
-}
-?>
-<h2 class='mb-3' data-i18n>Silver Happy, les seniors sont encore jeunes</h2>
-<h5><div id="content"class='mb-5' data-i18n ></div></h5>
+} ?>
+<p data-i18n>
+Silver Happy permet aux seniors de s'épanouir dans leur vie active grâce à diverses activités organisées par le personnel de notre entreprise.  
+<br>Nous proposons des événements organisés par nos collaborateurs ainsi que des services proposés par des prestataires partenaires de notre site.  
+<br>Une boutique en ligne permet également d'acheter différents produits mis en ventes par nos collaborateurs.
+</p>
 
-<div class="container mt-4">
+<div class="container mt-5">
   <h2 class="text-center mt-4 mb-custom" data-i18n>Prestations à l'affiche</h2>
 
   <div class="row justify-content-center g-4">
@@ -76,6 +77,9 @@ async function evenements_populaire(){
 
     description = event.description
     description = description.charAt(0).toUpperCase() + description.slice(1);
+
+    lieu = event.lieu
+    lieu = lieu.charAt(0).toUpperCase() + lieu.slice(1);
     
     date = event.date
     const datePart = date.split("||")[0].trim();
@@ -124,7 +128,6 @@ async function evenements_populaire(){
     } else {
       image = "upload/" + image
     }
-    console.log(day, month_str, year, nom, image, event)
     document.getElementById("events-container").innerHTML += `
     <div class="col-md-4 d-flex justify-content-center">
 
@@ -144,10 +147,10 @@ async function evenements_populaire(){
 
           <ul class="list-unstyled mb-3 small text-secondary">
             <li>📅 ${day} ${month_str} ${year}</li>
-            <li>📍 Parc des bois</li>
+            <li>📍 ${lieu}</li>
           </ul>
 
-          <a href="#" class="btn btn-primary w-100 mt-auto rounded-3">
+          <a href="reservation.php?type=evenement&id=${event.id}&nom=${event.nom}&date=${event.date}&description=${event.description}&lieu=${event.lieu}&tarif=${event.tarif}&image=${event.image}" class="btn btn-primary w-100 mt-auto rounded-3">
             En savoir plus
           </a>
         </div>
@@ -194,6 +197,13 @@ async function chargerRecommandation(token) {
     }
 }
 
+function setBandeauConnexion(html) {
+    const zone = document.getElementById("content");
+    if (zone) {
+        zone.innerHTML = html;
+    }
+}
+
 async function onlineUser(token) {
     const base = (window.API_BASE || 'http://localhost:9000');
     const response = await fetch(base + "/enligne", {
@@ -215,14 +225,14 @@ async function onlineUser(token) {
       const msgConnecte = await traduireText("Vous êtes connecté", langue);
       if (data.tutoriel == "1") {
         const msgTutoriel = await traduireText("C'est votre 1ere experience sur le site ? Voici le tutoriel pour vous aider", langue);
-        document.getElementById("content").innerHTML = msgConnecte + "<br>" + msgTutoriel;
+        setBandeauConnexion(msgConnecte + "<br>" + msgTutoriel);
       } else {
-        document.getElementById("content").innerHTML = msgConnecte;
+        setBandeauConnexion(msgConnecte);
       }
       await chargerRecommandation(token);
     } else if (data.message == "Pas identifié") {
       const msgPasConnecte = await traduireText("Veuillez vous connecter pour poursuivre", langue);
-      document.getElementById("content").innerHTML = msgPasConnecte;
+      setBandeauConnexion(msgPasConnecte);
       document.getElementById("reco_wrapper").style.display = "none";
     }
 }
@@ -235,6 +245,5 @@ async function init(){
 
 init()
 </script>
-<script src="tuto.js"></script>
 </body>
 </html>
