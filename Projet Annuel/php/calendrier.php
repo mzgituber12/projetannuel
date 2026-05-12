@@ -324,7 +324,6 @@ async function init() {
             jourSemaine: jourSemaine
         });
 
-        if (ok) {
             setInfo('Créneau ajouté avec succès.');
             calendar.refetchEvents();
         }
