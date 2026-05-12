@@ -12,10 +12,15 @@
 <body>
 
 <?php include 'includes/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id ="admin_err"></h2>
 
-<div id="resultat"></div>
+<div class='container mt-5'>
+<h1 id="admin_title" data-i18n class='mb-custom text-center ms-4' style='font-size:50px'></h1>
+<h2 id ="admin_err" class="mt-4"></h2>
+
+<div id="resultat" class="mt-custom p-3 pb-1 border rounded bg-light"></div>
+</div>
+
+<div class="mt-4"></div>
 <?php include 'includes/footer.php'?>
 </body>
 </html>
@@ -76,11 +81,13 @@
             <input type="number" name="id" id="article_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
             <label data-i18n>Titre :</label>
             <input type="text" name="titre" id="article_titre" value="${data.titre}" required><br><br>
+            <div class="mb-3">
             <label data-i18n>Description :</label>
-            <textarea name="description" id="article_description" required>${data.description}</textarea><br><br>
+            <textarea class="form-control" id="article_description" rows="4" required>${data.description}</textarea>
+            </div>
             <label data-i18n>Tarif :</label>
             <input type="number" name="prix" id="article_prix" value="${data.prix}" step="0.01" required><br><br>
-            <button type = "submit" data-i18n>Confirmer les modifications</button>
+            <button type = "submit" data-i18n class="btn btn-primary w-100">Confirmer les modifications</button>
             </form>
             `;
             }

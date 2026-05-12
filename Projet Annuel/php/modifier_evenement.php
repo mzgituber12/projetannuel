@@ -91,7 +91,9 @@
             <input type="text" name="lieu" id="event_lieu" value="${data.lieu}" required><br><br>
             <label data-i18n>Tarif :</label>
             <input type="number" name="tarif" id="event_tarif" value="${data.tarif}" required><br><br>
-            <button type = "submit" data-i18n>Confirmer les modifications</button>
+            <button type="submit" class="btn btn-primary w-100">
+                Confirmer les modifications
+            </button>
             </form>
             `;
             }

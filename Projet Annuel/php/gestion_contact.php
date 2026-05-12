@@ -7,6 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Gestion des contacts</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="police.css">
 </head>
@@ -15,7 +20,12 @@
 <?php include 'includes/header.php'?>
 
 <div class="container mt-5">
-    <h1 class="mb-4" data-i18n>Gestion des contacts</h1>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Gestion des contacts</h1>
+    <?php
+    if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+    }?>
 
     <div class="card bg-light mb-4">
         <div class="card-body">
@@ -25,6 +35,9 @@
 
     <div id="resultat"></div>
 </div>
+</div>
+
+<div class="mb-4"></div>
 
 <?php include 'includes/footer.php'?>
 

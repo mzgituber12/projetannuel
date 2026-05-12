@@ -46,13 +46,19 @@ if (is_array($report)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n>Module ML - Résultats</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
-<body class="bg-light">
+<body>
 <?php include 'includes/header.php'; ?>
 
+<div class='container mt-5'>
 <main class="container py-4">
-    <h1 class="mb-4" data-i18n>Module Machine Learning</h1>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Module Machine Learning</h1>
 
     <div class="d-flex flex-wrap gap-2 mb-4">
         <a class="btn btn-primary" href="dashboard.php" data-i18n>Dashboard adhérents</a>
@@ -140,6 +146,10 @@ if (is_array($report)) {
         </div>
     </div>
 </main>
+
+</div>
+
+<div class="mb-4"></div>
 
 <?php include 'includes/footer.php'; ?>
 </body>

@@ -122,10 +122,9 @@
             "<label><strong>Image :</strong></label><br>" + imageHtml +
             "</div></div>" +
             "<div class='mt-3'>" +
-            "<div class='btn-group' role='group' aria-label='Actions événement'>" +
-            "<a href='modifier_evenement.php?id=" + data.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a>" +
-            "<a href='#' onclick='supprimer_evenement(" + data.id + ", " + JSON.stringify(data.nom) + "); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a>" +
-            "</div></div></div>";
+            "<a href='modifier_evenement.php?id=" + data.id + "' class='btn btn-warning btn-sm me-2' data-i18n> Modifier </a>" +
+            "<a href='#' onclick='supprimer_evenement(" + data.id + ", " + JSON.stringify(data.nom) + "); return false;' class='btn btn-danger btn-sm me-2' data-i18n> Supprimer </a>" +
+            "</div></div>";
         }
     }
 
@@ -153,8 +152,8 @@ async function listEvenements(token) {
         evenement_list.evenement.forEach(evenement => {
             console.log(evenement)
             const actions = "<div class='btn-group' role='group' aria-label='Actions'>" +
-                "<a href='modifier_evenement.php?id=" + evenement.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a>" +
-                "<a href='#' onclick='supprimer_evenement(" + evenement.id + ", " + JSON.stringify(evenement.nom) + "); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a></div>";
+                "<a href='modifier_evenement.php?id=" + evenement.id + "' class='btn btn-sm btn-warning me-2' data-i18n> Modifier </a>" +
+                "<a href='#' onclick='supprimer_evenement(" + evenement.id + ", " + JSON.stringify(evenement.nom) + "); return false;' class='btn btn-sm btn-danger me-2' data-i18n> Supprimer </a></div>";
             const imageHtml = renderImageHtml(evenement.image, `Image de ${evenement.nom}`);
             const desc = (evenement.description || '').length > 40 ? String(evenement.description).slice(0, 40) + "..." : String(evenement.description);
             html += "<tr><td>" + imageHtml + "</td><td>" + String(evenement.nom).slice(0, 40) + "</td><td>" + desc + "</td><td>" + String(evenement.date) + "</td><td>" + String(evenement.lieu).slice(0, 40) + "</td><td class='text-nowrap'>" + actions + "</td></tr>";

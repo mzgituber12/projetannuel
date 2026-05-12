@@ -13,8 +13,12 @@
 
 <?php include 'includes/header.php' ?>
 
-<h1 class="mt-5 mb-4" data-i18n>Détail produit</h1>
+<div class='container mt-5 mb-4'>
+
+<h1 data-i18n class='text-center mb-custom' style="font-size:50px">Détail du produit</h1>
 <div class="container-lg" id="productDetail" style="min-height: auto;">Chargement...</div>
+
+</div>
 
 <?php include 'includes/footer.php';?>
 

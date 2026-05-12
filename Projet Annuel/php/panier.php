@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="police.css">
     <style>
         .cart-image-placeholder {
-            height: 200px;
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -26,8 +26,10 @@
 
 <?php include 'includes/header.php' ?>
 
+<div class="container mt-5">
+    <h1 data-i18n class='mb-custom text-center ms-4 mb-4' style='font-size:50px'>Mon panier</h1>
+
 <div class="container-fluid mt-4">
-    <h1 class="mb-4" data-i18n>Mon panier</h1>
 
     <div class="row mb-4 align-items-center">
         <div class="col-md-8">
@@ -41,6 +43,9 @@
     <div id="cartMessage"></div>
     <div id="cartList" class="row g-3"></div>
 </div>
+</div>
+
+<div class="mb-4"></div>
 
 <?php include 'includes/footer.php';?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -57,8 +62,8 @@ function resolveImageUrl(image) {
 
 function renderCartImage(image, altText) {
     const imageUrl = resolveImageUrl(image);
-    if (!imageUrl) return "Produit";
-    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover;">`;
+    if (!imageUrl) return `<img src="noimage.avif" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover; height:300px;">`;
+    return `<img src="${imageUrl}" alt="${String(altText)}" style="width:100%;height:100%;object-fit:cover; height:300px;">`;
 }
 
 async function basculerPanier(articleId) {

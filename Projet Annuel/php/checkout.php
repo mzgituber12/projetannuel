@@ -12,7 +12,9 @@
 <body>
 <?php include 'includes/header.php'; ?>
 
-<h1 class="mt-5 mb-4" data-i18n>Checkout</h1>
+<div class="container mt-4">
+
+<h1 data-i18n class="mb-custom mt-4 text-center ms-3" style="font-size:50px">Checkout</h1>
 <div class="container" style="max-width:600px;">
     <div class="card shadow">
         <div class="card-body">
@@ -28,6 +30,7 @@
             <div id="message"></div>
         </div>
     </div>
+</div>
 </div>
 
 <?php include 'includes/footer.php'; ?>

@@ -20,7 +20,6 @@
 include 'includes/header.php';
 ?>
 <div class='container mt-5'>
-<div id="content" class="mb-3" aria-live="polite"></div>
 <div style='font-size:50px' data-i18n data-i18n id="popover1" class="mb-custom mt-2 text-center ms-3" data-bs-toggle="popover" data-bs-title="Tutoriel" data-bs-content="Bienvenue sur le tutoriel proposé par Silver Happy, laissez nous vous guider pour découvrir notre site web. Sur la page d'accueil vous retrouvrez nos recommandation, l'actualité et divers produit du moment.<br> <br>Pour poursuivre le tutoriel cliquer sur le bouton Suivant juste en dessous<br><div class='d-flex justify-content-between align-items-center mt-3'><button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button><button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>"><h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Accueil</h1></div>
 
 <h3 class='mb-custom mt-2 text-center' data-i18n>Silver Happy, les seniors sont encore jeunes</h3>
@@ -29,6 +28,7 @@ if (isset($_SESSION['state']) && isset($_GET['message'])) {
     echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     unset($_SESSION['state']);
 } ?>
+<div id="content" class="mb-3" aria-live="polite"></div>
 <p data-i18n>
 Silver Happy permet aux seniors de s'épanouir dans leur vie active grâce à diverses activités organisées par le personnel de notre entreprise.  
 <br>Nous proposons des événements organisés par nos collaborateurs ainsi que des services proposés par des prestataires partenaires de notre site.  

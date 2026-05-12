@@ -14,6 +14,14 @@ include 'includes/header.php';
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
+
+<div class='container mt-5'>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Creer une catégorie</h1>
+    <?php
+    if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+    }?>
     <div class="d-flex justify-content-center">
     <div class="card p-4 shadow-sm w-100 mb-5 mt-5" style="max-width: 700px;">
         <div class="row justify-content-center">
@@ -43,6 +51,9 @@ include 'includes/header.php';
             </div>
         </div>
     </div>
+</div>
+<div class="mb-4"></div>
+
 </div>
 
 

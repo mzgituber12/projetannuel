@@ -15,8 +15,21 @@ include 'includes/header.php'; ?>
 </head>
 <body>
 
+
+<div class='container mt-5'>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Validation des prestataires</h1>
+    <?php
+    if (isset($_SESSION['state']) && isset($_GET['message'])) {
+        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        unset($_SESSION['state']);
+    }?>
+
 <div class="container mt-5">
     <div id="liste_demande_presta" class="d-flex gap-4 flex-wrap justify-content-center"></div>
+</div>
+
+<div class="mb-4"></div>
+
 </div>
 
 <?php include 'includes/footer.php'; ?>

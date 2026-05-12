@@ -7,6 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <title data-i18n>Gestion des conseils</title>
+    <style>
+        .mb-custom{
+            margin-bottom: 2rem
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="police.css">
@@ -15,14 +20,15 @@
 
 <?php include 'includes/header.php' ?>
 
-<div class="container-fluid mt-4">
-    <h1 class="mb-4" data-i18n>Gestion des conseils</h1>
-
+<div class='container mt-5'>
+    <h1 data-i18n class='mb-custom text-center ms-4' style='font-size:50px'>Gestion des conseils</h1>
     <?php
     if (isset($_SESSION['state']) && isset($_GET['message'])) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>" . htmlspecialchars($_GET['message']) . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         unset($_SESSION['state']);
-    } ?>
+    }?>
+
+<div class="container-fluid mt-4">
 
     <div class="mb-4">
         <a href="modifier_conseil.php?id=new" class="btn btn-primary"><i class="bi bi-plus-circle"></i> <span data-i18n>Créer un nouveau conseil</span></a>
@@ -49,6 +55,11 @@
     <h2 class="mt-5 mb-3" data-i18n>Liste des conseils</h2>
     <div id="conseils"></div>
 </div>
+
+<div class="mb-4"></div>
+
+</div>
+
 
 <?php include("includes/footer.php") ?>
 
@@ -94,8 +105,8 @@
                 "</div><div class='col-md-4'><label><strong>Image :</strong></label><br>" + imageHTML + "</div></div>" +
                 "<div class='mt-3'>" +
                 "<div class='btn-group' role='group' aria-label='Actions conseil'>" +
-                "<a href='modifier_conseil.php?id=" + data.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a>" +
-                "<a href='#' onclick='deleteConseils(" + data.id + "); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a>" +
+                "<a href='modifier_conseil.php?id=" + data.id + "' class='btn btn-sm btn-warning me-2' data-i18n>Modifier</a>" +
+                "<a href='#' onclick='deleteConseils(" + data.id + "); return false;' class='btn btn-sm btn-danger me-2' data-i18n>Supprimer</a>" +
                 "</div></div></div>";
         }
     }
@@ -126,8 +137,8 @@
             conseil_list.conseil.forEach(cons => {
                 const contenuCourt = (cons.contenu && cons.contenu.length > 40) ? cons.contenu.substring(0, 40) + "..." : String(cons.contenu || "");
                 const actions = "<div class='btn-group' role='group' aria-label='Actions'>" +
-                    "<a href='modifier_conseil.php?id=" + cons.id + "' class='btn btn-sm btn-warning' data-i18n>Modifier</a>" +
-                    "<a href='#' onclick='deleteConseils(" + cons.id + "); return false;' class='btn btn-sm btn-danger' data-i18n>Supprimer</a>" +
+                    "<a href='modifier_conseil.php?id=" + cons.id + "' class='btn btn-sm btn-warning me-2' data-i18n>Modifier</a>" +
+                    "<a href='#' onclick='deleteConseils(" + cons.id + "); return false;' class='btn btn-sm btn-danger me-2' data-i18n>Supprimer</a>" +
                     "</div>";
                 const imageHTML = renderImageHtml(cons.image, "Image de " + String(cons.titre));
                 html += "<tr><td>" + imageHTML + "</td><td>" + String(cons.titre) + "</td><td>" + contenuCourt + "</td><td>" + String(cons.date) + "</td><td class='text-nowrap'>" + actions + "</td></tr>";

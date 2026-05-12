@@ -163,11 +163,11 @@
             "<label><strong>Role :</strong> " + String(data.role) + "</label><br>" +
             "<label><strong>Langue :</strong> " + String(data.langue) + "</label><br>" +
             "<label><strong>Statut :</strong> " + libelleStatut(String(data.statut_user || "actif")) + "</label><br>" +
-            "<a href='modifier_user.php?id=" + data.id + "'>Modifier l'utilisateur</a> | " +
-            "<a href='#' onclick='supprimer_user(" + data.id + ", \"" + data.email + "\"); return false;'>Supprimer</a> | " +
+            "<a class='btn btn-warning btn-sm' href='modifier_user.php?id=" + data.id + "'>Modifier l'utilisateur</a> | " +
+            "<a href='#' class='btn btn-danger btn-sm' onclick='supprimer_user(" + data.id + ", \"" + data.email + "\"); return false;'>Supprimer</a> | " +
             (String(data.statut_user || "actif") === "banni" || String(data.statut_user || "actif") === "suspendu"
-                ? "<a href='#' onclick='debannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Débannir</a>"
-                : "<a href='#' onclick='bannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Bannir</a>") +
+                ? "<a class='btn btn-success btn-sm' href='#' onclick='debannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Débannir</a>"
+                : "<a class='btn btn-danger btn-sm' href='#' onclick='bannir_user(" + data.id + ", \"" + data.email + "\"); return false;'>Bannir</a>") +
             "</div>";
         }
     }
@@ -195,12 +195,15 @@
                     const email = String(usr.email || "");
                     const safeEmail = email.replace(/'/g, "\\'");
                     const isBlocked = String(usr.statut_user || "actif") === "banni" || String(usr.statut_user || "actif") === "suspendu";
-                    const actions = "<a href='modifier_user.php?id=" + usr.id + "' data-i18n>Modifier</a> | " +
-                        "<a href='#' onclick=\"supprimer_user(" + usr.id + ", '" + safeEmail + "'); return false;\" data-i18n>Supprimer</a> | " +
-                        (isBlocked
-                            ? "<a href='#' onclick=\"debannir_user(" + usr.id + ", '" + safeEmail + "'); return false;\" data-i18n>Débannir</a>"
-                            : "<a href='#' onclick=\"bannir_user(" + usr.id + ", '" + safeEmail + "'); return false;\" data-i18n>Bannir</a>");
-                    html += "<tr><td>" + String(usr.nom || "") + "</td><td>" + String(usr.prenom || "") + "</td><td>" + String(usr.age || 0) + "</td><td>" + email + "</td><td>" + String(usr.role || "") + "</td><td>" + libelleStatut(String(usr.statut_user || "actif")) + "</td><td>" + actions + "</td></tr>";
+                    
+                   const actions =
+                    "<a class='btn btn-warning btn-sm me-2' href='modifier_user.php?id=" + usr.id + "'>Modifier</a>" +
+                    "<a href='#' class='btn btn-danger btn-sm me-2' onclick='supprimer_user(" + usr.id + ", " + JSON.stringify(usr.email) + "); return false;'>Supprimer</a>" +
+                    (isBlocked
+                        ? "<a class='btn btn-success btn-sm' href='#' onclick='debannir_user(" + usr.id + ", " + JSON.stringify(usr.email) + "); return false;'>Débannir</a>"
+                        : "<a class='btn btn-warning btn-sm' href='#' onclick='bannir_user(" + usr.id + ", " + JSON.stringify(usr.email) + "); return false;'>Bannir</a>"
+                    );
+                html += "<tr><td>" + String(usr.nom || "") + "</td><td>" + String(usr.prenom || "") + "</td><td>" + String(usr.age || 0) + "</td><td>" + email + "</td><td>" + String(usr.role || "") + "</td><td>" + libelleStatut(String(usr.statut_user || "actif")) + "</td><td>" + actions + "</td></tr>";
                 });
                 html += "</table>";
                 user.innerHTML = html;

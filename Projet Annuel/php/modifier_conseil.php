@@ -1,12 +1,33 @@
 <?php include 'includes/api_config.php'; ?>
 <script src="online.js"></script>
-<script>
-loginUser("online", localStorage.getItem('token')); 
-</script>
 <script src="admin.js"></script>
-<script>
-adminUser(localStorage.getItem('token')); 
-</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id="page_title"></title>
+    <link rel="stylesheet" href="police.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #d32f2f; }
+    </style>
+</head>
+<body>
+
+<?php include 'includes/header.php'?>
+<div class='container mt-5'>
+<h1 id="admin_title" data-i18n class='mb-custom text-center ms-4' style='font-size:50px'></h1>
+<h2 id="admin_err" class="mt-4"></h2>
+
+<div id="resultat" class="mt-custom p-3 pb-1 border rounded bg-light"></div>
+</div>
+
+<div class="mt-4"></div>
+<?php include 'includes/footer.php'?>
+</body>
+</html>
 
 <script>
     const isNewConseils = <?php echo json_encode($_GET["id"] === "new"); ?>;
@@ -128,15 +149,6 @@ adminUser(localStorage.getItem('token'));
             document.getElementById("page_title").innerHTML = "Créer un nouveau conseil";
             document.getElementById('admin_title').innerHTML = "Création d'un nouveau conseil";
             document.getElementById("resultat").innerHTML = `
-                <style>
-                    form { max-width: 600px; }
-                    label { display: block; margin-top: 15px; font-weight: bold; }
-                    input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-                    textarea { min-height: 200px; resize: vertical; }
-                    button { margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-                    button:hover { background-color: #45a049; }
-                    #imagePreview { margin-top: 10px; }
-                </style>
                 <form onsubmit="updateConseils(event); return false;">
                     <label data-i18n>Titre :</label>
                     <input type="text" name="titre" id="conseil_titre" required><br><br>
@@ -159,8 +171,9 @@ adminUser(localStorage.getItem('token'));
 
         if (!response.ok) {
             const text = await response.text();
-            document.getElementById("resultat").innerHTML = "<div style='color: red;'>" + text + "</div>";
-            return;
+            alert(text)
+            window.location.href = "erreur.php?code=" + response.status
+            return
         }
 
         const data = await response.json();
@@ -180,59 +193,39 @@ adminUser(localStorage.getItem('token'));
             }
             
             document.getElementById("resultat").innerHTML = `
-                <style>
-                    form { max-width: 600px; }
-                    label { display: block; margin-top: 15px; font-weight: bold; }
-                    input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-                    textarea { min-height: 200px; resize: vertical; }
-                    button { margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-                    button:hover { background-color: #45a049; }
-                    input[readonly] { background-color: #f0f0f0; cursor: not-allowed; }
-                    #imagePreview { margin-top: 10px; }
-                </style>
                 <form onsubmit="updateConseils(event); return false;">
-                <label>ID :</label>
-                <input type="number" name="id" id="conseil_id" value="${data.id}" readonly> <span data-i18n>(Non modifiable)</span> <br><br>
+                <label data-i18n>ID :</label>
+                <input type="number" name="id" id=""conseil_id" value="${data.id}" readonly> <span data-i18n>Pas modifiable</span> <br><br>
                 <label data-i18n>Titre :</label>
-                <input type="text" name="titre" id="conseil_titre" value="${data.titre}" required><br><br>
-                <label data-i18n>Contenu :</label>
-                <textarea name="contenu" id="conseil_contenu" required>${data.contenu}</textarea><br><br>
+                <input type="text" name="nom" id="conseil_titre" value="${data.titre}" required><br><br>
+                <div class="mb-3">
+                <label for="conseil_contenu" class="form-label" data-i18n>Contenu :</label>
+                <textarea class="form-control" id="conseil_contenu" rows="4" required>${data.contenu}</textarea>
+                </div>
                 <label data-i18n>Date de publication :</label>
                 <input type="text" value="${data.date}" readonly><br><br>
                 <label data-i18n>Image :</label>
                 <input type="file" name="image" id="conseil_image" accept="image/*" onchange="previewImage()"><br>
                 ${imagePreviewHTML}
-                <button type="submit" data-i18n>Confirmer les modifications</button>
+                <br>
+                <button type="submit" class="btn btn-primary w-100">
+                Confirmer les modifications
+                </button>
                 </form>
             `;
         }
     }
-    window.addEventListener('DOMContentLoaded', function() {
-        search_conseils();
-    });
+    async function init(){
+        const token = localStorage.getItem("token")
+        if (!await loginUser("online", token)) return
+        if (!await adminUser(token)) return
+        search_conseils()
+    }
+
+    window.addEventListener('pageshow', function(event) {
+if (event.persisted) {
+    window.location.reload();
+}
+});
+init()
 </script>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title id="page_title"></title>
-    <link rel="stylesheet" href="police.css">
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #333; }
-        h2 { color: #d32f2f; }
-    </style>
-</head>
-<body>
-
-<?php include 'includes/header.php'?>
-<h1 id="admin_title"></h1>
-<h2 id="admin_err"></h2>
-
-<div id="resultat"></div>
-<div id="error"></div>
-    <div id="err_message" style="color: red; margin: 10px 0;"></div>
-<?php include 'includes/footer.php'?>
-</body>
-</html>
