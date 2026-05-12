@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-<?php include 'includes/api_config.php'; ?>
     <title data-i18n>Calendrier prestataire</title>
     <script src="online.js"></script>
     <style>
