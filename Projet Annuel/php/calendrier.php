@@ -127,7 +127,7 @@ function setInfo(message) {
     window.__calendarInfoTimeout = window.setTimeout(() => {
         node.classList.add('d-none');
         node.textContent = '';
-    }, 2200);
+    }, 2500);
 }
 
 function updateRecurrenceFields() {
@@ -135,35 +135,18 @@ function updateRecurrenceFields() {
     const endContainer = document.getElementById('ruleEndContainer');
     const weekdayContainer = document.getElementById('weekdayContainer');
 
-    if (recurrence === 'unique') {
+    if (recurrence == 'unique') {
         endContainer.classList.add('d-none');
         weekdayContainer.classList.add('d-none');
         return;
     }
 
     endContainer.classList.remove('d-none');
-    if (recurrence === 'hebdomadaire') {
+    if (recurrence == 'hebdomadaire') {
         weekdayContainer.classList.remove('d-none');
     } else {
         weekdayContainer.classList.add('d-none');
     }
-}
-
-async function apiFetchJson(base, path, token, options) {
-    const response = await fetch(base + path, {
-        method: (options && options.method) ? options.method : 'GET',
-        headers: Object.assign(
-            { 'Token': token },
-            (options && options.headers) ? options.headers : {}
-        ),
-        body: (options && options.body) ? options.body : undefined
-    });
-
-    if (!response.ok) {
-        throw new Error(await response.text());
-    }
-
-    return response.json();
 }
 
 function mapRdvEvents(payload) {
@@ -191,10 +174,10 @@ function mapDisponibiliteEvents(payload) {
     const events = [];
     for (let idx = 0; idx < payload.length; idx++) {
         const e = payload[idx];
-        const isDisponible = e.type === 'disponible';
-        const recurrenceLabel = e.recurrence === 'quotidienne'
+        const isDisponible = e.type == 'disponible';
+        const recurrenceLabel = e.recurrence == 'quotidienne'
             ? ' (quotidien)'
-            : (e.recurrence === 'hebdomadaire' ? ' (hebdo)' : '');
+            : (e.recurrence == 'hebdomadaire' ? ' (hebdo)' : '');
 
         events.push({
             id: 'slot-' + e.id,
@@ -215,7 +198,15 @@ function mapDisponibiliteEvents(payload) {
 }
 
 async function loadRdvEvents(base, token) {
-    const payload = await apiFetchJson(base, '/prestataire/rendez_vous', token);
+    const response = await fetch(base + '/prestataire/rendez_vous', {
+        method: 'GET',
+        headers: { 'Token': token }
+    });
+    if (!response.ok) {
+        setError('Erreur chargement rendez-vous : ' + await response.text());
+        return null;
+    }
+    const payload = await response.json();
     return mapRdvEvents(payload);
 }
 
@@ -224,14 +215,22 @@ async function loadDisponibiliteEvents(base, token, info) {
         start: info.startStr,
         end: info.endStr
     });
-    const payload = await apiFetchJson(base, '/prestataire/disponibilites?' + params.toString(), token);
+    const response = await fetch(base + '/prestataire/disponibilites?' + params.toString(), {
+        method: 'GET',
+        headers: { 'Token': token }
+    });
+    if (!response.ok) {
+        setError('Erreur chargement disponibilités : ' + await response.text());
+        return null;
+    }
+    const payload = await response.json();
     return mapDisponibiliteEvents(payload);
 }
 
 async function createDisponibilite(base, token, selectionInfo, payload) {
-    await apiFetchJson(base, '/prestataire/disponibilites/creer', token, {
+    const response = await fetch(base + '/prestataire/disponibilites/creer', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Token': token },
         body: JSON.stringify({
             start: selectionInfo.startStr,
             end: selectionInfo.endStr,
@@ -241,12 +240,23 @@ async function createDisponibilite(base, token, selectionInfo, payload) {
             jour_semaine: payload.jourSemaine
         })
     });
+    if (!response.ok) {
+        setError('Erreur lors de la création du créneau : ' + await response.text());
+        return false;
+    }
+    return true;
 }
 
 async function deleteDisponibilite(base, token, slotId) {
-    await apiFetchJson(base, '/prestataire/disponibilites/' + slotId, token, {
-        method: 'DELETE'
+    const response = await fetch(base + '/prestataire/disponibilites/' + slotId, {
+        method: 'DELETE',
+        headers: { 'Token': token }
     });
+    if (!response.ok) {
+        setError('Erreur lors de la suppression du créneau : ' + await response.text());
+        return false;
+    }
+    return true;
 }
 
 async function init() {
@@ -259,7 +269,7 @@ async function init() {
     if (!await loginUser('online', token)) return;
 
     const user = await fetchEnligne(token);
-    if (!user || user.role !== 'prestataire') {
+    if (!user || user.role != 'prestataire') {
         alert('Cette page est réservée aux prestataires.');
         window.location.href = 'index.php';
         return;
@@ -274,7 +284,83 @@ async function init() {
     document.getElementById('slotRecurrence').addEventListener('change', updateRecurrenceFields);
     updateRecurrenceFields();
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+    let calendar;
+
+    async function chargerRdvDansCalendrier(info, successCallback, failureCallback) {
+        const events = await loadRdvEvents(base, token);
+        if (events === null) {
+            failureCallback(new Error('rendez-vous'));
+            return;
+        }
+        successCallback(events);
+    }
+
+    async function chargerDisponibilitesDansCalendrier(info, successCallback, failureCallback) {
+        const events = await loadDisponibiliteEvents(base, token, info);
+        if (events === null) {
+            failureCallback(new Error('disponibilités'));
+            return;
+        }
+        successCallback(events);
+    }
+
+    async function traceUnePlage(selectionInfo) {
+        clearError();
+        const type = document.getElementById('slotType').value;
+        const recurrence = document.getElementById('slotRecurrence').value;
+        const dateFinRegle = document.getElementById('slotRuleEnd').value;
+        const jourSemaine = document.getElementById('slotWeekday').value;
+
+        if (recurrence !== 'unique' && !dateFinRegle) {
+            setError('Veuillez renseigner la fin de période pour cette récurrence.');
+            calendar.unselect();
+            return;
+        }
+
+        const ok = await createDisponibilite(base, token, selectionInfo, {
+            type: type,
+            recurrence: recurrence,
+            dateFinRegle: dateFinRegle,
+            jourSemaine: jourSemaine
+        });
+
+        if (ok) {
+            setInfo('Créneau ajouté avec succès.');
+            calendar.refetchEvents();
+        }
+        calendar.unselect();
+    }
+
+    async function cliqueSurUnEvenement(clickInfo) {
+        clearError();
+
+        if (clickInfo.event.extendedProps.kind == 'rdv') {
+            alert(
+                'Rendez-vous : ' + clickInfo.event.title +
+                '\nDébut : ' + clickInfo.event.start +
+                '\nFin : ' + clickInfo.event.end
+            );
+            return;
+        }
+
+        const slotId = Number(clickInfo.event.extendedProps.slotId || 0);
+        if (!slotId) return;
+
+        const recurrence = String(clickInfo.event.extendedProps.recurrence || 'unique');
+        const deleteLabel = recurrence === 'unique'
+            ? 'Supprimer ce créneau ?'
+            : 'Supprimer cette règle récurrente complète ?';
+
+        if (!confirm(deleteLabel)) return;
+
+        const ok = await deleteDisponibilite(base, token, slotId);
+        if (ok) {
+            setInfo('Créneau supprimé.');
+            calendar.refetchEvents();
+        }
+    }
+
+    calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
         firstDay: 1,
         locale: 'fr',
@@ -286,89 +372,11 @@ async function init() {
         slotDuration: '00:30:00',
         height: 'auto',
         eventSources: [
-            {
-                events: async function(info, successCallback, failureCallback) {
-                    try {
-                        successCallback(await loadRdvEvents(base, token));
-                    } catch (error) {
-                        setError('Erreur chargement rendez-vous : ' + (error.message || error));
-                        failureCallback(error);
-                    }
-                }
-            },
-            {
-                events: async function(info, successCallback, failureCallback) {
-                    try {
-                        successCallback(await loadDisponibiliteEvents(base, token, info));
-                    } catch (error) {
-                        setError('Erreur chargement disponibilités : ' + (error.message || error));
-                        failureCallback(error);
-                    }
-                }
-            }
+            { events: chargerRdvDansCalendrier },
+            { events: chargerDisponibilitesDansCalendrier }
         ],
-        select: async function(selectionInfo) {
-            clearError();
-            const type = document.getElementById('slotType').value;
-            const recurrence = document.getElementById('slotRecurrence').value;
-            const dateFinRegle = document.getElementById('slotRuleEnd').value;
-            const jourSemaine = document.getElementById('slotWeekday').value;
-
-            if (recurrence !== 'unique' && !dateFinRegle) {
-                setError('Veuillez renseigner la fin de période pour cette récurrence.');
-                calendar.unselect();
-                return;
-            }
-
-            try {
-                await createDisponibilite(base, token, selectionInfo, {
-                    type: type,
-                    recurrence: recurrence,
-                    dateFinRegle: dateFinRegle,
-                    jourSemaine: jourSemaine
-                });
-
-                setInfo('Créneau ajouté avec succès.');
-                calendar.refetchEvents();
-            } catch (error) {
-                setError(error.message || 'Erreur lors de la création du créneau.');
-            } finally {
-                calendar.unselect();
-            }
-        },
-        eventClick: async function(clickInfo) {
-            clearError();
-
-            if (clickInfo.event.extendedProps.kind === 'rdv') {
-                alert(
-                    'Rendez-vous : ' + clickInfo.event.title +
-                    '\nDébut : ' + clickInfo.event.start +
-                    '\nFin : ' + clickInfo.event.end
-                );
-                return;
-            }
-
-            const slotId = Number(clickInfo.event.extendedProps.slotId || 0);
-            if (!slotId) return;
-
-            const recurrence = String(clickInfo.event.extendedProps.recurrence || 'unique');
-            const deleteLabel = recurrence === 'unique'
-                ? 'Supprimer ce créneau ?'
-                : 'Supprimer cette règle récurrente complète ?';
-
-            const ok = confirm(deleteLabel);
-            if (!ok) return;
-
-            try {
-                await deleteDisponibilite(base, token, slotId);
-
-                setInfo('Créneau supprimé.');
-                calendar.refetchEvents();
-            } catch (error) {
-                setError(error.message || 'Erreur lors de la suppression du créneau.');
-            }
-        },
-        eventDidMount: function() {}
+        select: traceUnePlage,
+        eventClick: cliqueSurUnEvenement
     });
 
     calendar.render();
