@@ -16,15 +16,9 @@
 </style>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-            <a class="navbar-brand ms-3"
-            data-i18n
-            id="popover6"
-            data-bs-toggle="popover"
-            data-bs-title="Postuler Pour Silver Happy"
-            data-bs-content="..."
-            href="index.php">
-            <i class="bi bi-house" style="font-size: 2.5rem;"></i>
-            </a>
+            <a class="navbar-brand ms-3" data-i18n id="popover6" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Retour au menu Home" data-bs-content="Cliquer sur la maison pour revenir sur la page d'accueil rapidement ! <div class='d-flex justify-content-between align-items-center mt-3'> <button class='btn btn-sm btn-primary mt-2' onclick='tuto()'>Suivant</button> <button class='btn btn-sm btn-danger mt-2' onclick='fin_tuto()'>Arreter le Tuto</button></div>" href="index.php">
+   <i class="bi bi-house" style="font-size: 2.5rem;"></i>
+</a>
             <div class="d-flex align-items-center gap-3 ms-custom">
                 <div id="controle_zoom" class="d-flex align-items-center gap-1 me-2">
                     <button class="btn btn-outline-secondary btn-sm" type="button" onclick="zoomOut()" aria-label="Reduire le zoom">-</button>

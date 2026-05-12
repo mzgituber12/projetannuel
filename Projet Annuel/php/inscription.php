@@ -17,7 +17,7 @@
 <h2 class="text-center mb-4">Inscription</h2>
 <h2 id="incorrect"></h2>
 
-<form onsubmit="signupUser(event, document.getElementById('prenom').value, document.getElementById('nom').value, document.getElementById('date_naissance').value, document.getElementById('email').value, document.getElementById('password').value)">
+<form onsubmit="signupUser(event, document.getElementById('prenom').value, document.getElementById('nom').value, document.getElementById('date_naissance').value, document.getElementById('email').value, document.getElementById('password').value, document.getElementById('telephone').value)">
     <div class="mb-3">  
         <label for="email" class="form-label">Prénom</label>
         <input type="text" class="form-control" id="prenom" placeholder="Prenom" required>
@@ -30,15 +30,20 @@
 
     <div class="mb-3">
         <label for="date" class="form-label">Date de naissance</label>
-         <input type ="date" class="form-control" id="date_naissance" required>
+        <input type ="date" class="form-control" id="date_naissance" required>
     </div>
 
+    <div class="mb-3">
+        <label for="date" class="form-label">Téléphone</label>
+        <input type ="tel" class="form-control" id="telephone" pattern="^06+[0-9]{8}$" required>
+    </div>
 
 
     <div class="mb-3">  
         <label for="email" class="form-label">Adresse Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Email" required>
+        <input type="email" class="form-control" id="email" placeholder="Email" pattern=".+@(gmail\.com|yahoo\.com)" required>
     </div>
+
     <div class="mb-3">
         <label for="password" class="for-label">Mot de passe</label>
         <input type="password" class="form-control bg-white" id="password" placeholder="Password" required>
@@ -66,7 +71,7 @@
 <?php include 'includes/footer.php';?>
 
 <script>
-    async function signupUser(event, prenom, nom, date_naissance, email, password) {
+    async function signupUser(event, prenom, nom, date_naissance, email, password, telephone) {
         event.preventDefault();
 
 
@@ -74,7 +79,7 @@
         const response = await fetch(base + "/inscription", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({prenom: prenom, nom: nom, date_naissance: date_naissance, email: email, password: password})
+            body: JSON.stringify({prenom: prenom, nom: nom, date_naissance: date_naissance, email: email, password: password, telephone: telephone})
         });
 
         if (!response.ok) {
