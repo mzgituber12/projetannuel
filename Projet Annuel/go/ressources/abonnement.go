@@ -3,6 +3,7 @@ package ressources
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"os"
@@ -201,6 +202,11 @@ func SouscrireAbonnement(database *sql.DB) http.HandlerFunc {
 			json.NewEncoder(response).Encode(map[string]string{"message": "Vous avez déjà un abonnement actif"})
 			return
 		}
+		if err != nil && !errors.Is(err, sql.ErrNoRows) {
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur vérification abonnement: " + err.Error()})
+			return
+		}
 
 		stripeSecret := os.Getenv("STRIPE_SECRET_KEY")
 		if stripeSecret == "" {
@@ -224,15 +230,20 @@ func SouscrireAbonnement(database *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		var stripeCustomerID string
-		err = database.QueryRow("SELECT stripe_customer_id FROM souscris_abonnement WHERE id_utilisateur = ? LIMIT 1", idUser).Scan(&stripeCustomerID)
-		if err != nil && err != sql.ErrNoRows {
+		var stripeCustomer sql.NullString
+		err = database.QueryRow("SELECT stripe_customer_id FROM souscris_abonnement WHERE id_utilisateur = ? ORDER BY id_souscrit DESC LIMIT 1", idUser).Scan(&stripeCustomer)
+		if err != nil && !errors.Is(err, sql.ErrNoRows) {
 			response.WriteHeader(http.StatusInternalServerError)
-			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur lecture client Stripe"})
+			json.NewEncoder(response).Encode(map[string]string{"message": "Erreur lecture client Stripe: " + err.Error()})
 			return
 		}
 
-		if err == sql.ErrNoRows || stripeCustomerID == "" {
+		stripeCustomerID := ""
+		if err == nil && stripeCustomer.Valid {
+			stripeCustomerID = strings.TrimSpace(stripeCustomer.String)
+		}
+
+		if errors.Is(err, sql.ErrNoRows) || stripeCustomerID == "" {
 			var userEmail string
 			var firstName, lastName string
 			userErr := database.QueryRow("SELECT email, prenom, nom FROM utilisateur WHERE id_utilisateur = ?", idUser).Scan(&userEmail, &firstName, &lastName)
