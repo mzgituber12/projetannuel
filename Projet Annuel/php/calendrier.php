@@ -1,3 +1,6 @@
+<?php include 'includes/api_config.php'; ?>
+<script src="online.js"></script>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -304,31 +307,34 @@ async function init() {
         successCallback(events);
     }
 
-    async function traceUnePlage(selectionInfo) {
-        clearError();
-        const type = document.getElementById('slotType').value;
-        const recurrence = document.getElementById('slotRecurrence').value;
-        const dateFinRegle = document.getElementById('slotRuleEnd').value;
-        const jourSemaine = document.getElementById('slotWeekday').value;
+async function traceUnePlage(selectionInfo) {
+    clearError();
 
-        if (recurrence !== 'unique' && !dateFinRegle) {
-            setError('Veuillez renseigner la fin de période pour cette récurrence.');
-            calendar.unselect();
-            return;
-        }
+    const type = document.getElementById('slotType').value;
+    const recurrence = document.getElementById('slotRecurrence').value;
+    const dateFinRegle = document.getElementById('slotRuleEnd').value;
+    const jourSemaine = document.getElementById('slotWeekday').value;
 
-        const ok = await createDisponibilite(base, token, selectionInfo, {
-            type: type,
-            recurrence: recurrence,
-            dateFinRegle: dateFinRegle,
-            jourSemaine: jourSemaine
-        });
-
-            setInfo('Créneau ajouté avec succès.');
-            calendar.refetchEvents();
-        }
+    if (recurrence !== 'unique' && !dateFinRegle) {
+        setError('Veuillez renseigner la fin de période pour cette récurrence.');
         calendar.unselect();
+        return;
     }
+
+    const ok = await createDisponibilite(base, token, selectionInfo, {
+        type: type,
+        recurrence: recurrence,
+        dateFinRegle: dateFinRegle,
+        jourSemaine: jourSemaine
+    });
+
+    if (ok) {
+        setInfo('Créneau ajouté avec succès.');
+        calendar.refetchEvents();
+    }
+
+    calendar.unselect();
+}
 
     async function cliqueSurUnEvenement(clickInfo) {
         clearError();

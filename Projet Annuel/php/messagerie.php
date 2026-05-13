@@ -102,6 +102,8 @@ include 'includes/api_config.php'; ?>
     </div>
 </div>
 
+<div class="mb-4"></div>
+
 <?php include 'includes/footer.php'; ?>
 
 <script>

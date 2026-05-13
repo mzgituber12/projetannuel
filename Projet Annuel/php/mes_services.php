@@ -108,6 +108,8 @@
     </div>
 </dialog>
 
+<div class="mb-4"></div>
+
 <?php include 'includes/footer.php'; ?>
 <script>
 (function () {

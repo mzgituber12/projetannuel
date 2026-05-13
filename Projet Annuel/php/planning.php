@@ -1,3 +1,6 @@
+<?php include 'includes/api_config.php'; ?>
+<script src="online.js"></script>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,6 +9,11 @@
     <title data-i18n>Planning</title>
     <script src="online.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <style>
+        .mb-custom {
+            margin-bottom: 2rem;
+        }
+    </style>
     <link rel="stylesheet" href="police.css">
 </head>
 <body>
