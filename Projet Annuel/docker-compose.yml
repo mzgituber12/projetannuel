@@ -25,7 +25,7 @@ services:
     # Cela monte les volumes nécessaires au service MariaDB
     volumes:
       # Cela monte le script SQL d'initialisation en lecture seule
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./db/init_demo_professionnel.sql:/docker-entrypoint-initdb.d/init.sql:ro
       # Cela stocke les données MariaDB dans un volume nommé persistant
       - mariadb_data:/var/lib/mysql
     # Cela vérifie que MariaDB répond avant de considérer le service prêt
@@ -150,10 +150,6 @@ services:
     environment:
       # Cela indique l'hôte MariaDB à joindre
       PMA_HOST: mariadb
-      # Cela définit l'utilisateur de connexion par défaut
-      PMA_USER: root
-      # Cela définit le mot de passe de l'utilisateur phpMyAdmin
-      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       # Cela définit la base ciblée par défaut
       PMA_DATABASE: ${MYSQL_DATABASE:-projet}
     # Cela expose l'interface phpMyAdmin vers l'hôte
